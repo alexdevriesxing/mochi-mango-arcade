@@ -295,9 +295,11 @@ const characterBios = {
 
 function charBioCard(c, bio) {
   if (!bio) return '';
-  return `<div class="character-bio-card" id="${slug(c)}">
+  let charSlug = slug(c);
+  let portraitSrc = `/assets/images/characters/${charSlug}.png`;
+  return `<div class="character-bio-card" id="${charSlug}">
     <div class="bio-header">
-      <img src="/assets/images/characters/${slug(c)}.svg" alt="${c}" class="bio-portrait" onerror="this.src='/assets/images/characters/mochi.svg'">
+      <img src="${portraitSrc}" alt="${c}" class="bio-portrait" onerror="this.src='/assets/images/characters/${charSlug}.svg'">
       <div class="bio-title-area">
         <h3 class="bio-name">${c}</h3>
         <span class="bio-role">${bio.role}</span>
