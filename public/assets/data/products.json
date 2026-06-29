@@ -7,7 +7,7 @@
     "price": 24.99,
     "tag": "Best Seller",
     "description": "Mochi Plush official Mochi Mango Arcade collectible.",
-    "image": "/assets/images/products/mochi-plush.svg"
+    "image": "/assets/images/products/mochi-plush.png"
   },
   {
     "id": "mango-plush",
@@ -27,7 +27,7 @@
     "price": 24.99,
     "tag": "Cute",
     "description": "Neko Plush official Mochi Mango Arcade collectible.",
-    "image": "/assets/images/products/neko-plush.svg"
+    "image": "/assets/images/products/neko-plush.png"
   },
   {
     "id": "pandy-plush",
@@ -37,7 +37,7 @@
     "price": 24.99,
     "tag": "Popular",
     "description": "Pandy Plush official Mochi Mango Arcade collectible.",
-    "image": "/assets/images/products/pandy-plush.svg"
+    "image": "/assets/images/products/pandy-plush.png"
   },
   {
     "id": "zuzu-hoodie-plush",
@@ -47,7 +47,7 @@
     "price": 24.99,
     "tag": "Cozy",
     "description": "Zuzu Hoodie Plush official Mochi Mango Arcade collectible.",
-    "image": "/assets/images/products/zuzu-hoodie-plush.svg"
+    "image": "/assets/images/products/zuzu-hoodie-plush.png"
   },
   {
     "id": "mochi-mango-mug",
@@ -57,7 +57,7 @@
     "price": 14.99,
     "tag": "Gift",
     "description": "Mochi Mango Mug official Mochi Mango Arcade collectible.",
-    "image": "/assets/images/products/mochi-mango-mug.svg"
+    "image": "/assets/images/products/mochi-mango-mug.png"
   },
   {
     "id": "arcade-squad-tee",
@@ -67,7 +67,7 @@
     "price": 24.99,
     "tag": "New",
     "description": "Arcade Squad Tee official Mochi Mango Arcade collectible.",
-    "image": "/assets/images/products/arcade-squad-tee.svg"
+    "image": "/assets/images/products/arcade-squad-tee.png"
   },
   {
     "id": "arcade-squad-hoodie",

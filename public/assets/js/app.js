@@ -166,7 +166,7 @@ function productCard(p){
 function universeCard(k,u){
   let n=S.games.filter(g=>g.universe==k).length;
   return `<a class="card universe-card" href="/universes/#${k}">
-    <img src="/assets/images/universes/${k}.svg" alt="${u.name}" onerror="this.src='/assets/images/hero.svg'">
+    <img src="/assets/images/universes/${k}.svg" alt="${u.name}" onerror="this.src='/assets/images/hero.png'">
     <h3>${u.name}</h3>
     <p>${n} games · ${u.description}</p>
   </a>`;
@@ -200,7 +200,7 @@ function home(){
     ${adTop()}
     <div class="hero-wrap">
       <section class="hero-card">
-        <img src="/assets/images/hero.svg" alt="Mochi Mango Arcade">
+        <img src="/assets/images/hero.png" alt="Mochi Mango Arcade">
         <div class="hero-content">
           <div class="hero-badges">
             <span class="hero-badge-pill">⚡ Instant Play</span>
@@ -537,7 +537,7 @@ function gameDetail(sl){
     <div class="detail-layout">
       <section>
         <div class="detail-card">
-          <div class="detail-img"><img src="${g.image}" alt="${g.title}" onerror="this.src='/assets/images/hero.svg'"></div>
+          <div class="detail-img"><img src="${g.image}" alt="${g.title}" onerror="this.src='/assets/images/hero.png'"></div>
           <h1>${g.title}</h1>
           <p>${g.description}</p>
           <div class="chip-row">
