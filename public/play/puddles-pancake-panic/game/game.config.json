@@ -1,0 +1,22 @@
+{
+  "id": "puddles-pancake-panic",
+  "title": "Puddle's Pancake Panic",
+  "edition": "Ultimate Edition",
+  "series": "Puddle & Pip's Cozyverse",
+  "portal": "Mochi Mango Arcade",
+  "version": "2.0.0",
+  "genre": ["Cooking", "Time Management", "Arcade"],
+  "orientation": "landscape",
+  "engine": "Vanilla HTML5 Canvas",
+  "features": [
+    "3-pan cooking system",
+    "timed flipping and quality scoring",
+    "plate assembly with 6 toppings",
+    "VIP guests and patience management",
+    "combo meter, fever meter, slow time, golden rush",
+    "local high score",
+    "portal postMessage hooks",
+    "Adsterra-ready page shell"
+  ],
+  "events": ["game_start", "order_served", "game_end"]
+}
