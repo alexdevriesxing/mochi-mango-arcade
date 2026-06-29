@@ -389,10 +389,29 @@ img {
   background: linear-gradient(135deg, #DEF5FF 0%, #C3EBFF 100%);
 }
 
-.hero-card img {
+.hero-banner-img {
+  position: absolute;
+  top: 0;
+  left: 0;
   width: 100%;
   height: 100%;
   object-fit: cover;
+  z-index: 1;
+}
+
+.hero-characters-img {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  max-width: 60%;
+  max-height: 80%;
+  object-fit: contain;
+  z-index: 2;
+}
+
+.hero-card img.hero-banner-img ~ .hero-content {
+  z-index: 10;
 }
 
 .hero-content {
@@ -472,6 +491,30 @@ img {
 .promo-card.why-play {
   background: linear-gradient(135deg, #F8F6FF 0%, #FFFFFF 100%);
   border-color: #D9C9FF;
+}
+
+.merch-promo-card {
+  padding: 0;
+  overflow: hidden;
+}
+
+.merch-promo-img {
+  width: 100%;
+  height: auto;
+  display: block;
+  border-radius: 28px;
+}
+
+.why-play-card {
+  padding: 0;
+  overflow: hidden;
+}
+
+.why-play-img {
+  width: 100%;
+  height: auto;
+  display: block;
+  border-radius: 28px;
 }
 
 .promo-title {
@@ -729,6 +772,125 @@ img {
   display: none; /* Hide games count for circular layout */
 }
 
+/* Character Bio Cards Grid */
+.bio-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
+  gap: 24px;
+  margin-bottom: 32px;
+}
+
+.character-bio-card {
+  background: var(--card-bg);
+  border: 2px solid var(--border-color);
+  border-radius: 28px;
+  padding: 24px;
+  box-shadow: var(--shadow);
+  transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  position: relative;
+  overflow: hidden;
+}
+
+.character-bio-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 6px;
+  background: linear-gradient(90deg, var(--pink), var(--orange), var(--yellow), var(--purple));
+  border-radius: 28px 28px 0 0;
+}
+
+.character-bio-card:hover {
+  transform: translateY(-6px) rotate(0.5deg);
+  box-shadow: var(--shadow-hover);
+  border-color: var(--pink);
+}
+
+.bio-header {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 16px;
+  padding-top: 8px;
+}
+
+.bio-portrait {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  border: 4px solid var(--pink);
+  box-shadow: 0 8px 20px rgba(255, 79, 154, 0.15);
+  object-fit: contain;
+  background: #FFF9FC;
+  flex-shrink: 0;
+}
+
+.bio-title-area {
+  flex: 1;
+}
+
+.bio-name {
+  font-family: 'Fredoka', sans-serif;
+  font-size: 24px;
+  color: var(--violet);
+  margin-bottom: 4px;
+}
+
+.bio-role {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--pink);
+  background: rgba(255, 79, 154, 0.1);
+  padding: 4px 12px;
+  border-radius: 99px;
+  display: inline-block;
+}
+
+.bio-zodiac {
+  font-size: 28px;
+  flex-shrink: 0;
+}
+
+.bio-story {
+  font-size: 14px;
+  color: var(--muted);
+  line-height: 1.6;
+  margin-bottom: 16px;
+  font-weight: 600;
+}
+
+.bio-details {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+.bio-detail {
+  background: linear-gradient(135deg, #FAF9FF 0%, #FFF5F8 100%);
+  border-radius: 16px;
+  padding: 12px;
+  border: 1px solid var(--border-color);
+}
+
+.bio-detail-label {
+  display: block;
+  font-size: 11px;
+  font-weight: 900;
+  color: var(--purple);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 4px;
+}
+
+.bio-detail-value {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--ink);
+  line-height: 1.4;
+}
+
 /* Page Hero layout */
 .page-hero {
   margin: 20px 0 28px;
@@ -771,18 +933,43 @@ img {
 }
 
 /* Merch Shop Specific Styles */
-.shop-hero {
-  background: linear-gradient(135deg, #F3E5F5 0%, #E8EAF6 100%);
-  color: var(--ink);
+.shop-hero-section {
+  position: relative;
+  border-radius: 32px;
+  overflow: hidden;
+  min-height: 300px;
+  margin: 20px 0 0;
+}
+
+.shop-hero-img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+.shop-hero-characters {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  max-width: 50%;
+  max-height: 90%;
+  object-fit: contain;
+  z-index: 2;
+}
+
+.shop-hero-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, rgba(250,249,255,0.95) 0%, rgba(250,249,255,0.7) 50%, transparent 100%);
   display: flex;
-  flex-direction: row;
   align-items: center;
-  justify-content: space-between;
-  border: 1px solid var(--border-color);
+  z-index: 3;
 }
 
 .shop-hero-text {
-  max-width: 60%;
+  max-width: 50%;
+  padding: 40px;
   z-index: 10;
 }
 
@@ -813,6 +1000,18 @@ img {
   align-items: center;
   gap: 6px;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.03);
+}
+
+.shop-limited-drop-banner {
+  margin-top: 16px;
+  border-radius: 16px;
+  overflow: hidden;
+}
+
+.shop-limited-drop-banner img {
+  width: 100%;
+  height: auto;
+  display: block;
 }
 
 /* Category Tabs Bar */
@@ -1020,18 +1219,19 @@ img {
 /* Product Card design */
 .product-img {
   aspect-ratio: 1;
-  background: #FFF8FD;
+  background: linear-gradient(135deg, #FFF8FD 0%, #FFF0F7 100%);
   overflow: hidden;
   display: flex;
   align-items: center;
   justify-content: center;
   border-bottom: 1.5px solid var(--border-color);
+  padding: 12px;
 }
 
 .product-img img {
   width: 100%;
   height: 100%;
-  object-fit: cover;
+  object-fit: contain;
   transition: transform 0.4s ease;
 }
 
@@ -1107,12 +1307,31 @@ img {
   align-items: center;
   justify-content: space-between;
   gap: 24px;
+  position: relative;
+  overflow: hidden;
+}
+
+.bundle-banner-img {
+  position: absolute;
+  right: 0;
+  top: 0;
+  height: 100%;
+  width: auto;
+  object-fit: cover;
+  z-index: 1;
 }
 
 .merch-promo-left {
   display: flex;
   align-items: center;
   gap: 20px;
+  z-index: 2;
+}
+
+.save-badge-img {
+  height: 80px;
+  width: auto;
+  flex-shrink: 0;
 }
 
 .merch-promo-badge {
@@ -1132,6 +1351,12 @@ img {
   flex-shrink: 0;
 }
 
+.merch-promo-text {
+  background: rgba(255,255,255,0.8);
+  padding: 12px 16px;
+  border-radius: 16px;
+}
+
 .merch-promo-text h3 {
   font-size: 18px;
   color: var(--pink);
@@ -1142,6 +1367,10 @@ img {
   font-size: 13.5px;
   color: var(--muted);
   font-weight: 700;
+}
+
+.merch-promo-banner .btn {
+  z-index: 2;
 }
 
 /* Detail & Play Pages */
@@ -1309,12 +1538,29 @@ img {
 
 /* Newsletter Section */
 .newsletter {
+  position: relative;
   background: linear-gradient(135deg, #8A5CFF 0%, #C145FF 50%, #FF4F9A 100%);
   color: #FFFFFF;
   margin-top: 40px;
   border-radius: 28px;
   overflow: hidden;
   box-shadow: var(--shadow);
+}
+
+.newsletter-strip-img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: 1;
+  opacity: 0.3;
+}
+
+.newsletter .inner {
+  position: relative;
+  z-index: 2;
 }
 
 .newsletter .inner {
@@ -1396,11 +1642,28 @@ img {
 
 /* Footer Section */
 .footer {
+  position: relative;
   background-color: var(--card-bg);
   border-top: 1px solid var(--border-color);
   padding: 48px 0 24px;
   color: var(--muted);
   font-size: 14px;
+}
+
+.footer-full-img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0.1;
+  z-index: 0;
+}
+
+.footer .container {
+  position: relative;
+  z-index: 1;
 }
 
 .footer-grid {
@@ -1625,6 +1888,9 @@ img {
   .character-grid {
     grid-template-columns: repeat(3, 1fr);
   }
+  .bio-grid {
+    grid-template-columns: 1fr;
+  }
   .catalog-layout, .shop-layout, .detail-layout {
     grid-template-columns: 1fr;
   }
@@ -1677,6 +1943,13 @@ img {
   .merch-promo-left {
     flex-direction: column;
   }
+  .bio-header {
+    flex-direction: column;
+    text-align: center;
+  }
+  .bio-details {
+    grid-template-columns: 1fr;
+  }
 }
 
 @media (max-width: 520px) {
@@ -1685,6 +1958,9 @@ img {
   }
   .character-grid {
     grid-template-columns: repeat(2, 1fr);
+  }
+  .bio-grid {
+    grid-template-columns: 1fr;
   }
   .page-hero {
     padding: 24px;
@@ -1705,6 +1981,13 @@ img {
   }
   .hide-sm {
     display: none;
+  }
+  .bio-portrait {
+    width: 64px;
+    height: 64px;
+  }
+  .bio-name {
+    font-size: 20px;
   }
 }
 

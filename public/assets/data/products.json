@@ -7,7 +7,7 @@
     "price": 24.99,
     "tag": "Best Seller",
     "description": "Mochi Plush official Mochi Mango Arcade collectible.",
-    "image": "/assets/images/products/mochi-plush.png"
+    "image": "/assets/images/shop/shop_mochi_plush_product.jpg"
   },
   {
     "id": "mango-plush",
@@ -17,7 +17,7 @@
     "price": 22.99,
     "tag": "New",
     "description": "Mango Plush official Mochi Mango Arcade collectible.",
-    "image": "/assets/images/products/mango-plush.svg"
+    "image": "/assets/images/products/mango-plush.jpg"
   },
   {
     "id": "neko-plush",
@@ -27,7 +27,7 @@
     "price": 24.99,
     "tag": "Cute",
     "description": "Neko Plush official Mochi Mango Arcade collectible.",
-    "image": "/assets/images/products/neko-plush.png"
+    "image": "/assets/images/shop/shop_neko_plush_product.jpg"
   },
   {
     "id": "pandy-plush",
@@ -37,7 +37,7 @@
     "price": 24.99,
     "tag": "Popular",
     "description": "Pandy Plush official Mochi Mango Arcade collectible.",
-    "image": "/assets/images/products/pandy-plush.png"
+    "image": "/assets/images/shop/shop_pandy_plush_product.jpg"
   },
   {
     "id": "zuzu-hoodie-plush",
@@ -47,7 +47,7 @@
     "price": 24.99,
     "tag": "Cozy",
     "description": "Zuzu Hoodie Plush official Mochi Mango Arcade collectible.",
-    "image": "/assets/images/products/zuzu-hoodie-plush.png"
+    "image": "/assets/images/shop/shop_zuzu_hoodie_plush_product.jpg"
   },
   {
     "id": "mochi-mango-mug",
@@ -57,7 +57,7 @@
     "price": 14.99,
     "tag": "Gift",
     "description": "Mochi Mango Mug official Mochi Mango Arcade collectible.",
-    "image": "/assets/images/products/mochi-mango-mug.png"
+    "image": "/assets/images/shop/shop_mochi_mango_mug_product.jpg"
   },
   {
     "id": "arcade-squad-tee",
@@ -67,7 +67,7 @@
     "price": 24.99,
     "tag": "New",
     "description": "Arcade Squad Tee official Mochi Mango Arcade collectible.",
-    "image": "/assets/images/products/arcade-squad-tee.png"
+    "image": "/assets/images/shop/shop_mochi_friends_tee_product.jpg"
   },
   {
     "id": "arcade-squad-hoodie",
@@ -77,7 +77,7 @@
     "price": 49.99,
     "tag": "Warm",
     "description": "Arcade Squad Hoodie official Mochi Mango Arcade collectible.",
-    "image": "/assets/images/products/arcade-squad-hoodie.svg"
+    "image": "/assets/images/shop/shop_arcade_squad_hoodie_product.jpg"
   },
   {
     "id": "mochi-sticker-pack",
@@ -87,7 +87,7 @@
     "price": 6.99,
     "tag": "Value",
     "description": "Mochi Sticker Pack official Mochi Mango Arcade collectible.",
-    "image": "/assets/images/products/mochi-sticker-pack.svg"
+    "image": "/assets/images/shop/shop_mochi_sticker_pack_product.jpg"
   },
   {
     "id": "enamel-pin-set",
@@ -97,7 +97,7 @@
     "price": 14.99,
     "tag": "Collectible",
     "description": "Enamel Pin Set official Mochi Mango Arcade collectible.",
-    "image": "/assets/images/products/enamel-pin-set.svg"
+    "image": "/assets/images/shop/shop_enamel_pin_set_product.jpg"
   },
   {
     "id": "mochi-tote-bag",
@@ -107,7 +107,7 @@
     "price": 19.99,
     "tag": "Eco",
     "description": "Mochi Tote Bag official Mochi Mango Arcade collectible.",
-    "image": "/assets/images/products/mochi-tote-bag.svg"
+    "image": "/assets/images/shop/shop_mochi_tote_bag_product.jpg"
   },
   {
     "id": "character-keychain",
@@ -117,7 +117,7 @@
     "price": 9.99,
     "tag": "Pocket",
     "description": "Character Keychain official Mochi Mango Arcade collectible.",
-    "image": "/assets/images/products/character-keychain.svg"
+    "image": "/assets/images/shop/shop_character_keychain_product.jpg"
   },
   {
     "id": "ultimate-bundle",
@@ -127,7 +127,7 @@
     "price": 89.99,
     "tag": "Limited",
     "description": "Ultimate Collector Bundle official Mochi Mango Arcade collectible.",
-    "image": "/assets/images/products/ultimate-bundle.svg"
+    "image": "/assets/images/shop/shop_ultimate_collector_bundle_product.jpg"
   },
   {
     "id": "cozyverse-bundle",
@@ -137,7 +137,7 @@
     "price": 59.99,
     "tag": "Bundle",
     "description": "Cozyverse Pals Bundle official Mochi Mango Arcade collectible.",
-    "image": "/assets/images/products/cozyverse-bundle.svg"
+    "image": "/assets/images/products/cozyverse-bundle.jpg"
   },
   {
     "id": "astromochi-bundle",
@@ -147,7 +147,7 @@
     "price": 59.99,
     "tag": "Bundle",
     "description": "AstroMochi Space Bundle official Mochi Mango Arcade collectible.",
-    "image": "/assets/images/products/astromochi-bundle.svg"
+    "image": "/assets/images/products/astromochi-bundle.jpg"
   },
   {
     "id": "oracle-mirror-cards",
@@ -157,7 +157,7 @@
     "price": 12.99,
     "tag": "Mystic",
     "description": "Oracle Mirror Card Pack official Mochi Mango Arcade collectible.",
-    "image": "/assets/images/products/oracle-mirror-cards.svg"
+    "image": "/assets/images/products/oracle-mirror-cards.jpg"
   },
   {
     "id": "snackstreet-pin-pack",
@@ -167,7 +167,7 @@
     "price": 16.99,
     "tag": "Spicy",
     "description": "SnackStreet Pin Pack official Mochi Mango Arcade collectible.",
-    "image": "/assets/images/products/snackstreet-pin-pack.svg"
+    "image": "/assets/images/products/snackstreet-pin-pack.jpg"
   },
   {
     "id": "nine-gates-keychains",
@@ -177,6 +177,6 @@
     "price": 11.99,
     "tag": "Jade",
     "description": "Nine Gates Tile Keychains official Mochi Mango Arcade collectible.",
-    "image": "/assets/images/products/nine-gates-keychains.svg"
+    "image": "/assets/images/products/shop_character_keychain_product.jpg"
   }
 ]

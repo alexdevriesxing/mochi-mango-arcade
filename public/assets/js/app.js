@@ -63,6 +63,7 @@ function header(active='home'){
 
 function footer(){
   return `<section class="newsletter">
+    <img src="/assets/images/shop/shop_newsletter_strip.jpg" alt="Newsletter" class="newsletter-strip-img">
     <div class="container inner">
       <div>
         <h3>✉️ Stay in the Loop!</h3>
@@ -82,6 +83,7 @@ function footer(){
     </div>
   </section>
   <footer class="footer">
+    <img src="/assets/images/shop/shop_footer_full.jpg" alt="Footer" class="footer-full-img">
     <div class="container">
       <div class="footer-grid">
         <div>
@@ -127,10 +129,11 @@ const adTop=()=>`<div class="ad-slot ad-top">Leaderboard Banner 728×90 · Your 
 const adSide=()=>`<div class="ad-slot ad-side">Sidebar Rectangle 300×250 · Your ad here</div>`;
 
 function gameCard(g){
+  let jpgImage = g.image.replace('.svg', '.jpg');
   return `<article class="card game-card" data-genre="${g.genre}" data-universe="${g.universe}">
     <a href="${g.detailUrl}">
       <span class="badge ${g.new?'':g.status.includes('Playable')?'play':'soon'}">${g.new?'NEW':g.status.includes('Playable')?'PLAY':'SOON'}</span>
-      <div class="thumb"><img loading="lazy" src="${g.image}" alt="${g.title}"></div>
+      <div class="thumb"><img loading="lazy" src="${jpgImage}" alt="${g.title}" onerror="this.src='${g.image}'"></div>
       <div class="card-body">
         <h3 class="game-title">${g.title}</h3>
         <div class="meta">
@@ -179,7 +182,182 @@ function charCard(c,n){
   </a>`;
 }
 
-function section(key,arr,icon='🎮',link='/games/'){
+const characterBios = {
+  "mochi": {
+    role: "Main mascot / cheerful squishy hero",
+    bio: "Mochi is the soft-hearted mascot of Mochi Mango Arcade, a tiny round bundle of joy who believes every problem can be solved with kindness, a snack, and one more try. Mochi started as the guardian of the Playful Meadow, where lost game worlds drift together like clouds.",
+    likes: "Warm hugs, cozy naps, helping new players, shiny stars, gentle adventures",
+    dislikes: "Mean comments, cold rain, being rushed, losing friends in crowded places",
+    food: "Mango cream pancakes",
+    happy: "Seeing friends laugh after a difficult level",
+    zodiac: "Cancer"
+  },
+  "mango": {
+    role: "Sunny best friend / energy booster",
+    bio: "Mango is Mochi's bright and bouncy best friend, born from a golden fruit tree that grows only in the happiest corner of the arcade universe. Mango brings courage, sunshine, and a little chaos wherever they go.",
+    likes: "Dancing, tropical music, treasure hunts, fireworks, racing down hills",
+    dislikes: "Gloomy rooms, boring rules, sour snacks, waiting too long",
+    food: "Mango sticky rice",
+    happy: "A big group celebration after a win",
+    zodiac: "Leo"
+  },
+  "pandy": {
+    role: "Gentle thinker / puzzle buddy",
+    bio: "Pandy is a calm, clever panda who lives in the Bamboo Library, where every book hides a puzzle and every puzzle hides a snack. Pandy helps the team slow down, think clearly, and solve things without panic.",
+    likes: "Puzzles, bamboo forests, quiet tea breaks, maps, building collections",
+    dislikes: "Loud alarms, messy plans, wasted food, being interrupted mid-thought",
+    food: "Bamboo dumplings",
+    happy: "Solving a puzzle together with friends",
+    zodiac: "Virgo"
+  },
+  "neko": {
+    role: "Cute pink cat / charm collector",
+    bio: "Neko is a playful pink kitty who collects lucky charms, ribbons, and tiny magical bells. She wandered into the arcade through a hidden garden gate and quickly became everyone's favourite companion for cozy adventures and collectible quests.",
+    likes: "Flowers, ribbons, shiny charms, cozy rooms, secret gardens",
+    dislikes: "Dusty corners, broken toys, being ignored, thunderstorms",
+    food: "Strawberry mochi",
+    happy: "Finding a new charm for her collection",
+    zodiac: "Libra"
+  },
+  "zuzu": {
+    role: "Tiny hoodie explorer / gentle adventurer",
+    bio: "Zuzu is a small explorer in a green hoodie who loves discovering hidden paths between game worlds. Though a little shy at first, Zuzu is brave when friends need help and always carries snacks for long journeys.",
+    likes: "Hoodies, secret paths, stickers, map-making, gentle platforming",
+    dislikes: "Very loud crowds, scary shadows, spicy food, getting lost without a map",
+    food: "Melon bread",
+    happy: "Discovering a peaceful hidden area",
+    zodiac: "Pisces"
+  },
+  "batty": {
+    role: "Purple bat sidekick / night scout",
+    bio: "Batty is a tiny purple bat who patrols the night skies above Mochi Mango Arcade. Batty looks mischievous, but is actually a loyal lookout who warns everyone about spooky clouds, lost stars, and incoming bonus rounds.",
+    likes: "Moonlight, flying loops, spooky jokes, glowing crystals, secret shortcuts",
+    dislikes: "Bright flashlights, boring mornings, garlic jokes, tangled wings",
+    food: "Blueberry moon cupcakes",
+    happy: "Being trusted as the team's brave night scout",
+    zodiac: "Scorpio"
+  },
+  "captain-corgi": {
+    role: "Sea captain / brave leader",
+    bio: "Captain Corgi sails the Bubble Blue Seas in a tiny ship with a very large sense of duty. He became captain after rescuing a fleet of toy boats from a whirlpool, and now leads every mission with loyalty, courage, and a wagging tail.",
+    likes: "Treasure maps, sea breeze, loyal crews, steering wheels, heroic speeches",
+    dislikes: "Leaky boats, mutiny, soggy biscuits, being called short",
+    food: "Fish-shaped biscuits",
+    happy: "Leading friends safely home after an adventure",
+    zodiac: "Aries"
+  },
+  "raccoon-rex": {
+    role: "Gadget trickster / clever scavenger",
+    bio: "Raccoon Rex is a mischievous inventor who builds amazing gadgets from shiny things nobody else notices. He grew up in the back alleys of Neon Nut City and became famous for turning junk into helpful tools.",
+    likes: "Gadgets, shiny buttons, secret switches, harmless pranks, night missions",
+    dislikes: "Locked boxes, boring instructions, dull metal, people touching his goggles",
+    food: "Caramel popcorn",
+    happy: "Finding the perfect missing part for an invention",
+    zodiac: "Gemini"
+  },
+  "dragon-dribble": {
+    role: "Tiny dragon / fiery sweetheart",
+    bio: "Dragon Dribble is a small dragon with huge feelings and an even bigger imagination. He has not mastered giant dragon fire yet, but his tiny sparks can light lanterns, toast marshmallows, and power magical arcade machines.",
+    likes: "Flying practice, warm campfires, shiny stars, heroic stories, making friends",
+    dislikes: "Cold caves, being underestimated, wet wings, scary silence",
+    food: "Star-shaped marshmallows",
+    happy: "Using his little fire to help someone feel safe",
+    zodiac: "Sagittarius"
+  },
+  "bunny-blossom": {
+    role: "Garden helper / kindness mascot",
+    bio: "Bunny Blossom tends the Carrot Cloud Garden, where every flower grows from a kind thought. She brings comfort to nervous players, grows power-up carrots, and believes even the toughest levels need a little softness.",
+    likes: "Flowers, watering cans, carrots, spring mornings, helping shy friends",
+    dislikes: "Trampled gardens, rude shouting, wilted flowers, muddy paws",
+    food: "Honey-glazed carrots",
+    happy: "Watching something bloom because she cared for it",
+    zodiac: "Taurus"
+  },
+  "ninja-neko": {
+    role: "Stealth hero / silent protector",
+    bio: "Ninja Neko is Neko's mysterious night-time alter ego, trained in the Velvet Dojo under moonlight. Silent, swift, and surprisingly dramatic, Ninja Neko protects the arcade from shadow bugs and stolen bonus coins.",
+    likes: "Moon jumps, ninja stars, rooftops, quiet focus, dramatic entrances",
+    dislikes: "Noisy bells, clumsy traps, bright spotlights, being mistaken for ordinary Neko",
+    food: "Black sesame rice balls",
+    happy: "Completing a mission without anyone noticing",
+    zodiac: "Capricorn"
+  },
+  "astro-zuzu": {
+    role: "Space explorer / cosmic optimist",
+    bio: "Astro Zuzu is Zuzu's spacefaring counterpart, travelling between planets in a bubble helmet and tiny rocket boots. They chart candy comets, rescue lost stars, and send postcards from the farthest corners of the Mochi Mango galaxy.",
+    likes: "Planets, rocket rides, star maps, alien pets, floating in zero gravity",
+    dislikes: "Asteroid traffic, empty snack packs, cracked helmets, homesickness",
+    food: "Galaxy jelly pudding",
+    happy: "Discovering a new friendly planet",
+    zodiac: "Aquarius"
+  }
+};
+
+function charBioCard(c, bio) {
+  if (!bio) return '';
+  return `<div class="character-bio-card" id="${slug(c)}">
+    <div class="bio-header">
+      <img src="/assets/images/characters/${slug(c)}.svg" alt="${c}" class="bio-portrait" onerror="this.src='/assets/images/characters/mochi.svg'">
+      <div class="bio-title-area">
+        <h3 class="bio-name">${c}</h3>
+        <span class="bio-role">${bio.role}</span>
+      </div>
+      <span class="bio-zodiac">${bio.zodiac}</span>
+    </div>
+    <p class="bio-story">${bio.bio}</p>
+    <div class="bio-details">
+      <div class="bio-detail">
+        <span class="bio-detail-label">❤️ Likes</span>
+        <span class="bio-detail-value">${bio.likes}</span>
+      </div>
+      <div class="bio-detail">
+        <span class="bio-detail-label">💔 Dislikes</span>
+        <span class="bio-detail-value">${bio.dislikes}</span>
+      </div>
+      <div class="bio-detail">
+        <span class="bio-detail-label">🍽️ Favourite Food</span>
+        <span class="bio-detail-value">${bio.food}</span>
+      </div>
+      <div class="bio-detail">
+        <span class="bio-detail-label">✨ What Makes Them Happy</span>
+        <span class="bio-detail-value">${bio.happy}</span>
+      </div>
+    </div>
+  </div>`;
+}
+
+function charsPage(){
+  let cc={};
+  S.games.forEach(g=>cc[g.mascot]=(cc[g.mascot]||0)+1);
+  let sortedChars = Object.entries(cc).sort((a,b)=>a[0].localeCompare(b[0]));
+  let hasBios = sortedChars.filter(([c]) => characterBios[slug(c)]);
+  let noBios = sortedChars.filter(([c]) => !characterBios[slug(c)]);
+  
+  return `<main id="main" class="container">
+    <section class="page-hero">
+      <h1 data-i18n="characters">${t('characters')}</h1>
+      <p>Meet the mascots behind the games. Each character is designed for plush, pins, stickers and collectibles.</p>
+    </section>
+    
+    <section class="section">
+      <div class="section-head">
+        <h2><span class="emoji">📖</span> Character Stories</h2>
+      </div>
+      <div class="bio-grid">
+        ${hasBios.map(([c,n])=>charBioCard(c, characterBios[slug(c)])).join('')}
+      </div>
+    </section>
+    
+    <section class="section">
+      <div class="section-head">
+        <h2><span class="emoji">⭐</span> All Characters</h2>
+      </div>
+      <div class="grid character-grid">
+        ${sortedChars.map(([c,n])=>charCard(c,n)).join('')}
+      </div>
+    </section>
+  </main>`;
+}
   return `<section class="section">
     <div class="section-head">
       <h2><span class="emoji">${icon}</span> <span data-i18n="${key}">${t(key)}</span></h2>
@@ -200,7 +378,8 @@ function home(){
     ${adTop()}
     <div class="hero-wrap">
       <section class="hero-card">
-        <img src="/assets/images/hero.png" alt="Mochi Mango Arcade">
+        <img src="/assets/images/home_hero_banner_200_games.jpg" alt="Mochi Mango Arcade" class="hero-banner-img">
+        <img src="/assets/images/home_hero_main_characters.jpg" alt="Mochi Mango Characters" class="hero-characters-img" onerror="this.style.display='none'">
         <div class="hero-content">
           <div class="hero-badges">
             <span class="hero-badge-pill">⚡ Instant Play</span>
@@ -217,19 +396,11 @@ function home(){
       </section>
       <aside class="side-stack">
         ${adSide()}
-        <div class="promo-card">
-          <h3 class="promo-title">🛍️ Mochi Mango Merch Shop</h3>
-          <p>Plushies, mugs, stickers, shirts & more!</p>
-          <a class="btn small" href="/shop/">Shop Now</a>
+        <div class="promo-card merch-promo-card">
+          <img src="/assets/images/home_homepage_merch_promo_card.jpg" alt="Merch Shop" class="merch-promo-img">
         </div>
-        <div class="promo-card why-play">
-          <h3 class="promo-title" style="color: var(--purple);">💜 Why Play?</h3>
-          <ul>
-            <li>No downloads. Instant HTML5 fun!</li>
-            <li>Safe, family-friendly & ad-supported</li>
-            <li>New games & content added weekly</li>
-            <li>Play on any device, anytime</li>
-          </ul>
+        <div class="promo-card why-play-card">
+          <img src="/assets/images/home_why_play_card.jpg" alt="Why Play" class="why-play-img">
         </div>
       </aside>
     </div>
@@ -341,17 +512,25 @@ function shopPage(){
   let characters = ["Mochi", "Mango", "Neko", "Pandy", "Zuzu"];
   
   return `<main id="main" class="container">
-    <section class="page-hero shop-hero">
-      <div class="shop-hero-text">
-        <h1 data-i18n="shopTitle">${t('shopTitle')}</h1>
-        <p data-i18n="shopSub">${t('shopSub')}</p>
-        <div class="shop-hero-badges">
-          <span class="shop-hero-badge">✅ Officially Licensed</span>
-          <span class="shop-hero-badge">⭐ Cute Quality</span>
-          <span class="shop-hero-badge">💖 Playful Joy</span>
+    <section class="shop-hero-section">
+      <img src="/assets/images/shop/shop_shop_hero_banner.jpg" alt="Merch Shop" class="shop-hero-img">
+      <img src="/assets/images/shop/shop_shop_hero_characters.jpg" alt="Characters" class="shop-hero-characters">
+      <div class="shop-hero-overlay">
+        <div class="shop-hero-text">
+          <h1 data-i18n="shopTitle">${t('shopTitle')}</h1>
+          <p data-i18n="shopSub">${t('shopSub')}</p>
+          <div class="shop-hero-badges">
+            <span class="shop-hero-badge">✅ Officially Licensed</span>
+            <span class="shop-hero-badge">⭐ Cute Quality</span>
+            <span class="shop-hero-badge">💖 Playful Joy</span>
+          </div>
         </div>
       </div>
     </section>
+    
+    <div class="shop-limited-drop-banner">
+      <img src="/assets/images/shop/shop_limited_drop_banner.jpg" alt="Limited Drop">
+    </div>
     
     <div class="shop-categories-tabs">
       <button class="shop-tab active" data-type="">All Products</button>
@@ -437,8 +616,9 @@ function shopPage(){
     </div>
 
     <div class="merch-promo-banner">
+      <img src="/assets/images/shop/shop_bundle_banner.jpg" alt="Bundle Offer" class="bundle-banner-img">
       <div class="merch-promo-left">
-        <div class="merch-promo-badge">SAVE<br>25%</div>
+        <img src="/assets/images/shop/shop_save_25_bundle_badge.jpg" alt="Save 25%" class="save-badge-img">
         <div class="merch-promo-text">
           <h3>Play More, Save More!</h3>
           <p>Bundles are the best way to collect your favorite Mochi Mango merch and save big!</p>
@@ -533,11 +713,12 @@ function legal(kind){
 
 function gameDetail(sl){
   let g=S.games.find(x=>x.slug==sl)||S.games[0],rel=S.games.filter(x=>x.universe==g.universe&&x.slug!=g.slug).slice(0,5);
+  let jpgImage = g.image.replace('.svg', '.jpg');
   return `<main id="main" class="container">
     <div class="detail-layout">
       <section>
         <div class="detail-card">
-          <div class="detail-img"><img src="${g.image}" alt="${g.title}" onerror="this.src='/assets/images/hero.png'"></div>
+          <div class="detail-img"><img src="${jpgImage}" alt="${g.title}" onerror="this.src='${g.image}'"></div>
           <h1>${g.title}</h1>
           <p>${g.description}</p>
           <div class="chip-row">
