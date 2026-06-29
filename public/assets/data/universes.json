@@ -1,0 +1,38 @@
+{
+  "cozyverse": {
+    "name": "Puddle & Pip Cozyverse",
+    "color": "#ff8eb3",
+    "accent": "#ffd166",
+    "description": "A soft plush forest world of cozy adventures."
+  },
+  "astromochi": {
+    "name": "The AstroMochi Crew",
+    "color": "#8a5cff",
+    "accent": "#25d8ff",
+    "description": "Squishy space adventures across candy planets."
+  },
+  "ninegates": {
+    "name": "Nine Gates Mahjong Kingdom",
+    "color": "#0fbf9f",
+    "accent": "#f7c948",
+    "description": "Jade dragons, mahjong tiles and lantern festivals."
+  },
+  "snackstreet": {
+    "name": "SnackStreet Squad",
+    "color": "#ff6b35",
+    "accent": "#ffd100",
+    "description": "Neon street-food heroes, cooking rushes and scooter chaos."
+  },
+  "oracle": {
+    "name": "Oracle Mirror Oddities",
+    "color": "#8d3cff",
+    "accent": "#ff4f9a",
+    "description": "Mystical carnival magic with moon cats and tarot towers."
+  },
+  "standalone": {
+    "name": "Mochi Mango Originals",
+    "color": "#ffbd2e",
+    "accent": "#ff4f9a",
+    "description": "One-off mascot games built for quick fun and merch."
+  }
+}

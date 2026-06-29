@@ -1,0 +1,123 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="theme-color" content="#ff9f3f" />
+  <meta name="description" content="Puddle & Pip: Meadow Dash — a premium cozy HTML5 runner for Mochi Mango Arcade." />
+  <title>Puddle & Pip: Meadow Dash | Mochi Mango Arcade</title>
+  <link rel="icon" href="assets/icon.svg" type="image/svg+xml" />
+  <link rel="preload" href="css/styles.css" as="style" />
+  <link rel="stylesheet" href="css/styles.css" />
+</head>
+<body>
+  <div id="shell" class="game-shell" data-game-slug="puddle-and-pip-meadow-dash">
+    <header class="topbar" aria-label="Game header">
+      <a class="brand" href="../../index.html" aria-label="Back to Mochi Mango Arcade">
+        <img src="assets/icon.svg" alt="" width="44" height="44" />
+        <span><strong>Mochi Mango</strong><em>Arcade</em></span>
+      </a>
+      <div class="ad-slot ad-slot--top" data-adsterra-placement="top-banner">Adsterra Top Banner 728×90 / 320×50</div>
+    </header>
+
+    <main class="play-layout">
+      <aside class="ad-slot ad-slot--rail" data-adsterra-placement="left-rail">Adsterra Side Rail</aside>
+
+      <section class="stage-card" aria-label="Puddle and Pip Meadow Dash game">
+        <div id="gameFrame" class="game-frame">
+          <canvas id="gameCanvas" width="1280" height="720" aria-label="Game canvas" role="img"></canvas>
+
+          <div id="loading" class="overlay overlay--loading is-active" aria-live="polite">
+            <div class="logo-burst"><img src="assets/puddle-pip-badge.svg" alt="Puddle and Pip badge" /></div>
+            <h1>Puddle & Pip:<br><span>Meadow Dash</span></h1>
+            <p>Warming up the fuzzies…</p>
+            <div class="loading-bar"><span></span></div>
+          </div>
+
+          <div id="startScreen" class="overlay overlay--start" aria-live="polite">
+            <div class="title-card">
+              <img src="assets/puddle-pip-badge.svg" alt="Puddle and Pip" />
+              <p class="eyebrow">Game 1 / 200 · Cozyverse</p>
+              <h1>Puddle & Pip:<br><span>Meadow Dash</span></h1>
+              <p class="intro">Roll through the enchanted meadow, collect warm fuzzies, glide with Pip, bounce on Mushmoo mushrooms and keep Puddle out of the bramble bushes.</p>
+              <div class="actions">
+                <button id="playBtn" class="btn btn--primary">Play now</button>
+                <button id="howBtn" class="btn btn--soft">How to play</button>
+              </div>
+              <div class="microcopy">Space / Tap to jump · Hold to glide · Down / Swipe down to roll</div>
+            </div>
+          </div>
+
+          <div id="howScreen" class="overlay overlay--panel" aria-live="polite">
+            <div class="panel">
+              <button class="close" id="howClose" aria-label="Close instructions">×</button>
+              <h2>How to play</h2>
+              <div class="how-grid">
+                <article><strong>Jump</strong><span>Tap, click or press Space to hop over logs, snails and puddles.</span></article>
+                <article><strong>Glide</strong><span>Hold jump in the air and Pip carries Puddle through floating fuzzies.</span></article>
+                <article><strong>Roll</strong><span>Swipe down or press ↓ to slide under sleepy branches.</span></article>
+                <article><strong>Combos</strong><span>Collect fuzzies without getting hit to grow your multiplier.</span></article>
+              </div>
+              <button id="howPlay" class="btn btn--primary">Start dashing</button>
+            </div>
+          </div>
+
+          <div id="pauseScreen" class="overlay overlay--panel" aria-live="polite">
+            <div class="panel">
+              <h2>Paused</h2>
+              <p>Puddle is taking a tiny snack break.</p>
+              <button id="resumeBtn" class="btn btn--primary">Resume</button>
+              <button id="restartFromPause" class="btn btn--soft">Restart run</button>
+            </div>
+          </div>
+
+          <div id="gameOverScreen" class="overlay overlay--panel" aria-live="polite">
+            <div class="panel panel--score">
+              <h2>Run complete!</h2>
+              <p id="scoreLine">Score 0 · Fuzzies 0</p>
+              <div class="score-cards">
+                <span><strong id="finalScore">0</strong><em>Score</em></span>
+                <span><strong id="finalCoins">0</strong><em>Fuzzies</em></span>
+                <span><strong id="bestScore">0</strong><em>Best</em></span>
+              </div>
+              <div id="rewardAd" class="ad-slot ad-slot--reward" data-adsterra-placement="rewarded-revive">Rewarded Ad / Revive Hook</div>
+              <div class="actions">
+                <button id="reviveBtn" class="btn btn--primary">Watch ad to revive</button>
+                <button id="restartBtn" class="btn btn--soft">Restart</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="hud" aria-hidden="true">
+            <div class="hud-pill"><span>Score</span><strong id="hudScore">0</strong></div>
+            <div class="hud-pill"><span>Fuzzies</span><strong id="hudCoins">0</strong></div>
+            <div class="hud-pill hud-pill--combo"><span>Combo</span><strong id="hudCombo">×1</strong></div>
+            <div class="hud-actions">
+              <button id="soundBtn" class="icon-btn" title="Toggle sound" aria-label="Toggle sound">♪</button>
+              <button id="pauseBtn" class="icon-btn" title="Pause" aria-label="Pause game">Ⅱ</button>
+            </div>
+          </div>
+
+          <div class="mobile-controls" aria-hidden="true">
+            <button id="rollTouch" class="touch-btn touch-btn--roll">Roll</button>
+            <button id="jumpTouch" class="touch-btn touch-btn--jump">Jump / Glide</button>
+          </div>
+        </div>
+      </section>
+
+      <aside class="ad-slot ad-slot--rail" data-adsterra-placement="right-rail">Adsterra Side Rail</aside>
+    </main>
+
+    <section class="below-game">
+      <div class="ad-slot ad-slot--wide" data-adsterra-placement="post-game-wide">Adsterra Post-game Wide Unit</div>
+      <article class="game-notes">
+        <h2>Puddle & Pip: Meadow Dash</h2>
+        <p>A polished cozy endless runner built for Mochi Mango Arcade. This ZIP is ready to drop into the website under <code>/games/puddle-and-pip-meadow-dash/</code> and can run standalone, inside an iframe, or as a Cloudflare static asset.</p>
+      </article>
+    </section>
+  </div>
+
+  <script src="/assets/js/sdk.js" defer></script>
+  <script src="js/game.js" defer></script>
+</body>
+</html>

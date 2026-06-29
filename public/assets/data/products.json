@@ -1,0 +1,182 @@
+[
+  {
+    "id": "mochi-plush",
+    "name": "Mochi Plush",
+    "type": "Plushies",
+    "character": "Mochi",
+    "price": 24.99,
+    "tag": "Best Seller",
+    "description": "Mochi Plush official Mochi Mango Arcade collectible.",
+    "image": "/assets/images/products/mochi-plush.svg"
+  },
+  {
+    "id": "mango-plush",
+    "name": "Mango Plush",
+    "type": "Plushies",
+    "character": "Mango",
+    "price": 22.99,
+    "tag": "New",
+    "description": "Mango Plush official Mochi Mango Arcade collectible.",
+    "image": "/assets/images/products/mango-plush.svg"
+  },
+  {
+    "id": "neko-plush",
+    "name": "Neko Plush",
+    "type": "Plushies",
+    "character": "Neko",
+    "price": 24.99,
+    "tag": "Cute",
+    "description": "Neko Plush official Mochi Mango Arcade collectible.",
+    "image": "/assets/images/products/neko-plush.svg"
+  },
+  {
+    "id": "pandy-plush",
+    "name": "Pandy Plush",
+    "type": "Plushies",
+    "character": "Pandy",
+    "price": 24.99,
+    "tag": "Popular",
+    "description": "Pandy Plush official Mochi Mango Arcade collectible.",
+    "image": "/assets/images/products/pandy-plush.svg"
+  },
+  {
+    "id": "zuzu-hoodie-plush",
+    "name": "Zuzu Hoodie Plush",
+    "type": "Plushies",
+    "character": "Zuzu",
+    "price": 24.99,
+    "tag": "Cozy",
+    "description": "Zuzu Hoodie Plush official Mochi Mango Arcade collectible.",
+    "image": "/assets/images/products/zuzu-hoodie-plush.svg"
+  },
+  {
+    "id": "mochi-mango-mug",
+    "name": "Mochi Mango Mug",
+    "type": "Mugs",
+    "character": "Mochi",
+    "price": 14.99,
+    "tag": "Gift",
+    "description": "Mochi Mango Mug official Mochi Mango Arcade collectible.",
+    "image": "/assets/images/products/mochi-mango-mug.svg"
+  },
+  {
+    "id": "arcade-squad-tee",
+    "name": "Arcade Squad Tee",
+    "type": "Apparel",
+    "character": "Squad",
+    "price": 24.99,
+    "tag": "New",
+    "description": "Arcade Squad Tee official Mochi Mango Arcade collectible.",
+    "image": "/assets/images/products/arcade-squad-tee.svg"
+  },
+  {
+    "id": "arcade-squad-hoodie",
+    "name": "Arcade Squad Hoodie",
+    "type": "Apparel",
+    "character": "Squad",
+    "price": 49.99,
+    "tag": "Warm",
+    "description": "Arcade Squad Hoodie official Mochi Mango Arcade collectible.",
+    "image": "/assets/images/products/arcade-squad-hoodie.svg"
+  },
+  {
+    "id": "mochi-sticker-pack",
+    "name": "Mochi Sticker Pack",
+    "type": "Stickers",
+    "character": "Mochi",
+    "price": 6.99,
+    "tag": "Value",
+    "description": "Mochi Sticker Pack official Mochi Mango Arcade collectible.",
+    "image": "/assets/images/products/mochi-sticker-pack.svg"
+  },
+  {
+    "id": "enamel-pin-set",
+    "name": "Enamel Pin Set",
+    "type": "Pins",
+    "character": "Squad",
+    "price": 14.99,
+    "tag": "Collectible",
+    "description": "Enamel Pin Set official Mochi Mango Arcade collectible.",
+    "image": "/assets/images/products/enamel-pin-set.svg"
+  },
+  {
+    "id": "mochi-tote-bag",
+    "name": "Mochi Tote Bag",
+    "type": "Accessories",
+    "character": "Mochi",
+    "price": 19.99,
+    "tag": "Eco",
+    "description": "Mochi Tote Bag official Mochi Mango Arcade collectible.",
+    "image": "/assets/images/products/mochi-tote-bag.svg"
+  },
+  {
+    "id": "character-keychain",
+    "name": "Character Keychain",
+    "type": "Accessories",
+    "character": "Squad",
+    "price": 9.99,
+    "tag": "Pocket",
+    "description": "Character Keychain official Mochi Mango Arcade collectible.",
+    "image": "/assets/images/products/character-keychain.svg"
+  },
+  {
+    "id": "ultimate-bundle",
+    "name": "Ultimate Collector Bundle",
+    "type": "Bundles",
+    "character": "Squad",
+    "price": 89.99,
+    "tag": "Limited",
+    "description": "Ultimate Collector Bundle official Mochi Mango Arcade collectible.",
+    "image": "/assets/images/products/ultimate-bundle.svg"
+  },
+  {
+    "id": "cozyverse-bundle",
+    "name": "Cozyverse Pals Bundle",
+    "type": "Bundles",
+    "character": "Puddle & Pip",
+    "price": 59.99,
+    "tag": "Bundle",
+    "description": "Cozyverse Pals Bundle official Mochi Mango Arcade collectible.",
+    "image": "/assets/images/products/cozyverse-bundle.svg"
+  },
+  {
+    "id": "astromochi-bundle",
+    "name": "AstroMochi Space Bundle",
+    "type": "Bundles",
+    "character": "Mochi-9",
+    "price": 59.99,
+    "tag": "Bundle",
+    "description": "AstroMochi Space Bundle official Mochi Mango Arcade collectible.",
+    "image": "/assets/images/products/astromochi-bundle.svg"
+  },
+  {
+    "id": "oracle-mirror-cards",
+    "name": "Oracle Mirror Card Pack",
+    "type": "Cards",
+    "character": "Madame Fortuna",
+    "price": 12.99,
+    "tag": "Mystic",
+    "description": "Oracle Mirror Card Pack official Mochi Mango Arcade collectible.",
+    "image": "/assets/images/products/oracle-mirror-cards.svg"
+  },
+  {
+    "id": "snackstreet-pin-pack",
+    "name": "SnackStreet Pin Pack",
+    "type": "Pins",
+    "character": "SnackStreet Squad",
+    "price": 16.99,
+    "tag": "Spicy",
+    "description": "SnackStreet Pin Pack official Mochi Mango Arcade collectible.",
+    "image": "/assets/images/products/snackstreet-pin-pack.svg"
+  },
+  {
+    "id": "nine-gates-keychains",
+    "name": "Nine Gates Tile Keychains",
+    "type": "Accessories",
+    "character": "Bao",
+    "price": 11.99,
+    "tag": "Jade",
+    "description": "Nine Gates Tile Keychains official Mochi Mango Arcade collectible.",
+    "image": "/assets/images/products/nine-gates-keychains.svg"
+  }
+]

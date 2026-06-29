@@ -1,0 +1,6 @@
+name = "mochi-mango-arcade"
+compatibility_date = "2026-06-29"
+main = "src/worker.js"
+assets = { directory = "./public", binding = "ASSETS", not_found_handling = "single-page-application" }
+[observability]
+enabled = true

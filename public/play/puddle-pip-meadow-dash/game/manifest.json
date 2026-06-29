@@ -1,0 +1,64 @@
+{
+  "id": "puddle-and-pip-meadow-dash",
+  "number": 1,
+  "title": "Puddle & Pip: Meadow Dash",
+  "series": "Puddle & Pip's Cozyverse",
+  "universe": "cozyverse",
+  "genre": [
+    "Endless Runner",
+    "Cozy Arcade",
+    "Collectathon"
+  ],
+  "engine": "Vanilla HTML5 Canvas",
+  "version": "2.0.0-stunning",
+  "orientation": "responsive",
+  "input": [
+    "keyboard",
+    "mouse",
+    "touch"
+  ],
+  "path": "/games/puddle-and-pip-meadow-dash/",
+  "entry": "index.html",
+  "thumbnail": "assets/thumbnail.svg",
+  "icon": "assets/icon.svg",
+  "characters": [
+    "Puddle",
+    "Pip",
+    "Mushmoo",
+    "Bramble Bear",
+    "Lulu Lantern"
+  ],
+  "monetization": {
+    "adsterraPlacements": [
+      "top-banner",
+      "left-rail",
+      "right-rail",
+      "rewarded-revive",
+      "post-game-wide"
+    ],
+    "rewardedHooks": [
+      "revive"
+    ],
+    "safeInterstitialMoments": [
+      "gameover",
+      "restart",
+      "return-to-menu"
+    ]
+  },
+  "portalEvents": [
+    "ready",
+    "start",
+    "pause",
+    "resume",
+    "gameover",
+    "ad-request",
+    "revive"
+  ],
+  "integration": {
+    "copyFolderTo": "public/games/puddle-and-pip-meadow-dash/",
+    "iframeUrl": "/games/puddle-and-pip-meadow-dash/index.html"
+  },
+  "name": "Puddle & Pip: Meadow Dash \u2014 Stunning Edition",
+  "short_name": "Meadow Dash",
+  "description": "A premium cozy HTML5 runner for Mochi Mango Arcade with polished procedural visuals, particles, power-ups and portal-ready ad hooks."
+}

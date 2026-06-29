@@ -1,0 +1,15 @@
+{
+  "name": "mochi-mango-arcade",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Mochi Mango Arcade static HTML5 game and merch portal",
+  "scripts": {
+    "dev": "wrangler dev",
+    "deploy": "wrangler deploy",
+    "serve": "npx http-server public -p 8787 -c-1"
+  },
+  "devDependencies": {
+    "wrangler": "latest",
+    "http-server": "latest"
+  }
+}

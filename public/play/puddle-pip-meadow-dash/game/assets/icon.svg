@@ -1,0 +1,44 @@
+<svg width="512" height="512" viewBox="0 0 512 512" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <radialGradient id="bg" cx="35%" cy="25%" r="80%">
+      <stop offset="0" stop-color="#fff6a5"/>
+      <stop offset="0.38" stop-color="#ffb347"/>
+      <stop offset="0.72" stop-color="#ff6f91"/>
+      <stop offset="1" stop-color="#8e62ff"/>
+    </radialGradient>
+    <radialGradient id="puddle" cx="35%" cy="25%" r="70%">
+      <stop offset="0" stop-color="#fff1c7"/>
+      <stop offset="0.52" stop-color="#d99c57"/>
+      <stop offset="1" stop-color="#9a6432"/>
+    </radialGradient>
+    <linearGradient id="leaf" x1="88" y1="122" x2="414" y2="430" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#68ef87"/>
+      <stop offset="1" stop-color="#15b46b"/>
+    </linearGradient>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%" color-interpolation-filters="sRGB">
+      <feDropShadow dx="0" dy="18" stdDeviation="18" flood-color="#5c2b09" flood-opacity="0.28"/>
+    </filter>
+  </defs>
+  <rect width="512" height="512" rx="112" fill="url(#bg)"/>
+  <circle cx="112" cy="92" r="38" fill="#fff" opacity=".42"/>
+  <circle cx="408" cy="120" r="18" fill="#fff" opacity=".55"/>
+  <path d="M80 397C132 330 200 301 285 310C368 319 425 356 464 409V512H80V397Z" fill="url(#leaf)" opacity=".96"/>
+  <g filter="url(#shadow)">
+    <path d="M257 370c-85 0-144-46-144-124c0-80 63-135 146-135c89 0 145 56 145 134c0 79-60 125-147 125Z" fill="url(#puddle)"/>
+    <path d="M204 278c14 17 33 25 55 25c23 0 42-8 57-25" stroke="#5b321c" stroke-width="16" stroke-linecap="round"/>
+    <circle cx="213" cy="225" r="16" fill="#3b271c"/>
+    <circle cx="310" cy="225" r="16" fill="#3b271c"/>
+    <circle cx="208" cy="218" r="5" fill="#fff"/>
+    <circle cx="305" cy="218" r="5" fill="#fff"/>
+    <circle cx="171" cy="264" r="24" fill="#ff8aa5" opacity=".75"/>
+    <circle cx="346" cy="264" r="24" fill="#ff8aa5" opacity=".75"/>
+  </g>
+  <g filter="url(#shadow)">
+    <path d="M355 170c30-45 89-29 91 23c2 54-59 72-91 37c-14-15-15-43 0-60Z" fill="#35c7ff"/>
+    <path d="M428 190l44-15l-25 38" fill="#ffd166"/>
+    <circle cx="405" cy="184" r="9" fill="#24304a"/>
+    <circle cx="408" cy="181" r="3" fill="#fff"/>
+    <path d="M363 214c-25 7-42 21-51 43c25 0 48-11 68-34" fill="#2279ff" opacity=".82"/>
+  </g>
+  <path d="M95 105c20-48 78-60 111-23" stroke="#fff" stroke-width="16" stroke-linecap="round" opacity=".38"/>
+</svg>
