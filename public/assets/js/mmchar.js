@@ -102,14 +102,17 @@ export function drawVectorChar(c, x, y, size, o) {
   // ears / head accents (behind head)
   drawEars(c, s, body, sp, t);
 
-  // body
-  const grad = c.createLinearGradient(0, -s, 0, s);
-  grad.addColorStop(0, tint(body, 16)); grad.addColorStop(1, shade(body, -8));
+  // body — soft rounded plush
+  const grad = c.createRadialGradient(-s * 0.2, -s * 0.25, s * 0.1, 0, s * 0.15, s * 0.95);
+  grad.addColorStop(0, tint(body, 26)); grad.addColorStop(0.6, body); grad.addColorStop(1, shade(body, -10));
   c.fillStyle = grad;
-  c.beginPath(); c.ellipse(0, s * 0.12, s * 0.66, s * 0.72, 0, 0, 7); c.fill();
+  c.beginPath(); c.ellipse(0, s * 0.1, s * 0.7, s * 0.72, 0, 0, 7); c.fill();
   // belly
   c.fillStyle = belly;
-  c.beginPath(); c.ellipse(0, s * 0.28, s * 0.4, s * 0.44, 0, 0, 7); c.fill();
+  c.beginPath(); c.ellipse(0, s * 0.26, s * 0.42, s * 0.46, 0, 0, 7); c.fill();
+  // glossy top sheen
+  c.save(); c.globalAlpha = 0.28; c.fillStyle = '#fff';
+  c.beginPath(); c.ellipse(-s * 0.24, -s * 0.26, s * 0.22, s * 0.3, -0.4, 0, 7); c.fill(); c.restore();
 
   // arms
   c.fillStyle = body;
@@ -119,23 +122,26 @@ export function drawVectorChar(c, x, y, size, o) {
 
   // face group (unflip so eyes always read correctly)
   c.save();
-  // eyes
-  const eyeY = -s * 0.12, eyeDx = s * 0.24;
-  c.fillStyle = '#fff';
-  c.beginPath(); c.ellipse(-eyeDx, eyeY, s * 0.15, s * 0.19 * blink, 0, 0, 7); c.fill();
-  c.beginPath(); c.ellipse(eyeDx, eyeY, s * 0.15, s * 0.19 * blink, 0, 0, 7); c.fill();
+  // eyes — big glossy plush eyes with twin sparkles
+  const eyeY = -s * 0.1, eyeDx = s * 0.26;
   if (blink > 0.5) {
-    c.fillStyle = ink;
-    c.beginPath(); c.arc(-eyeDx + s * 0.03, eyeY, s * 0.09, 0, 7); c.fill();
-    c.beginPath(); c.arc(eyeDx + s * 0.03, eyeY, s * 0.09, 0, 7); c.fill();
-    c.fillStyle = '#fff';
-    c.beginPath(); c.arc(-eyeDx + s * 0.06, eyeY - s * 0.04, s * 0.03, 0, 7); c.fill();
-    c.beginPath(); c.arc(eyeDx + s * 0.06, eyeY - s * 0.04, s * 0.03, 0, 7); c.fill();
+    for (const dir of [-1, 1]) {
+      const ex = dir * eyeDx;
+      c.fillStyle = ink;
+      c.beginPath(); c.ellipse(ex, eyeY, s * 0.17, s * 0.24, 0, 0, 7); c.fill();
+      c.fillStyle = '#fff';
+      c.beginPath(); c.arc(ex + s * 0.06, eyeY - s * 0.09, s * 0.06, 0, 7); c.fill();
+      c.globalAlpha = 0.85; c.beginPath(); c.arc(ex - s * 0.05, eyeY + s * 0.07, s * 0.03, 0, 7); c.fill(); c.globalAlpha = 1;
+    }
+  } else {
+    c.strokeStyle = ink; c.lineWidth = s * 0.05; c.lineCap = 'round';
+    c.beginPath(); c.arc(-eyeDx, eyeY, s * 0.14, 0.2, Math.PI - 0.2); c.stroke();
+    c.beginPath(); c.arc(eyeDx, eyeY, s * 0.14, 0.2, Math.PI - 0.2); c.stroke();
   }
   // blush
   c.fillStyle = 'rgba(255,120,150,.5)';
-  c.beginPath(); c.ellipse(-s * 0.36, s * 0.02, s * 0.1, s * 0.07, 0, 0, 7); c.fill();
-  c.beginPath(); c.ellipse(s * 0.36, s * 0.02, s * 0.1, s * 0.07, 0, 0, 7); c.fill();
+  c.beginPath(); c.ellipse(-s * 0.4, s * 0.06, s * 0.11, s * 0.075, 0, 0, 7); c.fill();
+  c.beginPath(); c.ellipse(s * 0.4, s * 0.06, s * 0.11, s * 0.075, 0, 0, 7); c.fill();
   // nose + mouth (expression)
   c.strokeStyle = ink; c.lineWidth = s * 0.05; c.lineCap = 'round'; c.fillStyle = ink;
   const my = s * 0.12;

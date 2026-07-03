@@ -60,13 +60,18 @@ for (const g of games) if (!byMascot.has(g.mascot)) byMascot.set(g.mascot, g);
 let targets = [...byMascot.values()];
 if (ONLY.length) targets = targets.filter(g => ONLY.includes(slug(g.mascot)));
 
+// Locked house style, matching the Mochi Mango Arcade brand hero art.
+const HOUSE = 'cute 3D-rendered chibi kawaii plush mascot, soft rounded squishy body, ' +
+  'glossy smooth Pixar-soft finish, very large sparkly glossy eyes with bright white highlights, ' +
+  'small round rosy blush cheeks, tiny happy open smile, oversized head tiny body proportions, ' +
+  'pastel candy colours, soft studio lighting, subtle rim light, high detail toy render';
+
 function prompt(g) {
   const style = UNI_STYLE[g.universe] || UNI_STYLE.standalone;
-  return `Adorable original mascot character "${g.mascot}" for a kids HTML5 game brand, ` +
-    `${style}. Full body, standing hero pose, facing slightly right, friendly big expressive eyes, ` +
-    `chibi cute 3D-rendered plush toy look, clean vector-friendly shapes, soft rim light, ` +
-    `centered, isolated on a plain flat white background, no text, no logo, no border, high detail, ` +
-    `consistent character design suitable for plush toys and apparel merchandise.`;
+  return `Adorable original mascot character "${g.mascot}", ${HOUSE}, ${style}. ` +
+    `Full body, standing friendly hero pose, facing slightly right, centered, ` +
+    `isolated on a plain flat pure white background, no text, no logo, no border, no shadow floor, ` +
+    `consistent character design suitable for plush toys, apparel and stickers.`;
 }
 
 async function falImage(p) {
