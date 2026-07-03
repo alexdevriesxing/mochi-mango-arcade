@@ -360,6 +360,8 @@ function charsPage(){
     </section>
   </main>`;
 }
+
+function section(key,arr,icon='🎮',link='/games/'){
   return `<section class="section">
     <div class="section-head">
       <h2><span class="emoji">${icon}</span> <span data-i18n="${key}">${t(key)}</span></h2>
@@ -495,19 +497,6 @@ function universesPage(){
   </main>`;
 }
 
-function charsPage(){
-  let cc={};
-  S.games.forEach(g=>cc[g.mascot]=(cc[g.mascot]||0)+1);
-  return `<main id="main" class="container">
-    <section class="page-hero">
-      <h1 data-i18n="characters">${t('characters')}</h1>
-      <p>Meet the mascots behind the games. Each character is designed for plush, pins, stickers and collectibles.</p>
-    </section>
-    <div class="grid character-grid">
-      ${Object.entries(cc).sort((a,b)=>a[0].localeCompare(b[0])).map(([c,n])=>charCard(c,n)).join('')}
-    </div>
-  </main>`;
-}
 
 function shopPage(){
   let types = ["Plushies", "Apparel", "Mugs", "Stickers", "Pins", "Accessories", "Bundles"];
@@ -809,29 +798,65 @@ function playPage(sl){
       </div>
     </main>`;
   }
+  let modeHints = {
+    runner: 'Space / Tap to jump · hold for a higher hop · ↓ to duck under hazards.',
+    shooter: '← → or drag to move · auto-fire blasts foes before they reach you.',
+    match3: 'Tap two touching tiles to swap · line up 3+ · beat the clock.',
+    serve: 'Tap the dish that matches each customer before their patience runs out.',
+    dodger: 'Drag or ← → to catch treats and dodge hazards.'
+  };
+  let mode = engineMode(g);
   return `<main id="main" class="container">
     ${adTop()}
     <div class="detail-layout">
       <section>
-        <div class="play-shell">
-          <div class="game-canvas">
-            <h2>${g.title}</h2>
-            <p>${g.description}</p>
-            <a class="btn" href="${g.detailUrl}">Game details</a>
-            <p style="font-size:14px;opacity:.8;margin-top:18px">Drop the real HTML5 game build into this play shell later.</p>
-          </div>
+        <h1 class="play-heading">${g.title}</h1>
+        <div class="play-shell game-stage-shell">
+          <div id="gameStage" class="game-stage" data-slug="${g.slug}"></div>
         </div>
         <div class="ad-slot" style="margin-top:18px">Post-game / reward ad placement</div>
+        <div class="play-links">
+          <a class="btn secondary small" href="${g.detailUrl}">ℹ️ Game details</a>
+          <a class="btn secondary small" href="/games/">🎮 More games</a>
+          <a class="btn secondary small" href="/shop/">🛍️ ${g.mascot} merch</a>
+        </div>
       </section>
       <aside class="side-stack">
         ${adSide()}
         <div class="promo-card">
-          <h3>Controls</h3>
-          <p>Mobile-first shell. Add tap, swipe, pointer and keyboard bindings during integration.</p>
+          <h3>How to play</h3>
+          <p>${modeHints[mode] || modeHints.dodger}</p>
+          <p style="opacity:.75;font-size:13px;margin-top:8px">Works with keyboard, mouse and touch. Tap 🔊 to toggle sound.</p>
+        </div>
+        <div class="promo-card">
+          <h3>Merch Hook</h3>
+          <p>${g.merchHook}</p>
         </div>
       </aside>
     </div>
   </main>`;
+}
+
+function engineMode(g){
+  let s=(g.genre+' '+g.engine).toLowerCase();
+  if(/(shooter|bullet|boss|defen|arena|battler|tactic|tower|rescue patrol)/.test(s))return 'shooter';
+  if(/(match|tile|mahjong|sort|flow|logic|gravity|memory|solitaire|hidden|deduction|slide)/.test(s))return 'match3';
+  if(/(manage|cook|serv|shop|hotel|tavern|farm|sim|cafe|kitchen|bakery|time management|market|salon|dress)/.test(s))return 'serve';
+  if(/(runner|racing|racer|driv|lane|dash|sprint|derby|flight|flying|glide|rhythm|drift)/.test(s))return 'runner';
+  if(g.engine==='runner')return 'runner';
+  if(g.engine==='puzzle')return 'match3';
+  if(g.engine==='management')return 'serve';
+  return 'dodger';
+}
+
+const IFRAME_GAMES=['puddle-pip-meadow-dash','puddles-pancake-panic'];
+function mountEngine(sl){
+  let stage=document.getElementById('gameStage');
+  if(!stage)return;
+  let g=S.games.find(x=>x.slug==sl)||S.games[0];
+  import('/assets/js/mmengine.js').then(m=>m.startGame(stage,g)).catch(e=>{
+    stage.innerHTML='<div class="empty" style="padding:40px">This game could not load. <a href="'+g.detailUrl+'">View details</a></div>';
+  });
 }
 
 function productPage(id){
@@ -897,6 +922,8 @@ function hydrateGames(){
     run();
   });
   $('#randomGame').onclick=()=>location.href=S.games[Math.floor(Math.random()*S.games.length)].detailUrl;
+  let q=new URLSearchParams(location.search).get('q');
+  if(q)$('#fc').value=q;
   run();
 }
 
@@ -1113,6 +1140,7 @@ function render(){
   hydrateShop();
   drawCart();
   applyI18n();
+  if(p=='play'&&sl&&!IFRAME_GAMES.includes(sl))mountEngine(sl);
   if(location.hash)setTimeout(()=>$(location.hash)?.scrollIntoView({behavior:'smooth'}),120);
 }
 
