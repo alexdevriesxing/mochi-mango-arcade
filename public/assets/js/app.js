@@ -799,11 +799,14 @@ function playPage(sl){
     </main>`;
   }
   let modeHints = {
-    runner: 'Space / Tap to jump · hold for a higher hop · ↓ to duck under hazards.',
-    shooter: '← → or drag to move · auto-fire blasts foes before they reach you.',
-    match3: 'Tap two touching tiles to swap · line up 3+ · beat the clock.',
+    runner: 'Space / Tap to jump (double-jump!) · hold ↓ to duck · grab treats & power-ups.',
+    flappy: 'Tap / Space to flap through the gaps · collect treats · avoid the pillars.',
+    platformer: 'Bounce up the platforms · tap / ← → to steer · climb as high as you can.',
+    shooter: '← → or drag to move · auto-fire blasts foes · grab power-ups, survive.',
+    whack: 'Tap treats the instant they pop up · avoid hazards · build big combos.',
+    match3: 'Tap two touching tiles to swap · line up 3+ · chain combos, beat the clock.',
     serve: 'Tap the dish that matches each customer before their patience runs out.',
-    dodger: 'Drag or ← → to catch treats and dodge hazards.'
+    dodger: 'Drag or ← → to catch treats & power-ups · dodge the hazards.'
   };
   let mode = engineMode(g);
   return `<main id="main" class="container">
@@ -839,10 +842,13 @@ function playPage(sl){
 
 function engineMode(g){
   let s=(g.genre+' '+g.engine).toLowerCase();
-  if(/(shooter|bullet|boss|defen|arena|battler|tactic|tower|rescue patrol)/.test(s))return 'shooter';
-  if(/(match|tile|mahjong|sort|flow|logic|gravity|memory|solitaire|hidden|deduction|slide)/.test(s))return 'match3';
-  if(/(manage|cook|serv|shop|hotel|tavern|farm|sim|cafe|kitchen|bakery|time management|market|salon|dress)/.test(s))return 'serve';
-  if(/(runner|racing|racer|driv|lane|dash|sprint|derby|flight|flying|glide|rhythm|drift)/.test(s))return 'runner';
+  if(/(flying|flight|glide|relaxing flight|sky|kite|airlift|balloon)/.test(s))return 'flappy';
+  if(/(whack|reaction|coordination|emergency|tap|reflex|arcade cleanup|cleanup)/.test(s))return 'whack';
+  if(/(shooter|bullet|boss|defen|arena|battler|tactic|tower|patrol|survival)/.test(s))return 'shooter';
+  if(/(match|tile|mahjong|sort|flow|logic|gravity|memory|solitaire|hidden|deduction|slide|maze)/.test(s))return 'match3';
+  if(/(manage|cook|serv|shop|hotel|tavern|farm|sim|cafe|kitchen|bakery|time management|market|salon|dress|diner)/.test(s))return 'serve';
+  if(/(platform|jump|hop|bounce|climb|parkour|wall)/.test(s))return 'platformer';
+  if(/(runner|racing|racer|driv|lane|dash|sprint|derby|rhythm|drift|run)/.test(s))return 'runner';
   if(g.engine==='runner')return 'runner';
   if(g.engine==='puzzle')return 'match3';
   if(g.engine==='management')return 'serve';
