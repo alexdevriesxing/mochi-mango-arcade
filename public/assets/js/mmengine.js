@@ -477,8 +477,11 @@ class Platformer extends Base {
 /* ============================================================ DODGER */
 
 class Dodger extends Base {
-  instructions() { return 'Move to catch treats, grab power-ups, dodge hazards. Drag or use ← →.'; }
-  reset() { this.r = Math.max(24, this.W * 0.07); this.p = { x: this.W / 2, y: this.H - Math.max(58, this.H * 0.13) }; this.items = []; this.spawnT = 0.5; }
+  instructions() { return 'Move to catch treats, grab power-ups, dodge hazards. Drag or use ← →. Watch for Treat Storms and golden jackpots!'; }
+  reset() {
+    this.r = Math.max(24, this.W * 0.07); this.p = { x: this.W / 2, y: this.H - Math.max(58, this.H * 0.13), squash: 0 };
+    this.items = []; this.spawnT = 0.5; this.stormT = 14; this.storm = 0; this.jackpotT = 9;
+  }
   update(dt) {
     const D = this.difficulty();
     this.p.y = this.H - Math.max(58, this.H * 0.13);
@@ -488,24 +491,49 @@ class Dodger extends Base {
     if (this.pointer.down) this.p.x += (this.pointer.x - this.p.x) * Math.min(1, dt * 12);
     this.p.face = (this.pointer.down && this.pointer.x < this.p.x) || this.keys['arrowleft'] ? -1 : 1;
     this.p.x = Math.max(this.r, Math.min(this.W - this.r, this.p.x));
+    this.p.squash = Math.max(0, this.p.squash - dt * 3);
+
+    // Treat Storm: a short, telegraphed high-density bonus wave every ~14-20s
+    this.stormT -= dt;
+    if (this.storm > 0) { this.storm -= dt; if (this.storm <= 0) this.float(this.W / 2, this.H * 0.3, 'Storm over!', this.theme.accent); }
+    else if (this.stormT <= 0) { this.storm = 3.5; this.stormT = 16 + Math.random() * 6; this.sound.power(); this.float(this.W / 2, this.H * 0.3, '🌟 Treat Storm!', this.theme.accent); this.ring(this.W / 2, this.H * 0.3, this.theme.accent); }
+    // rare golden jackpot — big, slow, worth a lot, needs precise catch
+    this.jackpotT -= dt;
+    if (this.jackpotT <= 0 && !this.items.some(i => i.jackpot)) { this.jackpotT = 20 + Math.random() * 10;
+      this.items.push({ x: 40 + Math.random() * (this.W - 80), y: -40, s: Math.max(34, this.W * 0.1), vy: this.H * 0.22 * D, kind: 'good', jackpot: true, ch: this.theme.items[0], drift: 0, amp: 0 }); }
+
     this.spawnT -= dt;
-    if (this.spawnT <= 0) { this.spawnT = Math.max(0.24, 0.8 - this.time * 0.01);
-      const roll = Math.random(); const kind = roll < 0.28 ? 'bad' : roll < 0.34 ? 'power' : 'good';
+    if (this.spawnT <= 0) {
+      this.spawnT = (this.storm > 0 ? 0.14 : Math.max(0.24, 0.8 - this.time * 0.01));
+      const roll = Math.random();
+      const kind = this.storm > 0 ? (roll < 0.08 ? 'bad' : roll < 0.2 ? 'power' : 'good') : (roll < 0.28 ? 'bad' : roll < 0.34 ? 'power' : 'good');
       const arr = kind === 'bad' ? this.theme.hazards : this.theme.items;
-      this.items.push({ x: 30 + Math.random() * (this.W - 60), y: -30, s: Math.max(24, this.W * 0.07), vy: (this.H * 0.32 + Math.random() * 120) * D, kind, ch: arr[Math.floor(Math.random() * arr.length)], ptype: Object.keys(POWERS)[Math.floor(Math.random() * 4)] }); }
+      const weave = Math.random() < 0.45;                 // some items curve as they fall — real dodge skill
+      this.items.push({ x: 30 + Math.random() * (this.W - 60), y: -30, s: Math.max(24, this.W * 0.07), vy: (this.H * 0.32 + Math.random() * 120) * D, kind, ch: arr[Math.floor(Math.random() * arr.length)], ptype: Object.keys(POWERS)[Math.floor(Math.random() * 4)], drift: weave ? (Math.random() < 0.5 ? -1 : 1) * (60 + Math.random() * 90) : 0, amp: weave ? 1.5 + Math.random() * 2 : 0, ph: Math.random() * 7 }); }
     const mag = this.powers.magnet;
-    for (const it of this.items) { it.y += it.vy * dt; if (mag && it.kind !== 'bad') { const dx = this.p.x - it.x, d = Math.abs(dx); if (d < this.W * 0.4) it.x += Math.sign(dx) * 300 * dt; } }
+    for (const it of this.items) {
+      it.y += it.vy * dt;
+      if (it.drift) it.x += Math.sin(this.time * it.amp + it.ph) * it.drift * dt;
+      it.x = Math.max(it.s * 0.5, Math.min(this.W - it.s * 0.5, it.x));
+      if (mag && it.kind !== 'bad') { const dx = this.p.x - it.x, d = Math.abs(dx); if (d < this.W * 0.4) it.x += Math.sign(dx) * 300 * dt; }
+    }
     for (const it of this.items) { if (it.done) continue;
-      if (Math.abs(it.x - this.p.x) < it.s * 0.5 + this.r * 0.8 && Math.abs(it.y - this.p.y) < it.s * 0.5 + this.r * 0.8) { it.done = true;
+      if (Math.abs(it.x - this.p.x) < it.s * 0.5 + this.r * 0.8 && Math.abs(it.y - this.p.y) < it.s * 0.5 + this.r * 0.8) { it.done = true; this.p.squash = 1;
         if (it.kind === 'bad') { this.burst(it.x, it.y, '#ff4f6d', 14); this.loseLife(); }
         else if (it.kind === 'power') { this.grantPower(it.ptype); }
-        else { this.sound.coin(); this.burst(it.x, it.y, this.theme.accent, 8); this.hitCombo(it.x, it.y, 3); } } }
+        else if (it.jackpot) { this.sound.power(); this.confetti(it.x, it.y); this.hitCombo(it.x, it.y, 40); }
+        else { this.sound.coin(); this.burst(it.x, it.y, this.theme.accent, 8); this.hitCombo(it.x, it.y, this.storm > 0 ? 5 : 3); } } }
     this.items = this.items.filter(i => !i.done && i.y < this.H + 60);
   }
   render() {
     const c = this.ctx; c.save(); this.applyShake(c); this.parallax(0);
-    for (const it of this.items) { if (it.kind === 'power') { c.save(); c.shadowColor = POWERS[it.ptype].color; c.shadowBlur = 16; this.glyph(POWERS[it.ptype].icon, it.x, it.y, it.s); c.restore(); } else this.glyph(it.ch, it.x, it.y, it.s); }
-    this.hero(this.p.x, this.p.y, this.r * 2.2, { t: this.time, face: this.p.face, expr: 'smile' });
+    if (this.storm > 0) { c.save(); c.globalAlpha = 0.10 + Math.sin(this.time * 10) * 0.03; c.fillStyle = this.theme.accent; c.fillRect(0, 0, this.W, this.H); c.restore(); }
+    for (const it of this.items) {
+      if (it.kind === 'power') { c.save(); c.shadowColor = POWERS[it.ptype].color; c.shadowBlur = 16; this.glyph(POWERS[it.ptype].icon, it.x, it.y, it.s); c.restore(); }
+      else if (it.jackpot) { c.save(); c.shadowColor = '#ffd166'; c.shadowBlur = 22; this.glyph(it.ch, it.x, it.y, it.s * (1 + Math.sin(this.time * 6) * 0.08)); c.restore(); }
+      else this.glyph(it.ch, it.x, it.y, it.s);
+    }
+    this.hero(this.p.x, this.p.y, this.r * 2.2, { t: this.time, face: this.p.face, expr: 'smile', squash: -this.p.squash * 0.5 });
     this.drawFx(); c.restore();
   }
 }
@@ -779,14 +807,14 @@ class Maze extends Base {
 /* ============================================================ MEMORY */
 
 class Memory extends Base {
-  instructions() { return 'Flip two cards to find matching pairs. Clear the board before the timer runs out — chain matches for big combos!'; }
-  reset() { this.level = 1; this.timeLeft = 70; this.lives = 999; this.livesEl.innerHTML = '⏱️'; this._clearing = false; this._deal(); }
+  instructions() { return 'Flip two cards to find matching pairs. Clear the board before the timer runs out — chain matches for big combos! One golden pair hides a bonus power.'; }
+  reset() { this.level = 1; this.timeLeft = 70; this.lives = 999; this.livesEl.innerHTML = '⏱️'; this._clearing = false; this.reveal = 0; this._deal(); }
   onResize() { if (this.cards) this._layout(); }
   _deal() {
-    const pairs = Math.min(12, 4 + this.level), syms = this.theme.items, deck = [];
-    for (let i = 0; i < pairs; i++) { const s = syms[i % syms.length]; deck.push(s, s); }
+    const pairs = Math.min(12, 4 + this.level), syms = this.theme.items, bonusIdx = Math.floor(Math.random() * pairs), deck = [];
+    for (let i = 0; i < pairs; i++) { const s = syms[i % syms.length], bonus = i === bonusIdx; deck.push({ s, bonus }, { s, bonus }); }
     for (let i = deck.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [deck[i], deck[j]] = [deck[j], deck[i]]; }
-    this.cards = deck.map(s => ({ s, flip: 0, face: false, done: false })); this.pairs = pairs; this.matched = 0; this.first = null; this.lock = 0; this._pending = null; this._layout();
+    this.cards = deck.map(d => ({ s: d.s, bonus: d.bonus, flip: 0, face: false, done: false })); this.pairs = pairs; this.matched = 0; this.first = null; this.lock = 0; this._pending = null; this._layout();
   }
   _layout() {
     const n = this.cards.length; this.cols = Math.min(6, Math.max(2, Math.round(Math.sqrt(n * this.W / (this.H * 0.8))))); this.rows = Math.ceil(n / this.cols);
@@ -797,22 +825,32 @@ class Memory extends Base {
     this.cards.forEach((cd, i) => { const r = Math.floor(i / this.cols), col = i % this.cols; cd.px = this.gx + col * (this.csz + gap) + this.csz / 2; cd.py = this.gy + r * (this.csz + gap) + this.csz / 2; });
   }
   _hit(x, y) { for (const cd of this.cards) if (!cd.done && Math.abs(x - cd.px) < this.csz / 2 && Math.abs(y - cd.py) < this.csz / 2) return cd; return null; }
+  _bonus(cd) {
+    const types = ['x2', 'slow', 'shield', 'magnet'], type = types[Math.floor(Math.random() * types.length)];
+    this.grantPower(type);
+    if (type === 'magnet') { this.reveal = 1.1; for (const c2 of this.cards) if (!c2.done) c2.face = true; this.float(cd.px, cd.py - this.csz * 0.6, 'Peek!', POWERS.magnet.color); }
+    if (type === 'shield') this.float(cd.px, cd.py - this.csz * 0.6, 'Safety Net!', POWERS.shield.color);
+  }
   update(dt) {
     for (const cd of this.cards) { const tgt = (cd.face || cd.done) ? 1 : 0; cd.flip += (tgt - cd.flip) * Math.min(1, dt * 12); }
     if (this._clearing) { this.clearT -= dt; if (this.clearT <= 0) { this._deal(); this._clearing = false; } return; }
+    if (this.reveal > 0) { this.reveal -= dt; if (this.reveal <= 0) for (const c2 of this.cards) if (!c2.done) c2.face = false; }
     this.timeLeft -= dt; if (this.timeLeft <= 0) { this.timeLeft = 0; return this.showOver(); }
     this.comboEl.textContent = Math.ceil(this.timeLeft) + 's';
     this.lock = Math.max(0, this.lock - dt);
     if (this.lock <= 0 && this._pending) { this._pending.forEach(cd => cd.face = false); this._pending = null; }
-    if (this.pointer.tapped && this.lock <= 0) {
+    if (this.pointer.tapped && this.lock <= 0 && this.reveal <= 0) {
       const cd = this._hit(this.pointer.x, this.pointer.y);
       if (cd && !cd.done && !cd.face) {
         cd.face = true; this.sound.blip(520, 0.06, 'sine', 0.12);
         if (!this.first) this.first = cd;
         else if (this.first !== cd) {
           if (this.first.s === cd.s) {
-            cd.done = this.first.done = true; this.matched++; this.sound.coin(); this.hitCombo(cd.px, cd.py, 8); this.burst(cd.px, cd.py, this.theme.accent, 12); this.timeLeft = Math.min(99, this.timeLeft + 2.5); this.first = null;
+            cd.done = this.first.done = true; this.matched++; this.sound.coin(); this.hitCombo(cd.px, cd.py, 8); this.burst(cd.px, cd.py, this.theme.accent, 12); this.timeLeft = Math.min(99, this.timeLeft + 2.5);
+            if (cd.bonus) this._bonus(cd);
+            this.first = null;
             if (this.matched >= this.pairs) { this.level++; this.addScore(120); this.confetti(this.W / 2, this.H * 0.5); this._clearing = true; this.clearT = 1.1; }
+          } else if (this.powers.shield) { delete this.powers.shield; this.sound.blip(300, 0.2, 'sine', 0.2); this.ring(cd.px, cd.py, POWERS.shield.color); this.float(cd.px, cd.py - this.csz * 0.6, 'Saved!', POWERS.shield.color); this._pending = [this.first, cd]; this.lock = 0.5; this.first = null;
           } else { this._pending = [this.first, cd]; this.lock = 0.8; this.combo = 0; this.mult = 1; this.comboEl.textContent = ''; this.sound.blip(200, 0.12, 'sine', 0.1); this.first = null; }
         }
       }
@@ -824,7 +862,9 @@ class Memory extends Base {
     for (const cd of this.cards) {
       const f = Math.min(1, Math.max(0, cd.flip)), a = f * Math.PI, sx = Math.max(0.05, Math.abs(Math.cos(a))), front = Math.cos(a) < 0, s = this.csz;
       c.save(); c.translate(cd.px, cd.py); c.scale(sx, 1); if (cd.done) c.globalAlpha = 0.5;
-      if (front) { c.fillStyle = this.theme.dark ? 'rgba(255,255,255,.94)' : '#ffffff'; rr2(c, -s / 2, -s / 2, s, s, s * 0.16); c.fill(); this.glyph(cd.s, 0, 0, s * 0.6); }
+      if (front) { c.fillStyle = this.theme.dark ? 'rgba(255,255,255,.94)' : '#ffffff'; rr2(c, -s / 2, -s / 2, s, s, s * 0.16); c.fill();
+        if (cd.bonus) { c.save(); c.strokeStyle = '#ffd166'; c.lineWidth = 3; c.shadowColor = '#ffd166'; c.shadowBlur = 10; rr2(c, -s / 2 + 3, -s / 2 + 3, s - 6, s - 6, s * 0.13); c.stroke(); c.restore(); }
+        this.glyph(cd.s, 0, 0, s * 0.6); }
       else { c.fillStyle = this.theme.primary; rr2(c, -s / 2, -s / 2, s, s, s * 0.16); c.fill(); c.strokeStyle = this.theme.accent; c.lineWidth = 2; rr2(c, -s / 2 + 4, -s / 2 + 4, s - 8, s - 8, s * 0.12); c.stroke(); c.globalAlpha = 0.5; this.glyph('✨', 0, 0, s * 0.34); }
       c.restore(); c.globalAlpha = 1;
     }

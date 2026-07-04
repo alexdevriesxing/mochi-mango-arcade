@@ -950,9 +950,9 @@ function playPage(sl){
     match3: 'Tap two touching tiles to swap · line up 3+ · chain combos, beat the clock.',
     serve: 'Tap the dish that matches each customer before their patience runs out.',
     maze: 'Arrows / WASD / swipe to steer · collect every treat · dodge the guards · grab ✨ to fight back.',
-    memory: 'Flip two cards to find matching pairs · clear the board before the timer · chain matches for combos.',
+    memory: 'Flip two cards to find matching pairs · clear the board before the timer · chain matches for combos · one golden pair hides a bonus power.',
     stacker: 'Tap / Space to drop each block · line it up — overhang is sliced off · nail perfects, build sky-high.',
-    dodger: 'Drag or ← → to catch treats & power-ups · dodge the hazards.'
+    dodger: 'Drag or ← → to catch treats & power-ups · dodge the hazards · watch for Treat Storms and golden jackpots.'
   };
   let mode = engineMode(g);
   return `<main id="main" class="container">

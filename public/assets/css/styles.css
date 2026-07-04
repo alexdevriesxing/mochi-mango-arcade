@@ -119,7 +119,9 @@ img {
 
 .brand img {
   height: 60px;
-  width: auto;
+  width: 160px;
+  max-width: none;
+  aspect-ratio: 560 / 210;
   object-fit: contain;
 }
 
@@ -1891,6 +1893,14 @@ img {
   margin: 14px auto 0;
 }
 
+/* This page documents true unit pixel sizes (e.g. 728x90) on purpose — on
+   narrow screens let the oversized preview scroll horizontally within its
+   own card instead of stretching the page. */
+.ad-map-card .ad-mount {
+  max-width: 100%;
+  overflow-x: auto;
+}
+
 .ad-map-status {
   margin-top: 14px;
   font-weight: 800;
@@ -1915,20 +1925,10 @@ img {
 }
 
 /* Responsive Media Queries */
-@media (max-width: 1180px) {
-  .game-grid {
-    grid-template-columns: repeat(4, 1fr);
-  }
-  .product-grid {
-    grid-template-columns: repeat(3, 1fr);
-  }
-  .hero-wrap {
-    grid-template-columns: 1fr;
-  }
-  .side-stack {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-  }
+/* Logo + 7 nav links + search + language + cart + play button genuinely
+   don't fit below ~1510px — switch to the hamburger menu earlier than the
+   1180px content-grid breakpoint so the header never gets crushed. */
+@media (max-width: 1550px) {
   .navlinks {
     display: none;
   }
@@ -1944,6 +1944,22 @@ img {
     cursor: pointer;
     font-size: 20px;
     color: var(--violet);
+  }
+}
+
+@media (max-width: 1180px) {
+  .game-grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+  .product-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+  .hero-wrap {
+    grid-template-columns: 1fr;
+  }
+  .side-stack {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
   }
   .footer-grid {
     grid-template-columns: 1fr 1fr 1fr;
@@ -1974,6 +1990,10 @@ img {
   }
   .brand img {
     height: 52px;
+    width: 139px;
+  }
+  .nav-actions {
+    flex-wrap: wrap;
   }
   .searchbox {
     order: 2;
@@ -2042,7 +2062,7 @@ img {
     grid-template-columns: 1fr 1fr;
   }
   .ad-map-grid {
-    grid-template-columns: 1fr;
+    grid-template-columns: minmax(0, 1fr);
   }
   /* Skyscrapers ride next to the sticky desktop filters column — once that
      column goes static/full-width on mobile a 160×600/160×300 slot no longer
