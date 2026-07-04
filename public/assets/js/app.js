@@ -125,8 +125,86 @@ function footer(){
   <div class="toast" id="toast"></div>`;
 }
 
-const adTop=()=>`<div class="ad-slot ad-top">Leaderboard Banner 728×90 · Your ad here · Reach playful gamers!</div>`;
-const adSide=()=>`<div class="ad-slot ad-side">Sidebar Rectangle 300×250 · Your ad here</div>`;
+/* ================= Adsterra ad units =================
+ * One entry per live Adsterra placement. `adSlot()`/`adResponsive()` only ever
+ * emit an inert <div> placeholder (real <script> tags inserted via innerHTML
+ * never execute) — mountAds() turns each placeholder into the live unit after
+ * the page HTML is in the DOM. Each unit is mounted at most once per element,
+ * and callers must not place the same unit twice on one page. */
+const AD_UNITS={
+  native:  {kind:'native', containerId:'container-15731003adb68e5841c72d781644c54c', src:'https://demolishwrestconclusions.com/15731003adb68e5841c72d781644c54c/invoke.js'},
+  social:  {kind:'social', src:'https://demolishwrestconclusions.com/96/89/82/968982935a5efce42ae73045310d4b88.js'},
+  b468x60: {kind:'banner', key:'26a2b11e2cae6cade32370e7baa140d7', w:468, h:60},
+  b300x250:{kind:'banner', key:'7b31ea2761b9b290d777ee885476f672', w:300, h:250},
+  b160x300:{kind:'banner', key:'66f8dfdd9c8f4637d8b03d6d483e7a90', w:160, h:300},
+  b160x600:{kind:'banner', key:'4be6f8b4f160d37b745dff420d456d94', w:160, h:600},
+  b320x50: {kind:'banner', key:'f29d3150200ad871305322854588825f', w:320, h:50},
+  b728x90: {kind:'banner', key:'321182c4542315a5839f21432b2ea3ca', w:728, h:90}
+};
+
+function adSlot(unit,extraClass=''){
+  const u=AD_UNITS[unit];
+  if(unit==='native') return `<div class="ad-slot ad-native ${extraClass}" data-ad-unit="native"><span class="ad-label">Advertisement</span><div id="${u.containerId}" class="ad-mount"></div></div>`;
+  return `<div class="ad-slot ad-${unit} ${extraClass}" data-ad-unit="${unit}"><span class="ad-label">Advertisement</span><div class="ad-mount" style="width:${u.w}px;height:${u.h}px"></div></div>`;
+}
+function adResponsive(desktopUnit,mobileUnit,extraClass=''){
+  return `<div class="ad-slot ad-responsive ${extraClass}" data-ad-responsive="${desktopUnit},${mobileUnit}"><span class="ad-label">Advertisement</span><div class="ad-mount"></div></div>`;
+}
+const adTop=()=>adResponsive('b728x90','b320x50','ad-top');
+const adSide=()=>adSlot('b300x250','ad-side');
+const adNative=(extraClass='')=>adSlot('native','ad-native-slot '+extraClass);
+const adSkyscraper=(unit,extraClass='')=>adSlot(unit,'ad-skyscraper '+extraClass);
+
+// Each atOptions-based banner runs in its own sandboxed iframe so different
+// banner units on the same page never clobber each other's global atOptions,
+// and so their DOM insertion is scoped to a fresh, isolated document.
+function bannerSrcdoc(u){
+  return `<!doctype html><html><head><meta charset="utf-8"><style>html,body{margin:0;padding:0;overflow:hidden;background:transparent}</style></head><body>`
+    +`<script>atOptions={"key":"${u.key}","format":"iframe","height":${u.h},"width":${u.w},"params":{}};</script>`
+    +`<script src="https://demolishwrestconclusions.com/${u.key}/invoke.js"></script>`
+    +`</body></html>`;
+}
+
+function mountAds(root=document){
+  $$('[data-ad-unit],[data-ad-responsive]',root).forEach(el=>{
+    if(el.dataset.mounted)return;
+    let unit=el.dataset.adUnit;
+    if(!unit&&el.dataset.adResponsive){
+      const [desktop,mobile]=el.dataset.adResponsive.split(',');
+      unit=window.matchMedia('(min-width:821px)').matches?desktop:mobile;
+    }
+    const u=AD_UNITS[unit];
+    if(!u)return;
+    // never fire a request into a hidden slot (mobile-collapsed skyscrapers etc.) —
+    // avoids wasted/invalid-traffic impressions and matches ad-network policy.
+    const style=getComputedStyle(el);
+    if(style.display==='none'||el.offsetParent===null)return;
+    el.dataset.mounted='1';
+    const mount=el.querySelector('.ad-mount')||el;
+    if(u.kind==='banner'){
+      const iframe=document.createElement('iframe');
+      iframe.title='Advertisement';
+      iframe.loading='lazy';
+      iframe.setAttribute('scrolling','no');
+      iframe.style.cssText=`width:${u.w}px;height:${u.h}px;border:0;display:block;max-width:100%`;
+      iframe.srcdoc=bannerSrcdoc(u);
+      mount.appendChild(iframe);
+    }else if(u.kind==='native'){
+      const s=document.createElement('script');
+      s.async=true;
+      s.setAttribute('data-cfasync','false');
+      s.src=u.src;
+      mount.after(s);
+    }
+  });
+}
+function mountSocialBar(){
+  if(window.__mmaSocialMounted)return;
+  window.__mmaSocialMounted=true;
+  const s=document.createElement('script');
+  s.src=AD_UNITS.social.src;
+  document.body.appendChild(s);
+}
 
 function gameCard(g){
   let jpgImage = g.image.replace('.svg', '.jpg');
@@ -339,11 +417,12 @@ function charsPage(){
   let noBios = sortedChars.filter(([c]) => !characterBios[slug(c)]);
   
   return `<main id="main" class="container">
+    ${adTop()}
     <section class="page-hero">
       <h1 data-i18n="characters">${t('characters')}</h1>
       <p>Meet the mascots behind the games. Each character is designed for plush, pins, stickers and collectibles.</p>
     </section>
-    
+
     <section class="section">
       <div class="section-head">
         <h2><span class="emoji">📖</span> Character Stories</h2>
@@ -352,7 +431,9 @@ function charsPage(){
         ${hasBios.map(([c,n])=>charBioCard(c, characterBios[slug(c)])).join('')}
       </div>
     </section>
-    
+
+    ${adNative()}
+
     <section class="section">
       <div class="section-head">
         <h2><span class="emoji">⭐</span> All Characters</h2>
@@ -415,7 +496,9 @@ function home(){
     </div>
     
     ${section('featuredGames',f)}
-    
+
+    ${adNative()}
+
     <section class="section">
       <div class="section-head">
         <h2><span class="emoji">🌈</span> <span data-i18n="gameUniverses">${t('gameUniverses')}</span></h2>
@@ -442,6 +525,7 @@ function home(){
 
 function gamesPage(){
   return `<main id="main" class="container">
+    ${adTop()}
     <section class="page-hero">
       <h1 data-i18n="allGames">${t('allGames')}</h1>
       <p>Browse all 200 games — <b>${S.games.filter(g=>g.built).length} playable now</b>, with more added every week.</p>
@@ -468,6 +552,7 @@ function gamesPage(){
           <input id="fc" placeholder="Mochi, Puddle, Pip...">
         </div>
         <button class="btn secondary small clear-filters" id="clearGames" data-i18n="clearFilters">${t('clearFilters')}</button>
+        ${adSkyscraper('b160x600')}
       </aside>
       <section>
         <div class="toolbar">
@@ -479,6 +564,7 @@ function gamesPage(){
             <button class="chip" id="randomGame" data-i18n="randomGame">${t('randomGame')}</button>
           </div>
         </div>
+        ${adNative()}
         <div id="gamesGrid" class="grid game-grid"></div>
       </section>
     </div>
@@ -487,11 +573,13 @@ function gamesPage(){
 
 function universesPage(){
   return `<main id="main" class="container">
+    ${adTop()}
     <section class="page-hero">
       <h1 data-i18n="universes">${t('universes')}</h1>
       <p>Recurring worlds designed for games, plush toys, merch drops and franchise growth.</p>
     </section>
     <div class="grid universe-grid">${Object.entries(S.universes).map(([k,u])=>universeCard(k,u)).join('')}</div>
+    ${adNative()}
     ${Object.entries(S.universes).map(([k,u])=>`<section id="${k}" class="section">
       <div class="section-head">
         <h2>${u.name}</h2>
@@ -509,6 +597,7 @@ function shopPage(){
   let characters = ["Mochi", "Mango", "Neko", "Pandy", "Zuzu"];
   
   return `<main id="main" class="container">
+    ${adTop()}
     <section class="shop-hero-section">
       <img src="/assets/images/shop/shop_shop_hero_banner.jpg" alt="Merch Shop" class="shop-hero-img">
       <img src="/assets/images/shop/shop_shop_hero_characters.jpg" alt="Characters" class="shop-hero-characters">
@@ -594,8 +683,9 @@ function shopPage(){
         </div>
 
         <button class="btn secondary small clear-filters" id="clearProducts" data-i18n="clearFilters">${t('clearFilters')}</button>
+        ${adSkyscraper('b160x300')}
       </aside>
-      
+
       <section>
         <div class="toolbar">
           <div class="count" id="productCount"></div>
@@ -608,6 +698,7 @@ function shopPage(){
             </select>
           </div>
         </div>
+        ${adNative()}
         <div id="productsGrid" class="grid product-grid"></div>
       </section>
     </div>
@@ -628,16 +719,19 @@ function shopPage(){
 
 function newPage(){
   return `<main id="main" class="container">
+    ${adTop()}
     <section class="page-hero">
       <h1 data-i18n="newReleases">${t('newReleases')}</h1>
       <p>Fresh concepts, mascot drops and upcoming prototypes.</p>
     </section>
+    ${adNative()}
     <div class="grid game-grid">${S.games.filter(g=>g.new).map(gameCard).join('')}</div>
   </main>`;
 }
 
 function aboutPage(){
   return `<main id="main" class="container">
+    ${adTop()}
     <section class="page-hero">
       <h1 data-i18n="about">${t('about')}</h1>
       <p>Mochi Mango Arcade is a scalable HTML5 game and merch platform by Fire Dragon Interactive for 200+ games, recurring universes, ad monetization and collectibles.</p>
@@ -658,17 +752,13 @@ function aboutPage(){
         </div>
       </div>
     </section>
+    ${adSlot('b468x60')}
   </main>`;
 }
 
 function leaderboardPage(){
   let top=[...S.games].sort((a,b)=>b.plays-a.plays).slice(0,50);
-  return `<main id="main" class="container">
-    <section class="page-hero">
-      <h1 data-i18n="leaderboards">${t('leaderboards')}</h1>
-      <p>Mock leaderboard ready for D1, KV or Durable Objects later.</p>
-    </section>
-    ${top.map((g,i)=>`<div class="leader-row">
+  let rows=top.map((g,i)=>`<div class="leader-row">
       <div class="rank">#${i+1}</div>
       <div>
         <strong>${g.title}</strong>
@@ -676,22 +766,49 @@ function leaderboardPage(){
       </div>
       <div class="hide-sm rating">★ ${g.rating}</div>
       <div class="hide-sm" style="font-weight:800;color:var(--muted)">${g.plays.toLocaleString()} plays</div>
-    </div>`).join('')}
+    </div>`);
+  if(rows.length>10)rows.splice(10,0,adSlot('b468x60','leader-ad'));
+  if(rows.length>26)rows.splice(26,0,adNative());
+  return `<main id="main" class="container">
+    ${adTop()}
+    <section class="page-hero">
+      <h1 data-i18n="leaderboards">${t('leaderboards')}</h1>
+      <p>Mock leaderboard ready for D1, KV or Durable Objects later.</p>
+    </section>
+    ${rows.join('')}
   </main>`;
 }
 
 function adMapPage(){
+  // One live instance of every distinct Adsterra unit used across the site —
+  // this page intentionally does NOT call adTop()/adSide()/adNative(), since
+  // those reuse the same keys shown explicitly below (no unit repeats here).
+  const showcase=[
+    ['native','Native Banner','In-feed card that blends with site content. Live on: Home, Games, Universes, Characters, Shop, New Releases, Play, Leaderboards.'],
+    ['b728x90','Leaderboard 728×90','Top-of-page banner on desktop screens ≥820px.'],
+    ['b320x50','Mobile Banner 320×50','Top-of-page banner on mobile — swaps in automatically for the 728×90 below 820px.'],
+    ['b300x250','Medium Rectangle 300×250','Sidebar placement on Home, Game Detail, Play and Product pages.'],
+    ['b160x600','Wide Skyscraper 160×600','Sidebar slot next to the filters on the Games page (desktop only).'],
+    ['b160x300','Half Banner 160×300','Sidebar slot next to the filters on the Shop page (desktop only).'],
+    ['b468x60','Banner 468×60','Slim inline banner on the About page and mid-way down the Leaderboard.']
+  ];
   return `<main id="main" class="container">
     <section class="page-hero">
       <h1 data-i18n="adMap">${t('adMap')}</h1>
-      <p>Adsterra-ready placements for desktop and mobile without interrupting fair gameplay moments.</p>
+      <p>Every live Adsterra placement on Mochi Mango Arcade, shown here for reference. Each unit appears at most once per page across the site.</p>
     </section>
-    <div class="ad-map-grid">${['Top leaderboard 728×90','Sidebar rectangle 300×250','In-feed native card','Pre-game interstitial placeholder','Post-game reward panel','Shop sidebar rectangle','Footer banner','Mobile safe-area slot'].map((x,i)=>`<div class="ad-map-card">
-      <h3>${x}</h3>
-      <p>Use after load, between blocks, or after level completion. Avoid accidental clicks.</p>
-      <div class="mock-line"></div>
-      <div class="mock-line" style="width:${70+i*3}%"></div>
-    </div>`).join('')}</div>
+    <div class="ad-map-grid">
+      ${showcase.map(([unit,title,desc])=>`<div class="ad-map-card">
+        <h3>${title}</h3>
+        <p>${desc}</p>
+        ${adSlot(unit)}
+      </div>`).join('')}
+      <div class="ad-map-card">
+        <h3>Social Bar</h3>
+        <p>Site-wide sticky unit loaded once per page load across every page — not tied to a content slot.</p>
+        <div class="ad-map-status">✅ Active on this page</div>
+      </div>
+    </div>
   </main>`;
 }
 
@@ -712,6 +829,7 @@ function gameDetail(sl){
   let g=S.games.find(x=>x.slug==sl)||S.games[0],rel=S.games.filter(x=>x.universe==g.universe&&x.slug!=g.slug).slice(0,5);
   let jpgImage = g.image.replace('.svg', '.jpg');
   return `<main id="main" class="container">
+    ${adTop()}
     <div class="detail-layout">
       <section>
         <div class="detail-card">
@@ -732,6 +850,7 @@ function gameDetail(sl){
           </div>
           ${g.built ? '' : `<p class="soon-note">This game is in the works — its mascot art is coming to plush, tees and stickers first. Explore the <a href="/games/">playable games</a> meanwhile!</p>`}
         </div>
+        ${adNative()}
         <section class="section">
           <h2>Related Games</h2>
           <div class="grid game-grid">${rel.map(gameCard).join('')}</div>
@@ -777,7 +896,7 @@ function playPage(sl){
           <div class="play-shell" style="padding:0;overflow:hidden;aspect-ratio:16/9;background:#000;border-radius:28px;box-shadow:0 12px 40px rgba(0,0,0,0.6);border:1.5px solid var(--border-color);">
             <iframe src="game/index.html" style="width:100%;height:100%;border:none;display:block;border-radius:26px;" allow="autoplay"></iframe>
           </div>
-          <div class="ad-slot" style="margin-top:18px; min-height:80px;">Post-game / reward ad placement</div>
+          ${adNative('post-game-ad')}
         </section>
         <aside class="side-stack">
           ${adSide()}
@@ -803,7 +922,7 @@ function playPage(sl){
           <div class="play-shell" style="padding:0;overflow:hidden;aspect-ratio:16/9;background:#000;border-radius:28px;box-shadow:0 12px 40px rgba(0,0,0,0.6);border:1.5px solid var(--border-color);">
             <iframe src="game/index.html" style="width:100%;height:100%;border:none;display:block;border-radius:26px;" allow="autoplay"></iframe>
           </div>
-          <div class="ad-slot" style="margin-top:18px; min-height:80px;">Post-game / reward ad placement</div>
+          ${adNative('post-game-ad')}
         </section>
         <aside class="side-stack">
           ${adSide()}
@@ -844,7 +963,7 @@ function playPage(sl){
         <div class="play-shell game-stage-shell">
           <div id="gameStage" class="game-stage" data-slug="${g.slug}"></div>
         </div>
-        <div class="ad-slot" style="margin-top:18px">Post-game / reward ad placement</div>
+        ${adNative('post-game-ad')}
         <div class="play-links">
           <a class="btn secondary small" href="${g.detailUrl}">ℹ️ Game details</a>
           <a class="btn secondary small" href="/games/">🎮 More games</a>
@@ -899,6 +1018,7 @@ function mountEngine(sl){
 function productPage(id){
   let p=S.products.find(x=>x.id==id)||S.products[0],rel=S.products.filter(x=>x.id!=p.id).slice(0,4);
   return `<main id="main" class="container">
+    ${adTop()}
     <div class="detail-layout">
       <section>
         <div class="detail-card">
@@ -915,6 +1035,7 @@ function productPage(id){
             <button class="btn add-cart" data-id="${p.id}">🛍️ Add to Cart</button>
           </div>
         </div>
+        ${adNative()}
         <section class="section">
           <h2>More Merch</h2>
           <div class="grid product-grid">${rel.map(productCard).join('')}</div>
@@ -1186,6 +1307,7 @@ function render(){
   applyI18n();
   if(p=='play'&&sl&&!IFRAME_GAMES.includes(sl))mountEngine(sl);
   if(location.hash)setTimeout(()=>$(location.hash)?.scrollIntoView({behavior:'smooth'}),120);
+  mountAds();
 }
 
 async function boot(){
@@ -1196,5 +1318,6 @@ async function boot(){
     J('/assets/data/i18n.json')
   ]);
   render();
+  mountSocialBar();
 }
 boot();
