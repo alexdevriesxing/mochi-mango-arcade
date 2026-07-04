@@ -745,6 +745,19 @@ img {
   margin: 0 0 14px;
 }
 
+/* -------- Build-time (pre-hydration / no-JS) SEO content -------- */
+.crumbs { font-size: 13px; color: var(--muted); margin: 16px 0; }
+.crumbs a { color: var(--purple); text-decoration: none; }
+.seo-article, .seo-hero { max-width: 820px; margin: 12px auto 40px; }
+.seo-article h1, .seo-hero h1 { color: var(--ink); margin: 12px 0; }
+.seo-article h2 { color: var(--ink); margin: 24px 0 8px; font-size: 20px; }
+.seo-article .lead, .seo-hero .lead { font-size: 17px; color: var(--muted); line-height: 1.6; }
+.seo-article img { margin: 8px 0 18px; }
+.game-facts { list-style: none; padding: 0; display: grid; gap: 6px; }
+.game-facts li { color: var(--ink); }
+.seo-hero dl dt, .seo-article dl dt { color: var(--ink); margin-top: 14px; }
+.seo-hero dl dd, .seo-article dl dd { color: var(--muted); margin: 4px 0 0; line-height: 1.55; }
+
 .game-title {
   font-weight: 800;
   font-size: 16px;

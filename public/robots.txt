@@ -2,7 +2,7 @@
 User-agent: *
 Allow: /
 
-# AI answer engines
+# Reputable search + AI answer engines are explicitly welcome
 User-agent: GPTBot
 Allow: /
 User-agent: OAI-SearchBot
@@ -11,12 +11,42 @@ User-agent: ChatGPT-User
 Allow: /
 User-agent: PerplexityBot
 Allow: /
+User-agent: Perplexity-User
+Allow: /
 User-agent: Google-Extended
+Allow: /
+User-agent: GoogleOther
 Allow: /
 User-agent: ClaudeBot
 Allow: /
+User-agent: Claude-Web
+Allow: /
+User-agent: anthropic-ai
+Allow: /
+User-agent: Applebot
+Allow: /
 User-agent: Applebot-Extended
 Allow: /
+User-agent: Amazonbot
+Allow: /
+User-agent: Bytespider
+Allow: /
+User-agent: CCBot
+Allow: /
+User-agent: cohere-ai
+Allow: /
+User-agent: Meta-ExternalAgent
+Allow: /
+User-agent: FacebookBot
+Allow: /
+User-agent: Diffbot
+Allow: /
+User-agent: YouBot
+Allow: /
+User-agent: DuckAssistBot
+Allow: /
+User-agent: Timpibot
+Allow: /
 
-Sitemap: https://mochimangoarcade.com/sitemap.xml
-Host: https://mochimangoarcade.com
+Sitemap: https://www.mochimangoarcade.com/sitemap.xml
+Host: www.mochimangoarcade.com
