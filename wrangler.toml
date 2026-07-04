@@ -1,6 +1,13 @@
 name = "mochi-mango-arcade"
 compatibility_date = "2026-06-29"
 main = "src/worker.js"
-assets = { directory = "./public", binding = "ASSETS", not_found_handling = "single-page-application" }
+assets = { directory = "./public", binding = "ASSETS", not_found_handling = "single-page-application", run_worker_first = true }
+workers_dev = true
+
+routes = [
+  { pattern = "mochimangoarcade.com", custom_domain = true },
+  { pattern = "www.mochimangoarcade.com", custom_domain = true }
+]
+
 [observability]
 enabled = true
