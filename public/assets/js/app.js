@@ -130,10 +130,13 @@ const adSide=()=>`<div class="ad-slot ad-side">Sidebar Rectangle 300×250 · You
 
 function gameCard(g){
   let jpgImage = g.image.replace('.svg', '.jpg');
-  return `<article class="card game-card" data-genre="${g.genre}" data-universe="${g.universe}">
+  let badge = g.built
+    ? (g.new ? '<span class="badge">NEW</span>' : '<span class="badge play">PLAY</span>')
+    : '<span class="badge soon">SOON</span>';
+  return `<article class="card game-card${g.built?'':' coming-soon'}" data-genre="${g.genre}" data-universe="${g.universe}" data-built="${g.built?1:0}">
     <a href="${g.detailUrl}">
-      <span class="badge ${g.new?'':g.status.includes('Playable')?'play':'soon'}">${g.new?'NEW':g.status.includes('Playable')?'PLAY':'SOON'}</span>
-      <div class="thumb"><img loading="lazy" src="${jpgImage}" alt="${g.title}" onerror="this.src='${g.image}'"></div>
+      ${badge}
+      <div class="thumb"><img loading="lazy" src="${jpgImage}" alt="${g.title}" onerror="this.src='${g.image}'">${g.built?'':'<span class="soon-sticker">🚧 Coming Soon</span>'}</div>
       <div class="card-body">
         <h3 class="game-title">${g.title}</h3>
         <div class="meta">
@@ -372,8 +375,10 @@ function section(key,arr,icon='🎮',link='/games/'){
 }
 
 function home(){
-  let f=S.games.filter(g=>g.featured).slice(0,5);
-  let n=S.games.filter(g=>g.new).slice(0,5);
+  let built=S.games.filter(g=>g.built);
+  let f=[...built].sort((a,b)=>(b.featured?1:0)-(a.featured?1:0)).slice(0,5);
+  let fset=new Set(f.map(g=>g.slug));
+  let n=built.filter(g=>!fset.has(g.slug)).slice(0,5);
   let cc={};
   S.games.forEach(g=>cc[g.mascot]=(cc[g.mascot]||0)+1);
   let chars=Object.entries(cc).sort((a,b)=>b[1]-a[1]).slice(0,5);
@@ -386,12 +391,12 @@ function home(){
         <img src="/assets/images/home_hero_main_characters.jpg" alt="Mochi Mango Characters" class="hero-characters-img" onerror="this.style.display='none'">
         <div class="hero-content">
           <div class="hero-badges">
-            <span class="hero-badge-pill">⚡ Instant Play</span>
+            <span class="hero-badge-pill">🎮 ${built.length} Playable Now</span>
             <span class="hero-badge-pill">👶 Kid-Friendly</span>
             <span class="hero-badge-pill">⭐ Always Free</span>
           </div>
           <h1>200+<br><span>Playful HTML5 Games</span></h1>
-          <p>Games, plushies, and collectible merch in one colorful universe.</p>
+          <p>${built.length} playable today with fresh games and collectible merch added every week.</p>
           <div class="hero-actions">
             <a href="/games/" class="btn">🎮 Play Now</a>
             <a href="/universes/" class="btn secondary">Explore Universes</a>
@@ -439,7 +444,7 @@ function gamesPage(){
   return `<main id="main" class="container">
     <section class="page-hero">
       <h1 data-i18n="allGames">${t('allGames')}</h1>
-      <p>Browse all 200 concepts by universe, genre, character and engine type.</p>
+      <p>Browse all 200 games — <b>${S.games.filter(g=>g.built).length} playable now</b>, with more added every week.</p>
     </section>
     <div class="catalog-layout">
       <aside class="filters">
@@ -468,6 +473,7 @@ function gamesPage(){
         <div class="toolbar">
           <div class="count" id="gameCount"></div>
           <div class="chip-row" style="margin:0">
+            <button class="chip" id="playableToggle">🎮 Playable</button>
             <button class="chip active" data-sort="id">Newest</button>
             <button class="chip" data-sort="popular">Popular</button>
             <button class="chip" id="randomGame" data-i18n="randomGame">${t('randomGame')}</button>
@@ -719,9 +725,12 @@ function gameDetail(sl){
             <span class="chip">★ ${g.rating}</span>
           </div>
           <div class="hero-actions">
-            <a class="btn" href="${g.playUrl}">🎮 <span data-i18n="playNow">${t('playNow')}</span></a>
+            ${g.built
+              ? `<a class="btn" href="${g.playUrl}">🎮 <span data-i18n="playNow">${t('playNow')}</span></a>`
+              : `<span class="btn disabled" aria-disabled="true">🚧 Coming Soon</span>`}
             <a class="btn secondary" href="/shop/">🛍️ <span data-i18n="shopNow">${t('shopNow')}</span></a>
           </div>
+          ${g.built ? '' : `<p class="soon-note">This game is in the works — its mascot art is coming to plush, tees and stickers first. Explore the <a href="/games/">playable games</a> meanwhile!</p>`}
         </div>
         <section class="section">
           <h2>Related Games</h2>
@@ -745,6 +754,21 @@ function gameDetail(sl){
 
 function playPage(sl){
   let g=S.games.find(x=>x.slug==sl)||S.games[0];
+  if(!g.built){
+    return `<main id="main" class="container">
+      ${adTop()}
+      <div class="soon-hero">
+        <div class="soon-hero-emoji">🚧</div>
+        <h1>${g.title}</h1>
+        <p class="soon-hero-tag">Coming Soon</p>
+        <p>${g.mascot} is still training for this one. We're polishing the gameplay — check back soon!</p>
+        <div class="hero-actions" style="justify-content:center">
+          <a class="btn" href="/games/">🎮 Play available games</a>
+          <a class="btn secondary" href="${g.detailUrl}">ℹ️ Game details</a>
+        </div>
+      </div>
+    </main>`;
+  }
   if(sl==='puddle-pip-meadow-dash'){
     return `<main id="main" class="container">
       ${adTop()}
@@ -806,6 +830,9 @@ function playPage(sl){
     whack: 'Tap treats the instant they pop up · avoid hazards · build big combos.',
     match3: 'Tap two touching tiles to swap · line up 3+ · chain combos, beat the clock.',
     serve: 'Tap the dish that matches each customer before their patience runs out.',
+    maze: 'Arrows / WASD / swipe to steer · collect every treat · dodge the guards · grab ✨ to fight back.',
+    memory: 'Flip two cards to find matching pairs · clear the board before the timer · chain matches for combos.',
+    stacker: 'Tap / Space to drop each block · line it up — overhang is sliced off · nail perfects, build sky-high.',
     dodger: 'Drag or ← → to catch treats & power-ups · dodge the hazards.'
   };
   let mode = engineMode(g);
@@ -841,12 +868,16 @@ function playPage(sl){
 }
 
 function engineMode(g){
-  let s=(g.genre+' '+g.engine).toLowerCase();
-  if(/(flying|flight|glide|relaxing flight|sky|kite|airlift|balloon)/.test(s))return 'flappy';
-  if(/(whack|reaction|coordination|emergency|tap|reflex|arcade cleanup|cleanup)/.test(s))return 'whack';
-  if(/(shooter|bullet|boss|defen|arena|battler|tactic|tower|patrol|survival)/.test(s))return 'shooter';
-  if(/(match|tile|mahjong|sort|flow|logic|gravity|memory|solitaire|hidden|deduction|slide|maze)/.test(s))return 'match3';
-  if(/(manage|cook|serv|shop|hotel|tavern|farm|sim|cafe|kitchen|bakery|time management|market|salon|dress|diner)/.test(s))return 'serve';
+  // keep in sync with modeFor() in mmengine.js
+  let s=(g.genre+' '+g.engine+' '+(g.title||'')+' '+(g.slug||'')).toLowerCase();
+  if(/(parcel|kite|airlift|balloon|glide|flight|flying|aerial|paraglide|sky-diner|sky diner)/.test(s))return 'flappy';
+  if(/(maze|labyrinth|heist)/.test(s))return 'maze';
+  if(/(memory|mirror|hidden|detective|solitaire|concentration|mooncat|tarot|matching)/.test(s))return 'memory';
+  if(/(\bstack\b|\bfort\b|blanket|pillow|sleepover|snowflake|honey-rescue)/.test(s))return 'stacker';
+  if(/(defen|tower|patrol|survival|boss|arena|shooter|bullet|battler|tactic)/.test(s))return 'shooter';
+  if(/(whack|reaction|coordination|emergency|reflex|cleanup)/.test(s))return 'whack';
+  if(/(match|tile|mahjong|sort|flow|logic|gravity|deduction|slide)/.test(s))return 'match3';
+  if(/(manage|cook|serv|shop|hotel|tavern|farm|sim|cafe|kitchen|bakery|time management|market|salon|dress|diner|restaurant)/.test(s))return 'serve';
   if(/(platform|jump|hop|bounce|climb|parkour|wall)/.test(s))return 'platformer';
   if(/(runner|racing|racer|driv|lane|dash|sprint|derby|rhythm|drift|run)/.test(s))return 'runner';
   if(g.engine==='runner')return 'runner';
@@ -909,16 +940,21 @@ function hydrateGames(){
     if(u)a=a.filter(x=>x.universe==u);
     if(g)a=a.filter(x=>x.genre==g);
     if(c)a=a.filter(x=>x.mascot.toLowerCase().includes(c)||x.title.toLowerCase().includes(c));
-    if(sort=='popular')a.sort((x,y)=>y.plays-x.plays);
+    if(playableOnly)a=a.filter(x=>x.built);
+    // always lead with playable games, then apply the chosen sort
+    a.sort((x,y)=>{ if(!!y.built!==!!x.built) return (y.built?1:0)-(x.built?1:0); return sort=='popular'? y.plays-x.plays : x.id-y.id; });
     grid.innerHTML=a.map(gameCard).join('')||'<div class="empty">No games found.</div>';
-    $('#gameCount').textContent=`${a.length} / ${S.games.length} games`;
+    let pc=a.filter(x=>x.built).length;
+    $('#gameCount').innerHTML=`<b>${pc}</b> playable · ${a.length} shown`;
     tilt();
   }
+  let playableOnly=false;
   ['fu','fg','fc'].forEach(id=>$('#'+id).addEventListener('input',run));
   $('#clearGames').onclick=()=>{
     $('#fu').value='';
     $('#fg').value='';
     $('#fc').value='';
+    playableOnly=false; const pb=$('#playableToggle'); if(pb)pb.classList.remove('active');
     run();
   };
   $$('[data-sort]').forEach(b=>b.onclick=()=>{
@@ -927,7 +963,9 @@ function hydrateGames(){
     sort=b.dataset.sort;
     run();
   });
-  $('#randomGame').onclick=()=>location.href=S.games[Math.floor(Math.random()*S.games.length)].detailUrl;
+  const pt=$('#playableToggle');
+  if(pt)pt.onclick=()=>{ playableOnly=!playableOnly; pt.classList.toggle('active',playableOnly); run(); };
+  $('#randomGame').onclick=()=>{ let pool=S.games.filter(x=>x.built); location.href=(pool[Math.floor(Math.random()*pool.length)]||S.games[0]).detailUrl; };
   let q=new URLSearchParams(location.search).get('q');
   if(q)$('#fc').value=q;
   run();

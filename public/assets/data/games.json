@@ -17,7 +17,8 @@
     "plays": 16373,
     "status": "Playable prototype",
     "engine": "runner",
-    "merchHook": "Puddle & Pip plush, sticker pack, tee, enamel pin and collector card."
+    "merchHook": "Puddle & Pip plush, sticker pack, tee, enamel pin and collector card.",
+    "built": true
   },
   {
     "id": 2,
@@ -37,7 +38,8 @@
     "plays": 17746,
     "status": "Playable prototype",
     "engine": "management",
-    "merchHook": "Puddle plush, sticker pack, tee, enamel pin and collector card."
+    "merchHook": "Puddle plush, sticker pack, tee, enamel pin and collector card.",
+    "built": true
   },
   {
     "id": 3,
@@ -57,7 +59,8 @@
     "plays": 19119,
     "status": "Playable prototype",
     "engine": "arcade",
-    "merchHook": "Pip plush, sticker pack, tee, enamel pin and collector card."
+    "merchHook": "Pip plush, sticker pack, tee, enamel pin and collector card.",
+    "built": true
   },
   {
     "id": 4,
@@ -77,7 +80,8 @@
     "plays": 20492,
     "status": "Playable prototype",
     "engine": "puzzle",
-    "merchHook": "Mushmoo plush, sticker pack, tee, enamel pin and collector card."
+    "merchHook": "Mushmoo plush, sticker pack, tee, enamel pin and collector card.",
+    "built": false
   },
   {
     "id": 5,
@@ -97,7 +101,8 @@
     "plays": 21865,
     "status": "Playable prototype",
     "engine": "arcade",
-    "merchHook": "Bramble Bear plush, sticker pack, tee, enamel pin and collector card."
+    "merchHook": "Bramble Bear plush, sticker pack, tee, enamel pin and collector card.",
+    "built": true
   },
   {
     "id": 6,
@@ -117,7 +122,8 @@
     "plays": 23238,
     "status": "Playable prototype",
     "engine": "puzzle",
-    "merchHook": "Puddle & Pip plush, sticker pack, tee, enamel pin and collector card."
+    "merchHook": "Puddle & Pip plush, sticker pack, tee, enamel pin and collector card.",
+    "built": true
   },
   {
     "id": 7,
@@ -137,7 +143,8 @@
     "plays": 24611,
     "status": "Playable",
     "engine": "puzzle",
-    "merchHook": "Lulu Lantern plush, sticker pack, tee, enamel pin and collector card."
+    "merchHook": "Lulu Lantern plush, sticker pack, tee, enamel pin and collector card.",
+    "built": false
   },
   {
     "id": 8,
@@ -157,7 +164,8 @@
     "plays": 25984,
     "status": "Playable",
     "engine": "arcade",
-    "merchHook": "Puddle plush, sticker pack, tee, enamel pin and collector card."
+    "merchHook": "Puddle plush, sticker pack, tee, enamel pin and collector card.",
+    "built": true
   },
   {
     "id": 9,
@@ -177,7 +185,8 @@
     "plays": 27357,
     "status": "Playable",
     "engine": "runner",
-    "merchHook": "Mochi-9 plush, sticker pack, tee, enamel pin and collector card."
+    "merchHook": "Mochi-9 plush, sticker pack, tee, enamel pin and collector card.",
+    "built": false
   },
   {
     "id": 10,
@@ -197,7 +206,8 @@
     "plays": 28730,
     "status": "Playable",
     "engine": "puzzle",
-    "merchHook": "Gearbit plush, sticker pack, tee, enamel pin and collector card."
+    "merchHook": "Gearbit plush, sticker pack, tee, enamel pin and collector card.",
+    "built": false
   },
   {
     "id": 11,
@@ -217,7 +227,8 @@
     "plays": 30103,
     "status": "Playable",
     "engine": "arcade",
-    "merchHook": "Bloop plush, sticker pack, tee, enamel pin and collector card."
+    "merchHook": "Bloop plush, sticker pack, tee, enamel pin and collector card.",
+    "built": false
   },
   {
     "id": 12,
@@ -237,7 +248,8 @@
     "plays": 31476,
     "status": "Playable",
     "engine": "arcade",
-    "merchHook": "Captain Nova plush, sticker pack, tee, enamel pin and collector card."
+    "merchHook": "Captain Nova plush, sticker pack, tee, enamel pin and collector card.",
+    "built": false
   },
   {
     "id": 13,
@@ -257,7 +269,8 @@
     "plays": 32849,
     "status": "Playable",
     "engine": "arcade",
-    "merchHook": "Mochi-9 plush, sticker pack, tee, enamel pin and collector card."
+    "merchHook": "Mochi-9 plush, sticker pack, tee, enamel pin and collector card.",
+    "built": false
   },
   {
     "id": 14,
@@ -277,7 +290,8 @@
     "plays": 34222,
     "status": "Playable",
     "engine": "arcade",
-    "merchHook": "Gearbit plush, sticker pack, tee, enamel pin and collector card."
+    "merchHook": "Gearbit plush, sticker pack, tee, enamel pin and collector card.",
+    "built": false
   },
   {
     "id": 15,
@@ -297,7 +311,8 @@
     "plays": 35595,
     "status": "Playable",
     "engine": "arcade",
-    "merchHook": "Grumble Comet plush, sticker pack, tee, enamel pin and collector card."
+    "merchHook": "Grumble Comet plush, sticker pack, tee, enamel pin and collector card.",
+    "built": false
   },
   {
     "id": 16,
@@ -317,7 +332,8 @@
     "plays": 36968,
     "status": "Playable",
     "engine": "arcade",
-    "merchHook": "Mochi-9 plush, sticker pack, tee, enamel pin and collector card."
+    "merchHook": "Mochi-9 plush, sticker pack, tee, enamel pin and collector card.",
+    "built": false
   },
   {
     "id": 17,
@@ -337,7 +353,8 @@
     "plays": 38341,
     "status": "Playable",
     "engine": "puzzle",
-    "merchHook": "Bao plush, sticker pack, tee, enamel pin and collector card."
+    "merchHook": "Bao plush, sticker pack, tee, enamel pin and collector card.",
+    "built": false
   },
   {
     "id": 18,
@@ -357,7 +374,8 @@
     "plays": 39714,
     "status": "Playable",
     "engine": "puzzle",
-    "merchHook": "Bao plush, sticker pack, tee, enamel pin and collector card."
+    "merchHook": "Bao plush, sticker pack, tee, enamel pin and collector card.",
+    "built": false
   },
   {
     "id": 19,
@@ -377,7 +395,8 @@
     "plays": 41087,
     "status": "Playable",
     "engine": "management",
-    "merchHook": "Auntie Li-Wen plush, sticker pack, tee, enamel pin and collector card."
+    "merchHook": "Auntie Li-Wen plush, sticker pack, tee, enamel pin and collector card.",
+    "built": false
   },
   {
     "id": 20,
@@ -397,7 +416,8 @@
     "plays": 42460,
     "status": "Playable",
     "engine": "puzzle",
-    "merchHook": "Uncle Lee plush, sticker pack, tee, enamel pin and collector card."
+    "merchHook": "Uncle Lee plush, sticker pack, tee, enamel pin and collector card.",
+    "built": false
   },
   {
     "id": 21,
@@ -417,7 +437,8 @@
     "plays": 43833,
     "status": "Playable",
     "engine": "puzzle",
-    "merchHook": "Mei Mei plush, sticker pack, tee, enamel pin and collector card."
+    "merchHook": "Mei Mei plush, sticker pack, tee, enamel pin and collector card.",
+    "built": false
   },
   {
     "id": 22,
@@ -437,7 +458,8 @@
     "plays": 45206,
     "status": "Playable",
     "engine": "puzzle",
-    "merchHook": "The Red Crane plush, sticker pack, tee, enamel pin and collector card."
+    "merchHook": "The Red Crane plush, sticker pack, tee, enamel pin and collector card.",
+    "built": false
   },
   {
     "id": 23,
@@ -457,7 +479,8 @@
     "plays": 46579,
     "status": "Playable",
     "engine": "runner",
-    "merchHook": "Bao plush, sticker pack, tee, enamel pin and collector card."
+    "merchHook": "Bao plush, sticker pack, tee, enamel pin and collector card.",
+    "built": false
   },
   {
     "id": 24,
@@ -477,7 +500,8 @@
     "plays": 47952,
     "status": "Playable",
     "engine": "arcade",
-    "merchHook": "Bao plush, sticker pack, tee, enamel pin and collector card."
+    "merchHook": "Bao plush, sticker pack, tee, enamel pin and collector card.",
+    "built": false
   },
   {
     "id": 25,
@@ -497,7 +521,8 @@
     "plays": 49325,
     "status": "Playable",
     "engine": "management",
-    "merchHook": "Chef BaoBao plush, sticker pack, tee, enamel pin and collector card."
+    "merchHook": "Chef BaoBao plush, sticker pack, tee, enamel pin and collector card.",
+    "built": false
   },
   {
     "id": 26,
@@ -517,7 +542,8 @@
     "plays": 50698,
     "status": "Playable",
     "engine": "runner",
-    "merchHook": "Tika Tiger plush, sticker pack, tee, enamel pin and collector card."
+    "merchHook": "Tika Tiger plush, sticker pack, tee, enamel pin and collector card.",
+    "built": false
   },
   {
     "id": 27,
@@ -537,7 +563,8 @@
     "plays": 52071,
     "status": "Playable",
     "engine": "arcade",
-    "merchHook": "Nori Ninja plush, sticker pack, tee, enamel pin and collector card."
+    "merchHook": "Nori Ninja plush, sticker pack, tee, enamel pin and collector card.",
+    "built": false
   },
   {
     "id": 28,
@@ -557,7 +584,8 @@
     "plays": 53444,
     "status": "Playable",
     "engine": "puzzle",
-    "merchHook": "Captain Churro plush, sticker pack, tee, enamel pin and collector card."
+    "merchHook": "Captain Churro plush, sticker pack, tee, enamel pin and collector card.",
+    "built": false
   },
   {
     "id": 29,
@@ -577,7 +605,8 @@
     "plays": 54817,
     "status": "Playable",
     "engine": "arcade",
-    "merchHook": "Madame Chili plush, sticker pack, tee, enamel pin and collector card."
+    "merchHook": "Madame Chili plush, sticker pack, tee, enamel pin and collector card.",
+    "built": false
   },
   {
     "id": 30,
@@ -597,7 +626,8 @@
     "plays": 56190,
     "status": "Playable",
     "engine": "arcade",
-    "merchHook": "Chef BaoBao plush, sticker pack, tee, enamel pin and collector card."
+    "merchHook": "Chef BaoBao plush, sticker pack, tee, enamel pin and collector card.",
+    "built": false
   },
   {
     "id": 31,
@@ -617,7 +647,8 @@
     "plays": 57563,
     "status": "Playable",
     "engine": "runner",
-    "merchHook": "SnackStreet Squad plush, sticker pack, tee, enamel pin and collector card."
+    "merchHook": "SnackStreet Squad plush, sticker pack, tee, enamel pin and collector card.",
+    "built": false
   },
   {
     "id": 32,
@@ -637,7 +668,8 @@
     "plays": 58936,
     "status": "Playable",
     "engine": "puzzle",
-    "merchHook": "SnackStreet Squad plush, sticker pack, tee, enamel pin and collector card."
+    "merchHook": "SnackStreet Squad plush, sticker pack, tee, enamel pin and collector card.",
+    "built": false
   },
   {
     "id": 33,
@@ -657,7 +689,8 @@
     "plays": 60309,
     "status": "Playable",
     "engine": "puzzle",
-    "merchHook": "Madame Fortuna plush, sticker pack, tee, enamel pin and collector card."
+    "merchHook": "Madame Fortuna plush, sticker pack, tee, enamel pin and collector card.",
+    "built": true
   },
   {
     "id": 34,
@@ -677,7 +710,8 @@
     "plays": 61682,
     "status": "Playable",
     "engine": "runner",
-    "merchHook": "Morpheus plush, sticker pack, tee, enamel pin and collector card."
+    "merchHook": "Morpheus plush, sticker pack, tee, enamel pin and collector card.",
+    "built": true
   },
   {
     "id": 35,
@@ -697,7 +731,8 @@
     "plays": 63055,
     "status": "Playable",
     "engine": "arcade",
-    "merchHook": "Umbra plush, sticker pack, tee, enamel pin and collector card."
+    "merchHook": "Umbra plush, sticker pack, tee, enamel pin and collector card.",
+    "built": true
   },
   {
     "id": 36,
@@ -717,7 +752,8 @@
     "plays": 64428,
     "status": "Playable",
     "engine": "arcade",
-    "merchHook": "Sol Frog plush, sticker pack, tee, enamel pin and collector card."
+    "merchHook": "Sol Frog plush, sticker pack, tee, enamel pin and collector card.",
+    "built": false
   },
   {
     "id": 37,
@@ -737,7 +773,8 @@
     "plays": 65801,
     "status": "Playable",
     "engine": "runner",
-    "merchHook": "Clockwork Crow plush, sticker pack, tee, enamel pin and collector card."
+    "merchHook": "Clockwork Crow plush, sticker pack, tee, enamel pin and collector card.",
+    "built": false
   },
   {
     "id": 38,
@@ -757,7 +794,8 @@
     "plays": 67174,
     "status": "Playable",
     "engine": "arcade",
-    "merchHook": "Madame Fortuna plush, sticker pack, tee, enamel pin and collector card."
+    "merchHook": "Madame Fortuna plush, sticker pack, tee, enamel pin and collector card.",
+    "built": true
   },
   {
     "id": 39,
@@ -777,7 +815,8 @@
     "plays": 68547,
     "status": "Playable",
     "engine": "arcade",
-    "merchHook": "Madame Fortuna plush, sticker pack, tee, enamel pin and collector card."
+    "merchHook": "Madame Fortuna plush, sticker pack, tee, enamel pin and collector card.",
+    "built": true
   },
   {
     "id": 40,
@@ -797,7 +836,8 @@
     "plays": 69920,
     "status": "Playable",
     "engine": "puzzle",
-    "merchHook": "Oracle Mirror Cast plush, sticker pack, tee, enamel pin and collector card."
+    "merchHook": "Oracle Mirror Cast plush, sticker pack, tee, enamel pin and collector card.",
+    "built": false
   },
   {
     "id": 41,
@@ -817,7 +857,8 @@
     "plays": 71293,
     "status": "Playable",
     "engine": "arcade",
-    "merchHook": "Buttonbeard plush, sticker pack, tee, enamel pin and collector card."
+    "merchHook": "Buttonbeard plush, sticker pack, tee, enamel pin and collector card.",
+    "built": false
   },
   {
     "id": 42,
@@ -837,7 +878,8 @@
     "plays": 72666,
     "status": "Playable",
     "engine": "management",
-    "merchHook": "Princess Pickle plush, sticker pack, tee, enamel pin and collector card."
+    "merchHook": "Princess Pickle plush, sticker pack, tee, enamel pin and collector card.",
+    "built": false
   },
   {
     "id": 43,
@@ -857,7 +899,8 @@
     "plays": 74039,
     "status": "Playable",
     "engine": "runner",
-    "merchHook": "Sir Wafflesworth plush, sticker pack, tee, enamel pin and collector card."
+    "merchHook": "Sir Wafflesworth plush, sticker pack, tee, enamel pin and collector card.",
+    "built": false
   },
   {
     "id": 44,
@@ -877,7 +920,8 @@
     "plays": 75412,
     "status": "Playable",
     "engine": "runner",
-    "merchHook": "Gobbo plush, sticker pack, tee, enamel pin and collector card."
+    "merchHook": "Gobbo plush, sticker pack, tee, enamel pin and collector card.",
+    "built": false
   },
   {
     "id": 45,
@@ -897,7 +941,8 @@
     "plays": 76785,
     "status": "Playable",
     "engine": "puzzle",
-    "merchHook": "Milo Mole plush, sticker pack, tee, enamel pin and collector card."
+    "merchHook": "Milo Mole plush, sticker pack, tee, enamel pin and collector card.",
+    "built": false
   },
   {
     "id": 46,
@@ -917,7 +962,8 @@
     "plays": 78158,
     "status": "Playable",
     "engine": "runner",
-    "merchHook": "Captain Bubblebeard plush, sticker pack, tee, enamel pin and collector card."
+    "merchHook": "Captain Bubblebeard plush, sticker pack, tee, enamel pin and collector card.",
+    "built": false
   },
   {
     "id": 47,
@@ -937,7 +983,8 @@
     "plays": 79531,
     "status": "Playable",
     "engine": "runner",
-    "merchHook": "Socktopus plush, sticker pack, tee, enamel pin and collector card."
+    "merchHook": "Socktopus plush, sticker pack, tee, enamel pin and collector card.",
+    "built": false
   },
   {
     "id": 48,
@@ -957,7 +1004,8 @@
     "plays": 80904,
     "status": "Playable",
     "engine": "puzzle",
-    "merchHook": "Coco Cannon plush, sticker pack, tee, enamel pin and collector card."
+    "merchHook": "Coco Cannon plush, sticker pack, tee, enamel pin and collector card.",
+    "built": false
   },
   {
     "id": 49,
@@ -977,7 +1025,8 @@
     "plays": 82277,
     "status": "Playable",
     "engine": "puzzle",
-    "merchHook": "Muffin Mage plush, sticker pack, tee, enamel pin and collector card."
+    "merchHook": "Muffin Mage plush, sticker pack, tee, enamel pin and collector card.",
+    "built": false
   },
   {
     "id": 50,
@@ -997,7 +1046,8 @@
     "plays": 83650,
     "status": "Playable",
     "engine": "runner",
-    "merchHook": "Turbo Tofu plush, sticker pack, tee, enamel pin and collector card."
+    "merchHook": "Turbo Tofu plush, sticker pack, tee, enamel pin and collector card.",
+    "built": false
   },
   {
     "id": 51,
@@ -1017,7 +1067,8 @@
     "plays": 85023,
     "status": "Playable",
     "engine": "runner",
-    "merchHook": "Professor Pogo plush, sticker pack, tee, enamel pin and collector card."
+    "merchHook": "Professor Pogo plush, sticker pack, tee, enamel pin and collector card.",
+    "built": false
   },
   {
     "id": 52,
@@ -1037,7 +1088,8 @@
     "plays": 86396,
     "status": "Playable",
     "engine": "arcade",
-    "merchHook": "Benny Banana plush, sticker pack, tee, enamel pin and collector card."
+    "merchHook": "Benny Banana plush, sticker pack, tee, enamel pin and collector card.",
+    "built": false
   },
   {
     "id": 53,
@@ -1057,7 +1109,8 @@
     "plays": 87769,
     "status": "Playable",
     "engine": "arcade",
-    "merchHook": "Jellybean Knights plush, sticker pack, tee, enamel pin and collector card."
+    "merchHook": "Jellybean Knights plush, sticker pack, tee, enamel pin and collector card.",
+    "built": false
   },
   {
     "id": 54,
@@ -1077,7 +1130,8 @@
     "plays": 89142,
     "status": "Playable",
     "engine": "puzzle",
-    "merchHook": "Vera Volcano plush, sticker pack, tee, enamel pin and collector card."
+    "merchHook": "Vera Volcano plush, sticker pack, tee, enamel pin and collector card.",
+    "built": false
   },
   {
     "id": 55,
@@ -1097,7 +1151,8 @@
     "plays": 90515,
     "status": "Playable",
     "engine": "arcade",
-    "merchHook": "Detective Donut plush, sticker pack, tee, enamel pin and collector card."
+    "merchHook": "Detective Donut plush, sticker pack, tee, enamel pin and collector card.",
+    "built": false
   },
   {
     "id": 56,
@@ -1117,7 +1172,8 @@
     "plays": 91888,
     "status": "Playable",
     "engine": "arcade",
-    "merchHook": "Cloud Whales plush, sticker pack, tee, enamel pin and collector card."
+    "merchHook": "Cloud Whales plush, sticker pack, tee, enamel pin and collector card.",
+    "built": false
   },
   {
     "id": 57,
@@ -1137,7 +1193,8 @@
     "plays": 93261,
     "status": "Playable",
     "engine": "puzzle",
-    "merchHook": "Fidget Fox plush, sticker pack, tee, enamel pin and collector card."
+    "merchHook": "Fidget Fox plush, sticker pack, tee, enamel pin and collector card.",
+    "built": false
   },
   {
     "id": 58,
@@ -1157,7 +1214,8 @@
     "plays": 94634,
     "status": "Playable",
     "engine": "arcade",
-    "merchHook": "Crash Koala plush, sticker pack, tee, enamel pin and collector card."
+    "merchHook": "Crash Koala plush, sticker pack, tee, enamel pin and collector card.",
+    "built": false
   },
   {
     "id": 59,
@@ -1177,7 +1235,8 @@
     "plays": 96007,
     "status": "Playable",
     "engine": "arcade",
-    "merchHook": "Marshmallow Mechas plush, sticker pack, tee, enamel pin and collector card."
+    "merchHook": "Marshmallow Mechas plush, sticker pack, tee, enamel pin and collector card.",
+    "built": false
   },
   {
     "id": 60,
@@ -1197,7 +1256,8 @@
     "plays": 97380,
     "status": "Playable",
     "engine": "management",
-    "merchHook": "Queen Quokka plush, sticker pack, tee, enamel pin and collector card."
+    "merchHook": "Queen Quokka plush, sticker pack, tee, enamel pin and collector card.",
+    "built": false
   },
   {
     "id": 61,
@@ -1217,7 +1277,8 @@
     "plays": 98753,
     "status": "Playable",
     "engine": "puzzle",
-    "merchHook": "Granny Gearbox plush, sticker pack, tee, enamel pin and collector card."
+    "merchHook": "Granny Gearbox plush, sticker pack, tee, enamel pin and collector card.",
+    "built": false
   },
   {
     "id": 62,
@@ -1237,7 +1298,8 @@
     "plays": 100126,
     "status": "Playable",
     "engine": "arcade",
-    "merchHook": "Sproutzilla plush, sticker pack, tee, enamel pin and collector card."
+    "merchHook": "Sproutzilla plush, sticker pack, tee, enamel pin and collector card.",
+    "built": false
   },
   {
     "id": 63,
@@ -1257,7 +1319,8 @@
     "plays": 101499,
     "status": "Playable",
     "engine": "puzzle",
-    "merchHook": "Biscuit Bandits plush, sticker pack, tee, enamel pin and collector card."
+    "merchHook": "Biscuit Bandits plush, sticker pack, tee, enamel pin and collector card.",
+    "built": false
   },
   {
     "id": 64,
@@ -1277,7 +1340,8 @@
     "plays": 102872,
     "status": "Playable",
     "engine": "arcade",
-    "merchHook": "Rumi Rabbit plush, sticker pack, tee, enamel pin and collector card."
+    "merchHook": "Rumi Rabbit plush, sticker pack, tee, enamel pin and collector card.",
+    "built": false
   },
   {
     "id": 65,
@@ -1297,7 +1361,8 @@
     "plays": 104245,
     "status": "Playable",
     "engine": "management",
-    "merchHook": "Tiny Tankards plush, sticker pack, tee, enamel pin and collector card."
+    "merchHook": "Tiny Tankards plush, sticker pack, tee, enamel pin and collector card.",
+    "built": false
   },
   {
     "id": 66,
@@ -1317,7 +1382,8 @@
     "plays": 105618,
     "status": "Playable",
     "engine": "runner",
-    "merchHook": "Pixel Panda plush, sticker pack, tee, enamel pin and collector card."
+    "merchHook": "Pixel Panda plush, sticker pack, tee, enamel pin and collector card.",
+    "built": false
   },
   {
     "id": 67,
@@ -1337,7 +1403,8 @@
     "plays": 106991,
     "status": "Playable",
     "engine": "arcade",
-    "merchHook": "Chester Cheese plush, sticker pack, tee, enamel pin and collector card."
+    "merchHook": "Chester Cheese plush, sticker pack, tee, enamel pin and collector card.",
+    "built": false
   },
   {
     "id": 68,
@@ -1357,7 +1424,8 @@
     "plays": 108364,
     "status": "Playable",
     "engine": "arcade",
-    "merchHook": "Luna Llama plush, sticker pack, tee, enamel pin and collector card."
+    "merchHook": "Luna Llama plush, sticker pack, tee, enamel pin and collector card.",
+    "built": false
   },
   {
     "id": 69,
@@ -1377,7 +1445,8 @@
     "plays": 109737,
     "status": "Playable",
     "engine": "puzzle",
-    "merchHook": "Pigeon Postmaster plush, sticker pack, tee, enamel pin and collector card."
+    "merchHook": "Pigeon Postmaster plush, sticker pack, tee, enamel pin and collector card.",
+    "built": false
   },
   {
     "id": 70,
@@ -1397,7 +1466,8 @@
     "plays": 111110,
     "status": "Playable",
     "engine": "arcade",
-    "merchHook": "Kiko Kraken plush, sticker pack, tee, enamel pin and collector card."
+    "merchHook": "Kiko Kraken plush, sticker pack, tee, enamel pin and collector card.",
+    "built": false
   },
   {
     "id": 71,
@@ -1417,7 +1487,8 @@
     "plays": 112483,
     "status": "Playable",
     "engine": "runner",
-    "merchHook": "Toasty Dragon plush, sticker pack, tee, enamel pin and collector card."
+    "merchHook": "Toasty Dragon plush, sticker pack, tee, enamel pin and collector card.",
+    "built": false
   },
   {
     "id": 72,
@@ -1437,7 +1508,8 @@
     "plays": 113856,
     "status": "Playable",
     "engine": "puzzle",
-    "merchHook": "Library Hamster plush, sticker pack, tee, enamel pin and collector card."
+    "merchHook": "Library Hamster plush, sticker pack, tee, enamel pin and collector card.",
+    "built": false
   },
   {
     "id": 73,
@@ -1457,7 +1529,8 @@
     "plays": 115229,
     "status": "Playable",
     "engine": "runner",
-    "merchHook": "Bongo Beetle plush, sticker pack, tee, enamel pin and collector card."
+    "merchHook": "Bongo Beetle plush, sticker pack, tee, enamel pin and collector card.",
+    "built": false
   },
   {
     "id": 74,
@@ -1477,7 +1550,8 @@
     "plays": 116602,
     "status": "Playable",
     "engine": "arcade",
-    "merchHook": "Cupcake Cyclone plush, sticker pack, tee, enamel pin and collector card."
+    "merchHook": "Cupcake Cyclone plush, sticker pack, tee, enamel pin and collector card.",
+    "built": false
   },
   {
     "id": 75,
@@ -1497,7 +1571,8 @@
     "plays": 117975,
     "status": "Playable",
     "engine": "arcade",
-    "merchHook": "Rex Rocket plush, sticker pack, tee, enamel pin and collector card."
+    "merchHook": "Rex Rocket plush, sticker pack, tee, enamel pin and collector card.",
+    "built": false
   },
   {
     "id": 76,
@@ -1517,7 +1592,8 @@
     "plays": 119348,
     "status": "Playable",
     "engine": "arcade",
-    "merchHook": "Hammy Hammer plush, sticker pack, tee, enamel pin and collector card."
+    "merchHook": "Hammy Hammer plush, sticker pack, tee, enamel pin and collector card.",
+    "built": false
   },
   {
     "id": 77,
@@ -1537,7 +1613,8 @@
     "plays": 120721,
     "status": "Playable",
     "engine": "management",
-    "merchHook": "Sleepy Sloth plush, sticker pack, tee, enamel pin and collector card."
+    "merchHook": "Sleepy Sloth plush, sticker pack, tee, enamel pin and collector card.",
+    "built": false
   },
   {
     "id": 78,
@@ -1557,7 +1634,8 @@
     "plays": 122094,
     "status": "Playable",
     "engine": "arcade",
-    "merchHook": "Pepper Pup plush, sticker pack, tee, enamel pin and collector card."
+    "merchHook": "Pepper Pup plush, sticker pack, tee, enamel pin and collector card.",
+    "built": false
   },
   {
     "id": 79,
@@ -1577,7 +1655,8 @@
     "plays": 123467,
     "status": "Playable",
     "engine": "runner",
-    "merchHook": "Giga Gecko plush, sticker pack, tee, enamel pin and collector card."
+    "merchHook": "Giga Gecko plush, sticker pack, tee, enamel pin and collector card.",
+    "built": false
   },
   {
     "id": 80,
@@ -1597,7 +1676,8 @@
     "plays": 124840,
     "status": "Playable",
     "engine": "runner",
-    "merchHook": "Ollie Onion plush, sticker pack, tee, enamel pin and collector card."
+    "merchHook": "Ollie Onion plush, sticker pack, tee, enamel pin and collector card.",
+    "built": false
   },
   {
     "id": 81,
@@ -1617,7 +1697,8 @@
     "plays": 126213,
     "status": "Playable",
     "engine": "puzzle",
-    "merchHook": "Banana Bot plush, sticker pack, tee, enamel pin and collector card."
+    "merchHook": "Banana Bot plush, sticker pack, tee, enamel pin and collector card.",
+    "built": false
   },
   {
     "id": 82,
@@ -1637,7 +1718,8 @@
     "plays": 127586,
     "status": "Playable",
     "engine": "management",
-    "merchHook": "Hugo Hippo plush, sticker pack, tee, enamel pin and collector card."
+    "merchHook": "Hugo Hippo plush, sticker pack, tee, enamel pin and collector card.",
+    "built": false
   },
   {
     "id": 83,
@@ -1657,7 +1739,8 @@
     "plays": 128959,
     "status": "Playable",
     "engine": "arcade",
-    "merchHook": "Mimi Meteor plush, sticker pack, tee, enamel pin and collector card."
+    "merchHook": "Mimi Meteor plush, sticker pack, tee, enamel pin and collector card.",
+    "built": false
   },
   {
     "id": 84,
@@ -1677,7 +1760,8 @@
     "plays": 130332,
     "status": "Playable",
     "engine": "runner",
-    "merchHook": "Snail Racers plush, sticker pack, tee, enamel pin and collector card."
+    "merchHook": "Snail Racers plush, sticker pack, tee, enamel pin and collector card.",
+    "built": false
   },
   {
     "id": 85,
@@ -1697,7 +1781,8 @@
     "plays": 131705,
     "status": "Playable",
     "engine": "puzzle",
-    "merchHook": "Captain Cactus plush, sticker pack, tee, enamel pin and collector card."
+    "merchHook": "Captain Cactus plush, sticker pack, tee, enamel pin and collector card.",
+    "built": false
   },
   {
     "id": 86,
@@ -1717,7 +1802,8 @@
     "plays": 133078,
     "status": "Playable",
     "engine": "arcade",
-    "merchHook": "Noodle Knight plush, sticker pack, tee, enamel pin and collector card."
+    "merchHook": "Noodle Knight plush, sticker pack, tee, enamel pin and collector card.",
+    "built": false
   },
   {
     "id": 87,
@@ -1737,7 +1823,8 @@
     "plays": 134451,
     "status": "Playable",
     "engine": "arcade",
-    "merchHook": "Tilly Teacup plush, sticker pack, tee, enamel pin and collector card."
+    "merchHook": "Tilly Teacup plush, sticker pack, tee, enamel pin and collector card.",
+    "built": false
   },
   {
     "id": 88,
@@ -1757,7 +1844,8 @@
     "plays": 135824,
     "status": "Playable",
     "engine": "puzzle",
-    "merchHook": "Radar Raccoon plush, sticker pack, tee, enamel pin and collector card."
+    "merchHook": "Radar Raccoon plush, sticker pack, tee, enamel pin and collector card.",
+    "built": false
   },
   {
     "id": 89,
@@ -1777,7 +1865,8 @@
     "plays": 137197,
     "status": "Playable",
     "engine": "puzzle",
-    "merchHook": "Pipkin Pumpkin plush, sticker pack, tee, enamel pin and collector card."
+    "merchHook": "Pipkin Pumpkin plush, sticker pack, tee, enamel pin and collector card.",
+    "built": false
   },
   {
     "id": 90,
@@ -1797,7 +1886,8 @@
     "plays": 138570,
     "status": "Playable",
     "engine": "arcade",
-    "merchHook": "Sir Sprinkle plush, sticker pack, tee, enamel pin and collector card."
+    "merchHook": "Sir Sprinkle plush, sticker pack, tee, enamel pin and collector card.",
+    "built": false
   },
   {
     "id": 91,
@@ -1817,7 +1907,8 @@
     "plays": 139943,
     "status": "Playable",
     "engine": "arcade",
-    "merchHook": "Gummy Golem plush, sticker pack, tee, enamel pin and collector card."
+    "merchHook": "Gummy Golem plush, sticker pack, tee, enamel pin and collector card.",
+    "built": false
   },
   {
     "id": 92,
@@ -1837,7 +1928,8 @@
     "plays": 141316,
     "status": "Playable",
     "engine": "puzzle",
-    "merchHook": "Bubble Tea Bears plush, sticker pack, tee, enamel pin and collector card."
+    "merchHook": "Bubble Tea Bears plush, sticker pack, tee, enamel pin and collector card.",
+    "built": false
   },
   {
     "id": 93,
@@ -1857,7 +1949,8 @@
     "plays": 142689,
     "status": "Playable",
     "engine": "puzzle",
-    "merchHook": "Clara Compass plush, sticker pack, tee, enamel pin and collector card."
+    "merchHook": "Clara Compass plush, sticker pack, tee, enamel pin and collector card.",
+    "built": false
   },
   {
     "id": 94,
@@ -1877,7 +1970,8 @@
     "plays": 144062,
     "status": "Playable",
     "engine": "management",
-    "merchHook": "Donnie Duck plush, sticker pack, tee, enamel pin and collector card."
+    "merchHook": "Donnie Duck plush, sticker pack, tee, enamel pin and collector card.",
+    "built": false
   },
   {
     "id": 95,
@@ -1897,7 +1991,8 @@
     "plays": 145435,
     "status": "Playable",
     "engine": "arcade",
-    "merchHook": "Mini Monsters plush, sticker pack, tee, enamel pin and collector card."
+    "merchHook": "Mini Monsters plush, sticker pack, tee, enamel pin and collector card.",
+    "built": false
   },
   {
     "id": 96,
@@ -1917,7 +2012,8 @@
     "plays": 146808,
     "status": "Playable",
     "engine": "puzzle",
-    "merchHook": "Wobble Wizard plush, sticker pack, tee, enamel pin and collector card."
+    "merchHook": "Wobble Wizard plush, sticker pack, tee, enamel pin and collector card.",
+    "built": false
   },
   {
     "id": 97,
@@ -1937,7 +2033,8 @@
     "plays": 148181,
     "status": "Playable",
     "engine": "runner",
-    "merchHook": "Skippy Shrimp plush, sticker pack, tee, enamel pin and collector card."
+    "merchHook": "Skippy Shrimp plush, sticker pack, tee, enamel pin and collector card.",
+    "built": false
   },
   {
     "id": 98,
@@ -1957,7 +2054,8 @@
     "plays": 149554,
     "status": "Playable",
     "engine": "arcade",
-    "merchHook": "Tiny Titans plush, sticker pack, tee, enamel pin and collector card."
+    "merchHook": "Tiny Titans plush, sticker pack, tee, enamel pin and collector card.",
+    "built": false
   },
   {
     "id": 99,
@@ -1977,7 +2075,8 @@
     "plays": 150927,
     "status": "Playable",
     "engine": "management",
-    "merchHook": "Mabel Mooncow plush, sticker pack, tee, enamel pin and collector card."
+    "merchHook": "Mabel Mooncow plush, sticker pack, tee, enamel pin and collector card.",
+    "built": false
   },
   {
     "id": 100,
@@ -1997,7 +2096,8 @@
     "plays": 152300,
     "status": "Playable",
     "engine": "arcade",
-    "merchHook": "Finn Finnegan plush, sticker pack, tee, enamel pin and collector card."
+    "merchHook": "Finn Finnegan plush, sticker pack, tee, enamel pin and collector card.",
+    "built": false
   },
   {
     "id": 101,
@@ -2017,7 +2117,8 @@
     "plays": 153673,
     "status": "Playable",
     "engine": "arcade",
-    "merchHook": "Puddle & Pip plush, sticker pack, tee, enamel pin and collector card."
+    "merchHook": "Puddle & Pip plush, sticker pack, tee, enamel pin and collector card.",
+    "built": true
   },
   {
     "id": 102,
@@ -2037,7 +2138,8 @@
     "plays": 155046,
     "status": "Playable",
     "engine": "puzzle",
-    "merchHook": "Mushmoo plush, sticker pack, tee, enamel pin and collector card."
+    "merchHook": "Mushmoo plush, sticker pack, tee, enamel pin and collector card.",
+    "built": false
   },
   {
     "id": 103,
@@ -2057,7 +2159,8 @@
     "plays": 156419,
     "status": "Playable",
     "engine": "puzzle",
-    "merchHook": "Bramble Bear plush, sticker pack, tee, enamel pin and collector card."
+    "merchHook": "Bramble Bear plush, sticker pack, tee, enamel pin and collector card.",
+    "built": true
   },
   {
     "id": 104,
@@ -2077,7 +2180,8 @@
     "plays": 157792,
     "status": "Playable",
     "engine": "puzzle",
-    "merchHook": "Lulu Lantern plush, sticker pack, tee, enamel pin and collector card."
+    "merchHook": "Lulu Lantern plush, sticker pack, tee, enamel pin and collector card.",
+    "built": false
   },
   {
     "id": 105,
@@ -2097,7 +2201,8 @@
     "plays": 159165,
     "status": "Playable",
     "engine": "arcade",
-    "merchHook": "Puddle plush, sticker pack, tee, enamel pin and collector card."
+    "merchHook": "Puddle plush, sticker pack, tee, enamel pin and collector card.",
+    "built": true
   },
   {
     "id": 106,
@@ -2117,7 +2222,8 @@
     "plays": 160538,
     "status": "Playable",
     "engine": "arcade",
-    "merchHook": "Pip plush, sticker pack, tee, enamel pin and collector card."
+    "merchHook": "Pip plush, sticker pack, tee, enamel pin and collector card.",
+    "built": true
   },
   {
     "id": 107,
@@ -2137,7 +2243,8 @@
     "plays": 161911,
     "status": "Playable",
     "engine": "puzzle",
-    "merchHook": "Bramble Bear plush, sticker pack, tee, enamel pin and collector card."
+    "merchHook": "Bramble Bear plush, sticker pack, tee, enamel pin and collector card.",
+    "built": true
   },
   {
     "id": 108,
@@ -2157,7 +2264,8 @@
     "plays": 163284,
     "status": "Playable",
     "engine": "puzzle",
-    "merchHook": "Puddle & Pip plush, sticker pack, tee, enamel pin and collector card."
+    "merchHook": "Puddle & Pip plush, sticker pack, tee, enamel pin and collector card.",
+    "built": true
   },
   {
     "id": 109,
@@ -2177,7 +2285,8 @@
     "plays": 164657,
     "status": "Playable",
     "engine": "runner",
-    "merchHook": "Mochi-9 plush, sticker pack, tee, enamel pin and collector card."
+    "merchHook": "Mochi-9 plush, sticker pack, tee, enamel pin and collector card.",
+    "built": false
   },
   {
     "id": 110,
@@ -2197,7 +2306,8 @@
     "plays": 166030,
     "status": "Playable",
     "engine": "arcade",
-    "merchHook": "Captain Nova plush, sticker pack, tee, enamel pin and collector card."
+    "merchHook": "Captain Nova plush, sticker pack, tee, enamel pin and collector card.",
+    "built": false
   },
   {
     "id": 111,
@@ -2217,7 +2327,8 @@
     "plays": 167403,
     "status": "Playable",
     "engine": "management",
-    "merchHook": "Gearbit plush, sticker pack, tee, enamel pin and collector card."
+    "merchHook": "Gearbit plush, sticker pack, tee, enamel pin and collector card.",
+    "built": false
   },
   {
     "id": 112,
@@ -2237,7 +2348,8 @@
     "plays": 168776,
     "status": "Playable",
     "engine": "arcade",
-    "merchHook": "Bloop plush, sticker pack, tee, enamel pin and collector card."
+    "merchHook": "Bloop plush, sticker pack, tee, enamel pin and collector card.",
+    "built": false
   },
   {
     "id": 113,
@@ -2257,7 +2369,8 @@
     "plays": 170149,
     "status": "Playable",
     "engine": "puzzle",
-    "merchHook": "Grumble Comet plush, sticker pack, tee, enamel pin and collector card."
+    "merchHook": "Grumble Comet plush, sticker pack, tee, enamel pin and collector card.",
+    "built": false
   },
   {
     "id": 114,
@@ -2277,7 +2390,8 @@
     "plays": 171522,
     "status": "Playable",
     "engine": "puzzle",
-    "merchHook": "Mochi-9 plush, sticker pack, tee, enamel pin and collector card."
+    "merchHook": "Mochi-9 plush, sticker pack, tee, enamel pin and collector card.",
+    "built": false
   },
   {
     "id": 115,
@@ -2297,7 +2411,8 @@
     "plays": 172895,
     "status": "Playable",
     "engine": "arcade",
-    "merchHook": "Captain Nova plush, sticker pack, tee, enamel pin and collector card."
+    "merchHook": "Captain Nova plush, sticker pack, tee, enamel pin and collector card.",
+    "built": false
   },
   {
     "id": 116,
@@ -2317,7 +2432,8 @@
     "plays": 174268,
     "status": "Playable",
     "engine": "arcade",
-    "merchHook": "Mochi-9 plush, sticker pack, tee, enamel pin and collector card."
+    "merchHook": "Mochi-9 plush, sticker pack, tee, enamel pin and collector card.",
+    "built": false
   },
   {
     "id": 117,
@@ -2337,7 +2453,8 @@
     "plays": 175641,
     "status": "Playable",
     "engine": "puzzle",
-    "merchHook": "Bao plush, sticker pack, tee, enamel pin and collector card."
+    "merchHook": "Bao plush, sticker pack, tee, enamel pin and collector card.",
+    "built": false
   },
   {
     "id": 118,
@@ -2357,7 +2474,8 @@
     "plays": 177014,
     "status": "Playable",
     "engine": "arcade",
-    "merchHook": "Uncle Lee plush, sticker pack, tee, enamel pin and collector card."
+    "merchHook": "Uncle Lee plush, sticker pack, tee, enamel pin and collector card.",
+    "built": false
   },
   {
     "id": 119,
@@ -2377,7 +2495,8 @@
     "plays": 178387,
     "status": "Playable",
     "engine": "puzzle",
-    "merchHook": "Auntie Li-Wen plush, sticker pack, tee, enamel pin and collector card."
+    "merchHook": "Auntie Li-Wen plush, sticker pack, tee, enamel pin and collector card.",
+    "built": false
   },
   {
     "id": 120,
@@ -2397,7 +2516,8 @@
     "plays": 179760,
     "status": "Playable",
     "engine": "puzzle",
-    "merchHook": "Mei Mei plush, sticker pack, tee, enamel pin and collector card."
+    "merchHook": "Mei Mei plush, sticker pack, tee, enamel pin and collector card.",
+    "built": false
   },
   {
     "id": 121,
@@ -2417,7 +2537,8 @@
     "plays": 181133,
     "status": "Playable",
     "engine": "puzzle",
-    "merchHook": "The Red Crane plush, sticker pack, tee, enamel pin and collector card."
+    "merchHook": "The Red Crane plush, sticker pack, tee, enamel pin and collector card.",
+    "built": false
   },
   {
     "id": 122,
@@ -2437,7 +2558,8 @@
     "plays": 182506,
     "status": "Playable",
     "engine": "arcade",
-    "merchHook": "Bao plush, sticker pack, tee, enamel pin and collector card."
+    "merchHook": "Bao plush, sticker pack, tee, enamel pin and collector card.",
+    "built": false
   },
   {
     "id": 123,
@@ -2457,7 +2579,8 @@
     "plays": 183879,
     "status": "Playable",
     "engine": "management",
-    "merchHook": "Uncle Lee plush, sticker pack, tee, enamel pin and collector card."
+    "merchHook": "Uncle Lee plush, sticker pack, tee, enamel pin and collector card.",
+    "built": false
   },
   {
     "id": 124,
@@ -2477,7 +2600,8 @@
     "plays": 185252,
     "status": "Playable",
     "engine": "puzzle",
-    "merchHook": "Bao plush, sticker pack, tee, enamel pin and collector card."
+    "merchHook": "Bao plush, sticker pack, tee, enamel pin and collector card.",
+    "built": false
   },
   {
     "id": 125,
@@ -2497,7 +2621,8 @@
     "plays": 186625,
     "status": "Playable",
     "engine": "runner",
-    "merchHook": "Chef BaoBao plush, sticker pack, tee, enamel pin and collector card."
+    "merchHook": "Chef BaoBao plush, sticker pack, tee, enamel pin and collector card.",
+    "built": false
   },
   {
     "id": 126,
@@ -2517,7 +2642,8 @@
     "plays": 187998,
     "status": "Playable",
     "engine": "runner",
-    "merchHook": "Tika Tiger plush, sticker pack, tee, enamel pin and collector card."
+    "merchHook": "Tika Tiger plush, sticker pack, tee, enamel pin and collector card.",
+    "built": false
   },
   {
     "id": 127,
@@ -2537,7 +2663,8 @@
     "plays": 189371,
     "status": "Playable",
     "engine": "arcade",
-    "merchHook": "Nori Ninja plush, sticker pack, tee, enamel pin and collector card."
+    "merchHook": "Nori Ninja plush, sticker pack, tee, enamel pin and collector card.",
+    "built": false
   },
   {
     "id": 128,
@@ -2557,7 +2684,8 @@
     "plays": 190744,
     "status": "Playable",
     "engine": "arcade",
-    "merchHook": "Captain Churro plush, sticker pack, tee, enamel pin and collector card."
+    "merchHook": "Captain Churro plush, sticker pack, tee, enamel pin and collector card.",
+    "built": false
   },
   {
     "id": 129,
@@ -2577,7 +2705,8 @@
     "plays": 192117,
     "status": "Playable",
     "engine": "puzzle",
-    "merchHook": "Madame Chili plush, sticker pack, tee, enamel pin and collector card."
+    "merchHook": "Madame Chili plush, sticker pack, tee, enamel pin and collector card.",
+    "built": false
   },
   {
     "id": 130,
@@ -2597,7 +2726,8 @@
     "plays": 193490,
     "status": "Playable",
     "engine": "management",
-    "merchHook": "SnackStreet Squad plush, sticker pack, tee, enamel pin and collector card."
+    "merchHook": "SnackStreet Squad plush, sticker pack, tee, enamel pin and collector card.",
+    "built": false
   },
   {
     "id": 131,
@@ -2617,7 +2747,8 @@
     "plays": 194863,
     "status": "Playable",
     "engine": "puzzle",
-    "merchHook": "Chef BaoBao plush, sticker pack, tee, enamel pin and collector card."
+    "merchHook": "Chef BaoBao plush, sticker pack, tee, enamel pin and collector card.",
+    "built": false
   },
   {
     "id": 132,
@@ -2637,7 +2768,8 @@
     "plays": 196236,
     "status": "Playable",
     "engine": "arcade",
-    "merchHook": "SnackStreet Squad plush, sticker pack, tee, enamel pin and collector card."
+    "merchHook": "SnackStreet Squad plush, sticker pack, tee, enamel pin and collector card.",
+    "built": false
   },
   {
     "id": 133,
@@ -2657,7 +2789,8 @@
     "plays": 197609,
     "status": "Playable",
     "engine": "puzzle",
-    "merchHook": "Umbra plush, sticker pack, tee, enamel pin and collector card."
+    "merchHook": "Umbra plush, sticker pack, tee, enamel pin and collector card.",
+    "built": true
   },
   {
     "id": 134,
@@ -2677,7 +2810,8 @@
     "plays": 198982,
     "status": "Playable",
     "engine": "puzzle",
-    "merchHook": "Morpheus plush, sticker pack, tee, enamel pin and collector card."
+    "merchHook": "Morpheus plush, sticker pack, tee, enamel pin and collector card.",
+    "built": true
   },
   {
     "id": 135,
@@ -2697,7 +2831,8 @@
     "plays": 200355,
     "status": "Playable",
     "engine": "runner",
-    "merchHook": "Sol Frog plush, sticker pack, tee, enamel pin and collector card."
+    "merchHook": "Sol Frog plush, sticker pack, tee, enamel pin and collector card.",
+    "built": false
   },
   {
     "id": 136,
@@ -2717,7 +2852,8 @@
     "plays": 201728,
     "status": "Playable",
     "engine": "puzzle",
-    "merchHook": "Clockwork Crow plush, sticker pack, tee, enamel pin and collector card."
+    "merchHook": "Clockwork Crow plush, sticker pack, tee, enamel pin and collector card.",
+    "built": false
   },
   {
     "id": 137,
@@ -2737,7 +2873,8 @@
     "plays": 203101,
     "status": "Playable",
     "engine": "management",
-    "merchHook": "Madame Fortuna plush, sticker pack, tee, enamel pin and collector card."
+    "merchHook": "Madame Fortuna plush, sticker pack, tee, enamel pin and collector card.",
+    "built": true
   },
   {
     "id": 138,
@@ -2757,7 +2894,8 @@
     "plays": 204474,
     "status": "Playable",
     "engine": "arcade",
-    "merchHook": "Umbra plush, sticker pack, tee, enamel pin and collector card."
+    "merchHook": "Umbra plush, sticker pack, tee, enamel pin and collector card.",
+    "built": true
   },
   {
     "id": 139,
@@ -2777,7 +2915,8 @@
     "plays": 205847,
     "status": "Playable",
     "engine": "arcade",
-    "merchHook": "Morpheus plush, sticker pack, tee, enamel pin and collector card."
+    "merchHook": "Morpheus plush, sticker pack, tee, enamel pin and collector card.",
+    "built": true
   },
   {
     "id": 140,
@@ -2797,7 +2936,8 @@
     "plays": 207220,
     "status": "Playable",
     "engine": "puzzle",
-    "merchHook": "Oracle Mirror Cast plush, sticker pack, tee, enamel pin and collector card."
+    "merchHook": "Oracle Mirror Cast plush, sticker pack, tee, enamel pin and collector card.",
+    "built": false
   },
   {
     "id": 141,
@@ -2817,7 +2957,8 @@
     "plays": 208593,
     "status": "Playable",
     "engine": "runner",
-    "merchHook": "Baxter Bean  plush, sticker pack, tee, enamel pin and collector card."
+    "merchHook": "Baxter Bean  plush, sticker pack, tee, enamel pin and collector card.",
+    "built": false
   },
   {
     "id": 142,
@@ -2837,7 +2978,8 @@
     "plays": 209966,
     "status": "Playable",
     "engine": "puzzle",
-    "merchHook": "Nana Noodle plush, sticker pack, tee, enamel pin and collector card."
+    "merchHook": "Nana Noodle plush, sticker pack, tee, enamel pin and collector card.",
+    "built": false
   },
   {
     "id": 143,
@@ -2857,7 +2999,8 @@
     "plays": 211339,
     "status": "Playable",
     "engine": "runner",
-    "merchHook": "Pogo Panda plush, sticker pack, tee, enamel pin and collector card."
+    "merchHook": "Pogo Panda plush, sticker pack, tee, enamel pin and collector card.",
+    "built": false
   },
   {
     "id": 144,
@@ -2877,7 +3020,8 @@
     "plays": 212712,
     "status": "Playable",
     "engine": "arcade",
-    "merchHook": "Lemon plush, sticker pack, tee, enamel pin and collector card."
+    "merchHook": "Lemon plush, sticker pack, tee, enamel pin and collector card.",
+    "built": false
   },
   {
     "id": 145,
@@ -2897,7 +3041,8 @@
     "plays": 214085,
     "status": "Playable",
     "engine": "management",
-    "merchHook": "Mallow plush, sticker pack, tee, enamel pin and collector card."
+    "merchHook": "Mallow plush, sticker pack, tee, enamel pin and collector card.",
+    "built": false
   },
   {
     "id": 146,
@@ -2917,7 +3062,8 @@
     "plays": 215458,
     "status": "Playable",
     "engine": "runner",
-    "merchHook": "Wanda Wombat plush, sticker pack, tee, enamel pin and collector card."
+    "merchHook": "Wanda Wombat plush, sticker pack, tee, enamel pin and collector card.",
+    "built": false
   },
   {
     "id": 147,
@@ -2937,7 +3083,8 @@
     "plays": 216831,
     "status": "Playable",
     "engine": "arcade",
-    "merchHook": "Pickle Pirates of Brine Bay plush, sticker pack, tee, enamel pin and collector card."
+    "merchHook": "Pickle Pirates of Brine Bay plush, sticker pack, tee, enamel pin and collector card.",
+    "built": false
   },
   {
     "id": 148,
@@ -2957,7 +3104,8 @@
     "plays": 218204,
     "status": "Playable",
     "engine": "arcade",
-    "merchHook": "Gertie Goblin plush, sticker pack, tee, enamel pin and collector card."
+    "merchHook": "Gertie Goblin plush, sticker pack, tee, enamel pin and collector card.",
+    "built": false
   },
   {
     "id": 149,
@@ -2977,7 +3125,8 @@
     "plays": 219577,
     "status": "Playable",
     "engine": "arcade",
-    "merchHook": "Flapjack Falcon plush, sticker pack, tee, enamel pin and collector card."
+    "merchHook": "Flapjack Falcon plush, sticker pack, tee, enamel pin and collector card.",
+    "built": false
   },
   {
     "id": 150,
@@ -2997,7 +3146,8 @@
     "plays": 220950,
     "status": "Playable",
     "engine": "puzzle",
-    "merchHook": "Otto Octopus Office Temp plush, sticker pack, tee, enamel pin and collector card."
+    "merchHook": "Otto Octopus Office Temp plush, sticker pack, tee, enamel pin and collector card.",
+    "built": false
   },
   {
     "id": 151,
@@ -3017,7 +3167,8 @@
     "plays": 222323,
     "status": "Playable",
     "engine": "runner",
-    "merchHook": "Bumble Bop plush, sticker pack, tee, enamel pin and collector card."
+    "merchHook": "Bumble Bop plush, sticker pack, tee, enamel pin and collector card.",
+    "built": false
   },
   {
     "id": 152,
@@ -3037,7 +3188,8 @@
     "plays": 223696,
     "status": "Playable",
     "engine": "puzzle",
-    "merchHook": "Caramel Corgi Carnival plush, sticker pack, tee, enamel pin and collector card."
+    "merchHook": "Caramel Corgi Carnival plush, sticker pack, tee, enamel pin and collector card.",
+    "built": false
   },
   {
     "id": 153,
@@ -3057,7 +3209,8 @@
     "plays": 225069,
     "status": "Playable",
     "engine": "runner",
-    "merchHook": "Peapod plush, sticker pack, tee, enamel pin and collector card."
+    "merchHook": "Peapod plush, sticker pack, tee, enamel pin and collector card.",
+    "built": false
   },
   {
     "id": 154,
@@ -3077,7 +3230,8 @@
     "plays": 226442,
     "status": "Playable",
     "engine": "arcade",
-    "merchHook": "Rocco Ravioli plush, sticker pack, tee, enamel pin and collector card."
+    "merchHook": "Rocco Ravioli plush, sticker pack, tee, enamel pin and collector card.",
+    "built": false
   },
   {
     "id": 155,
@@ -3097,7 +3251,8 @@
     "plays": 227815,
     "status": "Playable",
     "engine": "management",
-    "merchHook": "Minty Mouse plush, sticker pack, tee, enamel pin and collector card."
+    "merchHook": "Minty Mouse plush, sticker pack, tee, enamel pin and collector card.",
+    "built": false
   },
   {
     "id": 156,
@@ -3117,7 +3272,8 @@
     "plays": 229188,
     "status": "Playable",
     "engine": "runner",
-    "merchHook": "Velvet Bat Boutique plush, sticker pack, tee, enamel pin and collector card."
+    "merchHook": "Velvet Bat Boutique plush, sticker pack, tee, enamel pin and collector card.",
+    "built": false
   },
   {
     "id": 157,
@@ -3137,7 +3293,8 @@
     "plays": 230561,
     "status": "Playable",
     "engine": "arcade",
-    "merchHook": "Cranky Crab plush, sticker pack, tee, enamel pin and collector card."
+    "merchHook": "Cranky Crab plush, sticker pack, tee, enamel pin and collector card.",
+    "built": false
   },
   {
     "id": 158,
@@ -3157,7 +3314,8 @@
     "plays": 231934,
     "status": "Playable",
     "engine": "arcade",
-    "merchHook": "Penny Penguin plush, sticker pack, tee, enamel pin and collector card."
+    "merchHook": "Penny Penguin plush, sticker pack, tee, enamel pin and collector card.",
+    "built": false
   },
   {
     "id": 159,
@@ -3177,7 +3335,8 @@
     "plays": 233307,
     "status": "Playable",
     "engine": "arcade",
-    "merchHook": "Wiggly Worm Orchestra plush, sticker pack, tee, enamel pin and collector card."
+    "merchHook": "Wiggly Worm Orchestra plush, sticker pack, tee, enamel pin and collector card.",
+    "built": false
   },
   {
     "id": 160,
@@ -3197,7 +3356,8 @@
     "plays": 234680,
     "status": "Playable",
     "engine": "puzzle",
-    "merchHook": "Rufus Radish plush, sticker pack, tee, enamel pin and collector card."
+    "merchHook": "Rufus Radish plush, sticker pack, tee, enamel pin and collector card.",
+    "built": false
   },
   {
     "id": 161,
@@ -3217,7 +3377,8 @@
     "plays": 236053,
     "status": "Playable",
     "engine": "runner",
-    "merchHook": "Baron Biscuit plush, sticker pack, tee, enamel pin and collector card."
+    "merchHook": "Baron Biscuit plush, sticker pack, tee, enamel pin and collector card.",
+    "built": false
   },
   {
     "id": 162,
@@ -3237,7 +3398,8 @@
     "plays": 237426,
     "status": "Playable",
     "engine": "puzzle",
-    "merchHook": "Pixel Prawn plush, sticker pack, tee, enamel pin and collector card."
+    "merchHook": "Pixel Prawn plush, sticker pack, tee, enamel pin and collector card.",
+    "built": false
   },
   {
     "id": 163,
@@ -3257,7 +3419,8 @@
     "plays": 238799,
     "status": "Playable",
     "engine": "runner",
-    "merchHook": "Lantern Lizard Trail plush, sticker pack, tee, enamel pin and collector card."
+    "merchHook": "Lantern Lizard Trail plush, sticker pack, tee, enamel pin and collector card.",
+    "built": false
   },
   {
     "id": 164,
@@ -3277,7 +3440,8 @@
     "plays": 240172,
     "status": "Playable",
     "engine": "arcade",
-    "merchHook": "Gumbo Gecko plush, sticker pack, tee, enamel pin and collector card."
+    "merchHook": "Gumbo Gecko plush, sticker pack, tee, enamel pin and collector card.",
+    "built": false
   },
   {
     "id": 165,
@@ -3297,7 +3461,8 @@
     "plays": 241545,
     "status": "Playable",
     "engine": "management",
-    "merchHook": "Fifi Flamingo Fashion Flight plush, sticker pack, tee, enamel pin and collector card."
+    "merchHook": "Fifi Flamingo Fashion Flight plush, sticker pack, tee, enamel pin and collector card.",
+    "built": false
   },
   {
     "id": 166,
@@ -3317,7 +3482,8 @@
     "plays": 242918,
     "status": "Playable",
     "engine": "runner",
-    "merchHook": "Great Gumball Galaxy plush, sticker pack, tee, enamel pin and collector card."
+    "merchHook": "Great Gumball Galaxy plush, sticker pack, tee, enamel pin and collector card.",
+    "built": false
   },
   {
     "id": 167,
@@ -3337,7 +3503,8 @@
     "plays": 244291,
     "status": "Playable",
     "engine": "arcade",
-    "merchHook": "Tater Tot Titan plush, sticker pack, tee, enamel pin and collector card."
+    "merchHook": "Tater Tot Titan plush, sticker pack, tee, enamel pin and collector card.",
+    "built": false
   },
   {
     "id": 168,
@@ -3357,7 +3524,8 @@
     "plays": 245664,
     "status": "Playable",
     "engine": "arcade",
-    "merchHook": "Momo Monkey plush, sticker pack, tee, enamel pin and collector card."
+    "merchHook": "Momo Monkey plush, sticker pack, tee, enamel pin and collector card.",
+    "built": false
   },
   {
     "id": 169,
@@ -3377,7 +3545,8 @@
     "plays": 247037,
     "status": "Playable",
     "engine": "arcade",
-    "merchHook": "Nibbles the Night Hamster plush, sticker pack, tee, enamel pin and collector card."
+    "merchHook": "Nibbles the Night Hamster plush, sticker pack, tee, enamel pin and collector card.",
+    "built": false
   },
   {
     "id": 170,
@@ -3397,7 +3566,8 @@
     "plays": 248410,
     "status": "Playable",
     "engine": "puzzle",
-    "merchHook": "Quincy Quill plush, sticker pack, tee, enamel pin and collector card."
+    "merchHook": "Quincy Quill plush, sticker pack, tee, enamel pin and collector card.",
+    "built": false
   },
   {
     "id": 171,
@@ -3417,7 +3587,8 @@
     "plays": 249783,
     "status": "Playable",
     "engine": "runner",
-    "merchHook": "Bubblegum Buccaneers plush, sticker pack, tee, enamel pin and collector card."
+    "merchHook": "Bubblegum Buccaneers plush, sticker pack, tee, enamel pin and collector card.",
+    "built": false
   },
   {
     "id": 172,
@@ -3437,7 +3608,8 @@
     "plays": 251156,
     "status": "Playable",
     "engine": "puzzle",
-    "merchHook": "Mabel Muffin plush, sticker pack, tee, enamel pin and collector card."
+    "merchHook": "Mabel Muffin plush, sticker pack, tee, enamel pin and collector card.",
+    "built": false
   },
   {
     "id": 173,
@@ -3457,7 +3629,8 @@
     "plays": 252529,
     "status": "Playable",
     "engine": "runner",
-    "merchHook": "Wally Walrus Icebreaker plush, sticker pack, tee, enamel pin and collector card."
+    "merchHook": "Wally Walrus Icebreaker plush, sticker pack, tee, enamel pin and collector card.",
+    "built": false
   },
   {
     "id": 174,
@@ -3477,7 +3650,8 @@
     "plays": 253902,
     "status": "Playable",
     "engine": "arcade",
-    "merchHook": "Solar Snail Expedition plush, sticker pack, tee, enamel pin and collector card."
+    "merchHook": "Solar Snail Expedition plush, sticker pack, tee, enamel pin and collector card.",
+    "built": false
   },
   {
     "id": 175,
@@ -3497,7 +3671,8 @@
     "plays": 255275,
     "status": "Playable",
     "engine": "management",
-    "merchHook": "Ruby Raccoon plush, sticker pack, tee, enamel pin and collector card."
+    "merchHook": "Ruby Raccoon plush, sticker pack, tee, enamel pin and collector card.",
+    "built": false
   },
   {
     "id": 176,
@@ -3517,7 +3692,8 @@
     "plays": 256648,
     "status": "Playable",
     "engine": "runner",
-    "merchHook": "Donut Dragon Derby plush, sticker pack, tee, enamel pin and collector card."
+    "merchHook": "Donut Dragon Derby plush, sticker pack, tee, enamel pin and collector card.",
+    "built": false
   },
   {
     "id": 177,
@@ -3537,7 +3713,8 @@
     "plays": 258021,
     "status": "Playable",
     "engine": "arcade",
-    "merchHook": "Harriet Hedgehog plush, sticker pack, tee, enamel pin and collector card."
+    "merchHook": "Harriet Hedgehog plush, sticker pack, tee, enamel pin and collector card.",
+    "built": false
   },
   {
     "id": 178,
@@ -3557,7 +3734,8 @@
     "plays": 259394,
     "status": "Playable",
     "engine": "arcade",
-    "merchHook": "Nico Nacho plush, sticker pack, tee, enamel pin and collector card."
+    "merchHook": "Nico Nacho plush, sticker pack, tee, enamel pin and collector card.",
+    "built": false
   },
   {
     "id": 179,
@@ -3577,7 +3755,8 @@
     "plays": 260767,
     "status": "Playable",
     "engine": "arcade",
-    "merchHook": "Cosmic Koala Nap Club plush, sticker pack, tee, enamel pin and collector card."
+    "merchHook": "Cosmic Koala Nap Club plush, sticker pack, tee, enamel pin and collector card.",
+    "built": false
   },
   {
     "id": 180,
@@ -3597,7 +3776,8 @@
     "plays": 262140,
     "status": "Playable",
     "engine": "puzzle",
-    "merchHook": "Pippo Parrot plush, sticker pack, tee, enamel pin and collector card."
+    "merchHook": "Pippo Parrot plush, sticker pack, tee, enamel pin and collector card.",
+    "built": false
   },
   {
     "id": 181,
@@ -3617,7 +3797,8 @@
     "plays": 263513,
     "status": "Playable",
     "engine": "runner",
-    "merchHook": "Frida Foxglove plush, sticker pack, tee, enamel pin and collector card."
+    "merchHook": "Frida Foxglove plush, sticker pack, tee, enamel pin and collector card.",
+    "built": false
   },
   {
     "id": 182,
@@ -3637,7 +3818,8 @@
     "plays": 264886,
     "status": "Playable",
     "engine": "puzzle",
-    "merchHook": "Spaghetti Yeti plush, sticker pack, tee, enamel pin and collector card."
+    "merchHook": "Spaghetti Yeti plush, sticker pack, tee, enamel pin and collector card.",
+    "built": false
   },
   {
     "id": 183,
@@ -3657,7 +3839,8 @@
     "plays": 266259,
     "status": "Playable",
     "engine": "runner",
-    "merchHook": "Zara Zebra plush, sticker pack, tee, enamel pin and collector card."
+    "merchHook": "Zara Zebra plush, sticker pack, tee, enamel pin and collector card.",
+    "built": false
   },
   {
     "id": 184,
@@ -3677,7 +3860,8 @@
     "plays": 267632,
     "status": "Playable",
     "engine": "arcade",
-    "merchHook": "Tiny Teapot Train plush, sticker pack, tee, enamel pin and collector card."
+    "merchHook": "Tiny Teapot Train plush, sticker pack, tee, enamel pin and collector card.",
+    "built": false
   },
   {
     "id": 185,
@@ -3697,7 +3881,8 @@
     "plays": 269005,
     "status": "Playable",
     "engine": "management",
-    "merchHook": "Milo Moonmouse  plush, sticker pack, tee, enamel pin and collector card."
+    "merchHook": "Milo Moonmouse  plush, sticker pack, tee, enamel pin and collector card.",
+    "built": false
   },
   {
     "id": 186,
@@ -3717,7 +3902,8 @@
     "plays": 270378,
     "status": "Playable",
     "engine": "runner",
-    "merchHook": "Jellyfish Jazz Club plush, sticker pack, tee, enamel pin and collector card."
+    "merchHook": "Jellyfish Jazz Club plush, sticker pack, tee, enamel pin and collector card.",
+    "built": false
   },
   {
     "id": 187,
@@ -3737,7 +3923,8 @@
     "plays": 271751,
     "status": "Playable",
     "engine": "arcade",
-    "merchHook": "Cornflake plush, sticker pack, tee, enamel pin and collector card."
+    "merchHook": "Cornflake plush, sticker pack, tee, enamel pin and collector card.",
+    "built": false
   },
   {
     "id": 188,
@@ -3757,7 +3944,8 @@
     "plays": 273124,
     "status": "Playable",
     "engine": "arcade",
-    "merchHook": "Opal Owl plush, sticker pack, tee, enamel pin and collector card."
+    "merchHook": "Opal Owl plush, sticker pack, tee, enamel pin and collector card.",
+    "built": false
   },
   {
     "id": 189,
@@ -3777,7 +3965,8 @@
     "plays": 274497,
     "status": "Playable",
     "engine": "arcade",
-    "merchHook": "Bubblesaurus Bath Time plush, sticker pack, tee, enamel pin and collector card."
+    "merchHook": "Bubblesaurus Bath Time plush, sticker pack, tee, enamel pin and collector card.",
+    "built": false
   },
   {
     "id": 190,
@@ -3797,7 +3986,8 @@
     "plays": 275870,
     "status": "Playable",
     "engine": "puzzle",
-    "merchHook": "Clockwork Cupcake Factory plush, sticker pack, tee, enamel pin and collector card."
+    "merchHook": "Clockwork Cupcake Factory plush, sticker pack, tee, enamel pin and collector card.",
+    "built": false
   },
   {
     "id": 191,
@@ -3817,7 +4007,8 @@
     "plays": 277243,
     "status": "Playable",
     "engine": "runner",
-    "merchHook": "Sasha Starfish plush, sticker pack, tee, enamel pin and collector card."
+    "merchHook": "Sasha Starfish plush, sticker pack, tee, enamel pin and collector card.",
+    "built": false
   },
   {
     "id": 192,
@@ -3837,7 +4028,8 @@
     "plays": 278616,
     "status": "Playable",
     "engine": "puzzle",
-    "merchHook": "Hector Hotdog plush, sticker pack, tee, enamel pin and collector card."
+    "merchHook": "Hector Hotdog plush, sticker pack, tee, enamel pin and collector card.",
+    "built": false
   },
   {
     "id": 193,
@@ -3857,7 +4049,8 @@
     "plays": 279989,
     "status": "Playable",
     "engine": "runner",
-    "merchHook": "Moonlit Marmalade Maze plush, sticker pack, tee, enamel pin and collector card."
+    "merchHook": "Moonlit Marmalade Maze plush, sticker pack, tee, enamel pin and collector card.",
+    "built": false
   },
   {
     "id": 194,
@@ -3877,7 +4070,8 @@
     "plays": 281362,
     "status": "Playable",
     "engine": "arcade",
-    "merchHook": "Tango Turtle plush, sticker pack, tee, enamel pin and collector card."
+    "merchHook": "Tango Turtle plush, sticker pack, tee, enamel pin and collector card.",
+    "built": false
   },
   {
     "id": 195,
@@ -3897,7 +4091,8 @@
     "plays": 282735,
     "status": "Playable",
     "engine": "management",
-    "merchHook": "Benny Beet plush, sticker pack, tee, enamel pin and collector card."
+    "merchHook": "Benny Beet plush, sticker pack, tee, enamel pin and collector card.",
+    "built": false
   },
   {
     "id": 196,
@@ -3917,7 +4112,8 @@
     "plays": 284108,
     "status": "Playable",
     "engine": "runner",
-    "merchHook": "Mini Mummy Pet Shop plush, sticker pack, tee, enamel pin and collector card."
+    "merchHook": "Mini Mummy Pet Shop plush, sticker pack, tee, enamel pin and collector card.",
+    "built": false
   },
   {
     "id": 197,
@@ -3937,7 +4133,8 @@
     "plays": 285481,
     "status": "Playable",
     "engine": "arcade",
-    "merchHook": "Pearl Pegasus Cloud Rescue plush, sticker pack, tee, enamel pin and collector card."
+    "merchHook": "Pearl Pegasus Cloud Rescue plush, sticker pack, tee, enamel pin and collector card.",
+    "built": false
   },
   {
     "id": 198,
@@ -3957,7 +4154,8 @@
     "plays": 286854,
     "status": "Playable",
     "engine": "arcade",
-    "merchHook": "Ramen Robot Rampage plush, sticker pack, tee, enamel pin and collector card."
+    "merchHook": "Ramen Robot Rampage plush, sticker pack, tee, enamel pin and collector card.",
+    "built": false
   },
   {
     "id": 199,
@@ -3977,7 +4175,8 @@
     "plays": 288227,
     "status": "Playable",
     "engine": "arcade",
-    "merchHook": "Sock Goblin Grand Hotel plush, sticker pack, tee, enamel pin and collector card."
+    "merchHook": "Sock Goblin Grand Hotel plush, sticker pack, tee, enamel pin and collector card.",
+    "built": false
   },
   {
     "id": 200,
@@ -3997,6 +4196,7 @@
     "plays": 289600,
     "status": "Playable",
     "engine": "puzzle",
-    "merchHook": "Finnick Firefly plush, sticker pack, tee, enamel pin and collector card."
+    "merchHook": "Finnick Firefly plush, sticker pack, tee, enamel pin and collector card.",
+    "built": false
   }
 ]

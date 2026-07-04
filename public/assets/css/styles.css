@@ -680,6 +680,71 @@ img {
   box-shadow: 0 4px 10px rgba(138, 92, 255, 0.3);
 }
 
+/* -------- Coming soon (not-yet-built games) -------- */
+.card.coming-soon .thumb img {
+  filter: grayscale(0.9) brightness(0.94);
+  opacity: 0.55;
+}
+.card.coming-soon:hover .thumb img { transform: none; }
+.card.coming-soon .game-title { color: var(--muted); }
+.card.coming-soon .rating { opacity: 0.6; }
+.soon-sticker {
+  position: absolute;
+  left: 50%; top: 50%;
+  transform: translate(-50%, -50%) rotate(-7deg);
+  background: rgba(44, 35, 82, 0.86);
+  color: #fff;
+  font-weight: 900;
+  font-size: 13px;
+  letter-spacing: 0.5px;
+  padding: 8px 16px;
+  border-radius: 12px;
+  z-index: 3;
+  border: 2px dashed rgba(255, 255, 255, 0.6);
+  white-space: nowrap;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.28);
+}
+.btn.disabled {
+  background: var(--muted);
+  color: #fff;
+  cursor: not-allowed;
+  opacity: 0.8;
+  box-shadow: none;
+  pointer-events: none;
+}
+.soon-note {
+  margin-top: 14px;
+  font-size: 14px;
+  color: var(--muted);
+  line-height: 1.5;
+}
+.soon-note a { color: var(--purple); font-weight: 700; }
+.soon-hero {
+  text-align: center;
+  max-width: 560px;
+  margin: 48px auto;
+  padding: 44px 28px;
+  background: var(--card-bg);
+  border: 1.5px solid var(--border-color);
+  border-radius: 28px;
+  box-shadow: 0 14px 44px rgba(44, 35, 82, 0.08);
+}
+.soon-hero-emoji { font-size: 62px; line-height: 1; }
+.soon-hero h1 { margin: 14px 0 6px; color: var(--ink); }
+.soon-hero p { color: var(--muted); line-height: 1.55; }
+.soon-hero-tag {
+  display: inline-block;
+  background: var(--muted);
+  color: #fff;
+  font-weight: 900;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  font-size: 12px;
+  padding: 5px 14px;
+  border-radius: 20px;
+  margin: 0 0 14px;
+}
+
 .game-title {
   font-weight: 800;
   font-size: 16px;
