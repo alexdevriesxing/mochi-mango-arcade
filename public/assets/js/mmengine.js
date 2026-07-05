@@ -95,7 +95,11 @@ const POWERS = {
   shield: { icon: '🛡️', color: '#3ad0ff', dur: 8, tip: 'Shield' },
   magnet: { icon: '🧲', color: '#ff5b9a', dur: 7, tip: 'Magnet' },
   x2:     { icon: '✨', color: '#ffd166', dur: 8, tip: 'Double' },
-  slow:   { icon: '🐌', color: '#8affc1', dur: 6, tip: 'Slow-mo' }
+  slow:   { icon: '🐌', color: '#8affc1', dur: 6, tip: 'Slow-mo' },
+  bomb:   { icon: '💣', color: '#ff6b35', dur: 0.1, tip: 'Bomb' },
+  freeze: { icon: '❄️', color: '#7fd6ff', dur: 5, tip: 'Freeze' },
+  mega:   { icon: '🌟', color: '#ffd166', dur: 6, tip: 'Mega Mode' },
+  rush:   { icon: '🚀', color: '#ff4f9a', dur: 5, tip: 'Speed Rush' }
 };
 
 /* ============================================================ Base */
@@ -206,8 +210,10 @@ class Base {
     this._raf = requestAnimationFrame((t) => this.loop(t));
     let dt = (now - this.last) / 1000; this.last = now; if (dt > 0.05) dt = 0.05;
     if (this.powers.slow) dt *= 0.55;
-    if (this.running) { this.time += dt; this.stepMeta(dt); this.update(dt); }
-    this.render(); this.pointer.tapped = false;
+    if (this.powers.freeze) dt *= 0.15;
+    if (this.powers.rush) dt *= 1.4;
+    if (this.running) { this.time += dt; this.stepMeta(dt); this._updateWeather(dt); this.update(dt); }
+    this.render(); this._drawFlash(); this._drawLevelBanner(); this.pointer.tapped = false;
   }
 
   stepMeta(dt) {
@@ -247,7 +253,7 @@ class Base {
   setScore(v) { this.score = v; this.scoreEl.textContent = Math.floor(v); }
   addScore(v) { this.setScore(this.score + v); }
   drawLives() { this.livesEl.innerHTML = '❤️'.repeat(Math.max(0, this.lives)); }
-  drawPowers() { this.powersEl.innerHTML = Object.keys(this.powers).map(k => `<span class="mma-pw" title="${POWERS[k].tip}">${POWERS[k].icon}</span>`).join(''); }
+  drawPowers() { this.powersEl.innerHTML = Object.keys(this.powers).filter(k=>k!=='bomb').map(k => `<span class="mma-pw" title="${POWERS[k]?.tip || k}">${POWERS[k]?.icon || '⭐'}</span>`).join(''); }
   loseLife() {
     if (this.powers.shield) { delete this.powers.shield; this.ring(this.W / 2, this.H / 2, POWERS.shield.color); this.sound.blip(300, 0.2, 'sine', 0.2); this.shake = 0.5; return; }
     this.lives--; this.drawLives(); this.sound.hit(); this.shake = 1; this.combo = 0; this.mult = 1; this.comboEl.textContent = '';
@@ -330,12 +336,142 @@ class Base {
     }
     // ground fill
     c.fillStyle = this.theme.ground; c.fillRect(0, base, W, this.H - base);
+    // weather overlay
+    this._drawWeather();
   }
 
   applyShake(c) { if (this.shake > 0) c.translate((Math.random() - 0.5) * 12 * this.shake, (Math.random() - 0.5) * 12 * this.shake); }
 
   destroy() { this.running = false; if (this._raf) cancelAnimationFrame(this._raf); this._raf = null;
     removeEventListener('keydown', this._kd); removeEventListener('keyup', this._ku); removeEventListener('pointerup', this._pu); if (this._ro) this._ro.disconnect(); }
+
+  /* -------- Weather system -------- */
+  _weatherType() {
+    const sc = this.theme.scene;
+    if (sc === 'space') return 'stars';
+    if (sc === 'temple' || sc === 'city') return 'petals';
+    if (sc === 'night') return 'fireflies';
+    return Math.random() < 0.5 ? 'leaves' : 'butterflies';
+  }
+  _initWeather() {
+    this.weather = [];
+    const wt = this._weatherType();
+    const n = 24;
+    for (let i = 0; i < n; i++) {
+      this.weather.push({
+        x: Math.random() * this.W, y: Math.random() * this.H,
+        vx: (Math.random() - 0.5) * 30, vy: 10 + Math.random() * 30,
+        size: 3 + Math.random() * 5, phase: Math.random() * 7,
+        type: wt, alpha: 0.3 + Math.random() * 0.4
+      });
+    }
+  }
+  _updateWeather(dt) {
+    if (!this.weather) this._initWeather();
+    for (const w of this.weather) {
+      w.x += w.vx * dt + Math.sin(this.time * 2 + w.phase) * 8 * dt;
+      w.y += w.vy * dt;
+      if (w.y > this.H + 10) { w.y = -10; w.x = Math.random() * this.W; }
+      if (w.x < -10) w.x = this.W + 10;
+      if (w.x > this.W + 10) w.x = -10;
+    }
+  }
+  _drawWeather() {
+    if (!this.weather) return;
+    const c = this.ctx;
+    for (const w of this.weather) {
+      c.globalAlpha = w.alpha;
+      if (w.type === 'stars') { c.fillStyle = '#fff'; c.beginPath(); c.arc(w.x, w.y, w.size * 0.5, 0, 7); c.fill(); }
+      else if (w.type === 'petals') { c.fillStyle = '#ffb3cf'; c.save(); c.translate(w.x, w.y); c.rotate(this.time + w.phase); c.fillRect(-w.size, -w.size * 0.4, w.size * 2, w.size * 0.8); c.restore(); }
+      else if (w.type === 'fireflies') { c.fillStyle = '#ffd166'; c.globalAlpha = w.alpha * (0.5 + 0.5 * Math.sin(this.time * 3 + w.phase)); c.beginPath(); c.arc(w.x, w.y, w.size * 0.6, 0, 7); c.fill(); }
+      else if (w.type === 'leaves') { c.fillStyle = ['#4fe0a0', '#ffd166', '#ff9f1c'][Math.floor(w.phase) % 3]; c.save(); c.translate(w.x, w.y); c.rotate(this.time * 0.5 + w.phase); c.fillRect(-w.size, -w.size * 0.4, w.size * 2, w.size * 0.8); c.restore(); }
+      else { c.fillStyle = '#ff8ec7'; c.save(); c.translate(w.x, w.y); c.scale(Math.sin(this.time * 4 + w.phase) > 0 ? 1 : -1, 1); c.beginPath(); c.ellipse(-w.size * 0.5, 0, w.size * 0.5, w.size * 0.7, 0, 0, 7); c.ellipse(w.size * 0.5, 0, w.size * 0.5, w.size * 0.7, 0, 0, 7); c.fill(); c.restore(); }
+    }
+    c.globalAlpha = 1;
+  }
+
+  /* -------- Level / stage transition -------- */
+  showLevel(num, label) {
+    this._levelBanner = { text: label || `Level ${num}`, life: 1.5, max: 1.5 };
+    this.sound.power();
+  }
+  _drawLevelBanner() {
+    if (!this._levelBanner) return;
+    const b = this._levelBanner;
+    const c = this.ctx;
+    const t = b.life / b.max;
+    const slide = t > 0.7 ? (1 - (t - 0.7) / 0.3) * 1.0 : t < 0.3 ? (t / 0.3) * 1.0 : 1.0;
+    c.save();
+    c.globalAlpha = slide;
+    c.fillStyle = 'rgba(0,0,0,.5)';
+    c.fillRect(0, this.H * 0.4, this.W, this.H * 0.2);
+    c.fillStyle = this.theme.accent;
+    c.font = '900 32px Fredoka, Outfit, sans-serif';
+    c.textAlign = 'center'; c.textBaseline = 'middle';
+    c.fillText(b.text, this.W / 2, this.H * 0.5);
+    c.restore();
+    b.life -= 0.016;
+    if (b.life <= 0) this._levelBanner = null;
+  }
+
+  /* -------- Daily challenge -------- */
+  _dailyMod() {
+    const day = Math.floor(Date.now() / 86400000);
+    const mods = [
+      { name: 'Mega Mode', desc: 'Everything bigger!', scoreMult: 2, sizeMult: 1.3 },
+      { name: 'Speed Demon', desc: '2× speed!', speedMult: 1.5, scoreMult: 1.5 },
+      { name: 'Glass Cannon', desc: '1 life only!', maxLives: 1, scoreMult: 3 },
+      { name: 'Treasure Hunter', desc: '2× coins!', coinMult: 2 },
+      { name: 'Tiny Mode', desc: 'Everything smaller!', sizeMult: 0.7, scoreMult: 1.5 },
+      { name: 'Slow & Steady', desc: 'Half speed!', speedMult: 0.6, scoreMult: 1.5 },
+    ];
+    return mods[day % mods.length];
+  }
+
+  /* -------- Screen flash -------- */
+  flash(color, dur = 0.3) { this._flash = { color, life: dur, max: dur }; }
+  _drawFlash() {
+    if (!this._flash) return;
+    const c = this.ctx;
+    c.globalAlpha = (this._flash.life / this._flash.max) * 0.4;
+    c.fillStyle = this._flash.color;
+    c.fillRect(0, 0, this.W, this.H);
+    c.globalAlpha = 1;
+    this._flash.life -= 0.016;
+    if (this._flash.life <= 0) this._flash = null;
+  }
+
+  /* -------- Achievement popup -------- */
+  achievement(text, icon = '🏆') {
+    this.float(this.W / 2, this.H * 0.25, `${icon} ${text}`, this.theme.accent);
+    this.confetti(this.W / 2, this.H * 0.25);
+    this.ring(this.W / 2, this.H * 0.25, this.theme.accent);
+    this.flash(this.theme.accent, 0.2);
+  }
+
+  /* -------- Enhanced power-up handling -------- */
+  grantPower(type) {
+    if (type === 'bomb') {
+      // Instant screen clear — destroy all hazards on screen
+      this.sound.power(); this.flash('#ff6b35', 0.4); this.shake = 1;
+      this.ring(this.W / 2, this.H / 2, '#ff6b35');
+      if (this._bombClear) this._bombClear();
+      else { this.burst(this.W / 2, this.H / 2, '#ff6b35', 30, 2); }
+      return;
+    }
+    this.powers[type] = POWERS[type]?.dur || 6;
+    this.sound.power();
+    this.float(this.W / 2, this.H * 0.4, (POWERS[type]?.tip || type) + '!', POWERS[type]?.color || '#fff');
+    this.ring(this.W / 2, this.H * 0.4, POWERS[type]?.color || '#fff');
+    if (type === 'mega') { this.flash('#ffd166', 0.3); this.shake = 0.5; }
+    if (type === 'rush') { this.flash('#ff4f9a', 0.3); }
+  }
+
+  /* -------- Random power-up spawner -------- */
+  randomPower() {
+    const types = ['shield', 'magnet', 'x2', 'slow', 'freeze', 'mega', 'rush', 'bomb'];
+    return types[Math.floor(Math.random() * types.length)];
+  }
 
   instructions() { return 'Tap or press Space to play.'; }
   reset() {} update() {} render() { this.sky(); }

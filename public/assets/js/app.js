@@ -207,14 +207,15 @@ function mountSocialBar(){
 }
 
 function gameCard(g){
-  let jpgImage = g.image.replace('.svg', '.jpg');
+  let img = g.image || `/assets/images/games/${g.slug}.jpg`;
   let badge = g.built
     ? (g.new ? '<span class="badge">NEW</span>' : '<span class="badge play">PLAY</span>')
     : '<span class="badge soon">SOON</span>';
+  let fallback = `this.onerror=null;this.src='/assets/images/games/${g.slug}.svg';this.onerror=function(){this.style.display='none'}`;
   return `<article class="card game-card${g.built?'':' coming-soon'}" data-genre="${g.genre}" data-universe="${g.universe}" data-built="${g.built?1:0}">
     <a href="${g.detailUrl}">
       ${badge}
-      <div class="thumb"><img loading="lazy" src="${jpgImage}" alt="${g.title}" onerror="this.src='${g.image}'">${g.built?'':'<span class="soon-sticker">🚧 Coming Soon</span>'}</div>
+      <div class="thumb"><img loading="lazy" src="${img}" alt="${g.title}" onerror="${fallback}">${g.built?'':'<span class="soon-sticker">🚧 Coming Soon</span>'}</div>
       <div class="card-body">
         <h3 class="game-title">${g.title}</h3>
         <div class="meta">
@@ -257,8 +258,9 @@ function universeCard(k,u){
 }
 
 function charCard(c,n){
-  return `<a class="card character-card" href="/characters/#${slug(c)}">
-    <img src="/assets/images/characters/${slug(c)}.svg" alt="${c}" onerror="this.src='/assets/images/characters/mochi.svg'">
+  let s = slug(c);
+  return `<a class="card character-card" href="/characters/#${s}">
+    <img src="/assets/images/characters/${s}.jpg" alt="${c}" loading="lazy" onerror="this.onerror=null;this.src='/assets/images/characters/${s}.png';this.onerror=function(){this.src='/assets/images/characters/${s}.svg';this.onerror=function(){this.src='/assets/images/characters/mochi.svg'}}">
     <strong>${c}</strong>
   </a>`;
 }
@@ -989,13 +991,14 @@ function legal(kind){
 
 function gameDetail(sl){
   let g=S.games.find(x=>x.slug==sl)||S.games[0],rel=S.games.filter(x=>x.universe==g.universe&&x.slug!=g.slug).slice(0,5);
-  let jpgImage = g.image.replace('.svg', '.jpg');
+  let img = g.image || `/assets/images/games/${g.slug}.jpg`;
+  let fb = `this.onerror=null;this.src='/assets/images/games/${g.slug}.svg';this.onerror=function(){this.style.display='none'}`;
   return `<main id="main" class="container">
     ${adTop()}
     <div class="detail-layout">
       <section>
         <div class="detail-card">
-          <div class="detail-img"><img src="${jpgImage}" alt="${g.title}" onerror="this.src='${g.image}'"></div>
+          <div class="detail-img"><img src="${img}" alt="${g.title}" onerror="${fb}"></div>
           <h1>${g.title}</h1>
           <p>${g.description}</p>
           <div class="chip-row">
