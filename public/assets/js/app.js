@@ -1114,7 +1114,16 @@ function playPage(sl){
     maze: 'Arrows / WASD / swipe to steer · collect every treat · dodge the guards · grab ✨ to fight back.',
     memory: 'Flip two cards to find matching pairs · clear the board before the timer · chain matches for combos · one golden pair hides a bonus power.',
     stacker: 'Tap / Space to drop each block · line it up — overhang is sliced off · nail perfects, build sky-high.',
-    dodger: 'Drag or ← → to catch treats & power-ups · dodge the hazards · watch for Treat Storms and golden jackpots.'
+    dodger: 'Drag or ← → to catch treats & power-ups · dodge the hazards · watch for Treat Storms and golden jackpots.',
+    sports: 'Aim with your finger/mouse, release to kick! Beat the goalie, score goals, and chain combos for bonus points!',
+    racing: 'Steer with ← → or drag! Collect boost pads 🟡, dodge cones 🔴, and survive as many laps as possible!',
+    breakout: 'Move the paddle with ← → or drag! Break all bricks, grab falling power-ups, and clear every level!',
+    snake: 'Steer with arrows or swipe! Eat treats to grow, grab power-ups, and don\'t hit yourself or the walls!',
+    rhythm: 'Tap when the shrinking circle matches the target ring! Hit PERFECT for combo multipliers!',
+    tower: 'Tap empty spots to build towers! Towers auto-fire at enemies. Survive the waves and earn coins for more towers!',
+    pinball: 'Hold ← / → or tap left/right side to flip! Keep the ball alive, hit bumpers and targets for big points!',
+    fishing: 'Tap to cast! When a fish bites, tap rapidly to reel it in. Different fish = different points!',
+    archery: 'Hold to charge power, release to shoot! Hit the bullseye for maximum points. Mind the wind!'
   };
   let mode = engineMode(g);
   return `<main id="main" class="container">
@@ -1149,18 +1158,26 @@ function playPage(sl){
 }
 
 function engineMode(g){
-  // keep in sync with modeFor() in mmengine.js
   let s=(g.genre+' '+g.engine+' '+(g.title||'')+' '+(g.slug||'')).toLowerCase();
+  if(/(soccer|football|kick|penalty|goal|sport|basketball|hoop|score|shoot-out|field|stadium|league|club|team)/.test(s))return 'sports';
+  if(/(racing|racer|driv|kart|speed|grand.prix|circuit|track|drag|drift|moto|car|vehicle|wheels|race|derby)/.test(s))return 'racing';
+  if(/(breakout|brick|smash|block.blast|blocky|bouncer|paddle|wall.break)/.test(s))return 'breakout';
+  if(/(snake|slither|serpent|worm|noodle|crawler|coil|conda)/.test(s))return 'snake';
+  if(/(rhythm|beat|dance|music|tempo|groove|jam|jukebox|drumline|drum|bongo|concert|melody|tune|band)/.test(s))return 'rhythm';
+  if(/(tower|defense|defence|guard|fortress|castle.defense|wave|siege|bastion|warden)/.test(s))return 'tower';
+  if(/(pinball|flipper|bumper|arcade.ball|plunger|tilt)/.test(s))return 'pinball';
+  if(/(fish|fishing|angle|angler|cast|reel|hook|pond|lake|tide|aquarium|sea|ocean|whale|submarine|deep)/.test(s))return 'fishing';
+  if(/(archery|arrow|bow|target|aim|bullseye|dart|crossbow|sharpshoot|hunter|snipe)/.test(s))return 'archery';
   if(/(parcel|kite|airlift|balloon|glide|flight|flying|aerial|paraglide|sky-diner|sky diner)/.test(s))return 'flappy';
   if(/(maze|labyrinth|heist)/.test(s))return 'maze';
   if(/(memory|mirror|hidden|detective|solitaire|concentration|mooncat|tarot|matching)/.test(s))return 'memory';
   if(/(\bstack\b|\bfort\b|blanket|pillow|sleepover|snowflake|honey-rescue)/.test(s))return 'stacker';
-  if(/(defen|tower|patrol|survival|boss|arena|shooter|bullet|battler|tactic)/.test(s))return 'shooter';
+  if(/(defen|patrol|survival|boss|arena|shooter|bullet|battler|tactic)/.test(s))return 'shooter';
   if(/(whack|reaction|coordination|emergency|reflex|cleanup)/.test(s))return 'whack';
   if(/(match|tile|mahjong|sort|flow|logic|gravity|deduction|slide)/.test(s))return 'match3';
   if(/(manage|cook|serv|shop|hotel|tavern|farm|sim|cafe|kitchen|bakery|time management|market|salon|dress|diner|restaurant)/.test(s))return 'serve';
   if(/(platform|jump|hop|bounce|climb|parkour|wall)/.test(s))return 'platformer';
-  if(/(runner|racing|racer|driv|lane|dash|sprint|derby|rhythm|drift|run)/.test(s))return 'runner';
+  if(/(runner|lane|dash|sprint|drift|run)/.test(s))return 'runner';
   if(g.engine==='runner')return 'runner';
   if(g.engine==='puzzle')return 'match3';
   if(g.engine==='management')return 'serve';
