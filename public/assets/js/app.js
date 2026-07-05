@@ -371,16 +371,178 @@ const characterBios = {
     food: "Galaxy jelly pudding",
     happy: "Discovering a new friendly planet",
     zodiac: "Aquarius"
+  },
+  "madame-fortuna": {
+    role: "Mystic seer / cheerful destiny guide",
+    bio: "Madame Fortuna is a joyful little fortune teller who reads stars, cards, and crystal sparkles to help friends find lucky paths. She never tells anyone their future is fixed; instead, she believes every player can choose a brighter adventure with courage and kindness.",
+    likes: "Crystal balls, tarot cards, moon charms, lucky stars, helping friends make brave choices",
+    dislikes: "Broken promises, gloomy predictions, dusty old curtains, people giving up too early",
+    food: "Moonberry cream tarts",
+    happy: "When someone discovers they are braver than they thought",
+    zodiac: "Scorpio"
+  },
+  "morpheus": {
+    role: "Dream traveler / cozy magic guide",
+    bio: "Morpheus travels through soft dream clouds, collecting forgotten wishes and turning them into gentle adventures. He appears when players are tired, worried, or stuck, bringing calm, comfort, and a little sleepy magic to help them try again.",
+    likes: "Moon pillows, cloud surfing, bedtime stories, starlight, cozy blankets",
+    dislikes: "Nightmares, loud alarms, rushed mornings, cold floors",
+    food: "Vanilla moon cupcakes",
+    happy: "Helping a friend fall asleep with a happy dream",
+    zodiac: "Pisces"
+  },
+  "umbra": {
+    role: "Moonlight maze guide / starry night protector",
+    bio: "Umbra is a curious little night guide who knows every twist of the Moonlight Maze. With a glowing crescent charm and a cloak full of tiny stars, Umbra helps lost friends find their way through spooky paths without ever feeling alone.",
+    likes: "Moonlight, star maps, secret passages, quiet adventures, purple magic",
+    dislikes: "Harsh daylight, broken lanterns, being misunderstood, scary echoes",
+    food: "Midnight berry donuts",
+    happy: "Guiding someone safely out of the dark",
+    zodiac: "Cancer"
+  },
+  "sol-frog": {
+    role: "Lucky sunshine frog / good-vibes leaper",
+    bio: "Sol Frog hops wherever the sun shines brightest, spreading luck, joy, and warm-hearted courage. Legend says every leap leaves behind a tiny sunbeam, and every smile makes Sol's lucky charm glow a little brighter.",
+    likes: "Sunshine, lucky charms, lily pads, cheerful music, good-luck wishes",
+    dislikes: "Rainy gloom, bad vibes, unlucky grumbling, cloudy picnic days",
+    food: "Golden honey bubble tea",
+    happy: "When everyone feels lucky enough to try one more time",
+    zodiac: "Leo"
+  },
+  "tika-tiger": {
+    role: "Speedy delivery adventurer / reliable courier",
+    bio: "Tika Tiger is the fastest delivery cub in Mochi Mango Arcade, racing across rooftops, markets, and floating islands to bring packages and smiles on time. Tika believes no friend is too far away and no surprise is too small to matter.",
+    likes: "Fast routes, parcels, skateboards, surprise gifts, helping friends quickly",
+    dislikes: "Late deliveries, traffic jams, damaged packages, boring waiting rooms",
+    food: "Spicy mango buns",
+    happy: "Delivering the perfect package at exactly the right moment",
+    zodiac: "Aries"
+  },
+  "nori-ninja": {
+    role: "Tiny ninja / stealthy snack protector",
+    bio: "Nori Ninja is a tiny master of stealth who moves like seaweed in the wind and vanishes behind leaves, smoke puffs, and snack carts. Small in size but huge in heart, Nori protects friends, solves sneaky problems, and always keeps one rice ball ready for emergencies.",
+    likes: "Onigiri, miso soup, hide-and-seek, quiet rooftops, clever shortcuts",
+    dislikes: "Loud noises, being late, clumsy traps, soggy seaweed",
+    food: "Onigiri with miso soup",
+    happy: "Completing a mission quietly and sharing snacks afterward",
+    zodiac: "Capricorn"
+  },
+  "uncle-lee": {
+    role: "Tea house host / lucky wisdom keeper",
+    bio: "Uncle Lee runs the warmest corner of the Nine Gates Tea House, where every cup of tea comes with a story and every mahjong tile has a little lesson hidden inside. He is gentle, patient, and somehow always knows when a friend needs advice, a snack, or one more lucky draw.",
+    likes: "Tea ceremonies, mahjong tiles, old stories, peaceful mornings, helping young players learn",
+    dislikes: "Rushed tea, noisy arguments, broken teapots, people ignoring good advice",
+    food: "Steamed custard buns with jasmine tea",
+    happy: "Seeing friends solve problems calmly and kindly",
+    zodiac: "Taurus"
+  },
+  "auntie-li-wen": {
+    role: "Elegant tea master / graceful caretaker",
+    bio: "Auntie Li-Wen is the heart of the tea house, famous for turning simple tea into tiny moments of magic. She knows every guest's favourite blend and believes manners, patience, and warmth can fix almost any bad day.",
+    likes: "Flower tea, lanterns, dumplings, graceful dancing, welcoming guests",
+    dislikes: "Cold tea, messy tables, rude behaviour, wilted blossoms",
+    food: "Lotus tea cakes",
+    happy: "Making everyone feel welcome, safe, and cared for",
+    zodiac: "Libra"
+  },
+  "red-crane": {
+    role: "Graceful rival / festival challenger",
+    bio: "Red Crane is a proud and elegant bird from the Lantern Highlands who challenges friends to games of skill, speed, and strategy. Though sometimes dramatic, Red Crane is never cruel; every rivalry is meant to make everyone stronger, sharper, and more confident.",
+    likes: "Festival lanterns, strategy games, elegant flights, fair contests, lucky charms",
+    dislikes: "Cheating, clumsy shortcuts, boring matches, dull feathers",
+    food: "Red bean mooncakes",
+    happy: "Winning fairly or losing beautifully after a great challenge",
+    zodiac: "Leo"
+  },
+  "clockwork-crow": {
+    role: "Courier inventor / sky messenger",
+    bio: "Clockwork Crow is a clever sky courier with goggles, gears, maps, and a satchel full of urgent letters. Built for adventure and powered by curiosity, Crow delivers messages across floating cities, clock towers, and cloud routes no one else can reach.",
+    likes: "Letters, clock towers, brass gadgets, wind-up keys, secret routes",
+    dislikes: "Rusty gears, late deliveries, confusing maps, heavy rain on wings",
+    food: "Caramel seed crackers",
+    happy: "Delivering an important message exactly on time",
+    zodiac: "Gemini"
+  },
+  "coco-cannon": {
+    role: "Tropical pirate mascot / coconut kingdom hero",
+    bio: "Coco Cannon is a cheerful coconut pirate from the Sunny Shoals who prefers treasure hunts to trouble. With a flowered bandana, tiny cannon, and huge laugh, Coco protects island friends from grumpy sea goblins and always shares the loot.",
+    likes: "Treasure maps, coconut drinks, sunny beaches, pirate flags, big cannon booms",
+    dislikes: "Empty treasure chests, stormy seas, soggy maps, selfish pirates",
+    food: "Coconut pudding with mango sauce",
+    happy: "Finding treasure and sharing it with the whole crew",
+    zodiac: "Sagittarius"
+  },
+  "professor-pogo": {
+    role: "Inventor scientist / impossible-island genius",
+    bio: "Professor Pogo is a tiny scientist with huge glasses, a spinning hat, and inventions that usually work after only three or four hilarious explosions. He studies impossible islands, bouncing machines, and the science of making playtime more surprising.",
+    likes: "Gadgets, experiments, bouncing, gears, bright ideas, silly inventions",
+    dislikes: "Boring instructions, failed batteries, people saying impossible, missing tools",
+    food: "Vanilla gear cookies",
+    happy: "When a strange invention actually helps a friend",
+    zodiac: "Aquarius"
+  },
+  "puddle": {
+    role: "Rainy-day duckling / cheerful splash maker",
+    bio: "Puddle is a tiny blue duckling in a yellow raincoat who believes rainy days are secret invitations to play. Hatched during the Great Sprinkle Festival, Puddle can find joy in every puddle, storm cloud, and splashy surprise.",
+    likes: "Rainy days, puddle jumping, umbrellas, cheering up friends, shiny raindrops",
+    dislikes: "Dry boring afternoons, broken umbrellas, muddy socks, friends feeling gloomy",
+    food: "Blueberry rain-drop jelly",
+    happy: "Making everyone laugh by turning a rainy day into an adventure",
+    zodiac: "Pisces"
+  },
+  "pip": {
+    role: "Meadow hopper / lucky little explorer",
+    bio: "Pip is a tiny green frog from Clover Meadow who hops between lily pads, secret gardens, and hidden arcade paths. Pip is small, curious, and endlessly optimistic, always ready to leap first and ask questions halfway through the jump.",
+    likes: "Clover leaves, lily pads, dragonflies, spring mornings, hidden paths",
+    dislikes: "Dry ponds, loud stomping, losing lucky charms, being told a jump is impossible",
+    food: "Clover honey pancakes",
+    happy: "Landing a brave jump and helping friends cross safely",
+    zodiac: "Sagittarius"
+  },
+  "bramble-bear": {
+    role: "Honey rescue helper / gentle forest friend",
+    bio: "Bramble Bear is a kind bear cub from Honey Hollow who protects the forest's sweetest treasures. He started helping others after saving a lost bee family, and now carries honey, hugs, and courage wherever he goes.",
+    likes: "Honey pots, forest walks, helping bees, warm blankets, sharing snacks",
+    dislikes: "Empty honey jars, greedy stealing, thorny bushes, friends arguing",
+    food: "Warm honey toast",
+    happy: "Sharing honey with friends after a successful rescue",
+    zodiac: "Taurus"
+  },
+  "lulu-lantern": {
+    role: "Glow garden guide / magical light keeper",
+    bio: "Lulu Lantern is a tiny golden fox spirit who carries a glowing lantern through the Dreamwood Garden. Her light turns dark paths into magical trails and helps lost dreamers find their way back home.",
+    likes: "Lanterns, moonlit gardens, guiding friends, glowing flowers, gentle magic",
+    dislikes: "Pitch-black tunnels, broken lantern glass, rushed decisions, scary whispers",
+    food: "Mooncake with honey glaze",
+    happy: "Lighting the path so nobody has to feel lost",
+    zodiac: "Libra"
+  },
+  "mei-mei": {
+    role: "Tile spirit scholar / puzzle prodigy",
+    bio: "Mei Mei is a clever tile spirit scholar who sees patterns everywhere, from flower petals to game boards. Raised in the Nine Gates Tea House, she studies lucky tiles, ancient puzzles, and the art of solving problems with patience and heart.",
+    likes: "Mahjong tiles, cherry blossoms, logic puzzles, bubble tea, lucky charms",
+    dislikes: "Messy tile sets, unfair tricks, broken teacups, people giving up too quickly",
+    food: "Cherry blossom milk tea and sesame cookies",
+    happy: "Solving a puzzle and teaching a friend how to do it too",
+    zodiac: "Virgo"
+  },
+  "bao": {
+    role: "Jade dragon adventurer / brave festival hero",
+    bio: "Bao is a cheerful adventurer from Jade Valley who wears a lucky dragon hood and carries a tiny jade dragon charm. Bao believes courage works best with kindness, and every quest is better when shared with friends.",
+    likes: "Dragon charms, festival drums, brave quests, steamed buns, helping smaller friends",
+    dislikes: "Bullies, broken lucky charms, missing festival lights, bland soup",
+    food: "Steamed custard buns",
+    happy: "Facing a big challenge with friends cheering nearby",
+    zodiac: "Aries"
   }
 };
 
 function charBioCard(c, bio) {
   if (!bio) return '';
   let charSlug = slug(c);
-  let portraitSrc = `/assets/images/characters/${charSlug}.png`;
+  let portraitSrc = `/assets/images/characters/${charSlug}.jpg`;
   return `<div class="character-bio-card" id="${charSlug}">
     <div class="bio-header">
-      <img src="${portraitSrc}" alt="${c}" class="bio-portrait" onerror="this.src='/assets/images/characters/${charSlug}.svg'">
+      <img src="${portraitSrc}" alt="${c}" class="bio-portrait" onerror="this.onerror=null;this.src='/assets/images/characters/${charSlug}.png';this.onerror=function(){this.src='/assets/images/characters/mochi.svg'}">
       <div class="bio-title-area">
         <h3 class="bio-name">${c}</h3>
         <span class="bio-role">${bio.role}</span>
@@ -942,13 +1104,13 @@ function playPage(sl){
     </main>`;
   }
   let modeHints = {
-    runner: 'Space / Tap to jump (double-jump!) · hold ↓ to duck · grab treats & power-ups.',
-    flappy: 'Tap / Space to flap through the gaps · collect treats · avoid the pillars.',
-    platformer: 'Bounce up the platforms · tap / ← → to steer · climb as high as you can.',
-    shooter: '← → or drag to move · auto-fire blasts foes · grab power-ups, survive.',
-    whack: 'Tap treats the instant they pop up · avoid hazards · build big combos.',
-    match3: 'Tap two touching tiles to swap · line up 3+ · chain combos, beat the clock.',
-    serve: 'Tap the dish that matches each customer before their patience runs out.',
+    runner: 'Space / Tap to jump (double-jump!) · hold ↓ to duck the overhead bars · grab coin arcs · ride the Sugar Rush.',
+    flappy: 'Tap / Space to flap through the gaps · some pillars drift up & down · thread the ✨ bonus rings.',
+    platformer: 'Auto-bounce up · tilt / ← → to steer · springs launch you high, crumbling tiles vanish, dodge spikes.',
+    shooter: '← → or drag to move · auto-fire the swarm · dodge enemy fire · take down the boss when it warps in.',
+    whack: 'Tap treats the instant they pop up · avoid hazards · nab the golden ⭐ and survive the Frenzy.',
+    match3: 'Swap tiles to line up 3+ · make 4 for a Rocket, 5 for a Bomb · chain combos, beat the clock.',
+    serve: 'Serve every item on each ticket before patience runs out · fast serves earn bigger tips · brace for Rush Hour.',
     maze: 'Arrows / WASD / swipe to steer · collect every treat · dodge the guards · grab ✨ to fight back.',
     memory: 'Flip two cards to find matching pairs · clear the board before the timer · chain matches for combos · one golden pair hides a bonus power.',
     stacker: 'Tap / Space to drop each block · line it up — overhang is sliced off · nail perfects, build sky-high.',
