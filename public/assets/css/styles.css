@@ -2286,7 +2286,7 @@ img {
   transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
 
-/* Hero section — ensure banner fills container */
+/* Hero section — single clean image fills container */
 .hero-card {
   position: relative;
   border-radius: 32px;
@@ -2301,18 +2301,8 @@ img {
   width: 100%;
   height: 100%;
   object-fit: cover;
+  object-position: center;
   z-index: 1;
-}
-.hero-characters-img {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  max-width: 55%;
-  max-height: 80%;
-  object-fit: contain;
-  z-index: 2;
-  pointer-events: none;
 }
 
 /* Shop hero — proper image fit */

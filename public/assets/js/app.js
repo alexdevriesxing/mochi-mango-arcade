@@ -632,8 +632,7 @@ function home(){
     ${adTop()}
     <div class="hero-wrap">
       <section class="hero-card">
-        <img src="/assets/images/home_hero_banner_200_games.jpg" alt="Mochi Mango Arcade" class="hero-banner-img">
-        <img src="/assets/images/home_hero_main_characters.jpg" alt="Mochi Mango Characters" class="hero-characters-img" onerror="this.style.display='none'">
+        <img src="/assets/images/home_hero_main_characters.jpg" alt="Mochi Mango Arcade" class="hero-banner-img">
         <div class="hero-content">
           <div class="hero-badges">
             <span class="hero-badge-pill">🎮 ${built.length} Playable Now</span>
