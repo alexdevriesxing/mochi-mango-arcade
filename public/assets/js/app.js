@@ -1125,7 +1125,17 @@ function playPage(sl){
     tower: 'Tap empty spots to build towers! Towers auto-fire at enemies. Survive the waves and earn coins for more towers!',
     pinball: 'Hold ← / → or tap left/right side to flip! Keep the ball alive, hit bumpers and targets for big points!',
     fishing: 'Tap to cast! When a fish bites, tap rapidly to reel it in. Different fish = different points!',
-    archery: 'Hold to charge power, release to shoot! Hit the bullseye for maximum points. Mind the wind!'
+    archery: 'Hold to charge power, release to shoot! Hit the bullseye for maximum points. Mind the wind!',
+    pong: 'Drag or arrow keys to move your paddle! First to 7 wins. Catch power-ups for multi-ball and mega paddle!',
+    bubbleshooter: 'Tap to aim, release to shoot bubbles! Match 3+ same-color bubbles to pop them. Clear the board to advance!',
+    cannon: 'Drag back to aim and set power, release to fire! Destroy all targets with limited shots. Watch the wind!',
+    merge: 'Swipe or arrow keys to slide tiles! Same tiles merge into bigger numbers. Can you reach 2048?',
+    helix: 'Tap left/right to rotate the helix! Guide the ball down through the gaps without falling off!',
+    doodlejump: 'Tilt/drag/arrows to move left & right! Bounce on platforms, avoid spikes, grab jetpacks to fly high!',
+    asteroids: '← → rotate, ↑ thrust, Space to shoot! Destroy all asteroids before they hit you — they split when shot!',
+    pipeline: 'Tap pipe segments to rotate them! Connect the water source to the endpoint before time runs out!',
+    gallery: 'Tap targets as they pop up! Hit moving targets for bonus points. Don\'t miss the rare golden ones!',
+    idleclicker: 'Tap to earn coins! Buy upgrades and auto-tappers. Unlock milestones and prestige for massive bonuses!'
   };
   let mode = engineMode(g);
   return `<main id="main" class="container">
@@ -1169,6 +1179,16 @@ function engineMode(g){
   if(/(tower|defense|defence|guard|fortress|castle.defense|wave|siege|bastion|warden)/.test(s))return 'tower';
   if(/(pinball|flipper|bumper|arcade.ball|plunger|tilt)/.test(s))return 'pinball';
   if(/(fish|fishing|angle|angler|cast|reel|hook|pond|lake|tide|aquarium|sea|ocean|whale|submarine|deep)/.test(s))return 'fishing';
+  if(/(pong|tennis|paddle|racket|ping.pong|table.tennis)/.test(s))return 'pong';
+  if(/(bubble|pop|shoot.bubble|burst|color.match|balloon)/.test(s))return 'bubbleshooter';
+  if(/(cannon|artillery|launch|projectile|catapult|mortar|howitzer)/.test(s))return 'cannon';
+  if(/(merge|2048|combine|grow|evolve|synthesize|fuse|combine.tile)/.test(s))return 'merge';
+  if(/(helix|spiral|spin|fall|descent|tunnel|vortex|whirl|rotating)/.test(s))return 'helix';
+  if(/(doodle|doodle.jump|bounce.up|spring|jump.climb|vertical.climb|ascend|flap.up)/.test(s))return 'doodlejump';
+  if(/(asteroid|space.shoot|meteor|alien.invader|space.battle|cosmic|shooter.space)/.test(s))return 'asteroids';
+  if(/(pipe|pipeline|connect|plumb|flow|route|tube|pipe.puzzle|water.pipe)/.test(s))return 'pipeline';
+  if(/(gallery|shooting.gallery|shoot.gallery|target.range|aim.bonus|sharpshooter|fair.shoot)/.test(s))return 'gallery';
+  if(/(idle|clicker|tap|farm|mine|earn|incremental|collect|grind|tapper|auto.click)/.test(s))return 'idleclicker';
   if(/(archery|arrow|bow|target|aim|bullseye|dart|crossbow|sharpshoot|hunter|snipe)/.test(s))return 'archery';
   if(/(parcel|kite|airlift|balloon|glide|flight|flying|aerial|paraglide|sky-diner|sky diner)/.test(s))return 'flappy';
   if(/(maze|labyrinth|heist)/.test(s))return 'maze';
