@@ -43,14 +43,14 @@ function themeFor(g) {
 function modeFor(g) {
   // read title + slug too, so genre-generic games still play their real genre
   const s = (g.genre + ' ' + g.engine + ' ' + (g.title || '') + ' ' + (g.slug || '')).toLowerCase();
-  if (/(soccer|football|kick|penalty|goal|sport|basketball|hoop|penalty|score|shoot-out|field|stadium|league|club|team)/.test(s)) return 'sports';
+  if (/(soccer|football|kick|penalty|goal|sport|basketball|hoop|penalty|score|shoot-out|stadium|league|club|team)/.test(s)) return 'sports';
   if (/(racing|racer|driv|kart|speed|grand.prix|circuit|track|drag|drift|moto|car|vehicle|wheels|race|derby)/.test(s)) return 'racing';
   if (/(breakout|brick|smash|block.blast|blocky|bouncer|paddle|wall.break|brick.break)/.test(s)) return 'breakout';
   if (/(snake|slither|serpent|worm|noodle|crawler|coil|conda)/.test(s)) return 'snake';
   if (/(rhythm|beat|dance|music|tempo|groove|jam|jukebox|drumline|drum|bongo|concert|melody|tune|harmony|band)/.test(s)) return 'rhythm';
   if (/(tower|defense|defence|guard|fortress|castle.defense|wave|siege|bastion|warden)/.test(s)) return 'tower';
   if (/(pinball|flipper|bumper|arcade.ball|plunger|tilt)/.test(s)) return 'pinball';
-  if (/(fish|fishing|angle|angler|cast|reel|hook|pond|lake|tide|aquarium|sea|ocean|whale|submarine|deep)/.test(s)) return 'fishing';
+  if (/(fish|fishing|angle|angler|cast|reel|hook|pond|lake|tide|aquarium|ocean|whale|submarine|deep)/.test(s)) return 'fishing';
   if (/(pong|tennis|paddle|racket|ping.pong|table.tennis)/.test(s)) return 'pong';
   if (/(bubble|pop|shoot.bubble|burst|color.match|balloon)/.test(s)) return 'bubbleshooter';
   if (/(cannon|artillery|launch|projectile|catapult|mortar|howitzer)/.test(s)) return 'cannon';
