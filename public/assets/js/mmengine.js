@@ -490,13 +490,13 @@ class Base {
 /* ============================================================ RUNNER */
 
 class Runner extends Base {
-  instructions() { return 'Space / Tap to jump (double-jump!), hold ↓ to duck. Jump low hazards, duck the overhead bars, grab coin arcs. Watch for Sugar Rush!'; }
+  instructions() { return 'Jump (↑/Space) & duck (↓) through hazards. Grab coins, dodge obstacles, watch for Sugar Rush. Distance milestones = bonus points!'; }
   reset() {
     this.gy = this.H - Math.max(78, this.H * 0.17);
     this.r = Math.max(26, this.W * 0.075);
     this.p = { x: this.W * 0.24, y: this.gy, vy: 0, onGround: true, jumps: 0, duck: false };
     this.obs = []; this.coins = []; this.pu = []; this.spawnT = 0.7; this.coinT = 0.5; this.puT = 8;
-    this.speed = Math.max(280, this.W * 0.6); this.rush = 0; this.rushT = 15;
+    this.speed = Math.max(280, this.W * 0.6); this.rush = 0; this.rushT = 15; this.distMilestone = 0; this.nextMilestone = 500;
   }
   jump() { if (this.p.onGround || this.p.jumps < 2) { this.p.vy = -Math.max(620, this.H * 0.95); this.p.onGround = false; this.p.jumps++; this.sound.jump(); this.burst(this.p.x, this.p.y + this.r * 0.6, this.theme.belly, 5); } }
   _coinArc(x0, n, peak) { for (let i = 0; i < n; i++) { const t = i / (n - 1), y = this.gy - peak * (1 - (2 * t - 1) * (2 * t - 1)); this.coins.push({ x: x0 + i * this.r * 1.5, y: y - this.r * 0.6, s: Math.max(22, this.W * 0.055), ch: this.theme.items[0] }); } }
@@ -509,20 +509,28 @@ class Runner extends Base {
     this.p.duck = this.keys['arrowdown'] || this.keys['s'];
     this.p.vy += 2100 * dt; this.p.y += this.p.vy * dt;
     if (this.p.y >= this.gy) { this.p.y = this.gy; this.p.vy = 0; this.p.onGround = true; this.p.jumps = 0; }
-
-    // Sugar Rush: brief coin-storm + magnet + double score, telegraphed
+    // Distance milestone
+    if (this.scroll >= this.nextMilestone) {
+      this.distMilestone++; this.nextMilestone += 500 + this.distMilestone * 200;
+      this.addScore(25 * this.distMilestone); this.sound.power();
+      this.flash(this.theme.accent, 0.2); this.confetti(this.W / 2, this.H * 0.3);
+      this.float(this.W / 2, this.H * 0.2, this.distMilestone * 100 + 'm!', this.theme.accent);
+    }
     this.rushT -= dt;
     if (rushing) { this.rush -= dt; if (this.rush <= 0) this.float(this.W / 2, this.H * 0.28, 'Rush over!', this.theme.accent); }
-    else if (this.rushT <= 0) { this.rush = 4; this.rushT = 17 + Math.random() * 7; this.powers.x2 = Math.max(this.powers.x2 || 0, 4); this.powers.magnet = Math.max(this.powers.magnet || 0, 4); this.sound.power(); this.float(this.W / 2, this.H * 0.28, '🍭 Sugar Rush!', this.theme.accent); this.ring(this.W / 2, this.H * 0.28, this.theme.accent); }
-
+    else if (this.rushT <= 0) { this.rush = 4; this.rushT = 17 + Math.random() * 7; this.powers.x2 = Math.max(this.powers.x2 || 0, 4); this.powers.magnet = Math.max(this.powers.magnet || 0, 4); this.sound.power(); this.float(this.W / 2, this.H * 0.28, 'Sugar Rush!', this.theme.accent); this.ring(this.W / 2, this.H * 0.28, this.theme.accent); }
     this.spawnT -= dt;
     if (this.spawnT <= 0 && !rushing) {
       this.spawnT = Math.max(0.55, 0.95 - this.time * 0.008) + Math.random() * 0.25;
-      const roll = Math.random(), kind = roll < 0.5 ? 'low' : roll < 0.8 ? 'high' : 'tall';
-      const s = Math.max(30, this.W * 0.08);
-      if (kind === 'high') this.obs.push({ x: this.W + 50, kind, s, band: [this.gy - this.r * 2.3, this.gy - this.r * 1.15], ch: this.theme.hazards[0] });
-      else if (kind === 'tall') this.obs.push({ x: this.W + 50, kind, s: s * 1.15, band: [this.gy - this.r * 1.9, this.gy], ch: this.theme.hazards[2 % 3] });
-      else this.obs.push({ x: this.W + 50, kind, s, band: [this.gy - this.r * 0.95, this.gy], ch: this.theme.hazards[1 % 3] });
+      const roll = Math.random(), kind = roll < 0.4 ? 'low' : roll < 0.7 ? 'high' : 'tall';
+      if (this.scroll > 2000 && this.distMilestone > 2) {
+        this.obs.push({ x: this.W + 50, kind: 'moving', s: Math.max(30, this.W * 0.08), band: [this.gy - this.r * 2.3, this.gy], moving: true, mx: this.W * 0.3, ph: Math.random() * 7, ch: this.theme.hazards[2 % 3] });
+      } else {
+        const s = Math.max(30, this.W * 0.08);
+        if (kind === 'high') this.obs.push({ x: this.W + 50, kind, s, band: [this.gy - this.r * 2.3, this.gy - this.r * 1.15], ch: this.theme.hazards[0] });
+        else if (kind === 'tall') this.obs.push({ x: this.W + 50, kind, s: s * 1.15, band: [this.gy - this.r * 1.9, this.gy], ch: this.theme.hazards[2 % 3] });
+        else this.obs.push({ x: this.W + 50, kind, s, band: [this.gy - this.r * 0.95, this.gy], ch: this.theme.hazards[1 % 3] });
+      }
     }
     this.coinT -= dt;
     if (this.coinT <= 0) { this.coinT = rushing ? 0.18 : (0.4 + Math.random() * 0.5);
@@ -531,14 +539,14 @@ class Runner extends Base {
     this.puT -= dt;
     if (this.puT <= 0) { this.puT = 11 + Math.random() * 6; const t = Object.keys(POWERS)[Math.floor(Math.random() * 4)];
       this.pu.push({ x: this.W + 40, y: this.gy - this.H * 0.24, s: Math.max(26, this.W * 0.07), type: t }); }
-
     const mv = this.speed * dt, mag = this.powers.magnet;
-    for (const o of this.obs) o.x -= mv;
+    for (const o of this.obs) {
+      if (o.moving) { o.x -= mv * 0.3; o.band[0] += Math.sin(this.time + o.ph) * o.mx * dt; o.band[1] = o.band[0] + this.r * 1.15; }
+      else o.x -= mv;
+    }
     for (const cn of this.coins) { cn.x -= mv; if (mag) { const dx = this.p.x - cn.x, dy = this.p.y - this.r - cn.y, d = Math.hypot(dx, dy); if (d < this.W * 0.5) { cn.x += dx / d * 460 * dt; cn.y += dy / d * 460 * dt; } } }
     for (const q of this.pu) q.x -= mv;
     this.obs = this.obs.filter(o => o.x > -60); this.coins = this.coins.filter(c => c.x > -60 && !c.got); this.pu = this.pu.filter(q => q.x > -60 && !q.got);
-
-    // player vertical band (feet at p.y, head above; ducking shrinks it)
     const head = this.p.y - this.r * (this.p.duck ? 0.9 : 1.9), pr = this.r * 0.42;
     for (const o of this.obs) if (!o.hit && Math.abs(o.x - this.p.x) < o.s * 0.42 + pr && this.p.y > o.band[0] && head < o.band[1]) { o.hit = true; this.burst(o.x, (o.band[0] + o.band[1]) / 2, '#ff4f6d', 14); this.loseLife(); }
     for (const cn of this.coins) if (!cn.got && Math.abs(cn.x - this.p.x) < cn.s * 0.5 + this.r && Math.abs(cn.y - (this.p.y - this.r * 0.6)) < cn.s * 0.5 + this.r) { cn.got = true; this.sound.coin(); this.burst(cn.x, cn.y, this.theme.accent, 6); this.hitCombo(cn.x, cn.y, rushing ? 8 : 5); }
@@ -550,7 +558,7 @@ class Runner extends Base {
     if (this.rush > 0) { c.save(); c.globalAlpha = 0.25; c.strokeStyle = this.theme.accent; c.lineWidth = 2; for (let i = 0; i < 8; i++) { const y = (i * 53 + this.scroll * 0.6) % this.H; c.beginPath(); c.moveTo(this.W, y); c.lineTo(this.W - 60, y); c.stroke(); } c.restore(); }
     for (const q of this.pu) { c.save(); c.shadowColor = POWERS[q.type].color; c.shadowBlur = 16; this.glyph(POWERS[q.type].icon, q.x, q.y + Math.sin(this.time * 4) * 6, q.s); c.restore(); }
     for (const cn of this.coins) this.glyph(cn.ch, cn.x, cn.y, cn.s);
-    for (const o of this.obs) if (!o.hit) { if (o.kind === 'high') { c.fillStyle = shade(this.theme.primary, -20); rr2(c, o.x - o.s * 0.5, o.band[0], o.s, o.band[1] - o.band[0], 6); c.fill(); this.glyph(o.ch, o.x, o.band[0] + (o.band[1] - o.band[0]) / 2, o.s * 0.7); } else this.glyph(o.ch, o.x, o.band[1] - o.s * 0.5, o.s); }
+    for (const o of this.obs) if (!o.hit) { if (o.moving) { c.fillStyle = shade(this.theme.primary, -30); rr2(c, o.x - o.s * 0.5, o.band[0], o.s, o.band[1] - o.band[0], 6); c.fill(); c.fillStyle = this.theme.accent; c.globalAlpha = 0.6; c.fillRect(o.x - o.s * 0.5, o.band[0], o.s, 4); c.globalAlpha = 1; } else if (o.kind === 'high') { c.fillStyle = shade(this.theme.primary, -20); rr2(c, o.x - o.s * 0.5, o.band[0], o.s, o.band[1] - o.band[0], 6); c.fill(); this.glyph(o.ch, o.x, o.band[0] + (o.band[1] - o.band[0]) / 2, o.s * 0.7); } else this.glyph(o.ch, o.x, o.band[1] - o.s * 0.5, o.s); }
     this.hero(this.p.x, this.p.y - this.r * (this.p.duck ? 0.5 : 0.95), this.r * 2.2, { run: this.p.onGround, squash: this.p.duck ? 0.5 : (this.p.onGround ? 0 : -0.3), expr: this.p.onGround ? 'smile' : 'wow' });
     this.drawFx(); c.restore();
   }
@@ -559,10 +567,11 @@ class Runner extends Base {
 /* ============================================================ FLAPPY */
 
 class Flappy extends Base {
-  instructions() { return 'Tap / Space to flap through the gaps. Some pillars drift up & down — thread the ✨ bonus rings for extra points!'; }
+  instructions() { return 'Tap/Space to flap! Thread gaps, grab coins, hit rings for bonus. Consecutive ring combos multiply score. Watch for moving pipes!'; }
   reset() {
     this.r = Math.max(22, this.W * 0.06); this.p = { x: this.W * 0.28, y: this.H / 2, vy: 0 };
     this.pipes = []; this.gap = this.H * 0.34; this.spawnX = 0; this.gapMin = this.H * 0.24; this.n = 0;
+    this.ringStreak = 0; this.flapPowers = [];
   }
   flap() { this.p.vy = -Math.max(360, this.H * 0.55); this.sound.jump(); this.burst(this.p.x - this.r, this.p.y + this.r * 0.4, this.theme.belly, 4); }
   update(dt) {
@@ -581,12 +590,27 @@ class Flappy extends Base {
       if (Math.abs(p.x - this.p.x) < p.w * 0.5 + this.r * 0.7 && (this.p.y - this.r * 0.6 < p.cy - p.g / 2 || this.p.y + this.r * 0.6 > p.cy + p.g / 2)) { if (!p.hit) { p.hit = true; this.burst(this.p.x, this.p.y, '#ff4f6d', 14); this.loseLife(); this.p.vy = -200; } }
       if (!p.scored && p.x < this.p.x) { p.scored = true; this.hitCombo(this.p.x, this.p.y - this.r, 4); }
       if (p.coin && !p.gc && Math.abs(p.x - this.p.x) < this.r + 10 && Math.abs(p.cy - this.p.y) < p.g / 2) { p.gc = true; this.sound.coin(); this.burst(this.p.x, this.p.y, this.theme.accent, 8); this.hitCombo(this.p.x, this.p.y, 3); }
-      if (p.ring && !p.rgot && Math.abs(p.x - this.p.x) < this.r && Math.abs(p.cy - this.p.y) < p.g * 0.4) { p.rgot = true; this.sound.power(); this.ring(p.x, p.cy, this.theme.accent); this.confetti(p.x, p.cy); this.hitCombo(p.x, p.cy, 15); }
+      if (p.ring && !p.rgot && Math.abs(p.x - this.p.x) < this.r && Math.abs(p.cy - this.p.y) < p.g * 0.4) {
+        p.rgot = true; this.ringStreak++;
+        const ringBonus = 15 * this.ringStreak;
+        this.sound.power(); this.ring(p.x, p.cy, this.theme.accent); this.confetti(p.x, p.cy);
+        this.hitCombo(p.x, p.cy, ringBonus);
+        if (this.ringStreak > 1) this.float(p.x, p.cy - 30, this.ringStreak + 'x ring!', '#ffd166');
+      }
     }
     this.pipes = this.pipes.filter(p => p.x > -80);
+    // Power-up spawns occasionally
+    if (this.n > 0 && this.n % 8 === 0 && !this.flapPowers.length) {
+      const t = Object.keys(POWERS)[Math.floor(Math.random() * 4)];
+      this.flapPowers.push({ x: this.W + 20, y: this.H * 0.2 + Math.random() * this.H * 0.6, type: t, got: false });
+    }
+    for (const f of this.flapPowers) f.x -= this.W * 0.42 * this.difficulty() * dt;
+    for (const f of this.flapPowers) if (!f.got && Math.abs(f.x - this.p.x) < 20 && Math.abs(f.y - this.p.y) < 30) { f.got = true; this.grantPower(f.type); }
+    this.flapPowers = this.flapPowers.filter(f => !f.got && f.x > -60);
   }
   render() {
     const c = this.ctx; c.save(); this.applyShake(c); this.parallax();
+    for (const f of this.flapPowers) { c.save(); c.shadowColor = POWERS[f.type].color; c.shadowBlur = 14; this.glyph(POWERS[f.type].icon, f.x, f.y + Math.sin(this.time * 4) * 5, Math.max(20, this.W * 0.055)); c.restore(); }
     for (const p of this.pipes) {
       const topH = p.cy - p.g / 2, botY = p.cy + p.g / 2;
       if (p.ring) { if (!p.rgot) { c.save(); c.strokeStyle = this.theme.accent; c.lineWidth = 5; c.shadowColor = this.theme.accent; c.shadowBlur = 14; c.beginPath(); c.ellipse(p.x, p.cy, p.w * 0.5, p.g * 0.4, 0, 0, 7); c.stroke(); c.restore(); this.glyph('✨', p.x, p.cy, Math.max(22, this.W * 0.06)); } continue; }
@@ -597,6 +621,7 @@ class Flappy extends Base {
       if (p.moving) { c.save(); c.fillStyle = this.theme.accent; c.globalAlpha = 0.8; this.glyph('↕', p.x, topH - 26, Math.max(16, this.W * 0.04)); c.restore(); }
       if (p.coin && !p.gc) this.glyph(this.theme.items[0], p.x, p.cy, Math.max(22, this.W * 0.055));
     }
+    if (this.ringStreak > 0) { c.fillStyle = '#ffd166'; c.font = 'bold 12px Outfit'; c.textAlign = 'center'; c.textBaseline = 'top'; c.fillText(this.ringStreak + 'x ring streak!', this.W / 2, 60); }
     const tilt = Math.max(-0.5, Math.min(0.6, this.p.vy / 600));
     c.save(); c.translate(this.p.x, this.p.y); c.rotate(tilt); this.hero(0, 0, this.r * 2.2, { t: this.time, run: true }); c.restore();
     this.drawFx(); c.restore();
@@ -606,11 +631,12 @@ class Flappy extends Base {
 /* ============================================================ PLATFORMER */
 
 class Platformer extends Base {
-  instructions() { return 'Auto-bounce up the platforms — tilt / ← → to steer your landing. Springs launch you high, crumbling tiles vanish, dodge the spikes!'; }
+  instructions() { return 'Auto-bounce up! Steer left/right with arrows or drag. Springs launch high, crumbling tiles vanish, moving platforms drift, avoid spikes! Height milestones reward big jumps!'; }
   reset() {
     this.r = Math.max(22, this.W * 0.06); this.p = { x: this.W / 2, y: this.H - 120, vy: 0, vx: 0 };
     this.plats = []; this.height = 0; this.camY = 0;
     for (let i = 0; i < 8; i++) this.plats.push(this._mkPlat(this.H - i * (this.H / 7), i === 0));
+    this.heightMilestone = 0; this.nextHm = 500;
   }
   _mkPlat(y, safe) {
     const roll = Math.random(); let type = 'normal';
@@ -641,6 +667,15 @@ class Platformer extends Base {
     }
     const target = this.H * 0.45;
     if (this.p.y - this.camY < target) { const d = target - (this.p.y - this.camY); this.camY -= d; this.height += d; this.addScore(d * 0.02); }
+    // Height milestone
+    if (this.height >= this.nextHm) {
+      this.heightMilestone++; this.nextHm += 500 + this.heightMilestone * 300;
+      this.addScore(30 * this.heightMilestone); this.sound.power();
+      this.flash(this.theme.accent, 0.2); this.confetti(this.W / 2, this.H * 0.3);
+      this.float(this.W / 2, this.H * 0.25, this.heightMilestone * 50 + 'm!', this.theme.accent);
+      const t = Object.keys(POWERS)[Math.floor(Math.random() * 4)];
+      this.grantPower(t);
+    }
     for (const pl of this.plats) if (pl.gone || pl.y - this.camY > this.H + 60) {
       let topY = Infinity; for (const p of this.plats) if (p !== pl && !p.gone) topY = Math.min(topY, p.y);
       Object.assign(pl, this._mkPlat((isFinite(topY) ? topY : this.camY) - this.H / 7, false));
@@ -670,7 +705,7 @@ class Dodger extends Base {
   instructions() { return 'Move to catch treats, grab power-ups, dodge hazards. Drag or use ← →. Watch for Treat Storms and golden jackpots!'; }
   reset() {
     this.r = Math.max(24, this.W * 0.07); this.p = { x: this.W / 2, y: this.H - Math.max(58, this.H * 0.13), squash: 0 };
-    this.items = []; this.spawnT = 0.5; this.stormT = 14; this.storm = 0; this.jackpotT = 9;
+    this.items = []; this.spawnT = 0.5; this.stormT = 14; this.storm = 0; this.jackpotT = 9; this.dodgerCatchCount = 0; this.dodgerCatchMilestone = 50;
   }
   update(dt) {
     const D = this.difficulty();
@@ -712,7 +747,13 @@ class Dodger extends Base {
         if (it.kind === 'bad') { this.burst(it.x, it.y, '#ff4f6d', 14); this.loseLife(); }
         else if (it.kind === 'power') { this.grantPower(it.ptype); }
         else if (it.jackpot) { this.sound.power(); this.confetti(it.x, it.y); this.hitCombo(it.x, it.y, 40); }
-        else { this.sound.coin(); this.burst(it.x, it.y, this.theme.accent, 8); this.hitCombo(it.x, it.y, this.storm > 0 ? 5 : 3); } } }
+        else { this.sound.coin(); this.burst(it.x, it.y, this.theme.accent, 8); this.hitCombo(it.x, it.y, this.storm > 0 ? 5 : 3);
+          this.dodgerCatchCount++;
+          if (this.dodgerCatchCount >= this.dodgerCatchMilestone) {
+            this.dodgerCatchMilestone += 50; this.addScore(50); this.sound.power(); this.flash('#ffd166', 0.3);
+            this.float(this.W / 2, this.H * 0.25, this.dodgerCatchCount + ' catches!', '#ffd166');
+          }
+        } } }
     this.items = this.items.filter(i => !i.done && i.y < this.H + 60);
   }
   render() {
@@ -731,12 +772,13 @@ class Dodger extends Base {
 /* ============================================================ SHOOTER */
 
 class Shooter extends Base {
-  instructions() { return 'Move with ← → or drag. Auto-fire! Blast the swarm, dodge enemy fire, and take down the boss when it warps in.'; }
-  reset() { this.r = Math.max(24, this.W * 0.07); this.p = { x: this.W / 2, y: this.H - Math.max(58, this.H * 0.13) }; this.foes = []; this.shots = []; this.ebul = []; this.pu = []; this.spawnT = 0.6; this.fireT = 0; this.puT = 10; this.boss = null; this.bossT = 22; this.swarmT = 11; }
+  instructions() { return 'Move ← → or drag, auto-fire! Blast swarms, dodge enemy fire, defeat bosses. Chain kills for combo multiplier. Watch for shield enemies!'; }
+  reset() { this.r = Math.max(24, this.W * 0.07); this.p = { x: this.W / 2, y: this.H - Math.max(58, this.H * 0.13) }; this.foes = []; this.shots = []; this.ebul = []; this.pu = []; this.spawnT = 0.6; this.fireT = 0; this.puT = 10; this.boss = null; this.bossT = 22; this.swarmT = 11; this.killStreak = 0; this.weaponLvl = 1; }
   _spawnFoe(D, kind, x) {
     const base = Math.max(28, this.W * 0.075);
     if (kind === 'tank') this.foes.push({ x, y: -30, s: base * 1.4, vy: this.H * 0.06 * D, hp: 3, kind, dx: 0, ch: this.theme.hazards[2 % 3], ph: 0 });
     else if (kind === 'weaver') this.foes.push({ x, y: -30, s: base, vy: this.H * 0.13 * D, hp: 1, kind, dx: 0, amp: this.W * 0.22, ph: Math.random() * 7, x0: x, ch: this.theme.hazards[0] });
+    else if (kind === 'shield') this.foes.push({ x, y: -30, s: base * 1.1, vy: this.H * 0.09 * D, hp: 2, kind, dx: 0, ch: this.theme.hazards[1 % 3], ph: 0, shielded: true });
     else this.foes.push({ x, y: -30, s: base, vy: (this.H * 0.11 + Math.random() * 40) * D, hp: 1, kind: 'grunt', dx: (Math.random() - 0.5) * 60, ch: this.theme.hazards[1 % 3], ph: 0 });
   }
   update(dt) {
@@ -748,33 +790,31 @@ class Shooter extends Base {
     if (this.pointer.down) this.p.x += (this.pointer.x - this.p.x) * Math.min(1, dt * 14);
     this.p.x = Math.max(this.r, Math.min(this.W - this.r, this.p.x));
     this.fireT -= dt;
-    const rate = this.powers.x2 ? 0.15 : 0.26;
-    if (this.fireT <= 0) { this.fireT = rate; this.shots.push({ x: this.p.x, y: this.p.y - this.r }); if (this.powers.x2) { this.shots.push({ x: this.p.x - 16, y: this.p.y - this.r, vx: -60 }); this.shots.push({ x: this.p.x + 16, y: this.p.y - this.r, vx: 60 }); } this.sound.blip(760, 0.04, 'square', 0.06); }
+    const rate = this.powers.x2 ? 0.12 : Math.max(0.12, 0.26 - this.weaponLvl * 0.02);
+    if (this.fireT <= 0) { this.fireT = rate; this.shots.push({ x: this.p.x, y: this.p.y - this.r }); if (this.powers.x2 || this.weaponLvl >= 3) { this.shots.push({ x: this.p.x - 16, y: this.p.y - this.r, vx: -60 }); this.shots.push({ x: this.p.x + 16, y: this.p.y - this.r, vx: 60 }); } this.sound.blip(760, 0.04, 'square', 0.06); }
     for (const s of this.shots) { s.y -= Math.max(560, this.H) * dt; if (s.vx) s.x += s.vx * dt; } this.shots = this.shots.filter(s => s.y > -20);
-
-    // boss lifecycle — warps in, strafes, fires spreads, has a health bar
     this.bossT -= dt;
-    if (!this.boss && this.bossT <= 0) { const hp = Math.round(14 + this.time * 0.5); this.boss = { x: this.W / 2, y: this.H * 0.14, s: Math.max(60, this.W * 0.2), hp, maxhp: hp, dir: Math.random() < 0.5 ? -1 : 1, fireT: 1.2, ch: this.theme.hazards[0] }; this.float(this.W / 2, this.H * 0.3, '⚠️ Boss!', '#ff4f6d'); this.sound.power(); }
+    if (!this.boss && this.bossT <= 0) { const hp = Math.round(14 + this.time * 0.5); this.boss = { x: this.W / 2, y: this.H * 0.14, s: Math.max(60, this.W * 0.2), hp, maxhp: hp, dir: Math.random() < 0.5 ? -1 : 1, fireT: 1.2, ch: this.theme.hazards[0] }; this.float(this.W / 2, this.H * 0.3, 'Boss!', '#ff4f6d'); this.sound.power(); }
     if (this.boss) {
       const b = this.boss; b.x += b.dir * this.W * 0.25 * dt; if (b.x < b.s * 0.5) { b.x = b.s * 0.5; b.dir = 1; } if (b.x > this.W - b.s * 0.5) { b.x = this.W - b.s * 0.5; b.dir = -1; }
-      b.fireT -= dt; if (b.fireT <= 0) { b.fireT = Math.max(0.7, 1.6 - this.time * 0.01); const spd = this.H * 0.4; for (let a = -1; a <= 1; a++) this.ebul.push({ x: b.x, y: b.y + b.s * 0.4, vx: a * this.W * 0.14, vy: spd }); this.sound.blip(200, 0.1, 'sawtooth', 0.12); }
-      for (const s of this.shots) if (!s.dead && Math.abs(s.x - b.x) < b.s * 0.5 && Math.abs(s.y - b.y) < b.s * 0.5) { s.dead = true; b.hp--; this.burst(s.x, s.y, this.theme.accent, 4); if (b.hp <= 0) { this.confetti(b.x, b.y); this.burst(b.x, b.y, this.theme.accent, 30, 1.8); this.shake = 1; this.hitCombo(b.x, b.y, 60); this.pu.push({ x: b.x, y: b.y, s: Math.max(26, this.W * 0.07), vy: this.H * 0.15, type: Object.keys(POWERS)[Math.floor(Math.random() * 4)] }); this.boss = null; this.bossT = 20 + Math.random() * 8; } }
+      const rage = b.hp <= b.maxhp * 0.5;
+      if (rage && !b.raging) { b.raging = true; b.fireT = 0.3; this.flash('#ff4f6d', 0.3); this.float(b.x, b.y - b.s * 0.6, 'Rage!', '#ff4f6d'); }
+      b.fireT -= dt; if (b.fireT <= 0) { b.fireT = rage ? 0.5 : Math.max(0.7, 1.6 - this.time * 0.01); const spd = this.H * 0.4; for (let a = (rage ? -2 : -1); a <= (rage ? 2 : 1); a++) this.ebul.push({ x: b.x, y: b.y + b.s * 0.4, vx: a * this.W * 0.13, vy: spd }); this.sound.blip(rage ? 150 : 200, 0.1, 'sawtooth', 0.12); }
+      for (const s of this.shots) if (!s.dead && Math.abs(s.x - b.x) < b.s * 0.5 && Math.abs(s.y - b.y) < b.s * 0.5) { s.dead = true; b.hp--; this.burst(s.x, s.y, this.theme.accent, 6); if (b.hp <= 0) { this.confetti(b.x, b.y); this.burst(b.x, b.y, this.theme.accent, 30, 1.8); this.shake = 1.2; this.flash('#fff', 0.4); this.hitCombo(b.x, b.y, 60); this.weaponLvl = Math.min(5, this.weaponLvl + 1); this.float(this.W / 2, this.H * 0.25, 'Weapon Lv.' + this.weaponLvl + '!', '#ffd166'); this.pu.push({ x: b.x, y: b.y, s: Math.max(26, this.W * 0.07), vy: this.H * 0.15, type: Object.keys(POWERS)[Math.floor(Math.random() * 4)] }); this.boss = null; this.bossT = 20 + Math.random() * 8; } }
     }
-
-    // swarm wave: a synchronized line of grunts
     this.swarmT -= dt;
     if (this.swarmT <= 0) { this.swarmT = 13 + Math.random() * 8; const n = 4 + Math.floor(Math.random() * 3); for (let i = 0; i < n; i++) this._spawnFoe(D, 'grunt', (i + 0.5) * this.W / n); this.float(this.W / 2, this.H * 0.28, 'Incoming!', this.theme.accent); }
-
     this.spawnT -= dt;
-    if (this.spawnT <= 0) { this.spawnT = Math.max(0.4, 1.05 - this.time * 0.011); const roll = Math.random(); this._spawnFoe(D, roll < 0.18 ? 'tank' : roll < 0.5 ? 'weaver' : 'grunt', 30 + Math.random() * (this.W - 60)); }
+    if (this.spawnT <= 0) { this.spawnT = Math.max(0.4, 1.05 - this.time * 0.011); const roll = Math.random(); this._spawnFoe(D, roll < 0.12 ? 'tank' : roll < 0.35 ? 'weaver' : roll < 0.5 ? 'shield' : 'grunt', 30 + Math.random() * (this.W - 60)); }
     this.puT -= dt; if (this.puT <= 0) { this.puT = 12 + Math.random() * 6; this.pu.push({ x: 30 + Math.random() * (this.W - 60), y: -20, s: Math.max(26, this.W * 0.07), vy: this.H * 0.15, type: Object.keys(POWERS)[Math.floor(Math.random() * 4)] }); }
-
     for (const f of this.foes) { f.y += f.vy * dt; if (f.kind === 'weaver') f.x = f.x0 + Math.sin(this.time * 3 + f.ph) * f.amp; else { f.x += (f.dx || 0) * dt; if (f.x < f.s / 2 || f.x > this.W - f.s / 2) f.dx *= -1; } }
     for (const q of this.pu) q.y += q.vy * dt;
     for (const b of this.ebul) { b.x += b.vx * dt; b.y += b.vy * dt; }
     for (const f of this.foes) {
-      for (const s of this.shots) if (!s.dead && Math.abs(s.x - f.x) < f.s * 0.5 && Math.abs(s.y - f.y) < f.s * 0.5) { s.dead = true; f.hp--; this.burst(s.x, s.y, this.theme.accent, 4);
-        if (f.hp <= 0) { f.dead = true; this.sound.coin(); this.burst(f.x, f.y, this.theme.accent, f.kind === 'tank' ? 16 : 8, f.kind === 'tank' ? 1.4 : 1); this.hitCombo(f.x, f.y, f.kind === 'tank' ? 10 : 4); } }
+      for (const s of this.shots) if (!s.dead && Math.abs(s.x - f.x) < f.s * 0.5 && Math.abs(s.y - f.y) < f.s * 0.5) {
+        if (f.shielded && s.y > f.y) continue; // must hit from above for shielded
+        s.dead = true; f.hp--; this.burst(s.x, s.y, this.theme.accent, 4);
+        if (f.hp <= 0) { f.dead = true; this.killStreak++; this.sound.coin(); this.burst(f.x, f.y, this.theme.accent, f.kind === 'tank' ? 16 : 8, f.kind === 'tank' ? 1.4 : 1); this.hitCombo(f.x, f.y, f.kind === 'tank' ? 10 : 4); } }
       if (!f.dead && f.y > this.p.y - this.r && Math.abs(f.x - this.p.x) < f.s * 0.5 + this.r * 0.6) { f.dead = true; this.burst(f.x, f.y, '#ff4f6d', 12); this.loseLife(); }
     }
     for (const b of this.ebul) if (!b.dead && Math.abs(b.x - this.p.x) < this.r * 0.7 && Math.abs(b.y - this.p.y) < this.r * 0.7) { b.dead = true; this.burst(b.x, b.y, '#ff4f6d', 10); this.loseLife(); }
@@ -786,10 +826,14 @@ class Shooter extends Base {
     c.fillStyle = this.theme.accent; for (const s of this.shots) { c.save(); c.shadowColor = this.theme.accent; c.shadowBlur = 8; c.fillRect(s.x - 3, s.y - 10, 6, 16); c.restore(); }
     for (const b of this.ebul) { c.save(); c.fillStyle = '#ff5b6e'; c.shadowColor = '#ff5b6e'; c.shadowBlur = 8; c.beginPath(); c.arc(b.x, b.y, this.r * 0.28, 0, 7); c.fill(); c.restore(); }
     for (const q of this.pu) { c.save(); c.shadowColor = POWERS[q.type].color; c.shadowBlur = 16; this.glyph(POWERS[q.type].icon, q.x, q.y, q.s); c.restore(); }
-    for (const f of this.foes) { this.glyph(f.ch, f.x, f.y, f.s); if (f.kind === 'tank' && f.hp < 3) { c.fillStyle = '#ff4f6d'; c.fillRect(f.x - f.s / 2, f.y - f.s / 2 - 6, f.s * (f.hp / 3), 3); } }
+    for (const f of this.foes) {
+      if (f.shielded) { c.save(); c.strokeStyle = '#3ad0ff'; c.lineWidth = 3; c.shadowColor = '#3ad0ff'; c.shadowBlur = 10; c.beginPath(); c.arc(f.x, f.y, f.s * 0.7, 0, 7); c.stroke(); c.restore(); }
+      this.glyph(f.ch, f.x, f.y, f.s); if (f.kind === 'tank' && f.hp < 3) { c.fillStyle = '#ff4f6d'; c.fillRect(f.x - f.s / 2, f.y - f.s / 2 - 6, f.s * (f.hp / 3), 3); }
+    }
     if (this.boss) { const b = this.boss; this.glyph(b.ch, b.x, b.y, b.s * (1 + Math.sin(this.time * 6) * 0.04));
       c.fillStyle = 'rgba(0,0,0,.25)'; c.fillRect(this.W * 0.15, 12, this.W * 0.7, 8); c.fillStyle = '#ff4f6d'; c.fillRect(this.W * 0.15, 12, this.W * 0.7 * (b.hp / b.maxhp), 8); }
     if (this.powers.shield) { c.strokeStyle = POWERS.shield.color; c.globalAlpha = 0.6; c.lineWidth = 3; c.beginPath(); c.arc(this.p.x, this.p.y, this.r * 1.5, 0, 7); c.stroke(); c.globalAlpha = 1; }
+    c.fillStyle = 'rgba(255,255,255,.2)'; c.font = 'bold 12px Outfit'; c.textAlign = 'right'; c.textBaseline = 'top'; c.fillText('Lv.' + this.weaponLvl, this.W - 16, 50);
     this.hero(this.p.x, this.p.y, this.r * 2.2, { t: this.time, expr: 'smile' });
     this.drawFx(); c.restore();
   }
@@ -798,8 +842,8 @@ class Shooter extends Base {
 /* ============================================================ WHACK */
 
 class Whack extends Base {
-  instructions() { return 'Tap the treats as they pop up — fast! Avoid the hazards. Build big combos.'; }
-  reset() { this.cols = 3; this.rows = 3; this.holes = []; this.spawnT = 0.5; this._layout(); this.lives = 3; this.frenzy = 0; this.frenzyT = 12; }
+  instructions() { return 'Tap treats as they pop! ⭐=big points, 💀=BAD. Chain good hits for combo bonus. Speed rounds every 20s — act fast!'; }
+  reset() { this.cols = 3; this.rows = 3; this.holes = []; this.spawnT = 0.5; this._layout(); this.lives = 3; this.frenzy = 0; this.frenzyT = 12; this.whackStreak = 0; this.speedRound = 0; this.speedRoundT = 18; }
   onResize() { if (this.holes && this.holes.length) this._layout(); }
   _layout() {
     const top = this.H * 0.16, bot = this.H * 0.92, left = this.W * 0.14, right = this.W * 0.86;
@@ -809,32 +853,41 @@ class Whack extends Base {
     this.rad = Math.max(26, this.W * 0.09);
   }
   update(dt) {
+    this.speedRoundT -= dt;
+    if (this.speedRound > 0) this.speedRound -= dt;
+    else if (this.speedRoundT <= 0 && this.speedRound <= 0) { this.speedRound = 4; this.speedRoundT = 22 + Math.random() * 5; this.sound.power(); this.flash(this.theme.accent, 0.4); this.float(this.W / 2, this.H * 0.1, 'Speed Round!', '#ff4f6d'); }
     this.frenzyT -= dt;
     if (this.frenzy > 0) this.frenzy -= dt;
-    else if (this.frenzyT <= 0) { this.frenzy = 3.5; this.frenzyT = 15 + Math.random() * 6; this.sound.power(); this.float(this.W / 2, this.H * 0.1, '⚡ Frenzy!', this.theme.accent); }
+    else if (this.frenzyT <= 0) { this.frenzy = 3.5; this.frenzyT = 15 + Math.random() * 6; this.sound.power(); this.float(this.W / 2, this.H * 0.1, 'Frenzy!', this.theme.accent); }
     this.spawnT -= dt;
-    if (this.spawnT <= 0) { this.spawnT = this.frenzy > 0 ? 0.22 : Math.max(0.35, 0.9 - this.time * 0.012);
+    const speedMul = this.speedRound > 0 ? 0.6 : (this.frenzy > 0 ? 0.85 : 1);
+    if (this.spawnT <= 0) { this.spawnT = (this.speedRound > 0 ? 0.18 : (this.frenzy > 0 ? 0.22 : Math.max(0.35, 0.9 - this.time * 0.012))) * speedMul;
       const free = this.holes.filter(h => h.up <= 0); if (free.length) { const h = free[Math.floor(Math.random() * free.length)];
-        const roll = Math.random(), bad = this.frenzy > 0 ? roll < 0.14 : roll < 0.28, gold = !bad && roll > 0.92;
-        h.kind = bad ? 'bad' : gold ? 'gold' : 'good'; h.ch = bad ? this.theme.hazards[Math.floor(Math.random() * 3)] : gold ? '⭐' : this.theme.items[Math.floor(Math.random() * this.theme.items.length)];
-        h.up = 0.01; h.life = gold ? 0.85 : Math.max(0.7, 1.4 - this.time * 0.01); } }
-    for (const h of this.holes) { if (h.up > 0) { h.up = Math.min(1, h.up + dt * 6); h.life -= dt; if (h.life <= 0) { if (h.kind === 'good' || h.kind === 'gold') { this.combo = 0; this.mult = 1; this.comboEl.textContent = ''; } h.up = 0; h.kind = null; } } }
+        const roll = Math.random(), bad = roll < 0.22, gold = !bad && roll > 0.88, bomb = !bad && !gold && roll > 0.72;
+        h.kind = bad ? 'bad' : gold ? 'gold' : bomb ? 'bomb' : 'good'; h.ch = bad ? this.theme.hazards[Math.floor(Math.random() * 3)] : gold ? '⭐' : bomb ? '💣' : this.theme.items[Math.floor(Math.random() * this.theme.items.length)];
+        h.up = 0.01; h.life = gold ? 0.85 : (bomb ? 1.2 : Math.max(0.7, 1.4 - this.time * 0.01)); } }
+    for (const h of this.holes) { if (h.up > 0) { h.up = Math.min(1, h.up + dt * 6); h.life -= dt; if (h.life <= 0) { if (h.kind !== 'bad') { this.whackStreak = 0; this.combo = 0; this.mult = 1; this.comboEl.textContent = ''; } h.up = 0; h.kind = null; } } }
     if (this.pointer.tapped) { for (const h of this.holes) { if (h.up > 0.5 && Math.hypot(this.pointer.x - h.x, this.pointer.y - h.y) < this.rad) {
-      if (h.kind === 'gold') { this.sound.power(); this.confetti(h.x, h.y); this.hitCombo(h.x, h.y, 15); }
-      else if (h.kind === 'good') { this.sound.coin(); this.burst(h.x, h.y, this.theme.accent, 10); this.hitCombo(h.x, h.y, 4); }
-      else { this.burst(h.x, h.y, '#ff4f6d', 12); this.loseLife(); }
+      if (h.kind === 'gold') { this.whackStreak++; this.sound.power(); this.confetti(h.x, h.y); this.hitCombo(h.x, h.y, 20); }
+      else if (h.kind === 'bomb') { this.whackStreak++; this.sound.power(); this.burst(h.x, h.y, '#ff4f6d', 20, 1.5); this.shake = 0.25; for (const n of this.holes) { if (n.kind === 'bad') { n.up = 0; n.kind = null; this.burst(n.x, n.y, '#ffd166', 8); this.hitCombo(n.x, n.y, 5); } } }
+      else if (h.kind === 'good') { this.whackStreak++; this.sound.coin(); this.burst(h.x, h.y, this.theme.accent, 10); this.hitCombo(h.x, h.y, 4 + Math.min(6, Math.floor(this.whackStreak / 3))); }
+      else { this.burst(h.x, h.y, '#ff4f6d', 12); this.whackStreak = 0; this.loseLife(); }
+      if (this.whackStreak > 1 && h.kind !== 'bad' && h.kind !== null) this.comboEl.textContent = this.whackStreak + '×';
       h.up = 0; h.kind = null; break; } } }
   }
   render() {
     const c = this.ctx; c.save(); this.applyShake(c); this.sky();
     c.fillStyle = this.theme.ground; c.fillRect(0, 0, this.W, this.H); c.globalAlpha = 0.12; this.parallaxDecor && this.parallaxDecor(); c.globalAlpha = 1;
+    if (this.speedRound > 0) { c.save(); c.globalAlpha = 0.07 + Math.sin(this.time * 12) * 0.03; c.fillStyle = '#ff4f6d'; c.fillRect(0, 0, this.W, this.H); c.restore(); }
     for (const h of this.holes) {
       c.fillStyle = 'rgba(0,0,0,.18)'; c.beginPath(); c.ellipse(h.x, h.y + this.rad * 0.4, this.rad, this.rad * 0.45, 0, 0, 7); c.fill();
       if (h.up > 0) { const off = (1 - h.up) * this.rad; c.save(); c.beginPath(); c.ellipse(h.x, h.y + this.rad * 0.4, this.rad, this.rad * 0.5, 0, 0, 7); c.clip();
-        if (h.kind === 'good') this.hero(h.x, h.y + off, this.rad * 1.9, { t: this.time }); else { if (h.kind === 'gold') { c.shadowColor = '#ffd166'; c.shadowBlur = 16; } this.glyph(h.ch, h.x, h.y + off, this.rad * 1.4); c.shadowBlur = 0; }
+        if (h.kind === 'good') this.hero(h.x, h.y + off, this.rad * 1.9, { t: this.time }); else { if (h.kind === 'gold') { c.shadowColor = '#ffd166'; c.shadowBlur = 16; } if (h.kind === 'bomb') c.shadowBlur = 20; this.glyph(h.ch, h.x, h.y + off, this.rad * 1.4); c.shadowBlur = 0; }
         c.restore(); }
       c.fillStyle = shade(this.theme.ground, -22); c.beginPath(); c.ellipse(h.x, h.y + this.rad * 0.4, this.rad * 1.02, this.rad * 0.5, 0, 0, Math.PI); c.fill();
     }
+    // Streak bar
+    if (this.whackStreak > 0) { c.fillStyle = 'rgba(255,255,255,.1)'; c.fillRect(this.W / 2 - 40, this.H - 16, 80, 8); c.fillStyle = '#ffd166'; c.fillRect(this.W / 2 - 40, this.H - 16, Math.min(80, this.whackStreak * 6), 8); c.fillStyle = '#fff'; c.font = 'bold 8px Outfit'; c.textAlign = 'center'; c.fillText(this.whackStreak + '×', this.W / 2, this.H - 22); }
     this.drawFx(); c.restore();
   }
 }
@@ -893,8 +946,9 @@ class Match3 extends Base {
       let cleared = 0;
       for (const key of toClear) { const [r, c] = key.split(',').map(Number); if (this.grid[r][c] != null) { this.grid[r][c] = null; this.sp[r][c] = null; cleared++; if (Math.random() < 0.6) this.burst(this._cx(c), this._cy(r), this.theme.accent, 5); } }
       for (const sp of specials) { this.sp[sp.r][sp.col] = sp.type; this.grid[sp.r][sp.col] = sp.color; this.ring(this._cx(sp.col), this._cy(sp.r), '#ffd166'); }
-      const g = cleared * 10 * combo; this.addScore(g); this.sound.combo(combo);
-      if (combo > 1) this.comboEl.textContent = combo + '× chain';
+      const base = cleared * 10, mul = combo * (1 + Math.floor(cleared / 8)), g = base * mul; this.addScore(g); this.sound.combo(combo);
+      if (combo > 1) this.comboEl.textContent = combo + '× cascade ' + g + 'pts';
+      if (combo >= 3) this.float(this.W / 2, this.H * 0.5, 'Cascade ' + combo + '×!', '#ffd166');
       this.timeLeft = Math.min(80, this.timeLeft + cleared * 0.3);
       for (let col = 0; col < this.N; col++) { let w = this.N - 1;
         for (let r = this.N - 1; r >= 0; r--) if (this.grid[r][col] != null) { this.grid[w][col] = this.grid[r][col]; this.sp[w][col] = this.sp[r][col]; if (w !== r) { this.grid[r][col] = null; this.sp[r][col] = null; } w--; }
@@ -955,31 +1009,30 @@ class Match3 extends Base {
 /* ============================================================ SERVE */
 
 class Serve extends Base {
-  instructions() { return 'Serve every item on each customer\'s ticket before patience runs out. Fast serves earn bigger tips — brace for Rush Hour!'; }
-  reset() { this.menu = this.theme.items.slice(0, 4); this.queue = []; this.spawnT = 0; this.maxQ = 4; this.rush = 0; this.rushT = 16; this._btns(); }
+  instructions() { return 'Tap menu buttons to serve customers before patience runs out. Fast = big tips! Rush Hour = double customers. Chain serves = combo bonus!'; }
+  reset() { this.menu = this.theme.items.slice(0, 4); this.queue = []; this.spawnT = 0; this.maxQ = 4; this.rush = 0; this.rushT = 16; this.serveStreak = 0; this._btns(); }
   onResize() { this._btns(); }
   _btns() { if (!this.menu) return; const n = this.menu.length, bw = Math.min(this.W / n - 10, 96); this.btns = this.menu.map((ch, i) => ({ ch, x: (this.W / n) * i + (this.W / n) / 2, y: this.H - Math.max(50, this.H * 0.1), r: Math.max(30, bw * 0.5), press: 0 })); }
   _spawn() {
-    const nItems = Math.min(3, 1 + Math.floor(Math.random() * (1 + this.time / 40)));
+    const nItems = Math.min(4, 1 + Math.floor(Math.random() * (1 + Math.min(3, this.time / 30))));
     const items = []; for (let i = 0; i < nItems; i++) items.push(Math.floor(Math.random() * this.menu.length));
     this.queue.push({ items, served: items.map(() => false), patience: 1, decay: (0.05 + this.time * 0.001 + Math.random() * 0.02) * (this.rush > 0 ? 1.15 : 1) + nItems * 0.006, face: Math.floor(Math.random() * 6) });
   }
   update(dt) {
     this.rushT -= dt;
     if (this.rush > 0) this.rush -= dt;
-    else if (this.rushT <= 0) { this.rush = 6; this.rushT = 18 + Math.random() * 8; this.sound.power(); this.float(this.W / 2, this.H * 0.2, '⏰ Rush Hour!', this.theme.accent); this.ring(this.W / 2, this.H * 0.2, this.theme.accent); }
+    else if (this.rushT <= 0) { this.rush = 6; this.rushT = 18 + Math.random() * 8; this.sound.power(); this.float(this.W / 2, this.H * 0.2, 'Rush Hour!', this.theme.accent); this.ring(this.W / 2, this.H * 0.2, this.theme.accent); }
     this.spawnT -= dt;
     const cap = this.rush > 0 ? this.maxQ : this.maxQ - 1;
     if (this.spawnT <= 0 && this.queue.length < cap) { this.spawnT = this.rush > 0 ? 0.7 : Math.max(0.9, 2.1 - this.time * 0.02); this._spawn(); }
-    for (const q of this.queue) { q.patience -= q.decay * dt; if (q.patience <= 0 && !q.done) { q.done = true; this.combo = 0; this.mult = 1; this.comboEl.textContent = ''; this.loseLife(); } }
+    for (const q of this.queue) { q.patience -= q.decay * dt; if (q.patience <= 0 && !q.done) { q.done = true; this.serveStreak = 0; this.combo = 0; this.mult = 1; this.comboEl.textContent = ''; this.loseLife(); } }
     this.queue = this.queue.filter(q => !q.done);
     if (this.pointer.tapped) for (const b of this.btns) if (Math.hypot(this.pointer.x - b.x, this.pointer.y - b.y) < b.r) {
       const idx = this.menu.indexOf(b.ch);
-      // serve the front-most customer that still needs this dish
       let target = null; for (const q of this.queue) { const k = q.items.findIndex((it, j) => it === idx && !q.served[j]); if (k >= 0) { target = { q, k }; break; } }
       if (target) { target.q.served[target.k] = true; this.sound.coin(); this.burst(b.x, b.y - 40, this.theme.accent, 6);
-        if (target.q.served.every(Boolean)) { target.q.done = true; const tip = Math.round(target.q.patience * 10); this.hitCombo(b.x, b.y - 60, 6 + target.q.items.length * 2 + tip); if (tip >= 6) this.float(b.x, b.y - 90, '💰 Big Tip!', '#ffd166'); }
-      } else { this.sound.blip(200, 0.12, 'sine', 0.1); this.combo = 0; this.mult = 1; this.comboEl.textContent = ''; }
+        if (target.q.served.every(Boolean)) { target.q.done = true; this.serveStreak++; const tip = Math.round(target.q.patience * 10); this.hitCombo(b.x, b.y - 60, 6 + target.q.items.length * 2 + tip + this.serveStreak * 2); if (tip >= 6) this.float(b.x, b.y - 90, 'Big Tip!', '#ffd166'); }
+      } else { this.sound.blip(200, 0.12, 'sine', 0.1); this.serveStreak = 0; this.combo = 0; this.mult = 1; this.comboEl.textContent = ''; }
       b.press = 1; this.queue = this.queue.filter(q => !q.done); }
   }
   render() {
@@ -994,6 +1047,7 @@ class Serve extends Base {
       q.items.forEach((it, j) => { c.save(); if (q.served[j]) c.globalAlpha = 0.28; this.glyph(this.menu[it], x - tw / 2 + 12 + j * iw + iw / 2 - 6, y - 64, 26); if (q.served[j]) { c.strokeStyle = '#3ad07a'; c.lineWidth = 3; c.beginPath(); c.moveTo(x - tw / 2 + 6 + j * iw + 4, y - 64); c.lineTo(x - tw / 2 + 6 + j * iw + 12, y - 58); c.lineTo(x - tw / 2 + 6 + j * iw + 24, y - 74); c.stroke(); } c.restore(); });
       c.fillStyle = 'rgba(0,0,0,.16)'; c.fillRect(x - 28, y + 36, 56, 7); c.fillStyle = q.patience > 0.4 ? '#3ad07a' : '#ff5b6e'; c.fillRect(x - 28, y + 36, 56 * Math.max(0, q.patience), 7); });
     for (const b of this.btns) { c.save(); c.globalAlpha = b.press ? 0.7 : 1; c.fillStyle = this.theme.primary; c.shadowColor = this.theme.primary; c.shadowBlur = 12; c.beginPath(); c.arc(b.x, b.y, b.r, 0, 7); c.fill(); c.restore(); this.glyph(b.ch, b.x, b.y, b.r * 1.1); if (b.press) b.press -= 0.08; }
+    if (this.serveStreak > 0) { c.fillStyle = '#ffd166'; c.font = 'bold 11px Outfit'; c.textAlign = 'center'; c.textBaseline = 'bottom'; c.fillText(this.serveStreak + 'x streak', this.W / 2, this.H - Math.max(96, this.H * 0.2) - 8); }
     this.hero(this.W - Math.max(40, this.W * 0.12), this.H - Math.max(96, this.H * 0.2) - Math.max(30, this.W * 0.08), Math.max(60, this.W * 0.16), { t: this.time });
     this.drawFx(); c.restore();
   }
@@ -1003,7 +1057,7 @@ class Serve extends Base {
 
 class Maze extends Base {
   instructions() { return 'Collect every treat and clear the maze — dodge the guards! Arrow keys, WASD or swipe to steer. Grab a ✨ to turn the tables.'; }
-  reset() { this.level = 1; this._gen(); }
+  reset() { this.level = 1; this.speedBoost = 0; this._gen(); }
   onResize() { if (this.wall) this._layout(); }
   _gen() {
     let C = 7 + this.level * 2; if (C % 2 === 0) C++; C = Math.min(C, 15);
@@ -1056,16 +1110,22 @@ class Maze extends Base {
     else if (this.keys['arrowup'] || this.keys['w']) this.pl.want = [0, -1];
     else if (this.keys['arrowdown'] || this.keys['s']) this.pl.want = [0, 1];
     if (this.pointer.down) { const dx = this.pointer.x - this.pl.px, dy = this.pointer.y - this.pl.py; if (Math.max(Math.abs(dx), Math.abs(dy)) > this.cell * 0.3) { if (Math.abs(dx) > Math.abs(dy)) this.pl.want = [Math.sign(dx), 0]; else this.pl.want = [0, Math.sign(dy)]; } }
-    this._step(this.pl, dt, Math.max(90, this.cell * 5.2), (o) => {
+    const plSpeed = this.speedBoost > 0 ? Math.max(90, this.cell * 9) : Math.max(90, this.cell * 5.2);
+    this._step(this.pl, dt, plSpeed, (o) => {
       if ((o.want[0] || o.want[1]) && this._open(o.cx + o.want[0], o.cy + o.want[1])) o.dir = o.want.slice();
       else if (!(o.dir[0] || o.dir[1]) || !this._open(o.cx + o.dir[0], o.cy + o.dir[1])) o.dir = [0, 0];
     });
     this.fear = Math.max(0, this.fear - dt);
+    this.speedBoost = Math.max(0, this.speedBoost - dt);
     const gsp = Math.max(70, this.cell * (3.5 + this.level * 0.14));
     for (const gd of this.guards) this._step(gd, dt, gsp, (o) => this._guardDir(o));
     for (const p of this.pellets) if (!p.got && p.x === this.pl.cx && p.y === this.pl.cy) {
       p.got = true; this.eaten++; this.burst(this.pl.px, this.pl.py, this.theme.accent, 5);
-      if (p.power) { this.fear = 6; this.grantPower('shield'); this.float(this.pl.px, this.pl.py, 'Cloak!', POWERS.shield.color); }
+      if (p.power) {
+        const r2 = Math.random();
+        if (r2 < 0.4) { this.fear = 6; this.grantPower('shield'); this.float(this.pl.px, this.pl.py, 'Cloak!', POWERS.shield.color); }
+        else { this.speedBoost = 3.5; this.float(this.pl.px, this.pl.py, 'Speed Shoes!', '#ffd166'); this.flash('#ffd166', 0.3); }
+      }
       else { this.sound.coin(); this.hitCombo(this.pl.px, this.pl.py, 3); }
     }
     // bonus fruit — appears for a limited time at a random open cell, worth a lot
@@ -1076,7 +1136,7 @@ class Maze extends Base {
       if (this.fear > 0) { this.sound.power(); this.hitCombo(gd.px, gd.py, 15); this.burst(gd.px, gd.py, this.theme.accent, 16); const p = this._corner(0); gd.cx = gd.tx = p[0]; gd.cy = gd.ty = p[1]; gd.moving = false; gd.px = this._px(p[0]); gd.py = this._py(p[1]); }
       else { this.burst(this.pl.px, this.pl.py, '#ff4f6d', 16); this.loseLife(); this._respawn(); return; }
     }
-    if (this.eaten >= this.total) { this.level++; this.addScore(150); this.confetti(this.W / 2, this.H * 0.4); this._gen(); }
+    if (this.eaten >= this.total) { this.level++; this.addScore(150); this.flash('#fff', 0.5); this.confetti(this.W / 2, this.H * 0.4); this.float(this.W / 2, this.H * 0.35, 'Level ' + (this.level - 1) + ' Clear!', '#ffd166'); this._gen(); }
   }
   _guardDir(o) {
     const opts = [];
@@ -1113,8 +1173,8 @@ class Maze extends Base {
 /* ============================================================ MEMORY */
 
 class Memory extends Base {
-  instructions() { return 'Flip two cards to find matching pairs. Clear the board before the timer runs out — chain matches for big combos! One golden pair hides a bonus power.'; }
-  reset() { this.level = 1; this.timeLeft = 70; this.lives = 999; this.livesEl.innerHTML = '⏱️'; this._clearing = false; this.reveal = 0; this._deal(); }
+  instructions() { return 'Flip cards to find matching pairs! Clear the board before time runs out. Consecutive matches build combo multiplier. Golden card = bonus power!'; }
+  reset() { this.level = 1; this.timeLeft = 70; this.lives = 999; this.livesEl.innerHTML = '⏱️'; this._clearing = false; this.reveal = 0; this.matchStreak = 0; this._deal(); }
   onResize() { if (this.cards) this._layout(); }
   _deal() {
     const pairs = Math.min(12, 4 + this.level), syms = this.theme.items, bonusIdx = Math.floor(Math.random() * pairs), deck = [];
@@ -1152,12 +1212,13 @@ class Memory extends Base {
         if (!this.first) this.first = cd;
         else if (this.first !== cd) {
           if (this.first.s === cd.s) {
-            cd.done = this.first.done = true; this.matched++; this.sound.coin(); this.hitCombo(cd.px, cd.py, 8); this.burst(cd.px, cd.py, this.theme.accent, 12); this.timeLeft = Math.min(99, this.timeLeft + 2.5);
+            cd.done = this.first.done = true; this.matched++; this.matchStreak++; this.sound.coin(); this.hitCombo(cd.px, cd.py, 8 * this.matchStreak); this.burst(cd.px, cd.py, this.theme.accent, 12); this.timeLeft = Math.min(99, this.timeLeft + 2.5);
+            if (this.matchStreak > 1) this.float(cd.px, cd.py - this.csz * 0.7, this.matchStreak + 'x streak!', '#ffd166');
             if (cd.bonus) this._bonus(cd);
             this.first = null;
-            if (this.matched >= this.pairs) { this.level++; this.addScore(120); this.confetti(this.W / 2, this.H * 0.5); this._clearing = true; this.clearT = 1.1; }
+            if (this.matched >= this.pairs) { this.level++; this.addScore(120 + this.matched * 5); this.confetti(this.W / 2, this.H * 0.5); this._clearing = true; this.clearT = 1.1; }
           } else if (this.powers.shield) { delete this.powers.shield; this.sound.blip(300, 0.2, 'sine', 0.2); this.ring(cd.px, cd.py, POWERS.shield.color); this.float(cd.px, cd.py - this.csz * 0.6, 'Saved!', POWERS.shield.color); this._pending = [this.first, cd]; this.lock = 0.5; this.first = null;
-          } else { this._pending = [this.first, cd]; this.lock = 0.8; this.combo = 0; this.mult = 1; this.comboEl.textContent = ''; this.sound.blip(200, 0.12, 'sine', 0.1); this.first = null; }
+          } else { this._pending = [this.first, cd]; this.lock = 0.8; this.matchStreak = 0; this.combo = 0; this.mult = 1; this.comboEl.textContent = ''; this.sound.blip(200, 0.12, 'sine', 0.1); this.first = null; }
         }
       }
     }
@@ -1174,6 +1235,7 @@ class Memory extends Base {
       else { c.fillStyle = this.theme.primary; rr2(c, -s / 2, -s / 2, s, s, s * 0.16); c.fill(); c.strokeStyle = this.theme.accent; c.lineWidth = 2; rr2(c, -s / 2 + 4, -s / 2 + 4, s - 8, s - 8, s * 0.12); c.stroke(); c.globalAlpha = 0.5; this.glyph('✨', 0, 0, s * 0.34); }
       c.restore(); c.globalAlpha = 1;
     }
+    if (this.matchStreak > 0) { c.fillStyle = '#ffd166'; c.font = 'bold 12px Outfit'; c.textAlign = 'left'; c.textBaseline = 'top'; c.fillText(this.matchStreak + 'x streak', 16, 68); }
     this.drawFx(); c.restore();
   }
 }
@@ -1181,8 +1243,8 @@ class Memory extends Base {
 /* ============================================================ STACKER */
 
 class Stacker extends Base {
-  instructions() { return 'Tap / Space to drop each block onto the stack. Overhang is sliced off — nail perfect drops to stay wide and build sky-high!'; }
-  reset() { this.bh = Math.max(22, this.H * 0.052); this.bw0 = this.W * 0.44; this.tower = [{ x: this.W / 2, w: this.bw0 }]; this.slices = []; this.camY = 0; this.perfectStreak = 0; this.lives = 3; this.drawLives(); this._spawn(); }
+  instructions() { return 'Tap/Space to drop blocks. Perfect drops = wider blocks! Stack high for height bonuses. Wind gusts above 8 blocks add challenge!'; }
+  reset() { this.bh = Math.max(22, this.H * 0.052); this.bw0 = this.W * 0.44; this.tower = [{ x: this.W / 2, w: this.bw0 }]; this.slices = []; this.camY = 0; this.perfectStreak = 0; this.heightM = 0; this.lives = 3; this.drawLives(); this._spawn(); }
   _spawn() { const top = this.tower[this.tower.length - 1]; const from = Math.random() < 0.5 ? -1 : 1; this.cur = { w: top.w, x: from < 0 ? top.w / 2 : this.W - top.w / 2, dir: from < 0 ? 1 : -1 }; this.speed = Math.min(this.W * 1.15, Math.max(150, this.W * 0.55) + this.tower.length * 7); }
   _screenY(level) { return this.groundY - level * this.bh + this.camY; }
   _col(i) { return `hsl(${(i * 16 + 200) % 360},68%,${this.theme.dark ? 60 : 66}%)`; }
@@ -1190,8 +1252,14 @@ class Stacker extends Base {
     this.groundY = this.H - this.bh * 1.4;
     const topLevel = this.tower.length - 1, naturalTop = this.groundY - topLevel * this.bh, targetCam = this.H * 0.42 - naturalTop;
     this.camY += (targetCam - this.camY) * Math.min(1, dt * 4);
+    // Height milestone
+    if (this.tower.length > 10 && this.tower.length > this.heightM + 10) {
+      this.heightM = Math.floor(this.tower.length / 10) * 10;
+      this.addScore(50 * (this.heightM / 10)); this.sound.power();
+      this.flash(this.theme.accent, 0.2); this.confetti(this.W / 2, this.H * 0.3);
+      this.float(this.W / 2, this.H * 0.2, this.heightM + ' blocks!', this.theme.accent);
+    }
     const c = this.cur; c.x += c.dir * this.speed * dt;
-    // gusts of wind kick in high up — nudge the sliding block for extra challenge
     if (this.tower.length >= 8) c.x += Math.sin(this.time * 1.7) * this.W * 0.06 * dt * (this.tower.length - 7);
     if (c.x > this.W - c.w / 2) { c.x = this.W - c.w / 2; c.dir = -1; } if (c.x < c.w / 2) { c.x = c.w / 2; c.dir = 1; }
     if (this.pointer.tapped || this.keys[' ']) { this.keys[' '] = false; this._drop(); }
@@ -1234,7 +1302,7 @@ class Stacker extends Base {
 /* ============================================================ SPORTS (Soccer/Kick) */
 
 class Sports extends Base {
-  instructions() { return 'Aim with your finger/mouse, release to kick! Beat the goalie, score goals, and chain combos for bonus points!'; }
+  instructions() { return 'Aim finger/mouse, release to kick! Beat the goalie, score consecutive goals for streak bonus. Power bar + angle guide help accuracy!'; }
   reset() {
     this.ball = { x: this.W * 0.5, y: this.H * 0.78, vx: 0, vy: 0, r: Math.max(14, this.W * 0.035), spin: 0, active: false, scored: false };
     this.goalie = { x: this.W * 0.5, y: this.H * 0.3, w: this.W * 0.08, h: this.H * 0.06, vx: 0, diveT: 0 };
@@ -1248,6 +1316,7 @@ class Sports extends Base {
     this.round = 0;
     this.shotsLeft = 5;
     this.goals = 0;
+    this.goalStreak = 0;
     this.gkSpeed = Math.max(120, this.W * 0.35);
     this.netFlash = 0;
     this.ballTrail = [];
@@ -1297,14 +1366,16 @@ class Sports extends Base {
             this.ball.scored = true;
             this.float(this.ball.x, this.ball.y - 30, 'SAVED!', '#ff2a54');
           } else {
-            // GOAL!
             this.ball.scored = true;
             this.goals++;
+            this.goalStreak++;
             this.netFlash = 0.6;
-            this.hitCombo(this.ball.x, this.goalY, 20);
+            const streakBonus = this.goalStreak * 5;
+            this.hitCombo(this.ball.x, this.goalY, 20 + streakBonus);
             this.confetti(this.W / 2, this.goalY);
             this.sound.power();
             this.float(this.W / 2, this.goalY + 30, 'GOAL!', this.theme.accent);
+            if (this.goalStreak > 1) this.float(this.W / 2, this.goalY + 55, this.goalStreak + 'x streak!', '#ffd166');
           }
         }
       }
@@ -1362,7 +1433,7 @@ class Sports extends Base {
     c.beginPath(); c.moveTo(0, this.H * 0.82); c.lineTo(this.W, this.H * 0.82); c.stroke();
 
     // Ball trail
-    this.ballTrail.forEach(t => { c.globalAlpha = t.life / 0.3 * 0.4; c.fillStyle = '#fff'; c.beginPath(); c.arc(t.x, t.y, this.ball.r * 0.7, 0, 7); c.fill(); });
+    this.ballTrail.forEach(t => { c.globalAlpha = t.life / 0.3 * 0.5; c.fillStyle = this.theme.accent; c.shadowColor = this.theme.accent; c.shadowBlur = 8; c.beginPath(); c.arc(t.x, t.y, this.ball.r * 0.7 * (t.life / 0.3), 0, 7); c.fill(); c.shadowBlur = 0; });
     c.globalAlpha = 1;
 
     // Ball
@@ -1423,9 +1494,10 @@ class Sports extends Base {
 /* ============================================================ RACING (Top-Down) */
 
 class Racing extends Base {
-  instructions() { return 'Steer with ← → or drag! Collect boost pads 🟡, dodge cones 🔴, and survive as many laps as possible!'; }
+  instructions() { return 'Steer with arrows or drag! Collect boosts, dodge cones, beat the AI rival! Fastest lap gets bonus points. Upgrade speed each lap!'; }
   reset() {
     this.player = { x: this.W * 0.5, y: this.H * 0.8, angle: -Math.PI / 2, speed: 0, lap: 0 };
+    this.ai = { x: this.W * 0.5, y: this.H * 0.8, angle: -Math.PI / 2, speed: 0, lap: 0, aiAngle: -Math.PI / 2, aiLapDone: false };
     this.trackR = Math.min(this.W, this.H) * 0.32;
     this.cx = this.W / 2; this.cy = this.H / 2;
     this.trackW = Math.max(60, this.W * 0.12);
@@ -1436,11 +1508,12 @@ class Racing extends Base {
     this.maxSpeed = Math.max(200, this.W * 0.5);
     this.accel = 180;
     this.lapTime = 0;
+    this.fastestLap = 0;
   }
   onResize() { this.reset(); }
   _spawnCones() {
     this.cones = [];
-    for (let i = 0; i < 8; i++) {
+    for (let i = 0; i < 8 + this.player.lap * 2; i++) {
       const a = Math.random() * Math.PI * 2;
       const r = this.trackR + (Math.random() - 0.5) * this.trackW * 0.7;
       this.cones.push({ x: this.cx + Math.cos(a) * r, y: this.cy + Math.sin(a) * r, hit: false });
@@ -1511,6 +1584,23 @@ class Racing extends Base {
       }
     }
 
+    // AI car - follows track with slight speed variation
+    const ai = this.ai;
+    const aiAng = Math.atan2(this.cy - ai.y, this.cx - ai.x);
+    ai.aiAngle += (aiAng - ai.aiAngle) * 0.05;
+    ai.angle = ai.aiAngle + Math.sin(this.time * 0.5 + this.player.lap) * 0.3;
+    ai.speed = this.maxSpeed * (0.7 + this.player.lap * 0.03);
+    ai.x += Math.cos(ai.angle) * ai.speed * dt;
+    ai.y += Math.sin(ai.angle) * ai.speed * dt;
+    const aiDx = ai.x - this.cx, aiDy = ai.y - this.cy;
+    const aiDist = Math.sqrt(aiDx * aiDx + aiDy * aiDy);
+    if (aiDist > this.trackR + this.trackW / 2) { const a = Math.atan2(aiDy, aiDx); ai.x = this.cx + Math.cos(a) * (this.trackR + this.trackW / 2); ai.y = this.cy + Math.sin(a) * (this.trackR + this.trackW / 2); }
+    if (aiDist < this.trackR - this.trackW / 2) { const a = Math.atan2(aiDy, aiDx); ai.x = this.cx + Math.cos(a) * (this.trackR - this.trackW / 2); ai.y = this.cy + Math.sin(a) * (this.trackR - this.trackW / 2); }
+    // AI lap tracking
+    const aiQuad = Math.floor(((Math.atan2(aiDy, aiDx) + Math.PI) / (Math.PI * 2)) * 4) % 4;
+    if (ai.aiLastQuad === 3 && aiQuad === 0) { ai.lap++; }
+    ai.aiLastQuad = aiQuad;
+
     // Passive score
     this.addScore(dt * 4 * (p.speed / this.maxSpeed));
 
@@ -1577,13 +1667,14 @@ class Racing extends Base {
 /* ============================================================ BREAKOUT */
 
 class Breakout extends Base {
-  instructions() { return 'Move the paddle with ← → or drag! Break all bricks, grab falling power-ups, and clear every level!'; }
+  instructions() { return 'Move paddle arrows/drag! Break bricks, catch falling power-ups. Hard bricks (2 hits), bomb bricks clear neighbors, speed bricks! Clear every level!'; }
   reset() {
     this.paddle = { x: this.W / 2, y: this.H * 0.88, w: Math.max(60, this.W * 0.16), h: 12 };
     this.ball = { x: this.W / 2, y: this.H * 0.7, vx: 0, vy: 0, r: 8, stuck: true };
     this.bricks = []; this.falling = []; this.level = 1;
     this._buildBricks();
     this.combo = 0;
+    this.multiBall = null;
   }
   onResize() { this.reset(); }
   _buildBricks() {
@@ -1595,8 +1686,8 @@ class Breakout extends Base {
     const startY = this.H * 0.15;
     for (let r = 0; r < rows; r++) {
       for (let col = 0; col < cols; col++) {
-        const hp = r < 1 ? 2 : 1;
-        const type = Math.random() < 0.08 ? 'bomb' : Math.random() < 0.12 ? 'power' : 'normal';
+        const hp = r < 1 ? 2 : (Math.random() < 0.1 ? 2 : 1);
+        const type = Math.random() < 0.08 ? 'bomb' : Math.random() < 0.10 ? 'power' : Math.random() < 0.08 ? 'speed' : 'normal';
         this.bricks.push({ x: 20 + col * (bw + 4), y: startY + r * (bh + 4), w: bw, h: bh, hp, maxhp: hp, type, hit: false });
       }
     }
@@ -1652,11 +1743,15 @@ class Breakout extends Base {
             this.hitCombo(br.x + br.w / 2, br.y, 10);
             this.burst(br.x + br.w / 2, br.y + br.h / 2, this._brickColor(br), 8);
             if (br.type === 'bomb') {
-              // Explode neighbors
               this.sound.hit(); this.shake = 0.8;
               for (const n of this.bricks) { if (!n.hit && Math.hypot(n.x - br.x, n.y - br.y) < 80) { n.hp = 0; n.hit = true; this.addScore(5); this.burst(n.x + n.w / 2, n.y + n.h / 2, '#ff6b35', 4); } }
             } else if (br.type === 'power') {
-              this.falling.push({ x: br.x + br.w / 2, y: br.y + br.h / 2, vy: 80, type: ['shield', 'magnet', 'x2', 'slow'][Math.floor(Math.random() * 4)] });
+              this.falling.push({ x: br.x + br.w / 2, y: br.y + br.h / 2, vy: 80, type: ['shield', 'magnet', 'x2', 'slow', 'mega'][Math.floor(Math.random() * 5)] });
+            } else if (br.type === 'speed') {
+              const sp = Math.sqrt(b.vx * b.vx + b.vy * b.vy);
+              b.vx *= 1.3; b.vy *= 1.3;
+              this.sound.blip(900, 0.06, 'square', 0.15);
+              this.float(br.x + br.w / 2, br.y, 'SPEED!', '#ff6b35');
             }
           } else {
             this.sound.blip(300, 0.04, 'square', 0.1);
@@ -1674,7 +1769,7 @@ class Breakout extends Base {
     }
     // Level clear
     if (this.bricks.every(br => br.hit)) {
-      this.level++; this.addScore(100); this.confetti(this.W / 2, this.H / 2); this.sound.power();
+      this.level++; this.addScore(100); this.flash('#fff', 0.4); this.confetti(this.W / 2, this.H / 2); this.sound.power();
       this._buildBricks(); this.ball.stuck = true; this.ball.vx = 0; this.ball.vy = 0;
       this.float(this.W / 2, this.H * 0.4, `Level ${this.level}!`, this.theme.accent);
     }
@@ -1718,7 +1813,7 @@ class Breakout extends Base {
 /* ============================================================ SNAKE */
 
 class Snake extends Base {
-  instructions() { return 'Steer with arrows or swipe! Eat treats to grow, grab power-ups, and don't hit yourself or the walls!'; }
+  instructions() { return 'Arrows/swipe to steer! Eat food to grow. Portal gates teleport you across the board. Power food gives temporary abilities!'; }
   reset() {
     this.cell = Math.max(16, Math.min(this.W, this.H) / 18);
     this.cols = Math.floor(this.W / this.cell);
@@ -1729,9 +1824,19 @@ class Snake extends Base {
     this.powerFood = null; this.powerT = 0;
     this.moveT = 0; this.moveInterval = Math.max(0.08, 0.18 - this.time * 0.001);
     this.growing = 0;
+    this.gates = [];
+    this._spawnGates();
   }
   onResize() { this.reset(); }
   _randCell() { return { x: Math.floor(Math.random() * this.cols), y: Math.floor(Math.random() * this.rows) }; }
+  _spawnGates() {
+    this.gates = [];
+    if (this.cols < 6 || this.rows < 6) return;
+    const g1 = this._randCell();
+    let g2 = this._randCell();
+    while (g2.x === g1.x && g2.y === g1.y) g2 = this._randCell();
+    this.gates = [{ x: g1.x, y: g1.y, color: '#8a5cff' }, { x: g2.x, y: g2.y, color: '#ff4f9a' }];
+  }
   update(dt) {
     // Direction from input
     if (this.keys['ArrowUp'] && this.dir.y === 0) this.nextDir = { x: 0, y: -1 };
@@ -1761,6 +1866,20 @@ class Snake extends Base {
         if (s.x === nh.x && s.y === nh.y) { this.loseLife(); if (this.lives > 0) this.reset(); return; }
       }
       this.snake.unshift(nh);
+      // Portal gates
+      if (this.gates.length === 2) {
+        for (let gi = 0; gi < this.gates.length; gi++) {
+          const g = this.gates[gi];
+          if (nh.x === g.x && nh.y === g.y) {
+            const other = this.gates[1 - gi];
+            nh.x = other.x; nh.y = other.y;
+            this.sound.power();
+            this.ring(nh.x * this.cell + this.cell / 2, nh.y * this.cell + this.cell / 2, g.color);
+            this.burst(nh.x * this.cell + this.cell / 2, nh.y * this.cell + this.cell / 2, g.color, 10);
+            break;
+          }
+        }
+      }
       // Food
       if (nh.x === this.food.x && nh.y === this.food.y) {
         this.hitCombo(nh.x * this.cell + this.cell / 2, nh.y * this.cell + this.cell / 2, 10);
@@ -1800,6 +1919,21 @@ class Snake extends Base {
       c.fillStyle = '#8a5cff'; c.beginPath(); c.arc(this.powerFood.x * cs + cs / 2, this.powerFood.y * cs + cs / 2, cs * 0.4 + Math.sin(this.time * 5) * 2, 0, 7); c.fill();
       this.glyph('✨', this.powerFood.x * cs + cs / 2, this.powerFood.y * cs + cs / 2, cs * 0.5);
     }
+    // Gates
+    if (this.gates.length === 2) {
+      for (const g of this.gates) {
+        c.save(); c.shadowColor = g.color; c.shadowBlur = 16;
+        c.fillStyle = g.color; c.beginPath(); c.arc(g.x * cs + cs / 2, g.y * cs + cs / 2, cs * 0.45 + Math.sin(this.time * 3) * 2, 0, 7); c.fill();
+        c.strokeStyle = '#fff'; c.lineWidth = 2; c.beginPath(); c.arc(g.x * cs + cs / 2, g.y * cs + cs / 2, cs * 0.5, 0, 7); c.stroke();
+        c.restore(); this.glyph('🌀', g.x * cs + cs / 2, g.y * cs + cs / 2, cs * 0.5);
+      }
+      // Portal beam
+      const a = this.gates[0], b = this.gates[1];
+      c.save(); c.globalAlpha = 0.1 + Math.sin(this.time * 2) * 0.05;
+      c.strokeStyle = '#8a5cff'; c.lineWidth = 2; c.setLineDash([6, 8]);
+      c.beginPath(); c.moveTo(a.x * cs + cs / 2, a.y * cs + cs / 2); c.lineTo(b.x * cs + cs / 2, b.y * cs + cs / 2); c.stroke();
+      c.setLineDash([]); c.restore();
+    }
     // Snake
     for (let i = 0; i < this.snake.length; i++) {
       const s = this.snake[i];
@@ -1817,17 +1951,19 @@ class Snake extends Base {
 /* ============================================================ RHYTHM */
 
 class Rhythm extends Base {
-  instructions() { return 'Tap when the shrinking circle matches the target ring! Hit PERFECT for combo multipliers!'; }
+  instructions() { return 'Tap shrinking circles when they match the target ring! Perfect = combo multiplier. Miss = streak lost. Chain perfects for bonus points!'; }
   reset() {
     this.notes = []; this.hitRings = []; this.spawnT = 0; this.spawnInterval = 1.2;
-    this.perfectStreak = 0; this.totalHits = 0; this.misses = 0;
+    this.perfectStreak = 0; this.totalHits = 0; this.misses = 0; this.maxStreak = 0;
     this.beatT = 0; this.beatPulse = 0;
+    this.songProgress = 0;
   }
   onResize() { this.reset(); }
   update(dt) {
     const D = this.difficulty();
     this.spawnInterval = Math.max(0.6, 1.3 - this.time * 0.005);
     this.beatT += dt;
+    this.songProgress += dt * 0.04;
     if (this.beatT > 60 / 120) { this.beatT = 0; this.beatPulse = 1; this.sound.blip(200, 0.03, 'sine', 0.05); }
     if (this.beatPulse > 0) this.beatPulse -= dt * 3;
 
@@ -1846,6 +1982,7 @@ class Rhythm extends Base {
       if (n.life <= 0 && !n.hit) {
         n.hit = true; this.misses++; this.perfectStreak = 0; this.combo = 0; this.mult = 1; this.comboEl.textContent = '';
         this.float(n.x, n.y, 'MISS', '#ff2a54'); this.sound.blip(150, 0.15, 'sawtooth', 0.1);
+        this.shake = 0.3;
       }
       // Check tap
       if (!n.hit && this.pointer.tapped) {
@@ -1857,10 +1994,13 @@ class Rhythm extends Base {
           n.hit = true;
           if (acc < 8) {
             this.perfectStreak++; this.totalHits++;
-            this.hitCombo(n.x, n.y, 20);
+            if (this.perfectStreak > this.maxStreak) this.maxStreak = this.perfectStreak;
+            const streakBonus = Math.floor(this.perfectStreak / 5) * 15;
+            this.hitCombo(n.x, n.y, 20 + streakBonus);
             this.confetti(n.x, n.y); this.sound.power();
             this.hitRings.push({ x: n.x, y: n.y, r: 0, life: 0.5, color: '#ffd166' });
             this.float(n.x, n.y - 20, 'PERFECT!', '#ffd166');
+            if (this.perfectStreak >= 5 && this.perfectStreak % 5 === 0) this.float(n.x, n.y - 45, this.perfectStreak + 'x streak!', '#ffd166');
           } else if (acc < 20) {
             this.totalHits++; this.hitCombo(n.x, n.y, 10);
             this.burst(n.x, n.y, this.theme.accent, 6); this.sound.coin();
@@ -1905,11 +2045,15 @@ class Rhythm extends Base {
     // Hero
     this.hero(this.W / 2, this.H * 0.9, Math.max(40, this.W * 0.1), { t: this.time, expr: this.beatPulse > 0.5 ? 'wow' : 'smile' });
 
+    // Song progress bar
+    c.fillStyle = 'rgba(255,255,255,.1)'; c.fillRect(0, this.H - 4, this.W, 4);
+    c.fillStyle = this.theme.accent; c.fillRect(0, this.H - 4, this.W * Math.min(1, this.songProgress), 4);
     // Stats
     c.fillStyle = '#fff'; c.font = 'bold 14px Outfit'; c.textAlign = 'left'; c.textBaseline = 'top';
     c.fillText(`Hits: ${this.totalHits}  Perfect: ${this.perfectStreak}×  Miss: ${this.misses}`, 16, 50);
     this.drawFx(); c.restore();
   }
+}
 }
 
 /* ============================================================ TOWER DEFENSE */
@@ -1956,7 +2100,7 @@ class TowerDefense extends Base {
       if (this.spawnT > 0.8) {
         this.spawnT = 0; this.spawnIdx++;
         const hp = 3 + Math.floor(this.wave * 1.5);
-        const sp = 40 + this.wave * 5;
+        const sp = (40 + this.wave * 5) * (0.85 + Math.random() * 0.3);
         this.enemies.push({ t: 0, hp, maxhp: hp, sp, x: this.path[0].x, y: this.path[0].y, dead: false, type: Math.random() < 0.15 ? 'tank' : 'normal' });
       }
     } else if (this.enemies.length === 0) {
@@ -2008,18 +2152,24 @@ class TowerDefense extends Base {
     this.enemies = this.enemies.filter(e => !e.dead);
     this.bullets = this.bullets.filter(b => b.life > 0);
 
-    // Place tower on tap
+    // Place tower on tap (or upgrade existing)
     if (this.pointer.tapped && this.coins >= 40) {
       const tx = this.pointer.x, ty = this.pointer.y;
-      // Check not on path
-      let onPath = false;
-      for (let i = 0; i < this.path.length - 1; i++) {
-        const d = this._distToSeg(tx, ty, this.path[i], this.path[i + 1]);
-        if (d < 30) { onPath = true; break; }
-      }
-      if (!onPath && !this.towers.some(t => Math.hypot(t.x - tx, t.y - ty) < 40)) {
-        this.coins -= 40; this.towers.push({ x: tx, y: ty, range: 100, rate: 0.4, dmg: 1, cd: 0 });
-        this.burst(tx, ty, this.theme.primary, 8); this.sound.power();
+      const existing = this.towers.find(t => Math.hypot(t.x - tx, t.y - ty) < 30);
+      if (existing && existing.lvl < 3 && this.coins >= 60) {
+        this.coins -= 60; existing.lvl++; existing.dmg += 1; existing.range += 20; existing.rate = Math.max(0.15, existing.rate - 0.05);
+        this.burst(tx, ty, this.theme.accent, 12); this.sound.power();
+        this.float(tx, ty - 20, 'Upgrade Lv.' + existing.lvl + '!', '#ffd166');
+      } else {
+        let onPath = false;
+        for (let i = 0; i < this.path.length - 1; i++) {
+          const d = this._distToSeg(tx, ty, this.path[i], this.path[i + 1]);
+          if (d < 30) { onPath = true; break; }
+        }
+        if (!onPath && !this.towers.some(t => Math.hypot(t.x - tx, t.y - ty) < 40)) {
+          this.coins -= 40; this.towers.push({ x: tx, y: ty, range: 100, rate: 0.4, dmg: 1, cd: 0, lvl: 1 });
+          this.burst(tx, ty, this.theme.primary, 8); this.sound.power();
+        }
       }
     }
   }
@@ -2034,9 +2184,12 @@ class TowerDefense extends Base {
 
     // Towers
     for (const tw of this.towers) {
+      c.save(); if (tw.lvl > 1) { c.shadowColor = this.theme.accent; c.shadowBlur = 8 + tw.lvl * 4; }
       c.fillStyle = this.theme.primary; c.strokeStyle = 'rgba(0,0,0,.2)'; c.lineWidth = 2;
-      c.beginPath(); c.arc(tw.x, tw.y, 14, 0, 7); c.fill(); c.stroke();
+      c.beginPath(); c.arc(tw.x, tw.y, 14, 0, 7); c.fill(); c.stroke(); c.shadowBlur = 0;
       c.fillStyle = this.theme.accent; c.beginPath(); c.arc(tw.x, tw.y, 6, 0, 7); c.fill();
+      if (tw.lvl > 1) { c.fillStyle = '#fff'; c.font = 'bold 9px Outfit'; c.textAlign = 'center'; c.textBaseline = 'bottom'; c.fillText('Lv.' + tw.lvl, tw.x, tw.y - 16); }
+      c.restore();
       // Range indicator on hover
       if (Math.hypot(this.pointer.x - tw.x, this.pointer.y - tw.y) < 30) { c.strokeStyle = 'rgba(255,255,255,.15)'; c.lineWidth = 1; c.beginPath(); c.arc(tw.x, tw.y, tw.range, 0, 7); c.stroke(); }
     }
@@ -2073,9 +2226,10 @@ class TowerDefense extends Base {
 /* ============================================================ PINBALL */
 
 class Pinball extends Base {
-  instructions() { return 'Hold ← / → or tap left/right side to flip! Keep the ball alive, hit bumpers and targets for big points!'; }
+  instructions() { return 'Flippers: ← / → or tap sides! Hit bumpers for points, clear targets, catch the spinner for bonus. Multi-ball mode activates at 50 bumper hits!'; }
   reset() {
     this.ball = { x: this.W / 2, y: this.H * 0.3, vx: 0, vy: 0, r: 10 };
+    this.balls = [];
     this.gravity = 500;
     this.flipL = { angle: 0.4, target: 0.4, active: false };
     this.flipR = { angle: -0.4, target: -0.4, active: false };
@@ -2084,6 +2238,8 @@ class Pinball extends Base {
     this.flipLx = this.W * 0.3; this.flipRx = this.W * 0.7;
     this.bumpers = [];
     this.targets = [];
+    this.spinner = { x: this.W * 0.5, y: this.H * 0.45, r: 16, angle: 0, spin: 0, active: false };
+    this.totalBumperHits = 0;
     this._buildBumpers();
     this._buildTargets();
     this.stuckT = 0;
@@ -2102,7 +2258,6 @@ class Pinball extends Base {
     }
   }
   update(dt) {
-    const b = this.ball;
     // Flipper control
     this.flipL.active = this.keys['ArrowLeft'] || (this.pointer.down && this.pointer.x < this.W / 2);
     this.flipR.active = this.keys['ArrowRight'] || (this.pointer.down && this.pointer.x > this.W / 2);
@@ -2111,59 +2266,84 @@ class Pinball extends Base {
     this.flipL.angle += (this.flipL.target - this.flipL.angle) * Math.min(1, dt * 20);
     this.flipR.angle += (this.flipR.target - this.flipR.angle) * Math.min(1, dt * 20);
 
-    // Ball physics
-    b.vy += this.gravity * dt;
-    b.x += b.vx * dt; b.y += b.vy * dt;
+    // Active balls (main + multi-ball)
+    if (!this.balls.length) this.balls = [this.ball];
+    for (const b of this.balls) {
+      b.vy += this.gravity * dt;
+      b.x += b.vx * dt; b.y += b.vy * dt;
+      if (b.x < b.r) { b.x = b.r; b.vx = Math.abs(b.vx) * 0.8; this.sound.blip(440, 0.04); }
+      if (b.x > this.W - b.r) { b.x = this.W - b.r; b.vx = -Math.abs(b.vx) * 0.8; this.sound.blip(440, 0.04); }
+      if (b.y < b.r) { b.y = b.r; b.vy = Math.abs(b.vy) * 0.8; }
 
-    // Wall bounce
-    if (b.x < b.r) { b.x = b.r; b.vx = Math.abs(b.vx) * 0.8; this.sound.blip(440, 0.04); }
-    if (b.x > this.W - b.r) { b.x = this.W - b.r; b.vx = -Math.abs(b.vx) * 0.8; this.sound.blip(440, 0.04); }
-    if (b.y < b.r) { b.y = b.r; b.vy = Math.abs(b.vy) * 0.8; }
-
-    // Bumpers
-    for (const bp of this.bumpers) {
-      const d = Math.hypot(b.x - bp.x, b.y - bp.y);
-      if (d < bp.r + b.r) {
-        const a = Math.atan2(b.y - bp.y, b.x - bp.x);
-        b.x = bp.x + Math.cos(a) * (bp.r + b.r + 1);
-        b.y = bp.y + Math.sin(a) * (bp.r + b.r + 1);
-        const sp = Math.hypot(b.vx, b.vy);
-        b.vx = Math.cos(a) * Math.max(sp * 1.3, 250);
-        b.vy = Math.sin(a) * Math.max(sp * 1.3, 250);
-        bp.flash = 0.4; bp.hits++;
-        this.hitCombo(bp.x, bp.y, 5);
-        this.burst(bp.x, bp.y, this.theme.accent, 6); this.sound.combo(bp.hits);
+      // Bumpers
+      for (const bp of this.bumpers) {
+        const d = Math.hypot(b.x - bp.x, b.y - bp.y);
+        if (d < bp.r + b.r) {
+          const a = Math.atan2(b.y - bp.y, b.x - bp.x);
+          b.x = bp.x + Math.cos(a) * (bp.r + b.r + 1);
+          b.y = bp.y + Math.sin(a) * (bp.r + b.r + 1);
+          const sp = Math.hypot(b.vx, b.vy);
+          b.vx = Math.cos(a) * Math.max(sp * 1.3, 250);
+          b.vy = Math.sin(a) * Math.max(sp * 1.3, 250);
+          bp.flash = 0.4; bp.hits++; this.totalBumperHits++;
+          this.hitCombo(bp.x, bp.y, 5);
+          this.burst(bp.x, bp.y, this.theme.accent, 6); this.sound.combo(bp.hits);
+        }
+        if (bp.flash > 0) bp.flash -= dt;
       }
-      if (bp.flash > 0) bp.flash -= dt;
+
+      // Targets
+      for (const t of this.targets) {
+        if (t.hit) continue;
+        if (b.x + b.r > t.x && b.x - b.r < t.x + t.w && b.y + b.r > t.y && b.y - b.r < t.y + t.h) {
+          t.hit = true; b.vy = Math.abs(b.vy) * 0.8;
+          this.hitCombo(t.x + t.w / 2, t.y, 15); this.sound.power();
+          this.burst(t.x + t.w / 2, t.y + t.h / 2, '#ffd166', 8);
+        }
+      }
+
+      // Spinner
+      const sp = this.spinner;
+      if (Math.hypot(b.x - sp.x, b.y - sp.y) < sp.r + b.r) {
+        const ang = Math.atan2(b.y - sp.y, b.x - sp.x);
+        sp.spin += Math.abs(b.vx + b.vy) * 0.001;
+        b.vx = Math.cos(ang) * 200; b.vy = Math.sin(ang) * 200;
+        if (!sp.active) { sp.active = true; this.addScore(10); this.sound.coin(); }
+      }
+      sp.angle += sp.spin * dt;
+      sp.spin *= 0.98;
+
+      // Flippers
+      this._flipperCollide(this.flipLx, this.flipY, this.flipLen, this.flipL.angle, this.flipL.active, b);
+      this._flipperCollide(this.flipRx, this.flipY, this.flipLen, this.flipR.angle, this.flipR.active, b);
+
+      // Drain
+      b.lost = b.y > this.H + 30;
     }
 
-    // Targets
-    for (const t of this.targets) {
-      if (t.hit) continue;
-      if (b.x + b.r > t.x && b.x - b.r < t.x + t.w && b.y + b.r > t.y && b.y - b.r < t.y + t.h) {
-        t.hit = true; b.vy = Math.abs(b.vy) * 0.8;
-        this.hitCombo(t.x + t.w / 2, t.y, 15); this.sound.power();
-        this.burst(t.x + t.w / 2, t.y + t.h / 2, '#ffd166', 8);
-      }
+    // Multi-ball: every 50 bumper hits spawn extra ball
+    if (this.totalBumperHits >= 50 && this.balls.length < 3) {
+      this.totalBumperHits = 0;
+      const nb = { x: this.W / 2 + (Math.random() - 0.5) * 60, y: this.H * 0.3, vx: (Math.random() - 0.5) * 150, vy: -100, r: 10 };
+      this.balls.push(nb);
+      this.flash('#ffd166', 0.3);
+      this.float(this.W / 2, this.H * 0.25, 'Multi-Ball!', '#ffd166');
     }
-    if (this.targets.every(t => t.hit)) { this.addScore(50); this.confetti(this.W / 2, this.H * 0.2); this._buildTargets(); this.float(this.W / 2, this.H * 0.2, 'TARGETS CLEARED!', '#ffd166'); }
+    this.balls = this.balls.filter(b => !b.lost);
+    if (this.targets.every(t => t.hit)) { this.addScore(50); this.confetti(this.W / 2, this.H * 0.2); this._buildTargets(); this.float(this.W / 2, this.H * 0.2, 'Targets Cleared!', '#ffd166'); }
 
-    // Flippers collision (simplified)
-    this._flipperCollide(this.flipLx, this.flipY, this.flipLen, this.flipL.angle, this.flipL.active);
-    this._flipperCollide(this.flipRx, this.flipY, this.flipLen, this.flipR.angle, this.flipR.active);
-
-    // Drain (lost ball)
-    if (b.y > this.H + 30) {
+    if (this.balls.length === 0) {
       this.loseLife();
-      if (this.lives > 0) { b.x = this.W / 2; b.y = this.H * 0.3; b.vx = (Math.random() - 0.5) * 100; b.vy = 0; }
+      if (this.lives > 0) { this.ball = { x: this.W / 2, y: this.H * 0.3, vx: (Math.random() - 0.5) * 100, vy: 0, r: 10 }; this.balls = [this.ball]; }
     }
 
-    // Anti-stuck
-    if (Math.abs(b.vx) < 10 && Math.abs(b.vy) < 30) { this.stuckT += dt; if (this.stuckT > 1) { b.vx = (Math.random() - 0.5) * 200; b.vy = -100; this.stuckT = 0; } }
+    // Anti-stuck for main ball
+    const b0 = this.balls[0];
+    if (b0 && Math.abs(b0.vx) < 10 && Math.abs(b0.vy) < 30) { this.stuckT += dt; if (this.stuckT > 1) { b0.vx = (Math.random() - 0.5) * 200; b0.vy = -100; this.stuckT = 0; } }
     else this.stuckT = 0;
   }
-  _flipperCollide(fx, fy, len, angle, active) {
-    const b = this.ball;
+  _flipperCollide(fx, fy, len, angle, active, b) {
+    if (!b) b = this.ball;
     const tipX = fx + Math.cos(angle - Math.PI) * len;
     const tipY = fy + Math.sin(angle - Math.PI) * len;
     const d = this._distToSeg(b.x, b.y, { x: fx, y: fy }, { x: tipX, y: tipY });
@@ -2191,15 +2371,26 @@ class Pinball extends Base {
       c.fillStyle = '#ffd166'; c.strokeStyle = 'rgba(0,0,0,.2)'; c.lineWidth = 2;
       rr2(c, t.x, t.y, t.w, t.h, 3); c.fill(); c.stroke();
     }
+    // Spinner
+    const sp = this.spinner;
+    c.save(); c.translate(sp.x, sp.y); c.rotate(sp.angle);
+    c.strokeStyle = sp.active ? '#ffd166' : 'rgba(255,255,255,.3)'; c.lineWidth = 4;
+    c.beginPath(); c.arc(0, 0, sp.r, 0, 7); c.stroke();
+    c.beginPath(); c.moveTo(-sp.r * 0.7, 0); c.lineTo(sp.r * 0.7, 0); c.stroke();
+    c.beginPath(); c.moveTo(0, -sp.r * 0.7); c.lineTo(0, sp.r * 0.7); c.stroke();
+    c.fillStyle = 'rgba(255,209,102,.15)'; c.beginPath(); c.arc(0, 0, sp.r * 0.3, 0, 7); c.fill();
+    c.restore();
     // Flippers
     c.strokeStyle = this.theme.primary; c.lineWidth = 8; c.lineCap = 'round';
     c.beginPath(); c.moveTo(this.flipLx, this.flipY); c.lineTo(this.flipLx + Math.cos(this.flipL.angle - Math.PI) * this.flipLen, this.flipY + Math.sin(this.flipL.angle - Math.PI) * this.flipLen); c.stroke();
     c.beginPath(); c.moveTo(this.flipRx, this.flipY); c.lineTo(this.flipRx + Math.cos(this.flipR.angle - Math.PI) * this.flipLen, this.flipY + Math.sin(this.flipR.angle - Math.PI) * this.flipLen); c.stroke();
     // Flipper pivots
     c.fillStyle = this.theme.accent; c.beginPath(); c.arc(this.flipLx, this.flipY, 5, 0, 7); c.fill(); c.beginPath(); c.arc(this.flipRx, this.flipY, 5, 0, 7); c.fill();
-    // Ball
-    c.fillStyle = '#fff'; c.strokeStyle = 'rgba(0,0,0,.3)'; c.lineWidth = 2; c.beginPath(); c.arc(this.ball.x, this.ball.y, this.ball.r, 0, 7); c.fill(); c.stroke();
-    c.fillStyle = 'rgba(255,255,255,.5)'; c.beginPath(); c.arc(this.ball.x - 3, this.ball.y - 3, 4, 0, 7); c.fill();
+    // Ball(s)
+    for (const b of this.balls) {
+      c.fillStyle = '#fff'; c.strokeStyle = 'rgba(0,0,0,.3)'; c.lineWidth = 2; c.beginPath(); c.arc(b.x, b.y, b.r, 0, 7); c.fill(); c.stroke();
+      c.fillStyle = 'rgba(255,255,255,.5)'; c.beginPath(); c.arc(b.x - 3, b.y - 3, 4, 0, 7); c.fill();
+    }
     // Hero
     this.hero(this.W / 2, this.H * 0.95, Math.max(30, this.W * 0.08), { t: this.time, expr: 'smile' });
     this.drawFx(); c.restore();
@@ -2209,13 +2400,16 @@ class Pinball extends Base {
 /* ============================================================ FISHING */
 
 class Fishing extends Base {
-  instructions() { return 'Tap to cast! When a fish bites, tap rapidly to reel it in. Different fish = different points!'; }
+  instructions() { return 'Tap to cast! Tap rapidly when fish bites to reel in. Rarer fish = more points. Chain catches for combo bonus!'; }
   reset() {
     this.hook = { x: this.W / 2, y: this.H * 0.3, vy: 0, state: 'idle', depth: 0 };
     this.fish = []; this.castPower = 0; this.casting = false;
     this.bite = null; this.reelT = 0; this.reelProgress = 0;
+    this.ripples = [];
     this._spawnFish();
     this.totalCatch = 0;
+    this.catchStreak = 0;
+    this.rareCount = 0;
     this.waterLine = this.H * 0.3;
   }
   onResize() { this.reset(); }
@@ -2250,6 +2444,7 @@ class Fishing extends Base {
         this.hook.y = this.waterLine + this.castPower * (this.H * 0.5);
         this.hook.state = 'waiting'; this.hook.depth = this.hook.y;
         this.sound.blip(300, 0.1, 'sine', 0.1);
+        this.ripples.push({ x: this.hook.x, y: this.hook.y, r: 0, life: 0.6 });
       }
     } else if (this.hook.state === 'waiting') {
       // Gentle bob
@@ -2282,16 +2477,24 @@ class Fishing extends Base {
         if (this.reelProgress >= 1) {
           // Caught!
           const pts = this.bite ? this.bite.type.points : 5;
-          this.hitCombo(this.hook.x, this.hook.y, pts);
+          this.catchStreak++;
+          this.totalCatch++;
+          if (this.bite && (this.bite.type.name === 'rare' || this.bite.type.name === 'epic' || this.bite.type.name === 'legendary')) this.rareCount++;
+          const streakBonus = Math.floor(this.catchStreak / 3) * 5;
+          this.hitCombo(this.hook.x, this.hook.y, pts + streakBonus);
           this.confetti(this.hook.x, this.hook.y); this.sound.power();
           this.float(this.hook.x, this.hook.y - 30, `${this.bite.type.name.toUpperCase()}! +${pts}`, this.bite.type.color);
+          if (this.catchStreak > 1) this.float(this.hook.x + 40, this.hook.y - 20, this.catchStreak + 'x streak!', '#ffd166');
           if (this.bite) { this.bite.hooked = false; this.bite.y = -100; this.bite.x = Math.random() * this.W; this.bite.y = this.waterLine + 50 + Math.random() * (this.H - this.waterLine - 80); }
-          this.bite = null; this.totalCatch++;
+          this.bite = null;
           this.hook.state = 'idle'; this.hook.y = this.H * 0.3;
         }
       }
     }
 
+    // Ripples
+    for (const r of this.ripples) { r.life -= dt; r.r += dt * 40; }
+    this.ripples = this.ripples.filter(r => r.life > 0);
     // Fish movement
     for (const f of this.fish) {
       if (f.hooked) continue;
@@ -2351,7 +2554,7 @@ class Fishing extends Base {
     // Hero on dock
     this.hero(this.W * 0.5, wl - 20, Math.max(36, this.W * 0.1), { t: this.time, expr: this.hook.state === 'bite' ? 'wow' : 'smile' });
     // Stats
-    c.fillStyle = '#fff'; c.font = 'bold 14px Outfit'; c.textAlign = 'left'; c.textBaseline = 'top'; c.fillText(`Caught: ${this.totalCatch}`, 16, 50);
+    c.fillStyle = '#fff'; c.font = 'bold 14px Outfit'; c.textAlign = 'left'; c.textBaseline = 'top'; c.fillText(`Caught: ${this.totalCatch}  Streak: ${this.catchStreak}  Rare: ${this.rareCount}`, 16, 50);
     this.drawFx(); c.restore();
   }
 }
@@ -2476,68 +2679,76 @@ class Archery extends Base {
 
 /* ============================================================ PONG */
 class Pong extends Base {
-  instructions() { return 'Drag or arrow keys to move paddle. First to 7 wins! Hit power-ups for multi-ball and wide paddle!'; }
+  instructions() { return 'Drag or arrow keys to move paddle. First to 7 wins! Catch power-ups for multi-ball, wide paddle, shrink opponent! Watch for ball trails!'; }
   reset() {
-    this.pw = Math.max(80, this.W * 0.18); this.ph = 12; this.br = 10;
+    this.pw = Math.max(80, this.W * 0.18); this.ph = 12; this.br = Math.max(8, this.W * 0.025);
     this.p1 = { x: this.W / 2, y: this.H - 30, w: this.pw };
     this.p2 = { x: this.W / 2, y: 30, w: this.pw };
     this.balls = []; this._spawnBall();
     this.p1Score = 0; this.p2Score = 0; this.winScore = 7;
-    this.aiTarget = this.W / 2; this.aiReaction = 0.15;
-    this.falling = [];
+    this.aiTarget = this.W / 2; this.aiReaction = 0.15; this.aiMiss = 0;
+    this.falling = []; this.ballTrails = [];
+    this.powerTimer = 0; this.comboCount = 0;
   }
   _spawnBall() {
     const ang = (Math.random() - 0.5) * 1.2 + (Math.random() < 0.5 ? 0 : Math.PI);
-    const spd = 280 + this.difficulty() * 20;
-    this.balls.push({ x: this.W / 2, y: this.H / 2, vx: Math.cos(ang) * spd, vy: Math.sin(ang) * spd, r: this.br, stuck: false });
+    const spd = 280 + this.difficulty() * 25;
+    this.balls.push({ x: this.W / 2, y: this.H / 2, vx: Math.cos(ang) * spd, vy: Math.sin(ang) * spd, r: this.br, trail: [] });
   }
   update(dt) {
     const D = this.difficulty();
     // Player paddle
     const steer = (this.keys['ArrowLeft'] ? -1 : 0) + (this.keys['ArrowRight'] ? 1 : 0);
-    this.p1.x += steer * 450 * dt;
+    this.p1.x += steer * 480 * dt;
     if (this.pointer.down) this.p1.x = this.pointer.x;
     this.p1.x = Math.max(this.p1.w / 2, Math.min(this.W - this.p1.w / 2, this.p1.x));
-    // AI paddle
-    this.aiReaction = Math.max(0.05, 0.2 - this.time * 0.002);
+    // AI paddle — three difficulty tiers based on time
+    const tier = this.time < 15 ? 0.12 : this.time < 40 ? 0.22 : 0.32;
+    this.aiReaction = Math.max(0.03, 0.25 - tier);
+    this.aiMiss = Math.sin(this.time * 0.7 + this.p2.x) * (this.time < 20 ? 0 : this.W * 0.04);
     let targetBall = null, minDist = Infinity;
     for (const b of this.balls) {
-      if (b.vy < 0) { const d = Math.abs(b.x - this.p2.x); if (d < minDist) { minDist = d; targetBall = b; } }
+      if (b.vy < 0) { const d = Math.abs((b.x + b.vx * 0.3) - this.p2.x); if (d < minDist) { minDist = d; targetBall = b; } }
     }
     if (!targetBall) targetBall = this.balls[0];
     if (targetBall) {
-      this.aiTarget += (targetBall.x - this.aiTarget) * this.aiReaction * 3 * dt;
-      this.p2.x += (this.aiTarget - this.p2.x) * 2.5 * dt;
+      this.aiTarget += ((targetBall.x + targetBall.vx * 0.2 + this.aiMiss) - this.aiTarget) * this.aiReaction * 4 * dt;
+      this.p2.x += (this.aiTarget - this.p2.x) * 2.8 * dt;
     }
     this.p2.x = Math.max(this.p2.w / 2, Math.min(this.W - this.p2.w / 2, this.p2.x));
     // Balls
     for (const b of this.balls) {
       b.x += b.vx * dt; b.y += b.vy * dt;
-      if (b.x < b.r) { b.x = b.r; b.vx = Math.abs(b.vx); }
-      if (b.x > this.W - b.r) { b.x = this.W - b.r; b.vx = -Math.abs(b.vx); }
-      // Top wall (AI misses)
-      if (b.y < b.r) { b.y = b.r; b.vy = Math.abs(b.vy); }
-      // Bottom wall (player misses)
-      if (b.y > this.H + 30) { b.y = this.H + 30; b.lost = true; }
-      if (b.y < -30) { b.y = -30; b.lost = true; }
+      if (!b.trail) b.trail = [];
+      b.trail.push({ x: b.x, y: b.y, life: 0.3 });
+      for (const t of b.trail) t.life -= dt;
+      b.trail = b.trail.filter(t => t.life > 0);
+      if (b.x < b.r) { b.x = b.r; b.vx = Math.abs(b.vx); this.sound.blip(440, 0.04); }
+      if (b.x > this.W - b.r) { b.x = this.W - b.r; b.vx = -Math.abs(b.vx); this.sound.blip(440, 0.04); }
+      // Top wall (AI side)
+      if (b.y < b.r) { b.y = b.r; b.vy = Math.abs(b.vy); this.sound.blip(440, 0.04); }
+      if (b.y > this.H + 40) { b.lost = true; }
+      if (b.y < -40) { b.lost = true; }
       // P1 bounce
-      if (b.vy > 0 && b.y > this.p1.y - this.ph / 2 - b.r && b.y < this.p1.y + 10 && Math.abs(b.x - this.p1.x) < this.p1.w / 2 + b.r) {
+      if (b.vy > 0 && b.y > this.p1.y - this.ph / 2 - b.r && b.y < this.p1.y + 12 && Math.abs(b.x - this.p1.x) < this.p1.w / 2 + b.r) {
         b.y = this.p1.y - this.ph / 2 - b.r;
         const off = (b.x - this.p1.x) / (this.p1.w / 2);
         const ang = -Math.PI / 2 + off * 0.7;
-        const spd = Math.sqrt(b.vx * b.vx + b.vy * b.vy) * 1.02;
+        const spd = Math.sqrt(b.vx * b.vx + b.vy * b.vy) * 1.03;
         b.vx = Math.cos(ang) * spd; b.vy = Math.sin(ang) * spd;
-        this.sound.blip(520, 0.06, 'square', 0.12);
-        this.burst(b.x, b.y, this.theme.primary, 3);
+        const pitch = 400 + Math.abs(off) * 300;
+        this.sound.blip(pitch, 0.06, 'square', 0.15);
+        this.burst(b.x, b.y, this.theme.primary, 5);
+        this.comboCount++;
       }
       // P2 bounce
-      if (b.vy < 0 && b.y < this.p2.y + this.ph / 2 + b.r && b.y > this.p2.y - 10 && Math.abs(b.x - this.p2.x) < this.p2.w / 2 + b.r) {
+      if (b.vy < 0 && b.y < this.p2.y + this.ph / 2 + b.r && b.y > this.p2.y - 12 && Math.abs(b.x - this.p2.x) < this.p2.w / 2 + b.r) {
         b.y = this.p2.y + this.ph / 2 + b.r;
         const off = (b.x - this.p2.x) / (this.p2.w / 2);
         const ang = Math.PI / 2 + off * 0.7;
-        const spd = Math.sqrt(b.vx * b.vx + b.vy * b.vy) * 1.02;
+        const spd = Math.sqrt(b.vx * b.vx + b.vy * b.vy) * 1.03;
         b.vx = Math.cos(ang) * spd; b.vy = Math.sin(ang) * spd;
-        this.sound.blip(520, 0.06, 'square', 0.1);
+        this.sound.blip(380, 0.06, 'square', 0.1);
       }
     }
     // Check lost balls
@@ -2545,67 +2756,114 @@ class Pong extends Base {
     this.balls = this.balls.filter(b => !b.lost);
     const lost = before - this.balls.length;
     if (lost > 0) {
+      this.comboCount = 0;
       if (this.balls.length === 0) {
         this.p2Score++;
+        this.shake = 0.6;
         this.sound.hit();
+        this.burst(this.W / 2, this.H / 2, '#ff4f9a', 20);
         this._checkWin();
         if (!this.over) { this._spawnBall(); }
       }
     }
-    // Falling power-ups
-    if (Math.random() < 0.003 * D) {
-      this.falling.push({ x: Math.random() * this.W, y: -20, vy: 60, type: ['shield', 'slow', 'mega', 'bomb'][Math.floor(Math.random() * 4)] });
+    // Power-ups spawn from center
+    this.powerTimer -= dt;
+    if (this.powerTimer <= 0 && this.balls.length > 0) {
+      this.powerTimer = 4 + Math.random() * 3;
+      const types = ['mega', 'shield', 'slow', 'bomb'];
+      this.falling.push({ x: this.W * 0.3 + Math.random() * this.W * 0.4, y: this.H / 2, vy: 50 + Math.random() * 30, type: types[Math.floor(Math.random() * 4)] });
     }
     for (const f of this.falling) {
       f.y += f.vy * dt;
-      if (f.y > this.p1.y - 15 && Math.abs(f.x - this.p1.x) < this.p1.w / 2 + 15) {
-        if (f.type === 'mega') { this.p1.w = this.pw * 1.6; setTimeout(() => this.p1.w = this.pw, 6000); }
-        else { this.grantPower(f.type); }
+      // Player catch
+      if (f.y > this.p1.y - 15 && Math.abs(f.x - this.p1.x) < this.p1.w / 2 + 18) {
+        if (f.type === 'mega') { this.p1.w = this.pw * 1.7; setTimeout(() => this.p1.w = this.pw, 5000); }
+        else if (f.type === 'shield') { this.grantPower('shield'); }
+        else if (f.type === 'slow') {
+          for (const b of this.balls) { b.vx *= 0.5; b.vy *= 0.5; }
+          setTimeout(() => { for (const b of this.balls) { b.vx *= 2; b.vy *= 2; } }, 4000);
+        }
+        else if (f.type === 'bomb') {
+          // Multi-ball!
+          for (const b of [...this.balls]) {
+            const ang = Math.random() * Math.PI * 2;
+            const spd = 250 + this.difficulty() * 20;
+            this.balls.push({ x: b.x + Math.cos(ang) * 20, y: b.y + Math.sin(ang) * 20, vx: Math.cos(ang) * spd, vy: Math.sin(ang) * spd, r: this.br, trail: [] });
+          }
+          this.sound.power();
+          this.flash('#ff6b35', 0.2);
+        }
+        this.burst(f.x, f.y, POWERS[f.type]?.color || '#fff', 8);
         f.y = this.H + 100;
+      }
+      // AI catch
+      if (f.y < this.p2.y + 15 && Math.abs(f.x - this.p2.x) < this.p2.w / 2 + 18) {
+        f.y = -100;
       }
     }
     this.falling = this.falling.filter(f => f.y < this.H + 30);
   }
   _checkWin() {
     if (this.p2Score >= this.winScore) {
-      this.addScore(50); this.showOver();
+      this.addScore(Math.floor(this.comboCount * 5));
+      this.showOver();
     }
   }
   render() {
     const c = this.ctx; c.save(); this.applyShake(c); this.parallax(0);
     // Center line
-    c.setLineDash([8, 12]); c.strokeStyle = 'rgba(255,255,255,.15)'; c.lineWidth = 2;
+    c.setLineDash([8, 12]); c.strokeStyle = 'rgba(255,255,255,.12)'; c.lineWidth = 2;
     c.beginPath(); c.moveTo(0, this.H / 2); c.lineTo(this.W, this.H / 2); c.stroke(); c.setLineDash([]);
-    // Paddles
-    c.fillStyle = this.theme.accent; c.strokeStyle = 'rgba(0,0,0,.15)'; c.lineWidth = 2;
-    rr2(c, this.p1.x - this.p1.w / 2, this.p1.y - this.ph / 2, this.p1.w, this.ph, 6); c.fill(); c.stroke();
-    c.fillStyle = this.theme.primary;
-    rr2(c, this.p2.x - this.p2.w / 2, this.p2.y - this.ph / 2, this.p2.w, this.ph, 6); c.fill(); c.stroke();
+    // Ball trails
+    for (const b of this.balls) {
+      for (const t of b.trail || []) {
+        c.globalAlpha = t.life / 0.3 * 0.3;
+        c.fillStyle = this.theme.accent;
+        c.beginPath(); c.arc(t.x, t.y, b.r * 0.5, 0, 7); c.fill();
+      }
+    }
+    c.globalAlpha = 1;
     // Balls
     for (const b of this.balls) {
-      c.fillStyle = '#fff'; c.shadowColor = '#fff'; c.shadowBlur = 8;
+      c.fillStyle = '#fff'; c.shadowColor = '#fff'; c.shadowBlur = 12;
       c.beginPath(); c.arc(b.x, b.y, b.r, 0, 7); c.fill();
       c.shadowBlur = 0;
     }
-    // Scores
-    c.fillStyle = 'rgba(255,255,255,.2)'; c.font = '900 48px Outfit'; c.textAlign = 'center'; c.textBaseline = 'middle';
-    c.fillText(this.p2Score, this.W / 2, this.H * 0.25);
-    c.fillStyle = 'rgba(255,255,255,.1)'; c.fillText(this.p1Score, this.W / 2, this.H * 0.75);
-    // Falling
+    // Paddles with glow
+    c.shadowColor = this.theme.accent; c.shadowBlur = 10;
+    c.fillStyle = this.theme.accent; c.strokeStyle = 'rgba(0,0,0,.15)'; c.lineWidth = 2;
+    rr2(c, this.p1.x - this.p1.w / 2, this.p1.y - this.ph / 2, this.p1.w, this.ph, 6); c.fill(); c.stroke();
+    c.shadowColor = this.theme.primary; c.shadowBlur = 10;
+    c.fillStyle = this.theme.primary;
+    rr2(c, this.p2.x - this.p2.w / 2, this.p2.y - this.ph / 2, this.p2.w, this.ph, 6); c.fill(); c.stroke();
+    c.shadowBlur = 0;
+    // Scores with animation
+    c.fillStyle = 'rgba(255,255,255,.15)'; c.font = '900 56px Outfit'; c.textAlign = 'center'; c.textBaseline = 'middle';
+    c.fillText(this.p2Score, this.W / 2, this.H * 0.22);
+    c.fillStyle = 'rgba(255,255,255,.08)';
+    c.fillText(this.p1Score, this.W / 2, this.H * 0.78);
+    // Combo indicator
+    if (this.comboCount > 1) {
+      c.fillStyle = this.theme.accent; c.font = 'bold 16px Outfit'; c.textAlign = 'center'; c.textBaseline = 'top';
+      c.fillText(this.comboCount + 'x rally!', this.W / 2, 16);
+    }
+    // Falling power-ups
     for (const f of this.falling) {
       const p = POWERS[f.type]; if (!p) continue;
-      c.fillStyle = p.color; c.beginPath(); c.arc(f.x, f.y, 10, 0, 7); c.fill();
-      this.glyph(p.icon, f.x, f.y, 12);
+      c.fillStyle = p.color; c.shadowColor = p.color; c.shadowBlur = 14;
+      c.beginPath(); c.arc(f.x, f.y, 11, 0, 7); c.fill();
+      c.shadowBlur = 0;
+      this.glyph(p.icon, f.x, f.y, 13);
     }
     // Hero
-    this.hero(this.p1.x, this.p1.y - 26, Math.max(28, this.W * 0.07), { t: this.time, expr: 'smile' });
+    this.hero(this.p1.x, this.p1.y - 28, Math.max(30, this.W * 0.08), { t: this.time, expr: this.comboCount > 3 ? 'wow' : 'smile' });
     this.drawFx(); c.restore();
   }
 }
 
 /* ============================================================ BUBBLE SHOOTER */
 class BubbleShooter extends Base {
-  instructions() { return 'Tap to aim, release to shoot! Match 3+ same-color bubbles to pop them. Clear all colored bubbles to advance!'; }
+  instructions() { return 'Tap to aim, release to shoot! Match 3+ same-color to pop. Bomb bubbles explode neighbors, Rainbow matches any color, Stone needs 2 hits! Chain reactions for big combos!'; }
   reset() {
     this.rows = 7; this.cols = 9;
     this.br = Math.max(14, this.W / this.cols * 0.42);
@@ -2614,6 +2872,8 @@ class BubbleShooter extends Base {
     this.aim = { x: this.W / 2, y: this.H - 60 };
     this.currentColor = '';
     this.nextColor = '';
+    this.chainCount = 0; this.comboMult = 1;
+    this.level = 1;
     this._genBubbles();
     this._pickNext();
   }
@@ -2626,7 +2886,17 @@ class BubbleShooter extends Base {
         const x = (r % 2 === 0 ? off : off + this.br) + c * (this.br * 2 + 2);
         const y = 40 + r * (this.br * 1.6);
         if (y < this.H * 0.55) {
-          this.bubbles.push({ x, y, r: this.br, color: this.colors[Math.floor(Math.random() * this.colors.length)], row: r, col: c });
+          const roll = Math.random();
+          let type = 'normal';
+          if (roll < 0.06) type = 'bomb';
+          else if (roll < 0.1) type = 'rainbow';
+          else if (roll < 0.14) type = 'stone';
+          this.bubbles.push({
+            x, y, r: this.br,
+            color: type === 'rainbow' ? '#fff' : this.colors[Math.floor(Math.random() * this.colors.length)],
+            type, hp: type === 'stone' ? 2 : 1, maxHp: type === 'stone' ? 2 : 1,
+            row: r, col: c
+          });
         }
       }
     }
@@ -2636,54 +2906,41 @@ class BubbleShooter extends Base {
     this.nextColor = this.colors[Math.floor(Math.random() * this.colors.length)];
   }
   update(dt) {
-    // Aim with pointer
     if (this.pointer.down || this.pointer.x) {
       const dx = this.pointer.x - this.W / 2;
       const dy = this.pointer.y - this.H + 60;
       const len = Math.sqrt(dx * dx + dy * dy);
       if (len > 0) { this.aim.x = this.W / 2 + dx / len * this.W * 0.4; this.aim.y = this.H - 60 + dy / len * this.W * 0.4; }
     }
-    if (this.pointer.tapped) {
-      if (this.shots < this.shotLimit) {
-        const dx = this.aim.x - this.W / 2;
-        const dy = this.aim.y - (this.H - 60);
-        const len = Math.sqrt(dx * dx + dy * dy);
-        if (len >= 1) {
-          const vx = dx / len * 600;
-          const vy = dy / len * 600;
-          this.bubbles.push({ x: this.W / 2, y: this.H - 60, r: this.br, color: this.currentColor, vx, vy, flying: true, row: -1, col: -1 });
-          this.shots++;
-          this._pickNext();
-          this.sound.blip(660, 0.06, 'triangle', 0.15);
-        }
+    if (this.pointer.tapped && this.shots < this.shotLimit) {
+      const dx = this.aim.x - this.W / 2;
+      const dy = this.aim.y - (this.H - 60);
+      const len = Math.sqrt(dx * dx + dy * dy);
+      if (len >= 1) {
+        const vx = dx / len * 600;
+        const vy = dy / len * 600;
+        this.bubbles.push({ x: this.W / 2, y: this.H - 60, r: this.br, color: this.currentColor, type: 'normal', hp: 1, maxHp: 1, vx, vy, flying: true, row: -1, col: -1 });
+        this.shots++;
+        this.chainCount = 0;
+        this._pickNext();
+        this.sound.blip(660, 0.06, 'triangle', 0.15);
       }
     }
-    // Move flying bubbles
     for (const b of this.bubbles) {
       if (!b.flying) continue;
       b.x += b.vx * dt; b.y += b.vy * dt;
       if (b.x < b.r) { b.x = b.r; b.vx = -b.vx; }
       if (b.x > this.W - b.r) { b.x = this.W - b.r; b.vx = -b.vx; }
-      if (b.y < 20) {
-        b.flying = false; b.y = 20;
-        this._snapBubble(b);
-        this._matchBubbles(b);
-      }
-      // Check collision with other bubbles
+      if (b.y < 20) { b.flying = false; b.y = 20; this._snapBubble(b); this._matchBubbles(b); }
       for (const o of this.bubbles) {
         if (o === b || o.flying) continue;
-        const dist = Math.hypot(b.x - o.x, b.y - o.y);
-        if (dist < this.br * 1.8) {
-          b.flying = false;
-          this._snapBubble(b);
-          this._matchBubbles(b);
-          break;
+        if (Math.hypot(b.x - o.x, b.y - o.y) < this.br * 1.8) {
+          b.flying = false; this._snapBubble(b); this._matchBubbles(b); break;
         }
       }
     }
   }
   _snapBubble(b) {
-    // Snap to grid
     const off = this.br + 2;
     let bestR = 0, bestC = 0, bestD = Infinity;
     for (let r = 0; r < this.rows + 2; r++) {
@@ -2700,52 +2957,77 @@ class BubbleShooter extends Base {
     b.row = bestR; b.col = bestC;
   }
   _matchBubbles(src) {
-    // Find connected same-color bubbles
+    // Find connected same-color bubbles (rainbow matches any)
     const matched = new Set();
     const stack = [src];
+    const matchColor = src.type === 'rainbow' ? null : src.color;
     while (stack.length > 0) {
       const b = stack.pop();
-      const key = b.bubbles ? b.bubbles.indexOf(b) : -1;
       if (matched.has(b)) continue;
       matched.add(b);
       for (const o of this.bubbles) {
-        if (o === b || o.flying || o.color !== src.color) continue;
-        if (matched.has(o)) continue;
-        if (Math.hypot(o.x - b.x, o.y - b.y) < this.br * 2.4) {
+        if (o === b || o.flying || matched.has(o)) continue;
+        const colorMatch = matchColor === null || o.color === matchColor || o.type === 'rainbow';
+        if (colorMatch && Math.hypot(o.x - b.x, o.y - b.y) < this.br * 2.4) {
           stack.push(o);
         }
       }
     }
-    if (matched.size >= 3) {
-      for (const b of matched) {
-        this.burst(b.x, b.y, b.color, 8);
-        this.addScore(10);
+    // Count non-stone, non-rainbow matches for explosion condition
+    const popable = [...matched].filter(b => {
+      if (b.type === 'stone') { b.hp--; if (b.hp <= 0) return true; return false; }
+      if (b.type === 'bomb') return true;
+      return true;
+    });
+    if (popable.length >= 3) {
+      this.chainCount++;
+      const chainBonus = Math.min(this.chainCount, 5);
+      const baseScore = 10 * chainBonus;
+      for (const b of popable) {
+        if (b.type === 'bomb') this._bombBlast(b);
+        this.burst(b.x, b.y, b.color, 10);
+        this.addScore(baseScore);
       }
-      this.bubbles = this.bubbles.filter(b => !matched.has(b));
+      this.bubbles = this.bubbles.filter(b => !popable.includes(b));
       this.sound.coin();
-      // Drop orphans
+      if (this.chainCount >= 3) this.shake = 0.4;
+      if (this.chainCount >= 5) {
+        this.confetti(this.W / 2, this.rows * this.br);
+        this.sound.power();
+      }
       this._dropOrphans();
+    } else {
+      // Reset stone hp if not enough matched
+      for (const b of matched) { if (b.type === 'stone') b.hp = b.maxHp; }
     }
     // Check win
     const colored = this.bubbles.filter(b => !b.flying);
     if (colored.length === 0) {
       this.sound.power();
       this.confetti(this.W / 2, this.H / 2);
-      this.addScore(200);
-      // New level
+      this.addScore(200 * this.level);
+      this.level++;
       this.rows = Math.min(this.rows + 1, 12);
       this._genBubbles();
       this.shots = 0;
       this.shotLimit += 5;
-      this.float(this.W / 2, this.H * 0.4, 'Level Up!', this.theme.accent);
-    }
-    if (this.shots >= this.shotLimit && colored.length > 0) {
+      this.float(this.W / 2, this.H * 0.4, 'Level ' + this.level + '!', this.theme.accent);
+    } else if (this.shots >= this.shotLimit) {
       this.loseLife();
       if (this.lives > 0) { this.shots = 0; this._genBubbles(); }
     }
   }
+  _bombBlast(b) {
+    for (const o of this.bubbles) {
+      if (o === b || o.flying) continue;
+      if (Math.hypot(o.x - b.x, o.y - b.y) < this.br * 4) {
+        o.hp = 0;
+      }
+    }
+    this.shake = 0.6;
+    this.flash('#ff6b35', 0.15);
+  }
   _dropOrphans() {
-    // BFS from top row to find connected bubbles
     const connected = new Set();
     const top = this.bubbles.filter(b => !b.flying && b.y < 60);
     const stack = [...top];
@@ -2755,91 +3037,131 @@ class BubbleShooter extends Base {
       connected.add(b);
       for (const o of this.bubbles) {
         if (o === b || o.flying || connected.has(o)) continue;
-        if (Math.hypot(o.x - b.x, o.y - b.y) < this.br * 2.4) {
-          stack.push(o);
-        }
+        if (Math.hypot(o.x - b.x, o.y - b.y) < this.br * 2.4) stack.push(o);
       }
     }
-    for (const b of this.bubbles) {
+    for (const b of [...this.bubbles]) {
       if (!b.flying && !connected.has(b)) {
-        b.vy = 120; b.falling = true;
-        this.burst(b.x, b.y, b.color, 4);
+        b.vy = 100 + Math.random() * 60;
+        b.falling = true;
+        this.burst(b.x, b.y, b.color, 6);
+        this.addScore(5);
       }
     }
-    this.bubbles = this.bubbles.filter(b => !b.falling || b.y < this.H + 50);
+    this.bubbles = this.bubbles.filter(b => !b.falling || (b.y || 0) < this.H + 60);
     for (const b of this.bubbles) {
       if (b.falling) b.y += b.vy * 0.016;
     }
-    this.bubbles = this.bubbles.filter(b => !b.falling || b.y < this.H + 50);
+    this.bubbles = this.bubbles.filter(b => !b.falling || b.y < this.H + 60);
   }
   render() {
     const c = this.ctx; c.save(); this.applyShake(c); this.parallax(0);
     // Bubbles
     for (const b of this.bubbles) {
       if (b.flying) continue;
-      c.fillStyle = b.color; c.strokeStyle = 'rgba(0,0,0,.12)'; c.lineWidth = 1;
+      const glow = b.type === 'bomb' ? '#ff6b35' : b.type === 'rainbow' ? '#fff' : b.type === 'stone' ? '#aaa' : '';
+      if (glow) { c.shadowColor = glow; c.shadowBlur = 10; }
+      c.fillStyle = b.color; c.strokeStyle = 'rgba(0,0,0,.1)'; c.lineWidth = 1;
       c.beginPath(); c.arc(b.x, b.y, b.r, 0, 7); c.fill(); c.stroke();
-      c.fillStyle = 'rgba(255,255,255,.25)'; c.beginPath(); c.arc(b.x - b.r * 0.25, b.y - b.r * 0.25, b.r * 0.35, 0, 7); c.fill();
+      c.shadowBlur = 0;
+      c.fillStyle = 'rgba(255,255,255,.25)'; c.beginPath(); c.arc(b.x - b.r * 0.25, b.y - b.r * 0.25, b.r * 0.3, 0, 7); c.fill();
+      // Special bubble icons
+      if (b.type === 'bomb') { c.fillStyle = '#fff'; c.font = 'bold 10px Outfit'; c.textAlign = 'center'; c.textBaseline = 'middle'; c.fillText('X', b.x, b.y); }
+      if (b.type === 'rainbow') { c.fillStyle = 'rgba(255,255,255,.5)'; c.beginPath(); c.arc(b.x, b.y, b.r * 0.35, 0, 7); c.fill(); }
+      if (b.type === 'stone' && b.hp < b.maxHp) { c.fillStyle = 'rgba(0,0,0,.3)'; c.fillRect(b.x - b.r, b.y - b.r - 4, b.r * 2, 3); c.fillStyle = '#8affc1'; c.fillRect(b.x - b.r, b.y - b.r - 4, b.r * 2 * (b.hp / b.maxHp), 3); }
     }
     // Flying bubble
     for (const b of this.bubbles) {
       if (!b.flying) continue;
-      c.fillStyle = b.color; c.strokeStyle = 'rgba(255,255,255,.4)'; c.lineWidth = 2;
-      c.beginPath(); c.arc(b.x, b.y, b.r, 0, 7); c.fill(); c.stroke();
+      c.fillStyle = b.color; c.shadowColor = b.color; c.shadowBlur = 12;
+      c.beginPath(); c.arc(b.x, b.y, b.r, 0, 7); c.fill(); c.shadowBlur = 0;
     }
     // Shooter
     c.fillStyle = this.theme.primary; c.strokeStyle = 'rgba(0,0,0,.15)'; c.lineWidth = 2;
     c.beginPath(); c.arc(this.W / 2, this.H - 60, this.br + 6, 0, 7); c.fill(); c.stroke();
-    c.fillStyle = this.currentColor; c.beginPath(); c.arc(this.W / 2, this.H - 60, this.br, 0, 7); c.fill();
-    // Aim line
-    c.strokeStyle = 'rgba(255,255,255,.15)'; c.lineWidth = 1; c.setLineDash([6, 6]);
-    c.beginPath(); c.moveTo(this.W / 2, this.H - 60); c.lineTo(this.aim.x, this.aim.y); c.stroke(); c.setLineDash([]);
-    c.fillStyle = 'rgba(255,255,255,.3)'; c.beginPath(); c.arc(this.aim.x, this.aim.y, 4, 0, 7); c.fill();
+    c.fillStyle = this.currentColor; c.shadowColor = this.currentColor; c.shadowBlur = 8;
+    c.beginPath(); c.arc(this.W / 2, this.H - 60, this.br, 0, 7); c.fill(); c.shadowBlur = 0;
+    // Aim line with wall bounce preview
+    c.strokeStyle = 'rgba(255,255,255,.12)'; c.lineWidth = 1; c.setLineDash([6, 6]);
+    let ax = this.W / 2, ay = this.H - 60, avx = this.aim.x - ax, avy = this.aim.y - ay;
+    const alen = Math.sqrt(avx * avx + avy * avy);
+    if (alen > 0) { avx /= alen; avy /= alen; }
+    for (let i = 0; i < 3; i++) {
+      const nx = ax + avx * this.W * 0.3, ny = ay + avy * this.W * 0.3;
+      c.beginPath(); c.moveTo(ax, ay); c.lineTo(Math.max(0, Math.min(this.W, nx)), Math.max(0, Math.min(this.H, ny))); c.stroke();
+      if (nx < 0 || nx > this.W) avx = -avx;
+      ax = Math.max(0, Math.min(this.W, nx)); ay = Math.max(0, Math.min(this.H, ny));
+    }
+    c.setLineDash([]);
     // Next color
     c.fillStyle = 'rgba(255,255,255,.4)'; c.font = '12px Outfit'; c.textAlign = 'center'; c.textBaseline = 'top';
     c.fillText('Next:', this.W / 2, this.H - 50);
     c.fillStyle = this.nextColor; c.beginPath(); c.arc(this.W / 2 + 24, this.H - 43, 8, 0, 7); c.fill();
-    // Shots
+    // Level & shots
     c.fillStyle = '#fff'; c.font = 'bold 14px Outfit'; c.textAlign = 'left'; c.textBaseline = 'top';
-    c.fillText('Shots: ' + this.shots + '/' + this.shotLimit, 16, 16);
+    c.fillText('Level ' + this.level + '  Shots: ' + this.shots + '/' + this.shotLimit, 16, 16);
+    // Chain indicator
+    if (this.chainCount >= 2) {
+      c.fillStyle = this.theme.accent; c.font = 'bold 16px Outfit'; c.textAlign = 'center'; c.textBaseline = 'bottom';
+      c.fillText('Chain x' + this.chainCount + '!', this.W / 2, this.H - 70);
+    }
     this.drawFx(); c.restore();
   }
 }
 
 /* ============================================================ CANNON */
 class Cannon extends Base {
-  instructions() { return 'Drag to aim, release to fire! Angle and power matter — destroy all targets with limited ammo. Watch wind drift!'; }
+  instructions() { return 'Drag back to aim and set power, release to fire! Destroy all targets — moving targets need leading! Explosive barrels chain damage. Star rating per level!'; }
   reset() {
     this.gun = { x: this.W * 0.12, y: this.H * 0.85, ang: -Math.PI / 3, power: 0.4 };
     this.ball = null;
     this.targets = []; this.barriers = [];
-    this.shots = 0; this.maxShots = 20;
+    this.shots = 0; this.maxShots = 20; this.stars = 3;
     this.wind = 0;
     this.level = 1;
     this._build();
     this.aiming = false; this.aimStart = { x: 0, y: 0 };
+    this.shakeTimer = 0;
   }
   _build() {
     this.targets = []; this.barriers = [];
-    const n = 3 + Math.floor(this.level * 0.8);
+    const n = 3 + Math.floor(this.level * 0.7);
     for (let i = 0; i < n; i++) {
+      const roll = Math.random();
+      const isMoving = roll < 0.25;
+      const isArmored = roll > 0.85;
       this.targets.push({
-        x: this.W * (0.5 + Math.random() * 0.4), y: this.H * (0.2 + Math.random() * 0.5),
-        r: 10 + Math.random() * 18, hp: 1 + Math.floor(this.level / 3), maxHp: 1 + Math.floor(this.level / 3)
+        x: this.W * (0.45 + Math.random() * 0.4), y: this.H * (0.15 + Math.random() * 0.5),
+        r: 12 + Math.random() * 18,
+        hp: isArmored ? 3 : 1 + Math.floor(this.level / 4),
+        maxHp: isArmored ? 3 : 1 + Math.floor(this.level / 4),
+        moving: isMoving, vx: isMoving ? (Math.random() < 0.5 ? -1 : 1) * (40 + Math.random() * 60) : 0,
+        phase: Math.random() * 7
       });
     }
-    // Barriers
-    for (let i = 0; i < this.level; i++) {
+    // Explosive barrels
+    const numBarrels = Math.floor(this.level * 0.5);
+    for (let i = 0; i < numBarrels; i++) {
       this.barriers.push({
         x: this.W * (0.3 + Math.random() * 0.55), y: this.H * (0.25 + Math.random() * 0.5),
-        w: 20 + Math.random() * 40, h: 8 + Math.random() * 15
+        w: 24, h: 24, explosive: true
       });
     }
     this.wind = (Math.random() - 0.5) * 60;
+    this.maxShots = 12 + Math.floor(this.level * 2);
+    this.stars = 3;
   }
   update(dt) {
-    this.wind += (Math.random() - 0.5) * 10 * dt;
-    this.wind = Math.max(-80, Math.min(80, this.wind));
+    this.wind += (Math.random() - 0.5) * 8 * dt;
+    this.wind = Math.max(-100, Math.min(100, this.wind));
+    // Move targets
+    for (const t of this.targets) {
+      if (t.moving) {
+        t.x += t.vx * dt;
+        t.vx += Math.sin(this.time * 0.5 + t.phase) * 20 * dt;
+        t.x = Math.max(t.r + 10, Math.min(this.W - t.r - 10, t.x));
+      }
+    }
     // Aim
     if (this.pointer.down && !this.ball && !this.aiming) {
       this.aiming = true;
@@ -2849,9 +3171,9 @@ class Cannon extends Base {
       const dx = this.pointer.x - this.gun.x;
       const dy = this.pointer.y - this.gun.y;
       this.gun.ang = Math.atan2(dy, dx);
-      this.gun.ang = Math.max(-Math.PI * 0.85, Math.min(-0.05, this.gun.ang));
+      this.gun.ang = Math.max(-Math.PI * 0.88, Math.min(-0.05, this.gun.ang));
       const pull = Math.hypot(this.pointer.x - this.aimStart.x, this.pointer.y - this.aimStart.y);
-      this.gun.power = Math.min(1, pull / (this.W * 0.3));
+      this.gun.power = Math.min(1, pull / (this.W * 0.35));
     }
     if (!this.pointer.down && this.aiming) {
       this._fire();
@@ -2863,62 +3185,89 @@ class Cannon extends Base {
       this.ball.vy += 600 * dt;
       this.ball.y += this.ball.vy * dt;
       this.ball.x += this.wind * dt;
-      // Trail
       if (!this.ball.trail) this.ball.trail = [];
-      this.ball.trail.push({ x: this.ball.x, y: this.ball.y, life: 0.4 });
+      this.ball.trail.push({ x: this.ball.x, y: this.ball.y, life: 0.5 });
       for (const t of this.ball.trail) t.life -= dt;
       this.ball.trail = this.ball.trail.filter(t => t.life > 0);
       // Hit targets
       for (const t of this.targets) {
         if (t.hit) continue;
-        if (Math.hypot(this.ball.x - t.x, this.ball.y - t.y) < t.r + 8) {
+        if (Math.hypot(this.ball.x - t.x, this.ball.y - t.y) < t.r + 10) {
           t.hp--;
-          this.burst(this.ball.x, this.ball.y, '#ff6b35', 10);
+          this.burst(this.ball.x, this.ball.y, '#ff6b35', 14);
+          this.shake = 0.4;
           this.sound.hit();
           if (t.hp <= 0) {
             t.hit = true;
-            this.hitCombo(t.x, t.y, 25);
-            this.confetti(t.x, t.y);
+            this.hitCombo(t.x, t.y, 30);
+            this.burst(t.x, t.y, '#ffd166', 18);
           }
           this.ball = null;
           break;
         }
       }
-      // Barriers
+      // Explosive barrels
       if (this.ball) {
         for (const b of this.barriers) {
-          if (this.ball.x > b.x && this.ball.x < b.x + b.w && this.ball.y > b.y && this.ball.y < b.y + b.h) {
-            this.burst(this.ball.x, this.ball.y, '#fff', 6);
+          if (b.explosive && Math.hypot(this.ball.x - b.x, this.ball.y - b.y) < 20) {
+            this._barrelBlast(b);
             this.ball = null;
             break;
           }
         }
       }
-      // Out of bounds
       if (this.ball && (this.ball.y > this.H + 20 || this.ball.x > this.W + 20 || this.ball.x < -20)) {
         this.ball = null;
       }
     }
     // Check win
-    if (this.targets.every(t => t.hit)) {
+    const remainingTargets = this.targets.filter(t => !t.hit).length;
+    if (remainingTargets === 0) {
+      // Star rating based on shots used
+      const maxStarShots = this.maxShots - 3;
+      if (this.shots > maxStarShots + 2) this.stars = 1;
+      else if (this.shots > maxStarShots) this.stars = 2;
+      else this.stars = 3;
+      this.addScore(this.stars * 50);
       this.level++;
       this.shots = 0;
-      this.maxShots += 2;
       this._build();
       this.sound.power();
-      this.addScore(100);
-      this.float(this.W / 2, this.H * 0.4, 'Level ' + this.level + '!', this.theme.accent);
+      this.showLevel(this.level, 'Level ' + this.level + ' - ' + '☆'.repeat(this.stars) + '★'.repeat(3 - this.stars));
     }
-    // Check lose
-    if (this.ball === null && this.shots >= this.maxShots && !this.targets.every(t => t.hit)) {
+    // Lose condition
+    if (this.ball === null && this.shots >= this.maxShots && remainingTargets > 0) {
       this.loseLife();
       if (this.lives > 0) { this.shots = 0; this._build(); }
+    }
+  }
+  _barrelBlast(b) {
+    b.explosive = false;
+    this.shake = 0.8;
+    this.flash('#ff6b35', 0.2);
+    this.burst(b.x, b.y, '#ff6b35', 25);
+    this.sound.hit();
+    // Chain damage nearby targets
+    for (const t of this.targets) {
+      if (t.hit) continue;
+      if (Math.hypot(t.x - b.x, t.y - b.y) < 80) {
+        t.hp -= 2;
+        this.burst(t.x, t.y, '#ff6b35', 10);
+        if (t.hp <= 0) { t.hit = true; this.addScore(20); }
+      }
+    }
+    // Chain nearby barrels
+    for (const ob of this.barriers) {
+      if (ob === b || !ob.explosive) continue;
+      if (Math.hypot(ob.x - b.x, ob.y - b.y) < 100) {
+        setTimeout(() => { if (ob.explosive) this._barrelBlast(ob); }, 200);
+      }
     }
   }
   _fire() {
     if (this.ball) return;
     this.shots++;
-    const spd = 400 + this.gun.power * 400;
+    const spd = 350 + this.gun.power * 500;
     this.ball = {
       x: this.gun.x + Math.cos(this.gun.ang) * 30,
       y: this.gun.y + Math.sin(this.gun.ang) * 30,
@@ -2926,7 +3275,8 @@ class Cannon extends Base {
       vy: Math.sin(this.gun.ang) * spd,
       trail: []
     };
-    this.sound.blip(440, 0.08, 'square', 0.2);
+    this.sound.blip(440, 0.08, 'square', 0.22);
+    this.burst(this.gun.x, this.gun.y, '#ffd166', 6);
   }
   render() {
     const c = this.ctx; c.save(); this.applyShake(c); this.parallax(0);
@@ -2934,97 +3284,126 @@ class Cannon extends Base {
     for (const t of this.targets) {
       if (t.hit) continue;
       const hpRatio = t.hp / t.maxHp;
-      c.fillStyle = t.hp > 1 ? '#ff6b35' : '#ff4f9a';
-      c.strokeStyle = 'rgba(0,0,0,.15)'; c.lineWidth = 2;
+      const col = t.moving ? '#3ad0ff' : t.maxHp > 2 ? '#a24dff' : '#ff4f9a';
+      c.fillStyle = col; c.strokeStyle = 'rgba(0,0,0,.15)'; c.lineWidth = 2;
+      c.shadowColor = col; c.shadowBlur = 8;
       c.beginPath(); c.arc(t.x, t.y, t.r, 0, 7); c.fill(); c.stroke();
+      c.shadowBlur = 0;
       c.fillStyle = 'rgba(255,255,255,.2)'; c.beginPath(); c.arc(t.x - t.r * 0.2, t.y - t.r * 0.2, t.r * 0.3, 0, 7); c.fill();
       if (t.maxHp > 1) {
-        c.fillStyle = 'rgba(0,0,0,.3)'; c.fillRect(t.x - t.r, t.y - t.r - 6, t.r * 2, 4);
-        c.fillStyle = '#8affc1'; c.fillRect(t.x - t.r, t.y - t.r - 6, t.r * 2 * hpRatio, 4);
+        c.fillStyle = 'rgba(0,0,0,.35)'; c.fillRect(t.x - t.r, t.y - t.r - 6, t.r * 2, 5);
+        c.fillStyle = '#8affc1'; c.fillRect(t.x - t.r, t.y - t.r - 6, t.r * 2 * hpRatio, 5);
+      }
+      if (t.moving) {
+        c.fillStyle = 'rgba(255,255,255,.4)'; c.font = '10px Outfit'; c.textAlign = 'center'; c.textBaseline = 'bottom';
+        c.fillText('MOVING', t.x, t.y - t.r - 8);
       }
     }
-    // Barriers
+    // Explosive barrels
     for (const b of this.barriers) {
-      c.fillStyle = 'rgba(100,70,50,.5)'; c.strokeStyle = 'rgba(0,0,0,.2)'; c.lineWidth = 1;
-      rr2(c, b.x, b.y, b.w, b.h, 3); c.fill(); c.stroke();
+      if (!b.explosive) continue;
+      c.fillStyle = '#ff6b35'; c.strokeStyle = 'rgba(0,0,0,.2)'; c.lineWidth = 2;
+      rr2(c, b.x - b.w / 2, b.y - b.h / 2, b.w, b.h, 4); c.fill(); c.stroke();
+      c.fillStyle = '#fff'; c.font = 'bold 12px Outfit'; c.textAlign = 'center'; c.textBaseline = 'middle';
+      c.fillText('X', b.x, b.y);
+      c.fillStyle = 'rgba(255,255,255,.2)'; c.fillRect(b.x - b.w / 2 + 2, b.y - b.h / 2 + 2, b.w * 0.6, b.h * 0.2);
     }
     // Ball trail
     if (this.ball && this.ball.trail) {
       for (const t of this.ball.trail) {
-        c.globalAlpha = t.life / 0.4 * 0.5;
+        c.globalAlpha = (t.life / 0.5) * 0.4;
         c.fillStyle = '#ffd166';
-        c.beginPath(); c.arc(t.x, t.y, 4, 0, 7); c.fill();
+        c.beginPath(); c.arc(t.x, t.y, 5, 0, 7); c.fill();
       }
       c.globalAlpha = 1;
     }
     // Ball
     if (this.ball) {
-      c.fillStyle = '#ffd166'; c.shadowColor = '#ffd166'; c.shadowBlur = 12;
-      c.beginPath(); c.arc(this.ball.x, this.ball.y, 8, 0, 7); c.fill();
+      c.fillStyle = '#ffd166'; c.shadowColor = '#ff6b35'; c.shadowBlur = 16;
+      c.beginPath(); c.arc(this.ball.x, this.ball.y, 9, 0, 7); c.fill();
       c.shadowBlur = 0;
     }
-    // Gun
+    // Gun with power meter
     const gx = this.gun.x, gy = this.gun.y;
-    c.fillStyle = this.theme.primary; c.beginPath(); c.arc(gx, gy, 20, 0, 7); c.fill();
-    c.strokeStyle = this.theme.primary; c.lineWidth = 8; c.lineCap = 'round';
-    c.beginPath(); c.moveTo(gx, gy); c.lineTo(gx + Math.cos(this.gun.ang) * 35, gy + Math.sin(this.gun.ang) * 35); c.stroke();
-    // Power indicator
+    c.fillStyle = '#555'; c.beginPath(); c.arc(gx, gy, 22, 0, 7); c.fill();
+    c.fillStyle = this.theme.primary; c.beginPath(); c.arc(gx, gy, 18, 0, 7); c.fill();
+    c.strokeStyle = '#fff'; c.lineWidth = 6; c.lineCap = 'round';
+    c.beginPath(); c.moveTo(gx, gy); c.lineTo(gx + Math.cos(this.gun.ang) * (30 + this.gun.power * 20), gy + Math.sin(this.gun.ang) * (30 + this.gun.power * 20)); c.stroke();
     if (this.aiming) {
       c.fillStyle = 'rgba(255,255,255,.15)'; c.font = 'bold 14px Outfit'; c.textAlign = 'center'; c.textBaseline = 'top';
       c.fillText('Power: ' + Math.round(this.gun.power * 100) + '%', this.W / 2, 16);
+      // Trajectory preview
+      c.setLineDash([4, 8]); c.strokeStyle = 'rgba(255,255,255,.1)'; c.lineWidth = 1;
+      let px = gx + Math.cos(this.gun.ang) * 30, py = gy + Math.sin(this.gun.ang) * 30;
+      let pvx = Math.cos(this.gun.ang) * (350 + this.gun.power * 400), pvy = Math.sin(this.gun.ang) * (350 + this.gun.power * 400);
+      c.beginPath(); c.moveTo(px, py);
+      for (let i = 0; i < 20; i++) { px += pvx * 0.03; pvy += 600 * 0.03; py += pvy * 0.03; px += this.wind * 0.03; c.lineTo(px, py); }
+      c.stroke(); c.setLineDash([]);
     }
     // Wind
     c.fillStyle = 'rgba(255,255,255,.3)'; c.font = '13px Outfit'; c.textAlign = 'right'; c.textBaseline = 'top';
     c.fillText('Wind: ' + (this.wind > 0 ? '→' : '←') + Math.round(Math.abs(this.wind)), this.W - 16, 16);
-    // Shots
     c.fillStyle = '#fff'; c.font = 'bold 14px Outfit'; c.textAlign = 'left'; c.textBaseline = 'top';
-    c.fillText('Shots: ' + this.shots + '/' + this.maxShots, 16, 16);
-    // Level
-    c.fillText('Level: ' + this.level, 16, 34);
+    c.fillText('Lv.' + this.level + '  Shots: ' + this.shots + '/' + this.maxShots, 16, 16);
+    // Star rating
+    if (this.targets.every(t => t.hit)) {
+      c.fillStyle = '#ffd166'; c.font = '20px Outfit'; c.textAlign = 'center'; c.textBaseline = 'bottom';
+      c.fillText('☆'.repeat(this.stars) + '★'.repeat(3 - this.stars), this.W / 2, this.H - 20);
+    }
     this.drawFx(); c.restore();
   }
 }
 
 /* ============================================================ MERGE / 2048 */
 class Merge extends Base {
-  instructions() { return 'Swipe or arrow keys to slide tiles. Same tiles merge into bigger numbers! Reach 2048 to win!'; }
+  instructions() { return 'Swipe or arrow keys to slide. Same numbers merge! Undo with Z. Consecutive merges chain for bonus! Reach 2048 to win!'; }
   reset() {
     this.grid = [];
     this.size = 4;
     this.won = false;
-    this.merged = false;
-    this.animTiles = [];
+    this.undoGrid = null;
+    this.mergesInMove = 0;
+    this.bestTile = 0;
     for (let r = 0; r < this.size; r++) { this.grid[r] = []; for (let c = 0; c < this.size; c++) this.grid[r][c] = 0; }
     this._addRandom(); this._addRandom();
-    this.txt = 'Merge tiles!';
+    this.mergePops = [];
   }
   _addRandom() {
     const empty = [];
     for (let r = 0; r < this.size; r++) for (let c = 0; c < this.size; c++) { if (this.grid[r][c] === 0) empty.push({ r, c }); }
     if (empty.length === 0) return;
     const cell = empty[Math.floor(Math.random() * empty.length)];
-    this.grid[cell.r][cell.c] = Math.random() < 0.1 ? 4 : 2;
+    const val = Math.random() < 0.1 ? 4 : 2;
+    this.grid[cell.r][cell.c] = val;
+    // Spawn animation
+    this.mergePops.push({ r: cell.r, c: cell.c, val, life: 0.3, maxLife: 0.3, spawn: true });
   }
   _slideRow(row) {
     row = row.filter(v => v !== 0);
     const merged = [];
     let score = 0;
+    let merges = 0;
     for (let i = 0; i < row.length; i++) {
       if (i + 1 < row.length && row[i] === row[i + 1]) {
-        merged.push(row[i] * 2);
-        score += row[i] * 2;
+        const newVal = row[i] * 2;
+        merged.push(newVal);
+        score += newVal;
+        merges++;
+        this.mergePops.push({ r: 0, c: merges, val: newVal, life: 0.4, maxLife: 0.4, merge: true });
         i++;
       } else {
         merged.push(row[i]);
       }
     }
     while (merged.length < this.size) merged.push(0);
-    return { row: merged, score };
+    return { row: merged, score, merges };
   }
   _move(dir) {
     let moved = false;
     let totalScore = 0;
+    let totalMerges = 0;
     const rot = (g) => { const n = g.length; const r = []; for (let i = 0; i < n; i++) { r[i] = []; for (let j = 0; j < n; j++) r[i][j] = g[n - j - 1][i]; } return r; };
+    this.undoGrid = this.grid.map(r => [...r]);
     let g = this.grid.map(r => [...r]);
     const rots = { left: 0, up: 1, right: 2, down: 3 };
     const r = rots[dir] || 0;
@@ -3033,18 +3412,30 @@ class Merge extends Base {
       const res = this._slideRow(g[i]);
       if (res.row.join(',') !== g[i].join(',')) moved = true;
       totalScore += res.score;
+      totalMerges += res.merges;
       g[i] = res.row;
     }
     for (let i = 0; i < (4 - r) % 4; i++) g = rot(g);
     if (moved) {
       this.grid = g;
       this.addScore(totalScore);
+      // Chain bonus
+      if (totalMerges >= 2) {
+        const bonus = totalMerges * 10;
+        this.addScore(bonus);
+        this.sound.power();
+        this.float(this.W / 2, this.H * 0.3, '+' + bonus + ' combo!', this.theme.accent);
+      }
       this._addRandom();
-      this.sound.blip(440, 0.05, 'triangle', 0.12);
+      this.sound.blip(440 + totalMerges * 80, 0.06, 'triangle', 0.14);
+      // Best tile
+      for (let r = 0; r < this.size; r++) for (let c = 0; c < this.size; c++) {
+        if (this.grid[r][c] > this.bestTile) this.bestTile = this.grid[r][c];
+      }
     }
-    // Check win
-    for (let r = 0; r < this.size; r++) for (let c = 0; c < this.size; c++) { if (this.grid[r][c] >= 2048 && !this.won) { this.won = true; this.confetti(this.W / 2, this.H / 2); this.txt = 'You win! Keep going!'; } }
-    // Check lose
+    if (this.bestTile >= 2048 && !this.won) {
+      this.won = true; this.confetti(this.W / 2, this.H / 2); this.sound.power();
+    }
     if (!this._canMove()) { this.showOver(); }
   }
   _canMove() {
@@ -3056,10 +3447,21 @@ class Merge extends Base {
     return false;
   }
   update(dt) {
+    // Merge pop animations
+    for (const p of this.mergePops) p.life -= dt;
+    this.mergePops = this.mergePops.filter(p => p.life > 0);
+    // Input
+    if (this.keys['z'] || this.keys['Z']) {
+      if (this.undoGrid) {
+        this.grid = this.undoGrid.map(r => [...r]);
+        this.undoGrid = null;
+        this.sound.blip(300, 0.05, 'triangle', 0.1);
+      }
+      this.keys['z'] = this.keys['Z'] = false;
+    }
     const dir = this.keys['ArrowLeft'] ? 'left' : this.keys['ArrowRight'] ? 'right' : this.keys['ArrowUp'] ? 'up' : this.keys['ArrowDown'] ? 'down' : '';
     if (dir) { this._move(dir); this.keys['ArrowLeft'] = this.keys['ArrowRight'] = this.keys['ArrowUp'] = this.keys['ArrowDown'] = false; }
     if (this.pointer.tapped) {
-      // Simple swipe detection
       if (this._swipe) {
         const dx = this.pointer.x - this._swipe.x;
         const dy = this.pointer.y - this._swipe.y;
@@ -3078,282 +3480,378 @@ class Merge extends Base {
     const pad = this.W * 0.04;
     const cellSize = (this.W - pad * 2) / this.size;
     // Grid bg
-    c.fillStyle = 'rgba(0,0,0,.2)'; rr2(c, pad, pad + this.H * 0.08, this.W - pad * 2, cellSize * this.size, 8); c.fill();
+    c.fillStyle = 'rgba(0,0,0,.15)'; rr2(c, pad, pad + this.H * 0.08, this.W - pad * 2, cellSize * this.size, 10); c.fill();
     // Tiles
-    const tileColors = { 0: 'transparent', 2: '#eee4da', 4: '#ede0c8', 8: '#f2b179', 16: '#f59563', 32: '#f67c5f', 64: '#f65e3b', 128: '#edcf72', 256: '#edcc61', 512: '#edc850', 1024: '#edc53f', 2048: '#edc22e' };
-    const textColors = { 2: '#776e65', 4: '#776e65', 8: '#f9f6f2', 16: '#f9f6f2', 32: '#f9f6f2', 64: '#f9f6f2', 128: '#f9f6f2', 256: '#f9f6f2', 512: '#f9f6f2', 1024: '#f9f6f2', 2048: '#f9f6f2' };
+    const tileColors = {
+      0: 'transparent', 2: '#eee4da', 4: '#ede0c8', 8: '#f2b179', 16: '#f59563', 32: '#f67c5f',
+      64: '#f65e3b', 128: '#edcf72', 256: '#edcc61', 512: '#edc850', 1024: '#edc53f', 2048: '#edc22e',
+      4096: '#ff4f9a', 8192: '#a24dff'
+    };
+    const textColors = { 2: '#776e65', 4: '#776e65', 8: '#f9f6f2', 16: '#f9f6f2', 32: '#f9f6f2', 64: '#f9f6f2', 128: '#f9f6f2', 256: '#f9f6f2', 512: '#f9f6f2', 1024: '#f9f6f2', 2048: '#f9f6f2', 4096: '#f9f6f2', 8192: '#f9f6f2' };
     for (let r = 0; r < this.size; r++) for (let c = 0; c < this.size; c++) {
       const v = this.grid[r][c];
       const x = pad + c * cellSize, y = pad + r * cellSize + this.H * 0.08;
-      c.fillStyle = tileColors[v] || '#3c3a32';
-      rr2(c, x + 2, y + 2, cellSize - 4, cellSize - 4, 4); c.fill();
+      // Check for merge pop animation
+      const pop = this.mergePops.find(p => !p.spawn && Math.abs(p.r - r) + Math.abs(p.c - c) < 1);
+      const scale = pop ? (1 + (1 - pop.life / pop.maxLife) * 0.2) : 1;
+      c.save();
+      if (scale !== 1) { c.translate(x + cellSize / 2, y + cellSize / 2); c.scale(scale, scale); c.translate(-x - cellSize / 2, -y - cellSize / 2); }
+      const bgCol = tileColors[v] || '#3c3a32';
+      c.fillStyle = bgCol; c.strokeStyle = 'rgba(0,0,0,.08)'; c.lineWidth = 1;
+      rr2(c, x + 2, y + 2, cellSize - 4, cellSize - 4, 6); c.fill(); c.stroke();
+      // Shine
+      c.fillStyle = 'rgba(255,255,255,.1)'; rr2(c, x + 4, y + 4, cellSize * 0.4, cellSize * 0.15, 3); c.fill();
       if (v > 0) {
         c.fillStyle = textColors[v] || '#f9f6f2';
-        c.font = v < 100 ? 'bold 28px Outfit' : v < 1000 ? 'bold 22px Outfit' : 'bold 18px Outfit';
+        c.font = v < 100 ? 'bold 26px Outfit' : v < 1000 ? 'bold 20px Outfit' : 'bold 16px Outfit';
         c.textAlign = 'center'; c.textBaseline = 'middle';
         c.fillText(v, x + cellSize / 2, y + cellSize / 2);
       }
+      c.restore();
+      // Spawn pop animation
+      const sp = this.mergePops.find(p => p.spawn && p.r === r && p.c === c);
+      if (sp) {
+        c.globalAlpha = 1 - sp.life / sp.maxLife;
+        c.fillStyle = '#fff'; c.beginPath(); c.arc(x + cellSize / 2, y + cellSize / 2, cellSize * 0.5 * (1 + (1 - sp.life / sp.maxLife)), 0, 7); c.fill();
+        c.globalAlpha = 1;
+      }
     }
-    // Text
-    c.fillStyle = 'rgba(255,255,255,.5)'; c.font = '16px Outfit'; c.textAlign = 'center'; c.textBaseline = 'top';
-    c.fillText(this.txt, this.W / 2, 16);
+    // Info bar
+    c.fillStyle = '#fff'; c.font = 'bold 16px Outfit'; c.textAlign = 'center'; c.textBaseline = 'top';
+    c.fillText('Best: ' + this.bestTile, this.W / 2, 12);
+    if (this.undoGrid) {
+      c.fillStyle = 'rgba(255,255,255,.3)'; c.font = '12px Outfit'; c.textAlign = 'left'; c.textBaseline = 'top';
+      c.fillText('[Z] Undo', 12, 12);
+    }
     this.drawFx(); c.restore();
   }
 }
 
 /* ============================================================ HELIX */
 class Helix extends Base {
-  instructions() { return 'Tap sides to rotate the helix! Guide the ball down through the gaps. Don't let it fall off!'; }
+  instructions() { return 'Tap left/right to rotate. Guide the ball down through gaps! Collect stars, hit boost rings for speed. Avoid spike rings!'; }
   reset() {
     this.ball = { x: this.W / 2, y: 40, r: Math.max(10, this.W * 0.03) };
-    this.ball.vy = 0;
-    this.rotation = 0;
-    this.targetRot = 0;
-    this.rings = [];
+    this.ball.vy = 0; this.ball.trail = [];
+    this.rotation = 0; this.targetRot = 0;
+    this.rings = []; this.stars = [];
     this.ringSpacing = this.H / 8;
     this.first = true;
-    this.speed = 160;
-    this.level = 1;
+    this.level = 1; this.fallSpeed = 0;
+    this.combo = 0; this.consecutiveGaps = 0;
     this._buildRings();
   }
   _buildRings() {
-    this.rings = [];
-    for (let i = 0; i < 10; i++) {
-      const y = 80 + i * this.ringSpacing - (this.first ? this.ringSpacing * 0.5 : 0);
-      const gaps = Math.floor(this.level * 0.5) + 1;
+    this.rings = []; this.stars = [];
+    for (let i = 0; i < 12; i++) {
+      const y = 60 + i * this.ringSpacing - (this.first ? this.ringSpacing * 0.3 : 0);
+      const gaps = Math.min(4, 1 + Math.floor(this.level * 0.4));
       const gapAngles = [];
       for (let g = 0; g < gaps; g++) {
-        gapAngles.push((g / gaps) * Math.PI * 2 + Math.random() * 0.5);
+        gapAngles.push((g / gaps) * Math.PI * 2 + Math.random() * 0.6);
       }
-      this.rings.push({ y, gaps: gapAngles, r: this.W * 0.42, cleared: false, collected: false });
+      const roll = Math.random();
+      const isSpike = roll < 0.12 && this.level > 1;
+      const isBoost = roll > 0.85;
+      this.rings.push({
+        y, gaps: gapAngles, r: this.W * 0.42,
+        phase: Math.random() * 7, moving: Math.random() < 0.2 + this.level * 0.03,
+        isSpike, isBoost, cleared: false
+      });
+      // Stars between rings
+      if (i % 2 === 0 && !isSpike) {
+        this.stars.push({ x: this.W * (0.1 + Math.random() * 0.8), y: y - this.ringSpacing * 0.3, collected: false });
+      }
     }
     this.first = false;
+    this.consecutiveGaps = 0;
   }
   update(dt) {
-    // Rotate
-    if (this.keys['ArrowLeft'] || this.keys['a']) this.targetRot += 2.5 * dt;
-    if (this.keys['ArrowRight'] || this.keys['d']) this.targetRot -= 2.5 * dt;
+    if (this.keys['ArrowLeft'] || this.keys['a']) this.targetRot += (2.5 + this.level * 0.15) * dt;
+    if (this.keys['ArrowRight'] || this.keys['d']) this.targetRot -= (2.5 + this.level * 0.15) * dt;
     if (this.pointer.down) {
-      if (this.pointer.x < this.W / 2) this.targetRot += 2.5 * dt;
-      else this.targetRot -= 2.5 * dt;
+      if (this.pointer.x < this.W / 2) this.targetRot += (2.5 + this.level * 0.15) * dt;
+      else this.targetRot -= (2.5 + this.level * 0.15) * dt;
     }
     this.rotation += (this.targetRot - this.rotation) * 6 * dt;
-    // Ball
-    this.ball.vy += 500 * dt;
+    // Ball physics
+    this.ball.vy += (500 + this.level * 15) * dt;
     this.ball.y += this.ball.vy * dt;
-    // Check ring collisions
+    this.ball.x += (this.targetRot - this.rotation) * 30 * dt;
+    // Ball trail
+    if (this.ball.vy > 100) {
+      this.ball.trail.push({ x: this.ball.x, y: this.ball.y, life: 0.3 });
+      for (const t of this.ball.trail) t.life -= dt;
+      this.ball.trail = this.ball.trail.filter(t => t.life > 0);
+    }
+    // Stars collection
+    for (const s of this.stars) {
+      if (s.collected) continue;
+      if (Math.hypot(this.ball.x - s.x, this.ball.y - s.y) < 20) {
+        s.collected = true;
+        this.addScore(15);
+        this.sound.coin();
+        this.burst(s.x, s.y, '#ffd166', 8);
+      }
+    }
+    // Ring collisions
     for (const ring of this.rings) {
       if (ring.cleared) continue;
-      if (this.ball.y > ring.y - 10 && this.ball.y < ring.y + 10) {
-        // Check if ball is over a gap
-        const angle = this.rotation % (Math.PI * 2);
-        const bx = this.ball.x - this.W / 2;
-        const ba = Math.atan2(bx, 0) + (bx < 0 ? Math.PI : 0);
-        // Actually, use simpler: check if position is within gap
-        const normalizedAngle = ((angle % (Math.PI * 2)) + Math.PI * 2) % (Math.PI * 2);
-        const inGap = ring.gaps.some(g => {
-          const diff = Math.abs(normalizedAngle - g);
-          return diff < 0.4 || Math.abs(diff - Math.PI * 2) < 0.4;
+      if (this.ball.y > ring.y - 12 && this.ball.y < ring.y + 12) {
+        // Check gap
+        const ballAngle = Math.atan2(0, this.ball.x - this.W / 2) + (this.ball.x < this.W / 2 ? Math.PI : 0);
+        const effectiveAngles = ring.gaps.map(g => ((g + this.rotation + (ring.moving ? Math.sin(this.time * 1.5 + ring.phase) * 0.5 : 0)) % (Math.PI * 2) + Math.PI * 2) % (Math.PI * 2));
+        const inGap = effectiveAngles.some(ga => {
+          const diff = Math.abs((((this.rotation) % (Math.PI * 2) + Math.PI * 2) % (Math.PI * 2)) - ga);
+          return diff < 0.5 || Math.abs(diff - Math.PI * 2) < 0.5;
         });
+        if (ring.isSpike) { this.burst(this.ball.x, this.ball.y, '#ff4f6d', 15); this.shake = 0.6; this.loseLife(); if (this.lives > 0) { this.ball.y = 40; this.ball.vy = 0; this.ball.trail = []; this._buildRings(); } return; }
         if (!inGap) {
-          this.ball.y = ring.y - 10;
-          this.ball.vy = 0;
+          this.ball.y = ring.y - 12; this.ball.vy = 0;
+          this.consecutiveGaps = 0;
         } else {
-          if (!ring.collected) {
-            ring.collected = true;
-            this.addScore(5);
-            this.sound.blip(660, 0.04, 'triangle', 0.1);
-          }
+          this.consecutiveGaps++;
+          if (ring.isBoost) { this.ball.vy = -200; this.sound.power(); this.burst(this.ball.x, ring.y, '#8affc1', 8); ring.cleared = true; continue; }
+          if (!ring.cleared) { ring.cleared = true; this.addScore(5 + this.consecutiveGaps * 2); this.sound.blip(660, 0.04, 'triangle', 0.1); }
         }
       }
     }
-    // Check if ball fell off screen
+    // Fell off
     if (this.ball.y > this.H + 30) {
       this.loseLife();
-      if (this.lives > 0) {
-        this.ball.y = 40; this.ball.vy = 0;
-        this.targetRot = 0; this.rotation = 0;
-        this._buildRings();
-      }
+      if (this.lives > 0) { this.ball.y = 40; this.ball.vy = 0; this.ball.trail = []; this.targetRot = 0; this.rotation = 0; this._buildRings(); }
       return;
     }
-    // Check if ball reached bottom
-    if (this.ball.y > this.rings[this.rings.length - 1].y + 20) {
-      this.addScore(50);
+    // Reached bottom
+    const lastRing = this.rings[this.rings.length - 1];
+    if (lastRing && this.ball.y > lastRing.y + 30) {
+      this.addScore(50 + this.level * 10);
       this.confetti(this.W / 2, this.H / 2);
       this.level++;
-      this.speed += 10;
-      this.ball.y = 40; this.ball.vy = 0;
+      this.ball.y = 40; this.ball.vy = 0; this.ball.trail = [];
       this.targetRot = 0; this.rotation = 0;
       this._buildRings();
-      this.float(this.W / 2, this.H * 0.4, 'Level ' + this.level + '!', this.theme.accent);
-      return;
+      this.showLevel(this.level, 'Level ' + this.level + '!');
     }
-    // Constrain ball x
     this.ball.x = Math.max(this.ball.r, Math.min(this.W - this.ball.r, this.ball.x));
   }
   render() {
     const c = this.ctx; c.save(); this.applyShake(c); this.parallax(0);
-    const cx = this.W / 2, cy = this.H / 2;
+    const cx = this.W / 2;
+    // Stars
+    for (const s of this.stars) {
+      if (s.collected) continue;
+      c.fillStyle = '#ffd166'; c.shadowColor = '#ffd166'; c.shadowBlur = 8;
+      c.beginPath(); c.arc(s.x, s.y + Math.sin(this.time * 3 + s.x) * 4, 6, 0, 7); c.fill();
+      c.shadowBlur = 0;
+    }
     // Rings
     for (const ring of this.rings) {
       if (ring.cleared) continue;
-      const visible = this.ball.y - ring.y < this.H * 0.6 && ring.y - this.ball.y < this.H * 0.3;
+      const visible = Math.abs(this.ball.y - ring.y) < this.H * 0.5;
       if (!visible) continue;
       c.save(); c.translate(cx, ring.y);
-      // Ring path
-      c.strokeStyle = this.theme.primary; c.lineWidth = 8; c.globalAlpha = 0.4;
+      const baseColor = ring.isSpike ? '#ff4f6d' : ring.isBoost ? '#8affc1' : this.theme.primary;
+      // Glow
+      c.strokeStyle = baseColor; c.lineWidth = 10; c.globalAlpha = 0.15;
+      c.beginPath(); c.arc(0, 0, ring.r + 6, 0, Math.PI * 2); c.stroke();
+      c.globalAlpha = 1;
+      // Ring bg
+      c.strokeStyle = 'rgba(255,255,255,.08)'; c.lineWidth = 6;
       c.beginPath(); c.arc(0, 0, ring.r, 0, Math.PI * 2); c.stroke();
-      c.globalAlpha = 0.7;
-      // Draw segments between gaps
-      const segs = 20;
+      // Segments
+      const segs = 24;
+      const moveOffset = ring.moving ? Math.sin(this.time * 1.5 + ring.phase) * 0.4 : 0;
       for (let i = 0; i < segs; i++) {
         const a1 = (i / segs) * Math.PI * 2 + this.rotation;
         const a2 = ((i + 1) / segs) * Math.PI * 2 + this.rotation;
         const inGap = ring.gaps.some(g => {
-          const ga = g + this.rotation;
-          const diff1 = Math.abs(((a1 - ga + Math.PI * 4) % (Math.PI * 2)) - Math.PI * 2);
-          const diff2 = Math.abs(((a2 - ga + Math.PI * 4) % (Math.PI * 2)) - Math.PI * 2);
-          return Math.min(a1, a2) < ga && Math.max(a1, a2) > ga;
+          const ga = g + this.rotation + moveOffset;
+          const cross = (a1 < ga && a2 > ga) || (a1 + Math.PI * 2 < ga && a2 + Math.PI * 2 > ga);
+          return cross;
         });
         if (!inGap) {
-          c.strokeStyle = this.theme.primary; c.lineWidth = 8;
+          c.strokeStyle = baseColor; c.lineWidth = 8;
+          c.shadowColor = baseColor; c.shadowBlur = 6;
           c.beginPath(); c.arc(0, 0, ring.r, a1, a2); c.stroke();
+          c.shadowBlur = 0;
         }
       }
+      // Spike/boost icon
+      if (ring.isSpike) { c.fillStyle = '#fff'; c.font = 'bold 10px Outfit'; c.textAlign = 'center'; c.textBaseline = 'middle'; c.fillText('!!', 0, 0); }
+      if (ring.isBoost) { c.fillStyle = '#fff'; c.font = 'bold 10px Outfit'; c.textAlign = 'center'; c.textBaseline = 'middle'; c.fillText('>', 0, 0); }
       c.globalAlpha = 1;
       c.restore();
     }
+    // Ball trail
+    for (const t of this.ball.trail) {
+      c.globalAlpha = (t.life / 0.3) * 0.3;
+      c.fillStyle = this.theme.accent;
+      c.beginPath(); c.arc(t.x, t.y, this.ball.r * 0.5, 0, 7); c.fill();
+    }
+    c.globalAlpha = 1;
     // Ball
-    c.fillStyle = '#fff'; c.shadowColor = '#fff'; c.shadowBlur = 10;
+    c.fillStyle = '#fff'; c.shadowColor = '#fff'; c.shadowBlur = 14;
     c.beginPath(); c.arc(this.ball.x, this.ball.y, this.ball.r, 0, 7); c.fill();
     c.shadowBlur = 0;
-    // Level
+    // Level & score
     c.fillStyle = '#fff'; c.font = 'bold 14px Outfit'; c.textAlign = 'left'; c.textBaseline = 'top';
-    c.fillText('Level: ' + this.level, 16, 16);
+    c.fillText('Level ' + this.level, 16, 16);
+    c.fillStyle = 'rgba(255,255,255,.3)'; c.font = '12px Outfit';
+    c.fillText('Combo: ' + this.consecutiveGaps, 16, 34);
     this.drawFx(); c.restore();
   }
 }
 
 /* ============================================================ DOODLE JUMP */
 class DoodleJump extends Base {
-  instructions() { return 'Tilt / drag / arrows to move left & right. Bounce on platforms, avoid spikes, grab jetpacks!'; }
+  instructions() { return 'Tilt/drag/arrows to move. Bounce on platforms, avoid spikes and enemies! Grab jetpacks, coins, and shields. Height milestones give bonus points!'; }
   reset() {
     this.p = { x: this.W / 2, y: this.H - 80, vy: 0, vx: 0 };
     this.pr = Math.max(18, this.W * 0.05);
     this.plats = []; this.height = 0; this.camY = 0;
-    this.jetpack = 0;
-    // Initial platforms
-    for (let i = 0; i < 7; i++) this._addPlat(this.H - i * (this.H / 7));
-    this.bestHeight = 0;
+    this.jetpack = 0; this.shield = 0; this.magnet = 0;
+    this.enemies = []; this.coins = [];
+    this.heightBonus = 0;
+    for (let i = 0; i < 8; i++) this._addPlat(this.H - i * (this.H / 8));
   }
   _addPlat(y) {
     const roll = Math.random();
     let type = 'normal';
-    if (roll < 0.08) type = 'spring';
-    else if (roll < 0.15) type = 'break';
-    else if (roll < 0.2) type = 'moving';
-    else if (roll < 0.22) type = 'spike';
+    if (roll < 0.07) type = 'spring';
+    else if (roll < 0.13) type = 'break';
+    else if (roll < 0.18) type = 'moving';
+    else if (roll < 0.21) type = 'spike';
+    else if (roll < 0.24) type = 'rocket';
     const w = type === 'moving' ? Math.max(50, this.W * 0.16) : Math.max(55, this.W * 0.19);
     this.plats.push({
       x: Math.random() * (this.W - w - 16) + 8, y, w,
-      type, vx: type === 'moving' ? (Math.random() < 0.5 ? -1 : 1) * this.W * 0.25 : 0,
-      coin: Math.random() < 0.2, got: false
+      type, vx: type === 'moving' ? (Math.random() < 0.5 ? -1 : 1) * this.W * 0.28 : 0,
+      coin: Math.random() < 0.25, got: false
     });
+    // Coins floating above
+    if (Math.random() < 0.15) {
+      this.coins.push({ x: Math.random() * this.W, y: y - 30 - Math.random() * 20, collected: false });
+    }
+    // Enemies on some platforms
+    if (Math.random() < 0.08 && type !== 'spike' && type !== 'break') {
+      this.enemies.push({ x: this.plats[this.plats.length - 1].x + w * 0.3, y: y - 16, vx: (Math.random() < 0.5 ? -1 : 1) * 40, r: 12, alive: true });
+    }
   }
   update(dt) {
-    // Horizontal movement
     const steer = (this.keys['ArrowLeft'] ? -1 : 0) + (this.keys['ArrowRight'] ? 1 : 0);
-    if (steer) this.p.vx = steer * this.W * 0.45;
-    else if (this.pointer.down) {
-      const dx = this.pointer.x - this.W / 2;
-      this.p.vx = dx * 0.8;
-    } else this.p.vx *= 0.92;
+    if (steer) this.p.vx = steer * this.W * 0.5;
+    else if (this.pointer.down) { const dx = this.pointer.x - this.W / 2; this.p.vx = dx * 0.9; }
+    else this.p.vx *= 0.92;
     this.p.x += this.p.vx * dt;
     if (this.p.x < this.pr) this.p.x = this.W - this.pr;
     if (this.p.x > this.W - this.pr) this.p.x = this.pr;
-    // Gravity / jetpack
+    // Jetpack
     if (this.jetpack > 0) {
-      this.p.vy = -350;
-      this.jetpack -= dt;
+      this.p.vy = -380; this.jetpack -= dt;
       this.sound.blip(400, 0.04, 'triangle', 0.08);
-    } else {
-      this.p.vy += 900 * dt;
-    }
+    } else { this.p.vy += 950 * dt; }
     this.p.y += this.p.vy * dt;
+    // Magnet
+    if (this.magnet > 0) {
+      this.magnet -= dt;
+      for (const c of this.coins) {
+        if (c.collected) continue;
+        const dx = this.p.x - c.x, dy = this.p.y - c.y;
+        const d = Math.hypot(dx, dy);
+        if (d < this.W * 0.4) { c.x += dx / d * 300 * dt; c.y += dy / d * 300 * dt; }
+      }
+    }
+    // Collision with enemies
+    for (const e of this.enemies) {
+      if (!e.alive) continue;
+      e.x += e.vx * dt;
+      if (e.x < e.r || e.x > this.W - e.r) e.vx = -e.vx;
+      if (this.p.vy > 0 && Math.abs(this.p.x - e.x) < this.pr + e.r && Math.abs(this.p.y - e.y) < this.pr + e.r + 8) {
+        if (this.shield > 0) { this.shield = 0; this.sound.hit(); this.burst(e.x, e.y, '#3ad0ff', 10); e.alive = false; }
+        else { this.burst(this.p.x, this.p.y, '#ff4f6d', 15); this.loseLife(); if (this.lives > 0) { this.p.y = 80; this.p.vy = 0; } return; }
+      }
+    }
     // Platform collision
     if (this.p.vy > 0) {
       for (const pl of this.plats) {
         if (pl.gone) continue;
         if (pl.type === 'spike') {
           if (this.p.y + this.pr > pl.y - 4 && this.p.y - this.pr < pl.y + 8 && this.p.x + this.pr > pl.x && this.p.x - this.pr < pl.x + pl.w) {
-            this.burst(this.p.x, this.p.y, '#ff4f6d', 12);
-            this.loseLife();
-            if (this.lives > 0) { this.p.y = 80; this.p.vy = 0; }
-            return;
-          }
-          continue;
+            if (this.shield > 0) { this.shield = 0; this.burst(this.p.x, this.p.y, '#3ad0ff', 8); pl.gone = true; continue; }
+            this.burst(this.p.x, this.p.y, '#ff4f6d', 12); this.loseLife();
+            if (this.lives > 0) { this.p.y = 80; this.p.vy = 0; } return;
+          } continue;
         }
         if (this.p.y + this.pr > pl.y - 2 && this.p.y - this.pr < pl.y + 10 && this.p.x + this.pr > pl.x + 4 && this.p.x - this.pr < pl.x + pl.w - 4) {
           this.p.y = pl.y - this.pr;
-          if (pl.type === 'spring') { this.p.vy = -650; this.sound.jump(); this.burst(this.p.x, pl.y, this.theme.accent, 6); pl.gone = true; }
-          else if (pl.type === 'break') { this.sound.blip(300, 0.06, 'square', 0.1); this.burst(pl.x + pl.w / 2, pl.y, '#8b4513', 4); pl.gone = true; }
-          else { this.p.vy = -380; this.sound.jump(); }
+          if (pl.type === 'spring') { this.p.vy = -700; this.sound.jump(); this.burst(this.p.x, pl.y, this.theme.accent, 8); pl.gone = true; }
+          else if (pl.type === 'break') { this.sound.blip(300, 0.06, 'square', 0.1); this.burst(pl.x + pl.w / 2, pl.y, '#8b4513', 6); pl.gone = true; }
+          else if (pl.type === 'rocket') { this.jetpack = Math.max(this.jetpack, 2); this.sound.power(); this.burst(this.p.x, pl.y, '#ff6b35', 10); pl.gone = true; }
+          else { this.p.vy = -400; this.sound.jump(); }
           if (pl.coin && !pl.got) { pl.got = true; this.addScore(5); this.sound.coin(); }
         }
       }
     }
-    // Scroll when player goes up
+    // Coin collection
+    for (const c of this.coins) {
+      if (c.collected) continue;
+      if (Math.abs(this.p.x - c.x) < this.pr + 8 && Math.abs(this.p.y - c.y) < this.pr + 8) {
+        c.collected = true; this.addScore(3); this.sound.blip(660, 0.04, 'triangle', 0.08);
+      }
+    }
+    // Scroll
     if (this.p.y < this.H * 0.4) {
       const diff = this.H * 0.4 - this.p.y;
-      this.camY += diff;
-      this.height += diff;
-      this.p.y = this.H * 0.4;
-      // Move platforms down
+      this.height += diff; this.p.y = this.H * 0.4;
       for (const pl of this.plats) pl.y += diff;
-      // Add new platforms
+      for (const c of this.coins) c.y += diff;
+      for (const e of this.enemies) e.y += diff;
       this.plats = this.plats.filter(pl => pl.y < this.H + 30);
-      while (this.plats.length < 7) this._addPlat(this.plats.length === 0 ? this.H - 20 : this.plats[this.plats.length - 1].y - this.H / 7);
+      this.coins = this.coins.filter(c => c.y < this.H + 30);
+      this.enemies = this.enemies.filter(e => e.y < this.H + 30);
+      while (this.plats.length < 8) this._addPlat(this.plats.length === 0 ? this.H - 20 : this.plats[this.plats.length - 1].y - this.H / 8);
+      // Height milestone
+      const newBonus = Math.floor(this.height / 500);
+      if (newBonus > this.heightBonus) { this.heightBonus = newBonus; this.addScore(50); this.sound.power(); this.float(this.W / 2, this.H * 0.3, '+' + 50 + ' height bonus!', this.theme.accent); }
     }
-    // Update moving platforms
-    for (const pl of this.plats) {
-      if (pl.type === 'moving') { pl.x += pl.vx * dt; if (pl.x < 0 || pl.x > this.W - pl.w) pl.vx = -pl.vx; }
-    }
-    // Fall off screen
-    if (this.p.y > this.H + 50) {
-      this.bestHeight = Math.max(this.bestHeight, this.height);
-      this.addScore(Math.floor(this.height / 5));
-      this.showOver();
-    }
+    for (const pl of this.plats) { if (pl.type === 'moving') { pl.x += pl.vx * dt; if (pl.x < 0 || pl.x > this.W - pl.w) pl.vx = -pl.vx; } }
+    if (this.p.y > this.H + 50) { this.addScore(Math.floor(this.height / 4)); this.showOver(); }
   }
   render() {
     const c = this.ctx; c.save(); this.applyShake(c); this.parallax(0);
+    // Coins
+    for (const cn of this.coins) {
+      if (cn.collected) continue;
+      c.fillStyle = '#ffd166'; c.shadowColor = '#ffd166'; c.shadowBlur = 8;
+      c.beginPath(); c.arc(cn.x, cn.y + Math.sin(this.time * 3 + cn.x) * 3, 5, 0, 7); c.fill(); c.shadowBlur = 0;
+    }
+    // Enemies
+    for (const e of this.enemies) {
+      if (!e.alive) continue;
+      c.fillStyle = '#ff4f6d'; c.strokeStyle = 'rgba(0,0,0,.2)'; c.lineWidth = 1;
+      c.beginPath(); c.arc(e.x, e.y, e.r, 0, 7); c.fill(); c.stroke();
+      c.fillStyle = '#fff'; c.beginPath(); c.arc(e.x - 4, e.y - 3, 3, 0, 7); c.fill();
+      c.fillStyle = '#fff'; c.beginPath(); c.arc(e.x + 4, e.y - 3, 3, 0, 7); c.fill();
+    }
     // Platforms
     for (const pl of this.plats) {
       if (pl.gone) continue;
-      if (pl.type === 'spike') {
-        c.fillStyle = '#ff4f6d';
-        c.beginPath(); c.moveTo(pl.x, pl.y + 8); c.lineTo(pl.x + pl.w / 2, pl.y); c.lineTo(pl.x + pl.w, pl.y + 8); c.closePath(); c.fill();
-        continue;
-      }
-      c.fillStyle = pl.type === 'spring' ? '#ffd166' : pl.type === 'break' ? '#8b4513' : this.theme.primary;
-      c.strokeStyle = 'rgba(0,0,0,.1)'; c.lineWidth = 1;
+      if (pl.type === 'spike') { c.fillStyle = '#ff4f6d'; c.beginPath(); c.moveTo(pl.x, pl.y + 8); c.lineTo(pl.x + pl.w / 2, pl.y); c.lineTo(pl.x + pl.w, pl.y + 8); c.closePath(); c.fill(); continue; }
+      const col = pl.type === 'spring' ? '#ffd166' : pl.type === 'break' ? '#8b4513' : pl.type === 'rocket' ? '#ff6b35' : this.theme.primary;
+      c.fillStyle = col; c.strokeStyle = 'rgba(0,0,0,.1)'; c.lineWidth = 1;
       rr2(c, pl.x, pl.y, pl.w, 8, 3); c.fill(); c.stroke();
-      if (pl.type === 'spring') {
-        c.fillStyle = '#fff'; c.font = 'bold 12px Outfit'; c.textAlign = 'center'; c.textBaseline = 'middle';
-        c.fillText('SPRING', pl.x + pl.w / 2, pl.y + 4);
-      }
-      if (pl.coin && !pl.got) this.glyph('⭐', pl.x + pl.w / 2, pl.y - 12, 14);
+      if (pl.type === 'spring') { c.fillStyle = '#fff'; c.font = 'bold 10px Outfit'; c.textAlign = 'center'; c.textBaseline = 'middle'; c.fillText('^^', pl.x + pl.w / 2, pl.y + 4); }
+      if (pl.type === 'rocket') { c.fillStyle = '#fff'; c.font = '10px Outfit'; c.textAlign = 'center'; c.textBaseline = 'middle'; c.fillText('>>>', pl.x + pl.w / 2, pl.y + 4); }
+      if (pl.coin && !pl.got) { c.fillStyle = '#ffd166'; c.font = '12px Outfit'; c.textAlign = 'center'; c.textBaseline = 'bottom'; c.fillText('$', pl.x + pl.w / 2, pl.y - 2); }
     }
     // Hero
-    const squash = this.p.vy > 100 ? 0.15 : this.p.vy < -200 ? -0.1 : 0;
-    this.hero(this.p.x, this.p.y, Math.max(36, this.W * 0.09), { t: this.time, run: true, squash, expr: this.p.vy > 0 ? 'wow' : 'smile' });
-    // Jetpack indicator
-    if (this.jetpack > 0) {
-      c.fillStyle = '#ff6b35'; c.font = 'bold 16px Outfit'; c.textAlign = 'center'; c.textBaseline = 'bottom';
-      c.fillText('🚀 JETPACK!', this.W / 2, 50);
-    }
-    // Height
+    const squash = this.p.vy > 150 ? 0.15 : this.p.vy < -250 ? -0.12 : 0;
+    this.hero(this.p.x, this.p.y, Math.max(36, this.W * 0.09), { t: this.time, run: true, squash, expr: this.p.vy > 50 ? 'wow' : 'smile' });
+    // Power-up indicators
+    if (this.jetpack > 0) { c.fillStyle = '#ff6b35'; c.font = 'bold 14px Outfit'; c.textAlign = 'center'; c.textBaseline = 'bottom'; c.fillText('🚀 ' + this.jetpack.toFixed(1) + 's', this.W / 2, 50); }
+    if (this.shield > 0) { c.fillStyle = '#3ad0ff'; c.font = 'bold 14px Outfit'; c.textAlign = 'center'; c.textBaseline = 'bottom'; c.fillText('🛡️ ' + this.shield.toFixed(1) + 's', this.W / 2, 34); }
+    if (this.magnet > 0) { c.fillStyle = '#ff5b9a'; c.font = 'bold 14px Outfit'; c.textAlign = 'center'; c.textBaseline = 'bottom'; c.fillText('🧲 ' + this.magnet.toFixed(1) + 's', this.W / 2, 18); }
     c.fillStyle = '#fff'; c.font = 'bold 14px Outfit'; c.textAlign = 'left'; c.textBaseline = 'top';
     c.fillText('Height: ' + Math.floor(this.height), 16, 16);
     this.drawFx(); c.restore();
@@ -3362,65 +3860,79 @@ class DoodleJump extends Base {
 
 /* ============================================================ ASTEROIDS */
 class Asteroids extends Base {
-  instructions() { return '← → rotate, ↑ thrust, Space to shoot! Destroy all asteroids — they split when hit! Watch for alien saucers!'; }
+  instructions() { return '← → rotate, ↑ thrust, Space to shoot! Power-ups: S=Spread, H=Homing, B=Shield. Watch for alien saucers that shoot back!'; }
   reset() {
     this.ship = { x: this.W / 2, y: this.H / 2, ang: -Math.PI / 2, vx: 0, vy: 0, r: 16, thrust: false };
-    this.bullets = [];
-    this.asteroids = [];
-    this.saucers = [];
+    this.bullets = []; this.powerups = [];
+    this.asteroids = []; this.saucers = [];
     this.level = 1;
     for (let i = 0; i < 4; i++) this._spawnAsteroid();
-    this.shootCooldown = 0;
-    this.saucerTimer = 10;
+    this.shootCooldown = 0; this.saucerTimer = 8;
+    this.weapon = 'normal'; this.weaponTimer = 0;
+    this.invulnTimer = 0;
+    this.killsInLevel = 0;
   }
   _spawnAsteroid() {
-    const r = 20 + Math.random() * 30;
+    const r = 18 + Math.random() * 32;
     let x, y;
     do { x = Math.random() * this.W; y = Math.random() * this.H; } while (Math.hypot(x - this.ship.x, y - this.ship.y) < 120);
     const ang = Math.random() * Math.PI * 2;
-    this.asteroids.push({
-      x, y, r,
-      vx: Math.cos(ang) * (30 + Math.random() * 40) * this.difficulty(),
-      vy: Math.sin(ang) * (30 + Math.random() * 40) * this.difficulty(),
-      level: Math.ceil(r / 20)
-    });
+    this.asteroids.push({ x, y, r, vx: Math.cos(ang) * (30 + Math.random() * 50) * this.difficulty(), vy: Math.sin(ang) * (30 + Math.random() * 50) * this.difficulty() });
   }
   update(dt) {
-    // Rotation
+    this.invulnTimer -= dt;
     if (this.keys['ArrowLeft']) this.ship.ang -= 3.5 * dt;
     if (this.keys['ArrowRight']) this.ship.ang += 3.5 * dt;
-    // Thrust
     this.ship.thrust = this.keys['ArrowUp'] || false;
     if (this.ship.thrust) {
-      this.ship.vx += Math.cos(this.ship.ang) * 200 * dt;
-      this.ship.vy += Math.sin(this.ship.ang) * 200 * dt;
+      this.ship.vx += Math.cos(this.ship.ang) * 220 * dt;
+      this.ship.vy += Math.sin(this.ship.ang) * 220 * dt;
       this.burst(this.ship.x - Math.cos(this.ship.ang) * 18, this.ship.y - Math.sin(this.ship.ang) * 18, '#ffd166', 1);
       this.sound.blip(200, 0.03, 'sawtooth', 0.06);
     }
+    // Weapon switching
+    if (this.keys['s'] || this.keys['S']) { this.weapon = 'spread'; this.weaponTimer = 5; this.keys['s'] = this.keys['S'] = false; }
+    if (this.keys['h'] || this.keys['H']) { this.weapon = 'homing'; this.weaponTimer = 5; this.keys['h'] = this.keys['H'] = false; }
+    if (this.keys['b'] || this.keys['B']) { this.grantPower('shield'); this.keys['b'] = this.keys['B'] = false; }
+    this.weaponTimer -= dt;
+    if (this.weaponTimer <= 0) this.weapon = 'normal';
     // Shoot
     this.shootCooldown -= dt;
     if ((this.keys[' '] || this.keys['z'] || this.pointer.tapped) && this.shootCooldown <= 0) {
-      this.bullets.push({
-        x: this.ship.x + Math.cos(this.ship.ang) * 20,
-        y: this.ship.y + Math.sin(this.ship.ang) * 20,
-        vx: Math.cos(this.ship.ang) * 400,
-        vy: Math.sin(this.ship.ang) * 400,
-        life: 1.5
-      });
-      this.shootCooldown = 0.15;
+      if (this.weapon === 'spread') {
+        for (let i = -1; i <= 1; i++) {
+          const a = this.ship.ang + i * 0.3;
+          this.bullets.push({ x: this.ship.x + Math.cos(a) * 20, y: this.ship.y + Math.sin(a) * 20, vx: Math.cos(a) * 400, vy: Math.sin(a) * 400, life: 1.2, homing: false });
+        }
+      } else if (this.weapon === 'homing') {
+        const target = this.asteroids.sort((a, b) => Math.hypot(a.x - this.ship.x, a.y - this.ship.y) - Math.hypot(b.x - this.ship.x, b.y - this.ship.y))[0];
+        if (target) {
+          const ha = Math.atan2(target.y - this.ship.y, target.x - this.ship.x);
+          this.bullets.push({ x: this.ship.x + Math.cos(ha) * 20, y: this.ship.y + Math.sin(ha) * 20, vx: Math.cos(ha) * 350, vy: Math.sin(ha) * 350, life: 2, homing: true, target: target });
+        }
+      } else {
+        this.bullets.push({ x: this.ship.x + Math.cos(this.ship.ang) * 20, y: this.ship.y + Math.sin(this.ship.ang) * 20, vx: Math.cos(this.ship.ang) * 400, vy: Math.sin(this.ship.ang) * 400, life: 1.5, homing: false });
+      }
+      this.shootCooldown = 0.12;
       this.sound.blip(880, 0.05, 'square', 0.12);
     }
     this.keys[' '] = false; this.keys['z'] = false;
-    // Ship motion
     this.ship.x += this.ship.vx * dt; this.ship.y += this.ship.vy * dt;
     this.ship.vx *= 0.98; this.ship.vy *= 0.98;
-    // Wrap
     if (this.ship.x < -20) this.ship.x = this.W + 20;
     if (this.ship.x > this.W + 20) this.ship.x = -20;
     if (this.ship.y < -20) this.ship.y = this.H + 20;
     if (this.ship.y > this.H + 20) this.ship.y = -20;
     // Bullets
-    for (const b of this.bullets) { b.x += b.vx * dt; b.y += b.vy * dt; b.life -= dt; }
+    for (const b of this.bullets) {
+      if (b.homing && b.target) {
+        if (b.target.hit) { b.target = null; continue; }
+        const ha = Math.atan2(b.target.y - b.y, b.target.x - b.x);
+        b.vx += (Math.cos(ha) * 300 - b.vx) * 0.05;
+        b.vy += (Math.sin(ha) * 300 - b.vy) * 0.05;
+      }
+      b.x += b.vx * dt; b.y += b.vy * dt; b.life -= dt;
+    }
     this.bullets = this.bullets.filter(b => b.life > 0 && b.x > -20 && b.x < this.W + 20 && b.y > -20 && b.y < this.H + 20);
     // Asteroids
     for (const a of this.asteroids) {
@@ -3430,25 +3942,22 @@ class Asteroids extends Base {
       if (a.y < -a.r) a.y = this.H + a.r;
       if (a.y > this.H + a.r) a.y = -a.r;
     }
-    // Bullet-asteroid collisions
+    // Collisions
     for (const b of this.bullets) {
       for (const a of this.asteroids) {
         if (a.hit) continue;
         if (Math.hypot(b.x - a.x, b.y - a.y) < a.r + 4) {
           b.life = -1; a.hit = true;
-          this.burst(a.x, a.y, '#8a5cff', 12);
+          this.burst(a.x, a.y, '#8a5cff', 14);
+          this.shake = 0.3;
           this.sound.hit();
-          this.hitCombo(a.x, a.y, 20);
-          // Split
-          if (a.r > 12) {
+          this.killsInLevel++;
+          this.hitCombo(a.x, a.y, 20 + this.killsInLevel * 2);
+          if (a.r > 14) {
             const nr = a.r * 0.5;
             for (let i = 0; i < 2; i++) {
               const ang = Math.random() * Math.PI * 2;
-              this.asteroids.push({
-                x: a.x + Math.cos(ang) * a.r, y: a.y + Math.sin(ang) * a.r,
-                r: nr, vx: Math.cos(ang) * 80, vy: Math.sin(ang) * 80,
-                level: a.level - 1
-              });
+              this.asteroids.push({ x: a.x + Math.cos(ang) * a.r, y: a.y + Math.sin(ang) * a.r, r: nr, vx: Math.cos(ang) * 90 + a.vx * 0.3, vy: Math.sin(ang) * 90 + a.vy * 0.3 });
             }
           }
           break;
@@ -3457,24 +3966,72 @@ class Asteroids extends Base {
     }
     this.asteroids = this.asteroids.filter(a => !a.hit);
     this.bullets = this.bullets.filter(b => b.life > 0);
+    // Saucer spawn
+    this.saucerTimer -= dt;
+    if (this.saucerTimer <= 0 && this.asteroids.length > 2) {
+      this.saucerTimer = 6 + Math.random() * 4;
+      this.saucers.push({ x: Math.random() < 0.5 ? -30 : this.W + 30, y: Math.random() * this.H * 0.6 + 30, r: 16, vx: (Math.random() < 0.5 ? -1 : 1) * (60 + this.level * 10), vy: (Math.random() - 0.5) * 40, shootTimer: 1.5, alive: true });
+    }
+    // Saucers
+    for (const s of this.saucers) {
+      if (!s.alive) continue;
+      s.x += s.vx * dt; s.y += s.vy * dt;
+      if (s.x < -40 || s.x > this.W + 40 || s.y < -40 || s.y > this.H + 40) { s.alive = false; continue; }
+      s.shootTimer -= dt;
+      if (s.shootTimer <= 0) {
+        s.shootTimer = 1 + Math.random();
+        const ha = Math.atan2(this.ship.y - s.y, this.ship.x - s.x);
+        this.bullets.push({ x: s.x + Math.cos(ha) * 16, y: s.y + Math.sin(ha) * 16, vx: Math.cos(ha) * 200, vy: Math.sin(ha) * 200, life: 2, enemy: true, homing: false });
+      }
+    }
+    // Ship damage from enemy bullets
+    for (const b of this.bullets) {
+      if (!b.enemy) continue;
+      if (Math.hypot(b.x - this.ship.x, b.y - this.ship.y) < this.ship.r + 4) {
+        b.life = -1;
+        if (this.invulnTimer > 0) continue;
+        this.burst(this.ship.x, this.ship.y, '#ff4f9a', 15);
+        this.shake = 1; this.loseLife();
+        if (this.lives > 0) { this.ship.x = this.W / 2; this.ship.y = this.H / 2; this.ship.vx = 0; this.ship.vy = 0; this.invulnTimer = 1.5; }
+      }
+    }
+    // Bullet-saucer collisions
+    for (const b of this.bullets) {
+      if (b.enemy) continue;
+      for (const s of this.saucers) {
+        if (!s.alive) continue;
+        if (Math.hypot(b.x - s.x, b.y - s.y) < s.r + 4) { b.life = -1; s.alive = false; this.burst(s.x, s.y, '#ffd166', 20); this.addScore(50); this.sound.power(); break; }
+      }
+    }
+    this.bullets = this.bullets.filter(b => b.life > 0);
     // Ship-asteroid collision
-    if (!this.over) {
+    if (this.invulnTimer <= 0) {
       for (const a of this.asteroids) {
         if (Math.hypot(this.ship.x - a.x, this.ship.y - a.y) < this.ship.r + a.r) {
           this.burst(this.ship.x, this.ship.y, '#ff4f9a', 20);
-          this.shake = 1.5;
-          this.loseLife();
-          if (this.lives > 0) {
-            this.ship.x = this.W / 2; this.ship.y = this.H / 2;
-            this.ship.vx = 0; this.ship.vy = 0;
-          }
-          break;
+          this.shake = 1.5; this.loseLife();
+          if (this.lives > 0) { this.ship.x = this.W / 2; this.ship.y = this.H / 2; this.ship.vx = 0; this.ship.vy = 0; this.invulnTimer = 1.5; } break;
         }
       }
     }
-    // Check win
+    this.saucers = this.saucers.filter(s => s.alive);
+    // Power-up spawn
+    if (this.killsInLevel > 0 && this.killsInLevel % 5 === 0 && !this._powerSpawned) {
+      this._powerSpawned = true;
+      this.powerups.push({ x: this.W / 2, y: this.H / 2, type: ['spread', 'homing', 'shield'][Math.floor(Math.random() * 3)] });
+    }
+    for (const p of this.powerups) {
+      if (Math.hypot(p.x - this.ship.x, p.y - this.ship.y) < 24) {
+        if (p.type === 'shield') this.grantPower('shield');
+        else { this.weapon = p.type; this.weaponTimer = 6; }
+        this.sound.power(); this.burst(p.x, p.y, this.theme.accent, 8);
+        p.collected = true;
+      }
+    }
+    this.powerups = this.powerups.filter(p => !p.collected);
+    // Level clear
     if (this.asteroids.length === 0) {
-      this.level++;
+      this.level++; this.killsInLevel = 0; this._powerSpawned = false;
       this.addScore(100);
       this.sound.power();
       for (let i = 0; i < 2 + this.level; i++) this._spawnAsteroid();
@@ -3483,90 +4040,108 @@ class Asteroids extends Base {
   }
   render() {
     const c = this.ctx; c.save(); this.applyShake(c); this.parallax(0);
+    // Power-ups
+    for (const p of this.powerups) {
+      c.fillStyle = p.type === 'shield' ? '#3ad0ff' : p.type === 'spread' ? '#ffd166' : '#ff4f9a';
+      c.shadowColor = c.fillStyle; c.shadowBlur = 12;
+      c.beginPath(); c.arc(p.x, p.y + Math.sin(this.time * 3) * 4, 12, 0, 7); c.fill(); c.shadowBlur = 0;
+      c.fillStyle = '#fff'; c.font = 'bold 10px Outfit'; c.textAlign = 'center'; c.textBaseline = 'middle';
+      c.fillText(p.type === 'shield' ? 'S' : p.type === 'spread' ? 'W' : 'H', p.x, p.y + Math.sin(this.time * 3) * 4);
+    }
     // Asteroids
     for (const a of this.asteroids) {
-      c.strokeStyle = 'rgba(255,255,255,.5)'; c.lineWidth = 2;
-      const pts = 8;
+      c.strokeStyle = `hsl(${(a.x + a.y) % 360},50%,60%)`; c.lineWidth = 2.5;
+      const pts = 8 + Math.floor(a.r / 6);
       c.beginPath();
       for (let i = 0; i < pts; i++) {
         const ang = (i / pts) * Math.PI * 2;
-        const rOff = a.r * (0.8 + Math.sin(a.x + a.y + i * 2) * 0.2);
+        const rOff = a.r * (0.8 + Math.sin(a.x * 0.1 + a.y * 0.1 + i * 3) * 0.2);
         const px = a.x + Math.cos(ang) * rOff, py = a.y + Math.sin(ang) * rOff;
         i === 0 ? c.moveTo(px, py) : c.lineTo(px, py);
       }
       c.closePath(); c.stroke();
-      c.fillStyle = 'rgba(255,255,255,.08)'; c.fill();
+      c.fillStyle = 'rgba(255,255,255,.06)'; c.fill();
+    }
+    // Saucers
+    for (const s of this.saucers) {
+      if (!s.alive) continue;
+      c.fillStyle = '#ff4f9a'; c.strokeStyle = '#fff'; c.lineWidth = 1;
+      c.beginPath(); c.ellipse(s.x, s.y, s.r, s.r * 0.5, 0, 0, 7); c.fill(); c.stroke();
+      c.fillStyle = '#fff'; c.beginPath(); c.arc(s.x, s.y - 4, 4, 0, 7); c.fill();
     }
     // Bullets
     for (const b of this.bullets) {
-      c.fillStyle = '#fff'; c.beginPath(); c.arc(b.x, b.y, 3, 0, 7); c.fill();
+      c.fillStyle = b.enemy ? '#ff4f6d' : '#fff';
+      c.beginPath(); c.arc(b.x, b.y, b.enemy ? 3 : 3, 0, 7); c.fill();
     }
-    // Ship
-    c.save(); c.translate(this.ship.x, this.ship.y); c.rotate(this.ship.ang);
-    c.strokeStyle = '#fff'; c.lineWidth = 2;
-    c.beginPath(); c.moveTo(20, 0); c.lineTo(-12, -12); c.lineTo(-6, 0); c.lineTo(-12, 12); c.closePath(); c.stroke();
-    if (this.ship.thrust) {
-      c.fillStyle = '#ffd166'; c.beginPath(); c.moveTo(-8, -7); c.lineTo(-18, 0); c.lineTo(-8, 7); c.closePath(); c.fill();
+    // Ship with invuln blink
+    if (this.invulnTimer <= 0 || Math.floor(this.invulnTimer * 8) % 2) {
+      c.save(); c.translate(this.ship.x, this.ship.y); c.rotate(this.ship.ang);
+      const wColor = this.weapon === 'spread' ? '#ffd166' : this.weapon === 'homing' ? '#ff4f9a' : '#fff';
+      c.strokeStyle = wColor; c.lineWidth = 2.5;
+      c.beginPath(); c.moveTo(22, 0); c.lineTo(-14, -14); c.lineTo(-8, 0); c.lineTo(-14, 14); c.closePath(); c.stroke();
+      if (this.ship.thrust) { c.fillStyle = '#ffd166'; c.beginPath(); c.moveTo(-10, -8); c.lineTo(-22, 0); c.lineTo(-10, 8); c.closePath(); c.fill(); }
+      c.restore();
     }
-    c.restore();
-    // Level
+    // Weapon indicator
+    if (this.weapon !== 'normal') {
+      c.fillStyle = this.weapon === 'spread' ? '#ffd166' : '#ff4f9a';
+      c.font = 'bold 12px Outfit'; c.textAlign = 'right'; c.textBaseline = 'top';
+      c.fillText(this.weapon.toUpperCase() + ' ' + this.weaponTimer.toFixed(1) + 's', this.W - 16, 16);
+    }
     c.fillStyle = '#fff'; c.font = 'bold 14px Outfit'; c.textAlign = 'left'; c.textBaseline = 'top';
-    c.fillText('Level: ' + this.level, 16, 16);
+    c.fillText('Lv.' + this.level + '  Kills:' + this.killsInLevel, 16, 16);
     this.drawFx(); c.restore();
   }
 }
 
 /* ============================================================ PIPELINE */
 class Pipeline extends Base {
-  instructions() { return 'Tap/click pipe segments to rotate them. Connect the water source to the endpoint before time runs out!'; }
+  instructions() { return 'Tap pipes to rotate them! Connect START to END before time runs out. Cross pipes (4-way) help chain paths. Fast clear = time bonus!'; }
   reset() {
-    this.rows = 6; this.cols = 6;
-    this.cellSize = Math.min((this.W - 40) / this.cols, (this.H * 0.7) / this.rows);
-    this.grid = [];
-    this.startX = 0; this.startY = Math.floor(this.rows / 2);
-    this.endX = this.cols - 1; this.endY = Math.floor(this.rows / 2);
-    this.timeLeft = 30;
-    this.completed = false;
+    this.rows = 5; this.cols = 5;
     this.level = 1;
+    this._resizeGrid();
+  }
+  _resizeGrid() {
+    this.cellSize = Math.min((this.W - 40) / this.cols, (this.H * 0.7) / this.rows);
     this._generate();
   }
   _generate() {
     this.grid = [];
-    const types = ['straight', 'corner', 'tee'];
+    const types = ['straight', 'corner', 'tee', 'cross'];
     for (let r = 0; r < this.rows; r++) {
       this.grid[r] = [];
       for (let c = 0; c < this.cols; c++) {
         this.grid[r][c] = {
           type: types[Math.floor(Math.random() * types.length)],
           rot: Math.floor(Math.random() * 4), fixed: false,
-          connected: false, r, c
+          connected: false, r, c, flow: 0
         };
       }
     }
-    // Ensure start and end can be connected with a simple path
+    this.startX = 0; this.startY = Math.floor(this.rows / 2);
+    this.endX = this.cols - 1; this.endY = Math.floor(this.rows / 2);
     this.grid[this.startY][this.startX].type = 'straight';
     this.grid[this.startY][this.startX].rot = 0;
     this.grid[this.startY][this.startX].fixed = true;
     this.grid[this.endY][this.endX].type = 'straight';
     this.grid[this.endY][this.endX].rot = 0;
     this.grid[this.endY][this.endX].fixed = true;
-    // Build a guaranteed path (rough)
-    let cx = this.startX, cy = this.startY;
-    while (cx < this.endX) { cx++; if (cx < this.cols) { this.grid[cy][cx].fixed = false; } }
-    this.timeLeft = Math.max(15, 30 - this.level * 2);
-    this.completed = false;
+    this.timeLeft = Math.max(12, 28 - this.level * 2);
+    this.completed = false; this.flowAnim = 0;
   }
   _checkPath() {
-    // BFS from start
     const visited = new Set();
-    const queue = [{ x: this.startX, y: this.startY }];
+    const queue = [{ x: this.startX, y: this.startY, dist: 0 }];
     while (queue.length > 0) {
-      const { x, y } = queue.shift();
+      const { x, y, dist } = queue.shift();
       const key = x + ',' + y;
       if (visited.has(key)) continue;
       visited.add(key);
       const cell = this.grid[y][x];
       if (!cell) continue;
+      cell.flow = dist;
       const dirs = this._getDirs(cell.type, cell.rot);
       for (const d of dirs) {
         const nx = x + d.dx, ny = y + d.dy;
@@ -3577,29 +4152,28 @@ class Pipeline extends Base {
         if (!ncell) continue;
         const ndirs = this._getDirs(ncell.type, ncell.rot);
         if (ndirs.some(nd => nd.dx === -d.dx && nd.dy === -d.dy)) {
-          queue.push({ x: nx, y: ny });
+          queue.push({ x: nx, y: ny, dist: dist + 1 });
         }
       }
     }
-    // Mark connected
     for (let r = 0; r < this.rows; r++) for (let c = 0; c < this.cols; c++) {
-      this.grid[r][c].connected = visited.has(c + ',' + r);
+      if (!visited.has(c + ',' + r)) this.grid[r][c].flow = -1;
     }
     return visited.has(this.endX + ',' + this.endY);
   }
   _getDirs(type, rot) {
-    const dirs = {
+    const base = {
       'straight': [{ dx: 0, dy: -1 }, { dx: 0, dy: 1 }],
       'corner': [{ dx: 0, dy: -1 }, { dx: 1, dy: 0 }],
-      'tee': [{ dx: 0, dy: -1 }, { dx: 1, dy: 0 }, { dx: 0, dy: 1 }]
+      'tee': [{ dx: 0, dy: -1 }, { dx: 1, dy: 0 }, { dx: 0, dy: 1 }],
+      'cross': [{ dx: 0, dy: -1 }, { dx: 1, dy: 0 }, { dx: 0, dy: 1 }, { dx: -1, dy: 0 }]
     };
-    const d = dirs[type] || dirs.straight;
-    const rotDirs = () => d.map(dd => {
+    const d = base[type] || base.straight;
+    return d.map(dd => {
       let dx = dd.dx, dy = dd.dy;
       for (let i = 0; i < rot; i++) { const t = dx; dx = -dy; dy = t; }
       return { dx, dy };
     });
-    return rotDirs();
   }
   update(dt) {
     if (this.completed) return;
@@ -3614,229 +4188,314 @@ class Pipeline extends Base {
       const c = Math.floor((this.pointer.x - 20) / this.cellSize);
       if (r >= 0 && r < this.rows && c >= 0 && c < this.cols && !this.grid[r][c].fixed) {
         this.grid[r][c].rot = (this.grid[r][c].rot + 1) % 4;
-        this.sound.blip(440, 0.05, 'triangle', 0.12);
+        this.sound.blip(440 + Math.random() * 100, 0.05, 'triangle', 0.12);
         if (this._checkPath()) {
           this.completed = true;
-          this.addScore(Math.max(10, Math.floor(this.timeLeft * 3)));
+          const bonus = Math.max(10, Math.floor(this.timeLeft * 4));
+          this.addScore(bonus + this.level * 20);
           this.sound.power();
           this.confetti(this.W / 2, this.H * 0.3);
+          this.float(this.W / 2, this.H * 0.25, '+' + bonus + ' time bonus!', this.theme.accent);
           setTimeout(() => {
+            this.rows = Math.min(8, 5 + Math.floor(this.level * 0.3));
+            this.cols = this.rows;
             this.level++;
-            this._generate();
+            this._resizeGrid();
             this.completed = false;
-          }, 1000);
+          }, 1200);
         }
       }
     }
+    // Flow animation
+    if (!this.completed) this._checkPath();
+    this.flowAnim += dt * 2;
   }
   render() {
     const c = this.ctx; c.save(); this.applyShake(c); this.parallax(0);
     const offX = 20, offY = this.H * 0.15;
     const cs = this.cellSize;
-    // Grid bg
-    c.fillStyle = 'rgba(0,0,0,.15)';
+    c.fillStyle = 'rgba(0,0,0,.12)';
     c.fillRect(offX - 4, offY - 4, this.cols * cs + 8, this.rows * cs + 8);
-    // Cells
     for (let r = 0; r < this.rows; r++) for (let c = 0; c < this.cols; c++) {
       const cell = this.grid[r][c];
       const x = offX + c * cs + cs / 2, y = offY + r * cs + cs / 2;
-      const col = cell.connected ? this.theme.accent : 'rgba(255,255,255,.3)';
+      const isConnected = cell.flow >= 0;
+      const col = isConnected ? this.theme.accent : 'rgba(255,255,255,.25)';
+      const flowAlpha = isConnected ? (0.5 + 0.5 * Math.sin(this.flowAnim + cell.flow)) : 0;
       c.save(); c.translate(x, y);
       c.rotate(cell.rot * Math.PI / 2);
-      c.strokeStyle = col; c.lineWidth = 4; c.lineCap = 'round';
-      if (cell.type === 'straight') {
+      c.strokeStyle = col; c.lineWidth = 5; c.lineCap = 'round';
+      // Water flow overlay
+      if (isConnected && cell.type !== 'cross') {
+        c.strokeStyle = 'rgba(100,180,255,' + flowAlpha * 0.4 + ')'; c.lineWidth = 7;
+        if (cell.type === 'straight') { c.beginPath(); c.moveTo(0, -cs * 0.35); c.lineTo(0, cs * 0.35); c.stroke(); }
+        else if (cell.type === 'corner') { c.beginPath(); c.moveTo(0, -cs * 0.35); c.lineTo(0, 0); c.lineTo(cs * 0.35, 0); c.stroke(); }
+        else if (cell.type === 'tee') { c.beginPath(); c.moveTo(0, -cs * 0.35); c.lineTo(0, cs * 0.35); c.stroke(); c.beginPath(); c.moveTo(0, 0); c.lineTo(cs * 0.35, 0); c.stroke(); }
+      }
+      c.strokeStyle = col; c.lineWidth = 4;
+      if (cell.type === 'straight') { c.beginPath(); c.moveTo(0, -cs * 0.35); c.lineTo(0, cs * 0.35); c.stroke(); }
+      else if (cell.type === 'corner') { c.beginPath(); c.moveTo(0, -cs * 0.35); c.lineTo(0, 0); c.lineTo(cs * 0.35, 0); c.stroke(); }
+      else if (cell.type === 'tee') { c.beginPath(); c.moveTo(0, -cs * 0.35); c.lineTo(0, cs * 0.35); c.stroke(); c.beginPath(); c.moveTo(0, 0); c.lineTo(cs * 0.35, 0); c.stroke(); }
+      else if (cell.type === 'cross') {
         c.beginPath(); c.moveTo(0, -cs * 0.35); c.lineTo(0, cs * 0.35); c.stroke();
-      } else if (cell.type === 'corner') {
-        c.beginPath(); c.moveTo(0, -cs * 0.35); c.lineTo(0, 0); c.lineTo(cs * 0.35, 0); c.stroke();
-      } else if (cell.type === 'tee') {
-        c.beginPath(); c.moveTo(0, -cs * 0.35); c.lineTo(0, cs * 0.35); c.stroke();
-        c.beginPath(); c.moveTo(0, 0); c.lineTo(cs * 0.35, 0); c.stroke();
+        c.beginPath(); c.moveTo(-cs * 0.35, 0); c.lineTo(cs * 0.35, 0); c.stroke();
       }
       if (cell.fixed) { c.fillStyle = 'rgba(255,255,255,.2)'; c.beginPath(); c.arc(0, 0, 4, 0, 7); c.fill(); }
       c.restore();
     }
+    // Flow particles on path
+    if (!this.completed) {
+      for (let r = 0; r < this.rows; r++) for (let c = 0; c < this.cols; c++) {
+        const cell = this.grid[r][c];
+        if (cell.flow < 0 || cell.type === 'cross') continue;
+        const x = offX + c * cs + cs / 2, y = offY + r * cs + cs / 2;
+        const t = ((this.flowAnim + cell.flow * 0.3) % 1);
+        c.fillStyle = 'rgba(100,200,255,' + (0.3 * (1 - t)) + ')';
+        c.beginPath(); c.arc(x, y - cs * 0.35 + t * cs * 0.7, 3, 0, 7); c.fill();
+      }
+    }
     // Start/End markers
-    c.fillStyle = '#8affc1'; c.font = 'bold 12px Outfit'; c.textAlign = 'center'; c.textBaseline = 'bottom';
-    c.fillText('▼ START', offX + this.startX * cs + cs / 2, offY + this.startY * cs - 4);
+    c.fillStyle = '#8affc1'; c.font = 'bold 11px Outfit'; c.textAlign = 'center'; c.textBaseline = 'bottom';
+    c.fillText('START', offX + this.startX * cs + cs / 2, offY + this.startY * cs - 4);
     c.fillStyle = '#ff4f9a';
-    c.fillText('▼ END', offX + this.endX * cs + cs / 2, offY + this.endY * cs - 4);
-    // Timer
+    c.fillText('END', offX + this.endX * cs + cs / 2, offY + this.endY * cs - 4);
     const timerColor = this.timeLeft < 5 ? '#ff4f9a' : this.timeLeft < 10 ? '#ffd166' : '#fff';
     c.fillStyle = timerColor; c.font = 'bold 20px Outfit'; c.textAlign = 'center'; c.textBaseline = 'top';
     c.fillText('Time: ' + Math.ceil(this.timeLeft), this.W / 2, 16);
-    // Level
     c.fillStyle = '#fff'; c.font = 'bold 14px Outfit'; c.textAlign = 'left'; c.textBaseline = 'top';
-    c.fillText('Level: ' + this.level, 16, 16);
+    c.fillText('Lv.' + this.level + ' (' + this.rows + 'x' + this.cols + ')', 16, 16);
     this.drawFx(); c.restore();
   }
 }
 
 /* ============================================================ GALLERY / Shooting Gallery */
 class Gallery extends Base {
-  instructions() { return 'Tap targets as they pop up! Hit the high-value moving targets for bonus points. Don't miss the rare golden targets!'; }
+  instructions() { return 'Click to shoot targets! Build combos for bonus. Ducks bob in cover, bombs end round! Gold = jackpot, small = hard. Perfect round = bonus!'; }
   reset() {
     this.targets = [];
     this.spawnTimer = 0;
-    this.spawnInterval = 0.8;
-    this.maxTargets = 6;
+    this.spawnInterval = 0.7;
+    this.maxTargets = 5;
     this.hits = 0; this.misses = 0;
+    this.combo = 0; this.maxCombo = 0;
     this.round = 1;
-    this.roundDuration = 20;
+    this.roundDuration = 18;
     this.roundTimer = this.roundDuration;
+    this.perfectRound = 0;
     this.crosshair = { x: this.W / 2, y: this.H / 2 };
+    this.speedRound = false;
   }
   _spawnTarget() {
     if (this.targets.length >= this.maxTargets) return;
     const roll = Math.random();
     let type = 'normal', r = 22, score = 10, speed = 0, life = 2;
-    if (roll < 0.1) { type = 'gold'; r = 18; score = 50; life = 1.5; }
-    else if (roll < 0.3) { type = 'moving'; r = 22; score = 25; life = 2.5; speed = 60 + Math.random() * 60; }
-    else if (roll < 0.4) { type = 'small'; r = 14; score = 30; life = 1.5; }
+    if (this.round >= 3 && roll < 0.08) { type = 'bomb'; r = 26; score = -50; life = 4; }
+    else if (this.round >= 2 && roll < 0.12) { type = 'gold'; r = 18; score = 50; life = 1.5; }
+    else if (roll < 0.25) { type = 'moving'; r = 22; score = 25; life = 2.5; speed = 60 + Math.random() * 80; }
+    else if (this.round >= 4 && roll < 0.35) { type = 'small'; r = 12; score = 35; life = 1.5; }
+    else if (this.round >= 5 && roll < 0.45) { type = 'duck'; r = 24; score = 15; life = 3; }
+    const sx = speed * (Math.random() < 0.5 ? -1 : 1);
+    const sy = type === 'duck' ? 30 + Math.random() * 40 : speed * 0.3 * (Math.random() < 0.5 ? -1 : 1);
     this.targets.push({
       x: r + Math.random() * (this.W - r * 2),
       y: this.H * 0.15 + Math.random() * (this.H * 0.65),
-      r, type, score, vx: speed * (Math.random() < 0.5 ? -1 : 1),
-      vy: speed * 0.3 * (Math.random() < 0.5 ? -1 : 1),
-      life, maxLife: life, hit: false
+      r, type, score, vx: sx, vy: sy,
+      life, maxLife: life, hit: false, duckHidden: 0
     });
   }
   update(dt) {
     if (!this.running) return;
-    // Crosshair follows pointer
     if (this.pointer.x || this.pointer.y) {
       this.crosshair.x = this.pointer.x;
       this.crosshair.y = this.pointer.y;
     }
-    // Spawn
     this.spawnTimer -= dt;
     if (this.spawnTimer <= 0) {
       this._spawnTarget();
-      this.spawnTimer = this.spawnInterval / this.difficulty();
+      this.spawnTimer = (this.spawnInterval / this.difficulty()) * (this.speedRound ? 0.5 : 1);
     }
-    // Move & decay
     for (const t of this.targets) {
-      if (t.vx) { t.x += t.vx * dt; if (t.x < t.r || t.x > this.W - t.r) t.vx = -t.vx; }
-      if (t.vy) { t.y += t.vy * dt; if (t.y < this.H * 0.15 + t.r || t.y > this.H * 0.8 + t.r) t.vy = -t.vy; }
+      if (t.type === 'duck') {
+        t.duckHidden += dt;
+        t.y += Math.sin(t.duckHidden * 3) * 40 * dt; // bob up/down
+      } else {
+        if (t.vx) { t.x += t.vx * dt; if (t.x < t.r || t.x > this.W - t.r) t.vx = -t.vx; }
+        if (t.vy) { t.y += t.vy * dt; if (t.y < this.H * 0.15 + t.r || t.y > this.H * 0.8) t.vy = -t.vy; }
+      }
       t.life -= dt;
     }
     this.targets = this.targets.filter(t => t.life > 0 && !t.hit);
-    // Shoot
     if (this.pointer.tapped) {
       let hit = false;
-      // Check hits (from front to back)
       const sorted = [...this.targets].sort((a, b) => b.x - a.x);
       for (const t of sorted) {
         if (Math.hypot(this.crosshair.x - t.x, this.crosshair.y - t.y) < t.r + 10) {
+          if (t.type === 'bomb') {
+            this.shake = 0.5;
+            this.burst(t.x, t.y, '#ff4f9a', 20);
+            this.loseLife();
+            this.combo = 0;
+            this.sound.blip(100, 0.2, 'sawtooth', 0.3);
+            t.hit = true;
+            hit = true;
+            break;
+          }
           t.hit = true;
           this.hits++;
           hit = true;
-          this.hitCombo(t.x, t.y, t.score);
+          this.combo++;
+          if (this.combo > this.maxCombo) this.maxCombo = this.combo;
+          const comboBonus = Math.floor(this.combo / 5) * 10;
+          this.hitCombo(t.x, t.y, t.score + comboBonus);
           this.burst(t.x, t.y, t.type === 'gold' ? '#ffd166' : this.theme.accent, 10);
-          this.shake = 0.2;
+          this.shake = 0.15;
+          if (this.combo >= 5 && this.combo % 5 === 0) {
+            this.float(t.x, t.y - 20, this.combo + 'x combo!', '#ffd166');
+          }
           if (t.type === 'gold') { this.confetti(t.x, t.y); this.sound.power(); }
+          else if (t.type === 'small') { this.sound.blip(1200, 0.06, 'sine', 0.12); }
           else { this.sound.coin(); }
           break;
         }
       }
       if (!hit) {
         this.misses++;
+        this.combo = 0;
         this.sound.blip(200, 0.08, 'sawtooth', 0.1);
       }
     }
-    // Round timer
+    // Speed round every 5 rounds
+    if (this.round % 5 === 0 && !this.speedRound) {
+      this.speedRound = true;
+      this.spawnInterval *= 0.5;
+      this.float(this.W / 2, this.H * 0.3, 'SPEED ROUND!', '#ff6b35');
+    }
+    if (this.round % 5 !== 0 && this.speedRound) {
+      this.speedRound = false;
+    }
     this.roundTimer -= dt;
     if (this.roundTimer <= 0) {
+      // Check perfect round
+      if (this.misses === 0 && this.hits > 0) {
+        this.perfectRound++;
+        this.addScore(100);
+        this.float(this.W / 2, this.H * 0.35, 'Perfect Round! +100', '#ffd166');
+      }
       this.round++;
-      this.addScore(50);
       this.roundTimer = this.roundDuration;
-      this.spawnInterval *= 0.9;
-      this.maxTargets += 1;
+      this.spawnInterval = Math.max(0.3, 0.7 - this.round * 0.03);
+      this.maxTargets = Math.min(10, 5 + Math.floor(this.round / 2));
       this.sound.power();
       this.float(this.W / 2, this.H * 0.4, 'Round ' + this.round + '!', this.theme.accent);
     }
-    // Remove hit targets from array
     this.targets = this.targets.filter(t => !t.hit);
   }
   render() {
     const c = this.ctx; c.save(); this.applyShake(c); this.parallax(0);
-    // Targets
     for (const t of this.targets) {
       const alpha = Math.min(1, t.life / t.maxLife * 2);
       c.globalAlpha = alpha;
-      if (t.type === 'gold') {
+      if (t.type === 'bomb') {
+        c.fillStyle = '#333'; c.shadowColor = '#ff4f9a'; c.shadowBlur = 20;
+        c.beginPath(); c.arc(t.x, t.y, t.r, 0, 7); c.fill();
+        c.fillStyle = '#ff4f9a'; c.font = 'bold 16px Outfit'; c.textAlign = 'center'; c.textBaseline = 'middle';
+        c.fillText('💣', t.x, t.y);
+        c.shadowBlur = 0;
+      } else if (t.type === 'gold') {
         c.fillStyle = '#ffd166'; c.shadowColor = '#ffd166'; c.shadowBlur = 15;
+        c.beginPath(); c.arc(t.x, t.y, t.r, 0, 7); c.fill();
+        c.shadowBlur = 0;
+        c.strokeStyle = 'rgba(255,209,102,.3)'; c.lineWidth = 2;
+        c.beginPath(); c.arc(t.x, t.y, t.r * 1.2, 0, 7); c.stroke();
+      } else if (t.type === 'duck') {
+        c.fillStyle = '#8affc1';
+        c.beginPath(); c.arc(t.x, t.y, t.r, 0, 7); c.fill();
+        c.fillStyle = '#fff'; c.font = '14px Outfit'; c.textAlign = 'center'; c.textBaseline = 'middle';
+        c.fillText('🦆', t.x, t.y);
       } else if (t.type === 'moving') {
-        c.fillStyle = '#ff6b35';
+        c.fillStyle = '#ff6b35'; c.shadowColor = '#ff6b35'; c.shadowBlur = 10;
+        c.beginPath(); c.arc(t.x, t.y, t.r, 0, 7); c.fill();
+        c.shadowBlur = 0;
       } else if (t.type === 'small') {
-        c.fillStyle = '#3ad0ff';
+        c.fillStyle = '#3ad0ff'; c.shadowColor = '#3ad0ff'; c.shadowBlur = 10;
+        c.beginPath(); c.arc(t.x, t.y, t.r, 0, 7); c.fill();
+        c.shadowBlur = 0;
       } else {
         c.fillStyle = this.theme.primary;
+        c.beginPath(); c.arc(t.x, t.y, t.r, 0, 7); c.fill();
+        c.strokeStyle = 'rgba(255,255,255,.15)'; c.lineWidth = 1;
+        c.beginPath(); c.arc(t.x, t.y, t.r * 1.3, 0, 7); c.stroke();
       }
-      c.beginPath(); c.arc(t.x, t.y, t.r, 0, 7); c.fill();
-      c.shadowBlur = 0;
-      // Rings
-      c.strokeStyle = 'rgba(255,255,255,.15)'; c.lineWidth = 1;
-      c.beginPath(); c.arc(t.x, t.y, t.r * 1.3, 0, 7); c.stroke();
-      // Score label
-      if (t.type !== 'normal') {
-        c.fillStyle = '#fff'; c.font = 'bold 11px Outfit'; c.textAlign = 'center'; c.textBaseline = 'middle';
+      if (t.type !== 'normal' && t.type !== 'duck' && t.type !== 'bomb') {
+        c.fillStyle = '#fff'; c.font = 'bold 12px Outfit'; c.textAlign = 'center'; c.textBaseline = 'middle';
         c.fillText(t.score, t.x, t.y);
       }
       c.globalAlpha = 1;
     }
-    // Crosshair
     const cx = this.crosshair.x, cy = this.crosshair.y;
     c.strokeStyle = 'rgba(255,50,50,.8)'; c.lineWidth = 2;
     c.beginPath(); c.arc(cx, cy, 14, 0, 7); c.stroke();
     c.beginPath(); c.moveTo(cx - 22, cy); c.lineTo(cx - 8, cy); c.moveTo(cx + 8, cy); c.lineTo(cx + 22, cy); c.stroke();
     c.beginPath(); c.moveTo(cx, cy - 22); c.lineTo(cx, cy - 8); c.moveTo(cx, cy + 8); c.lineTo(cx, cy + 22); c.stroke();
     c.fillStyle = 'rgba(255,50,50,.6)'; c.beginPath(); c.arc(cx, cy, 3, 0, 7); c.fill();
-    // Stats
     c.fillStyle = '#fff'; c.font = 'bold 14px Outfit'; c.textAlign = 'left'; c.textBaseline = 'top';
-    c.fillText('Round: ' + this.round, 16, 16);
-    c.fillText('Round Time: ' + Math.ceil(this.roundTimer), 16, 34);
-    c.fillStyle = 'rgba(255,255,255,.5)'; c.font = '12px Outfit';
-    c.fillText('Hits: ' + this.hits + ' | Misses: ' + this.misses, 16, 52);
+    c.fillText('R' + this.round, 16, 16);
+    c.fillText('⏱' + Math.ceil(this.roundTimer) + 's', 16, 34);
+    if (this.speedRound) { c.fillStyle = '#ff6b35'; c.fillText('⚡ SPEED ⚡', 16, 52); }
+    else { c.fillStyle = 'rgba(255,255,255,.5)'; }
+    c.font = '12px Outfit';
+    c.fillText('H:' + this.hits + ' M:' + this.misses + ' C:' + this.combo, 16, this.speedRound ? 68 : 52);
+    c.fillStyle = 'rgba(255,255,255,.3)'; c.font = '11px Outfit'; c.textAlign = 'right';
+    c.fillText('Perfect: ' + this.perfectRound, this.W - 16, 16);
     this.drawFx(); c.restore();
   }
 }
 
 /* ============================================================ IDLE CLICKER */
 class IdleClicker extends Base {
-  instructions() { return 'Tap to earn coins! Buy upgrades and auto-tappers. Unlock new milestones and prestige for massive bonuses!'; }
+  instructions() { return 'Tap to earn! 10 upgrade tiers, critical clicks for 3x damage, achievements, unlimited prestige. Buy auto-earn upgrades and watch coins flow!'; }
   reset() {
     this.coins = 0;
     this.totalCoins = 0;
     this.clickPower = 1;
     this.upgrades = [
-      { name: 'Stronger Tap', cost: 10, power: 1, bought: 0, desc: '+1 per tap' },
-      { name: 'Auto Tapper', cost: 50, power: 1, bought: 0, desc: '+1/sec auto' },
-      { name: 'Coin Magnet', cost: 200, power: 5, bought: 0, desc: '+5/sec' },
+      { name: 'Stronger Tap', cost: 10, power: 1, bought: 0, desc: '+1/tap' },
+      { name: 'Auto Tapper', cost: 50, power: 1, bought: 0, desc: '+1/s' },
+      { name: 'Coin Magnet', cost: 200, power: 5, bought: 0, desc: '+5/s' },
       { name: 'Golden Hands', cost: 1000, power: 10, bought: 0, desc: '+10/tap' },
-      { name: 'Treasure Chest', cost: 5000, power: 50, bought: 0, desc: '+50/sec' },
-      { name: 'Diamond Mine', cost: 25000, power: 200, bought: 0, desc: '+200/sec' },
+      { name: 'Treasure Chest', cost: 5000, power: 50, bought: 0, desc: '+50/s' },
+      { name: 'Diamond Mine', cost: 25000, power: 200, bought: 0, desc: '+200/s' },
+      { name: 'Emerald Forge', cost: 100000, power: 1000, bought: 0, desc: '+1000/s' },
+      { name: 'Ruby Throne', cost: 500000, power: 5000, bought: 0, desc: '+5000/s' },
+      { name: 'Obsidian Tower', cost: 2000000, power: 25000, bought: 0, desc: '+25000/s' },
+      { name: 'Cosmic Vault', cost: 10000000, power: 100000, bought: 0, desc: '+100k/s' },
     ];
     this.multiplier = 1;
     this.prestigeCount = 0;
     this.prestigeCost = 100000;
     this.autoEarn = 0;
+    this.critChance = 0.05;
+    this.critMult = 3;
+    this.achievements = [];
     this.lastTapTime = 0;
-    this.particles = [];
-    this.selectedUpgrade = -1;
     this.milestone = 0;
-    this.milestones = [100, 1000, 10000, 50000, 100000, 500000, 1000000];
+    this.milestones = [100, 1000, 10000, 50000, 100000, 500000, 1000000, 5000000, 25000000, 100000000];
     this._checkMilestone();
+    this._checkAchievements();
   }
   _calcAuto() {
     this.autoEarn = 0;
+    this.clickPower = 1;
     for (const u of this.upgrades) {
       if (u.name === 'Stronger Tap' || u.name === 'Golden Hands') {
-        this.clickPower = 1 + this.upgrades[0].bought * this.upgrades[0].power + this.upgrades[3].bought * this.upgrades[3].power;
+        this.clickPower += this.upgrades[0].bought * this.upgrades[0].power + this.upgrades[3].bought * this.upgrades[3].power;
       } else {
         this.autoEarn += u.bought * u.power;
       }
     }
     this.autoEarn *= this.multiplier;
+    this.clickPower *= this.multiplier;
+    this.critChance = 0.05 + Math.min(0.25, this.prestigeCount * 0.02);
   }
   _checkMilestone() {
     for (let i = this.milestones.length - 1; i >= 0; i--) {
@@ -3844,29 +4503,62 @@ class IdleClicker extends Base {
         this.milestone = i + 1;
         this.confetti(this.W / 2, this.H * 0.3);
         this.sound.power();
-        this.float(this.W / 2, this.H * 0.25, 'Milestone: ' + this.milestones[i] + ' coins!', this.theme.accent);
-        this.addScore(this.milestone * 10);
+        this.float(this.W / 2, this.H * 0.2, 'Milestone ' + this.milestone + '!', this.theme.accent);
+        this._checkAchievements();
         break;
       }
     }
   }
+  _checkAchievements() {
+    if (this.totalCoins >= 100 && !this.achievements.includes('first100')) {
+      this.achievements.push('first100');
+      this.float(this.W / 2, this.H * 0.15, '🏆 First 100 Coins!', '#ffd166');
+      this.addScore(50);
+    }
+    if (this.totalCoins >= 10000 && !this.achievements.includes('rich')) {
+      this.achievements.push('rich');
+      this.float(this.W / 2, this.H * 0.15, '🏆 Getting Rich!', '#ffd166');
+      this.addScore(200);
+    }
+    if (this.totalCoins >= 1000000 && !this.achievements.includes('million')) {
+      this.achievements.push('million');
+      this.float(this.W / 2, this.H * 0.15, '🏆 Millionaire!', '#ffd166');
+      this.addScore(5000);
+    }
+    if (this.prestigeCount >= 1 && !this.achievements.includes('prestige1')) {
+      this.achievements.push('prestige1');
+      this.float(this.W / 2, this.H * 0.15, '🏆 First Prestige!', '#ffd166');
+    }
+    if (this.prestigeCount >= 5 && !this.achievements.includes('prestige5')) {
+      this.achievements.push('prestige5');
+      this.float(this.W / 2, this.H * 0.15, '🏆 Prestige Master!', '#ffd166');
+    }
+  }
   update(dt) {
-    // Auto earn
     if (this.autoEarn > 0) {
       this.coins += this.autoEarn * dt;
       this.totalCoins += this.autoEarn * dt;
     }
-    // Tap
     if (this.pointer.tapped) {
-      const earn = this.clickPower * this.multiplier;
+      let earn = this.clickPower;
+      let isCrit = false;
+      if (Math.random() < this.critChance) {
+        earn *= this.critMult;
+        isCrit = true;
+      }
       this.coins += earn;
       this.totalCoins += earn;
-      this.sound.coin();
-      this.burst(this.pointer.x, this.pointer.y, this.theme.accent, 5);
-      this.float(this.pointer.x, this.pointer.y - 20, '+' + Math.floor(earn), this.theme.accent);
+      if (isCrit) {
+        this.sound.power();
+        this.burst(this.pointer.x, this.pointer.y, '#ffd166', 12);
+        this.float(this.pointer.x, this.pointer.y - 30, 'CRIT! +' + Math.floor(earn), '#ffd166');
+      } else {
+        this.sound.coin();
+        this.burst(this.pointer.x, this.pointer.y, this.theme.accent, 5);
+        this.float(this.pointer.x, this.pointer.y - 20, '+' + Math.floor(earn), this.theme.accent);
+      }
       this._checkMilestone();
     }
-    // Upgrade purchase via keyboard shortcuts
     for (let i = 0; i < Math.min(this.upgrades.length, 9); i++) {
       if (this.keys[(i + 1).toString()]) {
         this._buy(i);
@@ -3874,11 +4566,6 @@ class IdleClicker extends Base {
       }
     }
     if (this.keys['p'] || this.keys['P']) { this._prestige(); this.keys['p'] = this.keys['P'] = false; }
-    // Prestige check
-    if (this.totalCoins >= this.prestigeCost && this.prestigeCount < 3) {
-      // Show prestige hint
-    }
-    // Update costs
     this._calcAuto();
   }
   _buy(idx) {
@@ -3887,66 +4574,80 @@ class IdleClicker extends Base {
     if (this.coins >= u.cost) {
       this.coins -= u.cost;
       u.bought++;
-      u.cost = Math.floor(u.cost * 1.4);
-      this.sound.blip(660, 0.06, 'triangle', 0.15);
+      u.cost = Math.floor(u.cost * 1.35);
+      this.sound.blip(660 + u.bought * 10, 0.06, 'triangle', 0.15);
+      if (u.bought >= 10 && !this.achievements.includes('maxed_' + idx)) {
+        this.achievements.push('maxed_' + idx);
+        this.float(this.W / 2, this.H * 0.15, '🏆 ' + u.name + ' Master!', '#ffd166');
+      }
       this._calcAuto();
     }
   }
   _prestige() {
-    if (this.totalCoins < this.prestigeCost || this.prestigeCount >= 3) return;
+    if (this.totalCoins < this.prestigeCost) return;
     this.prestigeCount++;
-    this.multiplier = 1 + this.prestigeCount;
+    this.multiplier = 1 + this.prestigeCount * 0.5;
     this.coins = 0;
     this.totalCoins = 0;
-    for (const u of this.upgrades) { u.bought = 0; u.cost = Math.floor(u.cost / (1 + this.prestigeCount * 0.3)); }
+    for (const u of this.upgrades) { u.bought = 0; u.cost = Math.floor(10 * Math.pow(1.35, this.upgrades.indexOf(u))); }
     this.clickPower = 1;
     this.autoEarn = 0;
+    this.prestigeCost = Math.floor(100000 * Math.pow(2, this.prestigeCount));
     this.sound.power();
     this.confetti(this.W / 2, this.H / 2);
-    this.float(this.W / 2, this.H * 0.3, 'Prestige ' + this.prestigeCount + '! ' + this.multiplier + '× multiplier!', '#ffd166');
+    this.float(this.W / 2, this.H * 0.3, 'Prestige ' + this.prestigeCount + '! ' + this.multiplier.toFixed(1) + 'x!', '#ffd166');
+    this._checkAchievements();
   }
   render() {
     const c = this.ctx; c.save(); this.applyShake(c); this.parallax(0);
-    // Top bar - coins
     c.fillStyle = '#fff'; c.font = '900 22px Outfit'; c.textAlign = 'center'; c.textBaseline = 'top';
-    c.fillText('🪙 ' + Math.floor(this.coins), this.W / 2, 12);
-    c.font = '13px Outfit'; c.fillStyle = 'rgba(255,255,255,.4)';
-    c.fillText('Total: ' + Math.floor(this.totalCoins), this.W / 2, 40);
-    // Per-second display
-    if (this.autoEarn > 0) {
-      c.fillStyle = '#8affc1'; c.font = '14px Outfit'; c.textBaseline = 'bottom';
-      c.fillText('+' + Math.floor(this.autoEarn) + '/s', this.W / 2, this.H - 80);
+    c.fillText(Math.floor(this.coins).toLocaleString(), this.W / 2, 8);
+    c.font = '12px Outfit'; c.fillStyle = 'rgba(255,255,255,.4)';
+    c.fillText('Total: ' + Math.floor(this.totalCoins).toLocaleString(), this.W / 2, 34);
+    // Prestige / multiplier
+    if (this.multiplier > 1) {
+      c.fillStyle = '#ffd166'; c.font = 'bold 12px Outfit'; c.textAlign = 'right'; c.textBaseline = 'top';
+      c.fillText(this.multiplier.toFixed(1) + 'x', this.W - 10, 8);
     }
+    if (this.autoEarn > 0) {
+      c.fillStyle = '#8affc1'; c.font = '14px Outfit'; c.textAlign = 'center';
+      c.fillText('+' + Math.floor(this.autoEarn).toLocaleString() + '/s', this.W / 2, this.H - 84);
+    }
+    c.fillStyle = 'rgba(255,255,255,.15)'; c.font = '10px Outfit'; c.textAlign = 'center';
+    c.fillText(Math.floor(this.critChance * 100) + '% crit chance (' + this.critMult + 'x)', this.W / 2, this.H - 68);
     // Upgrades panel
-    const uy = this.H * 0.2;
-    const uh = 44;
-    c.fillStyle = 'rgba(0,0,0,.15)'; rr2(c, 8, uy, this.W - 16, this.upgrades.length * uh + this.H * 0.15, 8); c.fill();
+    const uy = this.H * 0.17;
+    const uh = 40;
+    c.fillStyle = 'rgba(0,0,0,.15)'; rr2(c, 8, uy, this.W - 16, this.upgrades.length * uh + this.H * 0.12, 8); c.fill();
     c.save();
-    c.beginPath(); c.rect(8, uy, this.W - 16, this.upgrades.length * uh + this.H * 0.15); c.clip();
+    c.beginPath(); c.rect(8, uy, this.W - 16, this.upgrades.length * uh + this.H * 0.12); c.clip();
     for (let i = 0; i < this.upgrades.length; i++) {
       const u = this.upgrades[i];
-      const bx = 16, by = uy + 8 + i * uh;
+      const bx = 12, by = uy + 6 + i * uh;
       const affordable = this.coins >= u.cost;
       c.fillStyle = affordable ? 'rgba(255,255,255,.08)' : 'rgba(0,0,0,.2)';
-      rr2(c, bx, by, this.W - 48, uh - 4, 4); c.fill();
-      c.fillStyle = '#fff'; c.font = 'bold 13px Outfit'; c.textAlign = 'left'; c.textBaseline = 'middle';
-      c.fillText((i + 1) + '. ' + u.name + ' x' + u.bought, bx + 8, by + uh / 2 - 6);
-      c.fillStyle = affordable ? '#8affc1' : '#ff6b6b'; c.font = '11px Outfit';
-      c.fillText('🪙 ' + Math.floor(u.cost), bx + 8, by + uh / 2 + 10);
+      rr2(c, bx, by, this.W - 40, uh - 3, 4); c.fill();
+      c.fillStyle = '#fff'; c.font = 'bold 12px Outfit'; c.textAlign = 'left'; c.textBaseline = 'middle';
+      const icon = i < 3 ? '👆' : i < 6 ? '💰' : i < 9 ? '💎' : '🌌';
+      c.fillText(icon + ' ' + u.name + ' x' + u.bought, bx + 6, by + uh / 2 - 5);
+      c.fillStyle = affordable ? '#8affc1' : '#ff6b6b'; c.font = '10px Outfit';
+      c.fillText(Math.floor(u.cost).toLocaleString(), bx + 6, by + uh / 2 + 10);
       c.fillStyle = 'rgba(255,255,255,.3)'; c.font = '10px Outfit'; c.textAlign = 'right';
-      c.fillText(u.desc, this.W - 56, by + uh / 2);
+      c.fillText(u.desc, this.W - 46, by + uh / 2);
     }
     c.restore();
-    // Prestige button
-    if (this.totalCoins >= this.prestigeCost && this.prestigeCount < 3) {
-      c.fillStyle = 'rgba(255,209,102,.15)'; rr2(c, this.W * 0.25, this.H * 0.9, this.W * 0.5, 32, 16); c.fill();
-      c.fillStyle = '#ffd166'; c.font = 'bold 14px Outfit'; c.textAlign = 'center'; c.textBaseline = 'middle';
-      c.fillText('✨ PRESTIGE [P] ✨', this.W / 2, this.H * 0.9 + 16);
-    }
-    // Multiplier
-    if (this.multiplier > 1) {
-      c.fillStyle = '#ffd166'; c.font = 'bold 14px Outfit'; c.textAlign = 'right'; c.textBaseline = 'top';
-      c.fillText(this.multiplier + '× Multiplier', this.W - 16, 12);
+    // Milestone progress
+    const nextM = this.milestones[Math.min(this.milestones.length - 1, this.milestone)] || this.milestones[this.milestones.length - 1] * 10;
+    const progress = Math.min(1, this.totalCoins / nextM);
+    const my2 = this.H * 0.92;
+    c.fillStyle = 'rgba(0,0,0,.15)'; rr2(c, 8, my2, this.W - 16, 16, 8); c.fill();
+    c.fillStyle = this.theme.accent; rr2(c, 8, my2, (this.W - 16) * progress, 16, 8); c.fill();
+    c.fillStyle = 'rgba(255,255,255,.5)'; c.font = '9px Outfit'; c.textAlign = 'center'; c.textBaseline = 'middle';
+    c.fillText('Next: ' + Math.floor(nextM).toLocaleString(), this.W / 2, my2 + 8);
+    // Achievements display
+    if (this.achievements.length > 0) {
+      c.fillStyle = 'rgba(255,255,255,.2)'; c.font = '9px Outfit'; c.textAlign = 'left';
+      c.fillText('🏆 ' + this.achievements.length, 8, this.H - 20);
     }
     this.drawFx(); c.restore();
   }
