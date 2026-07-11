@@ -2598,6 +2598,7 @@ img[src*=".png"] {
 .play-shell[data-universe="standalone"] { --stage-accent: #ffd166; }
 .play-shell[data-universe="retroverse"] { --stage-accent: #39ffde; }
 .play-shell[data-universe="tabletop-kingdom"] { --stage-accent: #f0c987; }
+.play-shell[data-universe="puzzle-realm"] { --stage-accent: #b8a9e8; }
 .play-shell::after {
   content: "";
   position: absolute;

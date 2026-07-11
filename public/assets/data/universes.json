@@ -46,5 +46,11 @@
     "color": "#6b4c3b",
     "accent": "#f0c987",
     "description": "Wooden boards, carved pieces and classic strategy games reimagined with storybook charm."
+  },
+  "puzzle-realm": {
+    "name": "Puzzle Realm",
+    "color": "#7b5ea7",
+    "accent": "#b8a9e8",
+    "description": "A kingdom of logic, memory, and wit — where every challenge sharpens the mind and rewards clever thinking."
   }
 }

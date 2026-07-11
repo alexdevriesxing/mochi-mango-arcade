@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 480">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#5ea7a7"/>
+      <stop offset="100%" stop-color="#3d8a8a"/>
+    </linearGradient>
+    <linearGradient id="glow" x1=".5" y1="0" x2=".5" y2="1">
+      <stop offset="0%" stop-color="#a9e8e8" stop-opacity=".12"/>
+      <stop offset="100%" stop-color="#a9e8e8" stop-opacity="0"/>
+    </linearGradient>
+  </defs>
+  <rect width="320" height="480" rx="16" fill="url(#bg)"/>
+  <rect x="8" y="8" width="304" height="464" rx="12" fill="none" stroke="#a9e8e8" stroke-width="1" opacity=".2"/>
+  <rect x="0" y="0" width="320" height="240" fill="url(#glow)"/>
+  <text x="160" y="48" text-anchor="middle" fill="#a9e8e8" font-size="12" font-weight="600" font-family="Outfit,sans-serif" opacity=".5" letter-spacing="3">PUZZLE REALM</text>
+  <g transform="translate(160,168)">
+    <text y="0" text-anchor="middle" fill="#a9e8e8" font-size="80" font-family="serif" opacity=".75">🐍</text>
+    <rect x="-52" y="-52" width="104" height="104" rx="16" fill="none" stroke="#a9e8e8" stroke-width=".5" opacity=".1"/>
+  </g>
+  <text x="160" y="280" text-anchor="middle" fill="#a9e8e8" font-size="19" font-weight="700" font-family="Fredoka,Outfit,sans-serif">Prism Path</text>
+  <text x="160" y="304" text-anchor="middle" fill="#c9f0f0" font-size="12" font-family="Outfit,sans-serif" letter-spacing="1">Snake</text>
+  <line x1="80" y1="322" x2="240" y2="322" stroke="#a9e8e8" stroke-width=".5" opacity=".15"/>
+  <text x="160" y="420" text-anchor="middle" fill="#c9f0f0" font-size="12" font-family="Outfit,sans-serif">Prism Serpent</text>
+  <text x="160" y="450" text-anchor="middle" fill="#a9e8e8" font-size="10" font-family="Outfit,sans-serif" opacity=".4" letter-spacing="2">MOCHI MANGO ARCADE</text>
+  <circle cx="16" cy="16" r="1.5" fill="#a9e8e8" opacity=".12"/>
+  <circle cx="304" cy="16" r="1.5" fill="#a9e8e8" opacity=".12"/>
+  <circle cx="16" cy="464" r="1.5" fill="#a9e8e8" opacity=".12"/>
+  <circle cx="304" cy="464" r="1.5" fill="#a9e8e8" opacity=".12"/>
+</svg>
