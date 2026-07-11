@@ -351,11 +351,12 @@ class Base {
     if (skipBtn) skipBtn.onclick = () => { if (this._prerollInterval) { clearInterval(this._prerollInterval); this._prerollInterval = null; } finish(); };
     if (rewardBtn) rewardBtn.onclick = () => {
       if (!window.MochiMangoRewards?.request) { if (this._prerollInterval) { clearInterval(this._prerollInterval); this._prerollInterval = null; } finish(); return; }
+      if (this._prerollInterval) { clearInterval(this._prerollInterval); this._prerollInterval = null; }
       window.MochiMangoRewards.request({
         slug: this.game.slug,
         source: 'preroll',
-        onRewardGranted: () => { if (this._prerollInterval) { clearInterval(this._prerollInterval); this._prerollInterval = null; } finish(); },
-        onRewardFailed: () => { /* stay on countdown */ },
+        onRewardGranted: () => { sessionStorage.setItem(skipKey, '1'); this.start(true); },
+        onRewardFailed: () => { finish(); },
       });
     };
   }
@@ -454,6 +455,7 @@ class Base {
     if (armedBoost) {
       this._armedBoost = null;
       this.applyReward(armedBoost);
+      this.drawLives(); this.drawPowers();
     }
     this.last = performance.now();
     if (!this._raf) this.loop(this.last);

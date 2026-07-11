@@ -1,9 +1,15 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="640" height="400" viewBox="0 0 640 400">
-<defs><linearGradient id="bgpandaplatforms" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#1b5e20"/><stop offset=".6" stop-color="#2e7d32"/><stop offset="1" stop-color="#c8e6c9"/></linearGradient><filter id="ds"><feDropShadow dx="0" dy="2" stdDeviation="3" flood-opacity=".6"/></filter></defs>
-<rect width="640" height="400" fill="url(#bgpandaplatforms)" rx="12"/>
-<circle cx="580" cy="350" r="80" fill="#66bb6a" opacity="0.08"/><circle cx="60" cy="360" r="50" fill="#66bb6a" opacity="0.08"/><circle cx="320" cy="380" r="60" fill="#66bb6a" opacity="0.08"/><circle cx="500" cy="50" r="40" fill="#66bb6a" opacity="0.08"/><circle cx="140" cy="30" r="30" fill="#66bb6a" opacity="0.08"/><circle cx="640" cy="0" r="90" fill="#66bb6a" opacity="0.08"/>
-<circle cx="388" cy="131" r="2.2" fill="#a5d6a7" opacity="0.50"/><circle cx="173" cy="94" r="1.2" fill="#a5d6a7" opacity="0.46"/><circle cx="517" cy="14" r="2.6" fill="#a5d6a7" opacity="0.36"/><circle cx="60" cy="118" r="2.8" fill="#a5d6a7" opacity="0.66"/><circle cx="573" cy="42" r="2.5" fill="#a5d6a7" opacity="0.61"/><circle cx="98" cy="34" r="2.6" fill="#a5d6a7" opacity="0.77"/><circle cx="233" cy="102" r="1.1" fill="#a5d6a7" opacity="0.76"/><circle cx="578" cy="134" r="2.7" fill="#a5d6a7" opacity="0.89"/><circle cx="171" cy="58" r="3.0" fill="#a5d6a7" opacity="0.74"/><circle cx="513" cy="31" r="1.4" fill="#a5d6a7" opacity="0.86"/><circle cx="286" cy="108" r="1.5" fill="#a5d6a7" opacity="0.88"/><circle cx="510" cy="64" r="2.0" fill="#a5d6a7" opacity="0.32"/><circle cx="148" cy="45" r="2.6" fill="#a5d6a7" opacity="0.66"/><circle cx="31" cy="42" r="2.6" fill="#a5d6a7" opacity="0.59"/>
-<rect x="12" y="12" width="100" height="24" rx="12" fill="#e65100" opacity="0.9"/><text x="62" y="28" fill="#fff" font-size="11" font-weight="700" text-anchor="middle" font-family="Arial,sans-serif">PLATFORMER</text>
-<rect x="30" y="310" width="120" height="16" rx="4" fill="#e65100" opacity="0.8" filter="url(#ds)"/><rect x="200" y="260" width="100" height="16" rx="4" fill="#f5c518" opacity="0.8" filter="url(#ds)"/><rect x="350" y="200" width="110" height="16" rx="4" fill="#e65100" opacity="0.8" filter="url(#ds)"/><rect x="500" y="270" width="90" height="16" rx="4" fill="#f5c518" opacity="0.8" filter="url(#ds)"/><rect x="150" y="140" width="80" height="16" rx="4" fill="#e65100" opacity="0.8" filter="url(#ds)"/><rect x="400" y="100" width="100" height="16" rx="4" fill="#f5c518" opacity="0.8" filter="url(#ds)"/><circle cx="260" cy="240" r="18" fill="#fff" opacity="0.9" filter="url(#ds)"/><circle cx="255" cy="235" r="5" fill="#1a1a2e"/><circle cx="265" cy="235" r="5" fill="#1a1a2e"/><circle cx="420" cy="180" r="7" fill="#ffd740" opacity="0.9" filter="url(#ds)"/><circle cx="460" cy="170" r="7" fill="#ffd740" opacity="0.9" filter="url(#ds)"/><circle cx="500" cy="180" r="7" fill="#ffd740" opacity="0.9" filter="url(#ds)"/><circle cx="180" cy="120" r="7" fill="#ffd740" opacity="0.9" filter="url(#ds)"/><circle cx="220" cy="110" r="7" fill="#ffd740" opacity="0.9" filter="url(#ds)"/>
-<text x="320" y="340" fill="#fff" font-size="22" font-weight="800" text-anchor="middle" font-family="Arial,sans-serif" filter="url(#ds)">Panda</text><text x="320" y="366" fill="#fff" font-size="22" font-weight="800" text-anchor="middle" font-family="Arial,sans-serif" filter="url(#ds)">Platforms</text>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 400" width="640" height="400" role="img" aria-label="Panda Platforms">
+<defs>
+<linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#fff2d6"/><stop offset="1" stop-color="#ffd9e6"/></linearGradient>
+<radialGradient id="halo" cx="0.7" cy="0.42" r="0.5"><stop offset="0" stop-color="#ff7ab8" stop-opacity="0.55"/><stop offset="1" stop-color="#ff7ab8" stop-opacity="0"/></radialGradient>
+</defs>
+<rect width="640" height="400" fill="url(#bg)"/>
+<circle cx="470" cy="180" r="150" fill="url(#halo)"/>
+<g fill="#ff7ab8" opacity="0.5">
+<circle cx="70" cy="70" r="5"/><circle cx="150" cy="40" r="3"/><circle cx="590" cy="60" r="4"/><circle cx="300" cy="30" r="3"/><circle cx="600" cy="300" r="5"/><circle cx="40" cy="220" r="4"/>
+</g>
+<text x="34" y="56" font-family="Outfit, Verdana, sans-serif" font-size="17" font-weight="800" fill="#ff7ab8" letter-spacing="1">PANDA KINGDOM</text>
+
+<text x="34" y="318" font-family="Outfit, Verdana, sans-serif" font-size="38" font-weight="900" fill="#3a1f45">Panda Platforms</text>
+<text x="34" y="364" font-family="Outfit, Verdana, sans-serif" font-size="18" font-weight="700" fill="#3a1f45" opacity="0.85">Platformer · Bamboo Hopper</text>
 </svg>

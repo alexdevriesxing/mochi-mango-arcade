@@ -1,0 +1,56 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 450" role="img" aria-labelledby="title desc" shape-rendering="crispEdges">
+  <title id="title">Chiptune Chase key art</title><desc id="desc">Beat Bunny sprints through a retro city skyline built by every perfect chiptune beat in this rhythm runner.</desc>
+  <defs><linearGradient id="bg" x2="0" y2="1"><stop stop-color="#0a0515"/><stop offset="1" stop-color="#1a0a30"/></linearGradient><pattern id="scan" width="4" height="4" patternUnits="userSpaceOnUse"><path d="M0 3.5h4" stroke="#fff" stroke-opacity=".05"/></pattern><filter id="glow"><feGaussianBlur stdDeviation="3" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter><filter id="beatPulse"><feGaussianBlur stdDeviation="8" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs>
+  <rect width="720" height="450" fill="url(#bg)"/>
+  <rect x="0" y="290" width="720" height="160" fill="#0d0820"/>
+  <line x1="0" y1="290" x2="720" y2="290" stroke="#ff4f9a" stroke-width="2" opacity=".3"/>
+  <g filter="url(#glow)">
+    <rect x="80" y="260" width="30" height="30" fill="#1a0a30" stroke="#ffcf40" stroke-width="2"/>
+    <rect x="160" y="240" width="30" height="50" fill="#1a0a30" stroke="#ffcf40" stroke-width="2"/>
+    <rect x="240" y="250" width="30" height="40" fill="#1a0a30" stroke="#ffcf40" stroke-width="2"/>
+    <rect x="320" y="230" width="30" height="60" fill="#1a0a30" stroke="#ffcf40" stroke-width="2"/>
+    <rect x="420" y="255" width="30" height="35" fill="#1a0a30" stroke="#ffcf40" stroke-width="2"/>
+    <rect x="500" y="245" width="30" height="45" fill="#1a0a30" stroke="#ffcf40" stroke-width="2"/>
+    <rect x="580" y="260" width="30" height="30" fill="#1a0a30" stroke="#ffcf40" stroke-width="2"/>
+  </g>
+  <g fill="#ffcf40" opacity=".6">
+    <rect x="87" y="250" width="16" height="10"/>
+    <rect x="167" y="228" width="16" height="12"/>
+    <rect x="247" y="240" width="16" height="10"/>
+    <rect x="327" y="218" width="16" height="12"/>
+    <rect x="427" y="245" width="16" height="10"/>
+    <rect x="507" y="233" width="16" height="12"/>
+    <rect x="587" y="250" width="16" height="10"/>
+  </g>
+  <g filter="url(#beatPulse)">
+    <rect x="87" y="250" width="16" height="10" fill="#ffcf40" opacity=".4"/>
+    <rect x="167" y="228" width="16" height="12" fill="#ffcf40" opacity=".4"/>
+    <rect x="327" y="218" width="16" height="12" fill="#ffcf40" opacity=".3"/>
+    <rect x="507" y="233" width="16" height="12" fill="#ffcf40" opacity=".3"/>
+  </g>
+  <g filter="url(#glow)">
+    <circle cx="160" cy="120" r="18" fill="none" stroke="#ff4f9a" stroke-width="3"/>
+    <circle cx="380" cy="90" r="14" fill="none" stroke="#ff4f9a" stroke-width="3"/>
+    <circle cx="560" cy="140" r="12" fill="none" stroke="#ff4f9a" stroke-width="3"/>
+    <circle cx="270" cy="160" r="10" fill="none" stroke="#ff4f9a" stroke-width="2.5"/>
+    <circle cx="480" cy="110" r="10" fill="none" stroke="#ff4f9a" stroke-width="2.5"/>
+  </g>
+  <g font-family="monospace" font-size="24" fill="#ff4f9a" filter="url(#glow)" text-anchor="middle" opacity=".8">
+    <text x="160" y="130">♪</text>
+    <text x="380" y="98">♫</text>
+    <text x="560" y="148">♪</text>
+    <text x="270" y="168">♩</text>
+    <text x="480" y="118">♬</text>
+  </g>
+  <g transform="translate(360 175)" filter="url(#glow)">
+    <ellipse cx="0" cy="0" rx="20" ry="18" fill="#1a0a30" stroke="#ff4f9a" stroke-width="2"/>
+    <ellipse cx="0" cy="2" rx="14" ry="10" fill="#f7fbff" opacity=".9"/>
+    <circle cx="-5" cy="-3" r="2" fill="#0a0515"/>
+    <circle cx="5" cy="-3" r="2" fill="#0a0515"/>
+    <path d="M-4 5 Q0 9 4 5" fill="none" stroke="#ff4f9a" stroke-width="1.5"/>
+    <rect x="-16" y="-16" width="8" height="6" rx="2" fill="#ff4f9a"/>
+  </g>
+  <rect x="30" y="24" width="160" height="28" rx="14" fill="#ff4f9a"/><text x="110" y="44" text-anchor="middle" font-family="Arial,sans-serif" font-size="14" font-weight="900" fill="#fff" letter-spacing="2">RETRO · 90s</text>
+  <text x="36" y="408" font-family="Arial Black,Arial,sans-serif" font-size="36" font-weight="900" fill="#f7fbff" letter-spacing="1">CHIPTUNE</text><text x="36" y="444" font-family="Arial Black,Arial,sans-serif" font-size="36" font-weight="900" fill="#ff4f9a" letter-spacing="1">CHASE</text>
+  <rect width="720" height="450" rx="28" fill="url(#scan)"/><rect x="8" y="8" width="704" height="434" rx="23" fill="none" stroke="#ffcf40" stroke-width="3"/>
+</svg>

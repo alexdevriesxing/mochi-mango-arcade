@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 450" role="img" aria-labelledby="title desc" shape-rendering="geometricPrecision">
+  <title id="title">Vector Vortex key art</title><desc id="desc">Vertex Viper weaves through a storm of geometric enemies in pure vector-graphics space.</desc>
+  <defs><linearGradient id="bg" x2="0" y2="1"><stop stop-color="#050510"/><stop offset="1" stop-color="#0f0525"/></linearGradient><pattern id="scan" width="4" height="4" patternUnits="userSpaceOnUse"><path d="M0 3.5h4" stroke="#fff" stroke-opacity=".04"/></pattern><filter id="glow"><feGaussianBlur stdDeviation="4" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter><filter id="trace"><feGaussianBlur stdDeviation="8" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs>
+  <rect width="720" height="450" fill="url(#bg)"/>
+  <g stroke-opacity=".08" stroke="#39ffde" stroke-width="1"><line x1="0" y1="225" x2="720" y2="225"/><line x1="360" y1="0" x2="360" y2="450"/></g>
+  <g filter="url(#trace)">
+    <polygon points="580,120 620,100 640,140 600,160" fill="none" stroke="#ff4f9a" stroke-width="3" opacity=".8"/>
+    <polygon points="100,80 130,50 160,80 130,110" fill="none" stroke="#ffcf40" stroke-width="3" opacity=".7"/>
+    <polygon points="90,340 130,310 170,340 130,370" fill="none" stroke="#ffcf40" stroke-width="3" opacity=".6"/>
+    <polygon points="550,350 580,320 610,350 580,380" fill="none" stroke="#39ffde" stroke-width="3" opacity=".5"/>
+    <polygon points="200,40 220,20 240,40 220,60" fill="none" stroke="#ff4f9a" stroke-width="2" opacity=".6"/>
+    <polygon points="640,280 660,260 680,280 660,300" fill="none" stroke="#39ffde" stroke-width="2" opacity=".5"/>
+  </g>
+  <g filter="url(#glow)">
+    <polygon points="250,170 300,140 350,170 300,200" fill="none" stroke="#ff4f9a" stroke-width="4"/>
+    <polygon points="430,100 470,80 510,100 470,120" fill="none" stroke="#ffcf40" stroke-width="3"/>
+    <polygon points="150,230 180,210 210,230 180,250" fill="none" stroke="#39ffde" stroke-width="3"/>
+    <polygon points="560,180 590,160 620,180 590,200" fill="none" stroke="#ffcf40" stroke-width="3"/>
+    <polygon points="320,310 350,290 380,310 350,330" fill="none" stroke="#ff4f9a" stroke-width="3"/>
+    <polygon points="450,270 480,250 510,270 480,290" fill="none" stroke="#39ffde" stroke-width="3"/>
+  </g>
+  <g transform="translate(360 235)" filter="url(#glow)">
+    <polygon points="0,-50 30,20 0,10 -30,20" fill="#191034" stroke="#39ffde" stroke-width="4"/>
+    <polygon points="0,-30 12,15 -12,15" fill="#39ffde" opacity=".6"/>
+    <circle cy="-8" r="6" fill="#f7fbff"/>
+    <path d="M-20 25l-8 20M20 25l8 20" stroke="#ffcf40" stroke-width="5" stroke-linecap="round"/>
+  </g>
+  <g fill="#f7fbff" opacity=".7"><circle cx="70" cy="50" r="2"/><circle cx="650" cy="45" r="3"/><circle cx="680" cy="400" r="2"/><circle cx="45" cy="420" r="2"/><circle cx="400" cy="420" r="2"/></g>
+  <rect x="30" y="24" width="160" height="28" rx="14" fill="#39ffde"/><text x="110" y="44" text-anchor="middle" font-family="Arial,sans-serif" font-size="14" font-weight="900" fill="#050510" letter-spacing="2">RETRO · 70s</text>
+  <text x="36" y="408" font-family="Arial Black,Arial,sans-serif" font-size="36" font-weight="900" fill="#f7fbff" letter-spacing="1">VECTOR</text><text x="36" y="444" font-family="Arial Black,Arial,sans-serif" font-size="36" font-weight="900" fill="#ffcf40" letter-spacing="1">VORTEX</text>
+  <rect width="720" height="450" rx="28" fill="url(#scan)"/><rect x="8" y="8" width="704" height="434" rx="23" fill="none" stroke="#ff4f9a" stroke-width="3"/>
+</svg>

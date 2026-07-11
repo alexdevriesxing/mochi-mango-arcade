@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 400" width="640" height="400" role="img" aria-label="Byte Beetle Pipeworks">
+<defs>
+<linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#fff2d6"/><stop offset="1" stop-color="#ffd9e6"/></linearGradient>
+<radialGradient id="halo" cx="0.7" cy="0.42" r="0.5"><stop offset="0" stop-color="#ff7ab8" stop-opacity="0.55"/><stop offset="1" stop-color="#ff7ab8" stop-opacity="0"/></radialGradient>
+</defs>
+<rect width="640" height="400" fill="url(#bg)"/>
+<circle cx="470" cy="180" r="150" fill="url(#halo)"/>
+<g fill="#ff7ab8" opacity="0.5">
+<circle cx="70" cy="70" r="5"/><circle cx="150" cy="40" r="3"/><circle cx="590" cy="60" r="4"/><circle cx="300" cy="30" r="3"/><circle cx="600" cy="300" r="5"/><circle cx="40" cy="220" r="4"/>
+</g>
+<text x="34" y="56" font-family="Outfit, Verdana, sans-serif" font-size="17" font-weight="800" fill="#ff7ab8" letter-spacing="1">MOCHI MANGO RETROVERSE</text>
+
+<text x="34" y="300" font-family="Outfit, Verdana, sans-serif" font-size="38" font-weight="900" fill="#3a1f45">Byte Beetle</text><text x="34" y="342" font-family="Outfit, Verdana, sans-serif" font-size="38" font-weight="900" fill="#3a1f45">Pipeworks</text>
+<text x="34" y="386" font-family="Outfit, Verdana, sans-serif" font-size="18" font-weight="700" fill="#3a1f45" opacity="0.85">Connection Puzzle · Bitzi Beetle</text>
+</svg>

@@ -1,6 +1,6 @@
 # Mochi Mango Arcade
 
-> Mochi Mango Arcade is a free HTML5 games portal and character-merch shop by Fire Dragon Interactive. 384 instant-play browser games — runners, platformers, puzzles, arcade shooters, mazes, memory and tower-stacking games — starring original mascot characters, playable on mobile and desktop with no download and no sign-up. 384 games are playable right now, with more added regularly.
+> Mochi Mango Arcade is a free HTML5 games portal and character-merch shop by Fire Dragon Interactive. 392 instant-play browser games — runners, platformers, puzzles, arcade shooters, mazes, memory and tower-stacking games — starring original mascot characters, playable on mobile and desktop with no download and no sign-up. 392 games are playable right now, with more added regularly.
 
 ## About
 - 100% free to play, no install or account, runs in any modern browser.
@@ -9,7 +9,7 @@
 - Made by Fire Dragon Interactive (https://www.firedragoninteractive.com).
 
 ## Key pages
-- [All games](https://www.mochimangoarcade.com/games/): browse and filter all 384 games.
+- [All games](https://www.mochimangoarcade.com/games/): browse and filter all 392 games.
 - [Universes](https://www.mochimangoarcade.com/universes/): recurring worlds and their games.
 - [Characters](https://www.mochimangoarcade.com/characters/): mascot bios.
 - [Merch shop](https://www.mochimangoarcade.com/shop/): plushies and collectibles.
@@ -33,7 +33,7 @@ Yes. Mochi Mango Arcade games are mobile-friendly and work on iOS, Android, tabl
 Yes. Mochi Mango Arcade games feature original, family-friendly mascot characters and are safe and suitable for players of all ages.
 
 ### How many games does Mochi Mango Arcade have?
-Mochi Mango Arcade has 384 games across 14 original universes, with 384 playable right now and more added regularly.
+Mochi Mango Arcade has 392 games across 14 original universes, with 392 playable right now and more added regularly.
 
 ### Can I buy plushies and merch of the characters?
 Yes. Official Mochi Mango Arcade merch — plushies, apparel, mugs, pins and stickers featuring the mascots — is available in the on-site merch shop.
@@ -426,6 +426,14 @@ Mochi Mango Arcade is created by Fire Dragon Interactive, an original games and 
 - [Pixel Panda Idle](https://www.mochimangoarcade.com/play/pixel-panda-idle/): free Idle Clicker game starring Pixel Panda — Build a pixel panda empire from a single bamboo shoot. Click to plant hire helpers and automate your grove. Pixel…
 - [Pixel Fox Pong](https://www.mochimangoarcade.com/play/pixel-fox-pong/): free Pong game starring Pixel Fox — A retro pixel pong duel under neon stadium lights. Pixel Fox Athlete volleys the energy ball as pixel fans cheer every…
 - [Pixel Bear Serpent](https://www.mochimangoarcade.com/play/pixel-bear-serpent/): free Snake game starring Pixel Bear — Guide a pixel bear snake through honeycomb grids collecting glowing nectar. Pixel Bear Serpent winds through retro…
+- [Glitch Guardian](https://www.mochimangoarcade.com/play/glitch-guardian/): free Light-Gun Gallery game starring Debug Duck — Scan every pixel of a vintage CRT monitor and blast corrupt glitches, rogue sprites, and virus anomalies before they…
+- [Vector Vortex](https://www.mochimangoarcade.com/play/vector-vortex/): free Vector Space Combat game starring Vertex Viper — Pilot a wireframe viper through a neon vortex of geometric enemies. Every triangle, hexagon, and diamond splits on…
+- [Cassette Courier](https://www.mochimangoarcade.com/play/cassette-courier/): free Delivery Runner game starring Flip the Fox — Race through a neon-lit 80s suburb delivering mix tapes before sunset. Dodge sprinklers, barking dogs, and mailbox…
+- [Pixel Plumber](https://www.mochimangoarcade.com/play/pixel-plumber/): free Pipe Puzzle game starring Piper Penguin — Rotate and connect leaking pixel pipes before the basement floods. Each dripping joint and pressure gauge adds…
+- [Chiptune Chase](https://www.mochimangoarcade.com/play/chiptune-chase/): free Rhythm Runner game starring Beat Bunny — Tap in time with an original chiptune soundtrack as Beat Bunny sprints through a retro city. Every beat-perfect step…
+- [Disk Drive Dash](https://www.mochimangoarcade.com/play/disk-drive-dash/): free Data Dodger game starring Sector Squirrel — Navigate the concentric tracks of a 5.25-inch floppy disk, collecting file fragments while dodging bad sectors,…
+- [8-Bit Bakery](https://www.mochimangoarcade.com/play/eight-bit-bakery/): free Time Management game starring Chip the Baker — Run a pixel-perfect bakery in a retro shopping district. Take orders from a growing queue of hungry patrons, assemble…
+- [Scanline Sprint](https://www.mochimangoarcade.com/play/scanline-sprint/): free CRT Drop game starring Scan Sam — Fall through the scanlines of an old CRT television, rotating the display to guide the beam through gaps in the raster…
 
 ## Full catalogue
 - [Puddle & Pip: Meadow Dash](https://www.mochimangoarcade.com/games/puddle-pip-meadow-dash/) (Runner, Puddle & Pip Cozyverse)
@@ -812,3 +820,11 @@ Mochi Mango Arcade is created by Fire Dragon Interactive, an original games and 
 - [Pixel Panda Idle](https://www.mochimangoarcade.com/games/pixel-panda-idle/) (Idle Clicker, Pixel Playground)
 - [Pixel Fox Pong](https://www.mochimangoarcade.com/games/pixel-fox-pong/) (Pong, Pixel Playground)
 - [Pixel Bear Serpent](https://www.mochimangoarcade.com/games/pixel-bear-serpent/) (Snake, Pixel Playground)
+- [Glitch Guardian](https://www.mochimangoarcade.com/games/glitch-guardian/) (Light-Gun Gallery, Mochi Mango Retroverse)
+- [Vector Vortex](https://www.mochimangoarcade.com/games/vector-vortex/) (Vector Space Combat, Mochi Mango Retroverse)
+- [Cassette Courier](https://www.mochimangoarcade.com/games/cassette-courier/) (Delivery Runner, Mochi Mango Retroverse)
+- [Pixel Plumber](https://www.mochimangoarcade.com/games/pixel-plumber/) (Pipe Puzzle, Mochi Mango Retroverse)
+- [Chiptune Chase](https://www.mochimangoarcade.com/games/chiptune-chase/) (Rhythm Runner, Mochi Mango Retroverse)
+- [Disk Drive Dash](https://www.mochimangoarcade.com/games/disk-drive-dash/) (Data Dodger, Mochi Mango Retroverse)
+- [8-Bit Bakery](https://www.mochimangoarcade.com/games/eight-bit-bakery/) (Time Management, Mochi Mango Retroverse)
+- [Scanline Sprint](https://www.mochimangoarcade.com/games/scanline-sprint/) (CRT Drop, Mochi Mango Retroverse)

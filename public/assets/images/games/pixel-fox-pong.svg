@@ -1,9 +1,15 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="640" height="400" viewBox="0 0 640 400">
-<defs><linearGradient id="bgpixelfoxpong" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#1a1a2e"/><stop offset=".6" stop-color="#16213e"/><stop offset="1" stop-color="#0f3460"/></linearGradient><filter id="ds"><feDropShadow dx="0" dy="2" stdDeviation="3" flood-opacity=".6"/></filter></defs>
-<rect width="640" height="400" fill="url(#bgpixelfoxpong)" rx="12"/>
-<circle cx="580" cy="350" r="80" fill="#e94560" opacity="0.08"/><circle cx="60" cy="360" r="50" fill="#e94560" opacity="0.08"/><circle cx="320" cy="380" r="60" fill="#e94560" opacity="0.08"/><circle cx="500" cy="50" r="40" fill="#e94560" opacity="0.08"/><circle cx="140" cy="30" r="30" fill="#e94560" opacity="0.08"/><circle cx="640" cy="0" r="90" fill="#e94560" opacity="0.08"/>
-<circle cx="294" cy="153" r="1.8" fill="#f5c518" opacity="0.79"/><circle cx="443" cy="14" r="1.5" fill="#f5c518" opacity="0.46"/><circle cx="333" cy="158" r="1.9" fill="#f5c518" opacity="0.48"/><circle cx="54" cy="137" r="1.2" fill="#f5c518" opacity="0.31"/><circle cx="201" cy="38" r="2.4" fill="#f5c518" opacity="0.78"/><circle cx="229" cy="75" r="2.8" fill="#f5c518" opacity="0.46"/><circle cx="179" cy="134" r="1.5" fill="#f5c518" opacity="0.40"/><circle cx="180" cy="158" r="1.6" fill="#f5c518" opacity="0.89"/><circle cx="404" cy="157" r="3.0" fill="#f5c518" opacity="0.53"/><circle cx="286" cy="158" r="2.1" fill="#f5c518" opacity="0.89"/><circle cx="157" cy="25" r="2.1" fill="#f5c518" opacity="0.38"/><circle cx="467" cy="104" r="2.9" fill="#f5c518" opacity="0.51"/><circle cx="407" cy="84" r="1.8" fill="#f5c518" opacity="0.70"/><circle cx="343" cy="70" r="2.9" fill="#f5c518" opacity="0.71"/><circle cx="540" cy="41" r="2.8" fill="#f5c518" opacity="0.62"/>
-<rect x="12" y="12" width="100" height="24" rx="12" fill="#37474f" opacity="0.9"/><text x="62" y="28" fill="#fff" font-size="11" font-weight="700" text-anchor="middle" font-family="Arial,sans-serif">PONG</text>
-<line x1="320" y1="80" x2="320" y2="320" stroke="#fff" stroke-width="2" stroke-dasharray="8,8" opacity="0.3"/><rect x="20" y="160" width="10" height="60" rx="4" fill="#fff" opacity="0.8" filter="url(#ds)"/><rect x="610" y="180" width="10" height="60" rx="4" fill="#fff" opacity="0.8" filter="url(#ds)"/><circle cx="320" cy="200" r="8" fill="#fff" opacity="0.9" filter="url(#ds)"/><text x="160" y="60" fill="#fff" font-size="28" text-anchor="middle" font-family="Arial" opacity="0.4">3</text><text x="480" y="60" fill="#fff" font-size="28" text-anchor="middle" font-family="Arial" opacity="0.4">2</text>
-<text x="320" y="340" fill="#fff" font-size="22" font-weight="800" text-anchor="middle" font-family="Arial,sans-serif" filter="url(#ds)">Pixel Fox</text><text x="320" y="366" fill="#fff" font-size="22" font-weight="800" text-anchor="middle" font-family="Arial,sans-serif" filter="url(#ds)">Pong</text>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 400" width="640" height="400" role="img" aria-label="Pixel Fox Pong">
+<defs>
+<linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#fff2d6"/><stop offset="1" stop-color="#ffd9e6"/></linearGradient>
+<radialGradient id="halo" cx="0.7" cy="0.42" r="0.5"><stop offset="0" stop-color="#ff7ab8" stop-opacity="0.55"/><stop offset="1" stop-color="#ff7ab8" stop-opacity="0"/></radialGradient>
+</defs>
+<rect width="640" height="400" fill="url(#bg)"/>
+<circle cx="470" cy="180" r="150" fill="url(#halo)"/>
+<g fill="#ff7ab8" opacity="0.5">
+<circle cx="70" cy="70" r="5"/><circle cx="150" cy="40" r="3"/><circle cx="590" cy="60" r="4"/><circle cx="300" cy="30" r="3"/><circle cx="600" cy="300" r="5"/><circle cx="40" cy="220" r="4"/>
+</g>
+<text x="34" y="56" font-family="Outfit, Verdana, sans-serif" font-size="17" font-weight="800" fill="#ff7ab8" letter-spacing="1">PIXEL PLAYGROUND</text>
+
+<text x="34" y="318" font-family="Outfit, Verdana, sans-serif" font-size="38" font-weight="900" fill="#3a1f45">Pixel Fox Pong</text>
+<text x="34" y="364" font-family="Outfit, Verdana, sans-serif" font-size="18" font-weight="700" fill="#3a1f45" opacity="0.85">Pong · Pixel Fox</text>
 </svg>
