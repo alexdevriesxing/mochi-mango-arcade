@@ -1,6 +1,13 @@
-node_modules
+node_modules/
 .wrangler
+.wrangler-dry/
+.playwright-cli/
+artifacts/
 dist
 .DS_Store
 
 .claude
+
+# Dev/standalone test files
+*-standalone/
+analyze_games.py

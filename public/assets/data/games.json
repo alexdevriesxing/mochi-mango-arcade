@@ -6139,7 +6139,7 @@
     "universeName": "Tabletop Kingdom",
     "genre": "Strategy",
     "mascot": "Kingpin Pawnie",
-    "description": "Move your ivory army, protect your king, and checkmate the moon court. Streamlined Quick Chess: standard movement, check, checkmate, stalemate and queen promotion; castling, en passant and repetition draws are omitted.",
+    "description": "Lead your ivory army across a moonlit battlefield in this timeless duel of wits. Crownlight Chess brings classic strategy to enchanted boards where every pawn dreams of knighthood. Outthink your rival and checkmate the moonlight king.",
     "image": "/assets/images/tabletop-cards/crownlight-chess.svg",
     "detailUrl": "/games/crownlight-chess/",
     "playUrl": "/play/crownlight-chess/",
@@ -6149,7 +6149,7 @@
     "plays": 0,
     "status": "Playable",
     "engine": "board",
-    "merchHook": "Kingpin Pawnie plush with crowned chess piece, crownlight board sticker pack, checkmate tee, and enamel pin set.",
+    "merchHook": "Kingpin Pawnie plush with crowned chess piece charm, crownlight board game set, checkmate-move magnet set, and Tabletop Kingdom chess-piece sticker pack.",
     "built": true,
     "boardVariant": "chess"
   },
@@ -6161,7 +6161,7 @@
     "universeName": "Tabletop Kingdom",
     "genre": "Board",
     "mascot": "Captain Checker",
-    "description": "Move diagonally on dark squares. Captures are mandatory; chain every available jump. Reach the far edge to crown a king.",
+    "description": "Captain Checker marches the Biscuit Brigade across a battlefield of sweet treats. Jump rival pieces and crown your champions in this crunchy classic where double-jumps lead to triple victories.",
     "image": "/assets/images/tabletop-cards/biscuit-brigade-checkers.svg",
     "detailUrl": "/games/biscuit-brigade-checkers/",
     "playUrl": "/play/biscuit-brigade-checkers/",
@@ -6171,7 +6171,7 @@
     "plays": 0,
     "status": "Playable",
     "engine": "board",
-    "merchHook": "Captain Checker plush with checker cape, biscuit token keychain, brigade sticker pack, and king-crown hoodie.",
+    "merchHook": "Captain Checker plush with checker cape, biscuit token keychain, double-jump magnet set, and Tabletop Kingdom checkers sticker sheet.",
     "built": true,
     "boardVariant": "checkers"
   },
@@ -6183,7 +6183,7 @@
     "universeName": "Tabletop Kingdom",
     "genre": "Board",
     "mascot": "Trixie Bloom",
-    "description": "Place a blossom and make three in a row. The moon sprite plays a perfect reply, so build a fork!",
+    "description": "Plant blossoms and block opponents in this enchanting three-in-a-row strategy game. Trixie Bloom guides you through moonlit gardens where every placement blooms into possibility. First to align three wins the floral crown.",
     "image": "/assets/images/tabletop-cards/trio-bloom.svg",
     "detailUrl": "/games/trio-bloom/",
     "playUrl": "/play/trio-bloom/",
@@ -6193,7 +6193,7 @@
     "plays": 0,
     "status": "Playable",
     "engine": "board",
-    "merchHook": "Trixie Bloom plush with flower crown, trio-bloom magnet set, blossom tee, and enamel pin.",
+    "merchHook": "Trixie Bloom plush with flower crown, trio-bloom magnet set, blossom keychain, and Tabletop Kingdom garden-game sticker pack.",
     "built": true,
     "boardVariant": "tic-tac-toe"
   },
@@ -6205,7 +6205,7 @@
     "universeName": "Tabletop Kingdom",
     "genre": "Board",
     "mascot": "Stella Stacker",
-    "description": "Tap a column to drop a star. Connect four horizontally, vertically or diagonally before the sky keeper.",
+    "description": "Rainbow stars cascade into a cosmic grid in this luminous connect-four game. Stella Stacker guides your hand as you drop stars into the nebula. Connect four before the starlight fades.",
     "image": "/assets/images/tabletop-cards/starstack-four.svg",
     "detailUrl": "/games/starstack-four/",
     "playUrl": "/play/starstack-four/",
@@ -6215,7 +6215,7 @@
     "plays": 0,
     "status": "Playable",
     "engine": "board",
-    "merchHook": "Stella Stacker plush with stacking stars, drop-column keychain, constellation sticker pack, and four-in-a-row tee.",
+    "merchHook": "Stella Stacker plush with stacking stars charm, drop-column keychain, connect-four magnet set, and Tabletop Kingdom cosmic-game sticker sheet.",
     "built": true,
     "boardVariant": "connect-four"
   },
@@ -6227,7 +6227,7 @@
     "universeName": "Tabletop Kingdom",
     "genre": "Strategy",
     "mascot": "Luna Flipper",
-    "description": "Place a sun disk to bracket moon disks in any direction and flip them. A player with no legal move passes; the fuller garden wins.",
+    "description": "Flip sun disks between moonlit boundaries in this elegant reversal game. Luna Flipper teaches the art of bracket and capture where every flip changes the board. Master the ancient strategy of Othello in a serene garden setting.",
     "image": "/assets/images/tabletop-cards/moonflip-garden.svg",
     "detailUrl": "/games/moonflip-garden/",
     "playUrl": "/play/moonflip-garden/",
@@ -6237,7 +6237,7 @@
     "plays": 0,
     "status": "Playable",
     "engine": "board",
-    "merchHook": "Luna Flipper plush with flip-disk wings, moon-garden sticker pack, reversi strategy tee, and enamel pin.",
+    "merchHook": "Luna Flipper plush with flip-disk wings, moon-garden sticker set, reversal-strategy keychain, and Tabletop Kingdom Othello-style board game.",
     "built": true,
     "boardVariant": "reversi"
   },
@@ -6249,7 +6249,7 @@
     "universeName": "Tabletop Kingdom",
     "genre": "Strategy",
     "mascot": "Petal Prime",
-    "description": "Place petals on the intersections. First to form five or more in an unbroken line wins this compact freestyle game.",
+    "description": "Place enchanted petals at board intersections and race to form five in a row. Petal Prime teaches the ancient art of Gomoku under cherry blossoms. Block, extend and bloom your way to victory.",
     "image": "/assets/images/tabletop-cards/petal-five.svg",
     "detailUrl": "/games/petal-five/",
     "playUrl": "/play/petal-five/",
@@ -6259,7 +6259,7 @@
     "plays": 0,
     "status": "Playable",
     "engine": "board",
-    "merchHook": "Petal Prime plush with petal crown, five-in-row keychain, blossom-field sticker pack, and strategy tee.",
+    "merchHook": "Petal Prime plush with petal crown, five-in-row keychain, blossom-strategy magnet set, and Tabletop Kingdom Gomoku sticker pack.",
     "built": true,
     "boardVariant": "gomoku"
   },
@@ -6271,7 +6271,7 @@
     "universeName": "Tabletop Kingdom",
     "genre": "Board",
     "mascot": "Mango Merchant",
-    "description": "Choose one of your six bowls and sow every seed counter-clockwise. Skip the rival store, capture opposite seeds, and earn another turn by landing in your store.",
+    "description": "Sow mango seeds across the marketplace board and outwit the Mango Merchant. Every counterclockwise scatter fills your treasury. The last player with seeds claims the grand mango harvest in this ancient counting game.",
     "image": "/assets/images/tabletop-cards/mango-mancala-market.svg",
     "detailUrl": "/games/mango-mancala-market/",
     "playUrl": "/play/mango-mancala-market/",
@@ -6281,7 +6281,7 @@
     "plays": 0,
     "status": "Playable",
     "engine": "board",
-    "merchHook": "Mango Merchant plush with seed-bowl apron, market token keychain, and mancala strategy tee.",
+    "merchHook": "Mango Merchant plush with seed-bowl apron, market token keychain, mancala board game set, and Tabletop Kingdom marketplace sticker sheet.",
     "built": true,
     "boardVariant": "mancala"
   },
@@ -6293,7 +6293,7 @@
     "universeName": "Tabletop Kingdom",
     "genre": "Board",
     "mascot": "Doodle Fencer",
-    "description": "Tap between neighboring dots to draw a fence. Completing a paddock scores it and grants another turn.",
+    "description": "Draw fences between neighboring dots to claim the largest paddocks. Doodle Fencer challenges you to enclose more territory than your opponent. Chain completions for bonus moves in this strategic territory game.",
     "image": "/assets/images/tabletop-cards/doodle-paddocks.svg",
     "detailUrl": "/games/doodle-paddocks/",
     "playUrl": "/play/doodle-paddocks/",
@@ -6303,7 +6303,7 @@
     "plays": 0,
     "status": "Playable",
     "engine": "board",
-    "merchHook": "Doodle Fencer plush with fence-post staff, doodle-paddock sticker pack, and box-claiming tee.",
+    "merchHook": "Doodle Fencer plush with fence-post staff, doodle-paddock sticker set, enclosure-key keychain, and Tabletop Kingdom territory board game.",
     "built": true,
     "boardVariant": "dots-and-boxes"
   },
@@ -6315,7 +6315,7 @@
     "universeName": "Tabletop Kingdom",
     "genre": "Strategy",
     "mascot": "Lantern Keeper",
-    "description": "Place nine lanterns on marked points; every line of three lets you remove one rival lantern. Trap or reduce the rival below three.",
+    "description": "Place nine lanterns at ancient crossroads and form mills of three. Lantern Keeper guards the old ways in this elegant alignment game. Every line of three glowing lanterns removes a rival piece from the board.",
     "image": "/assets/images/tabletop-cards/lantern-mill.svg",
     "detailUrl": "/games/lantern-mill/",
     "playUrl": "/play/lantern-mill/",
@@ -6325,7 +6325,7 @@
     "plays": 0,
     "status": "Playable",
     "engine": "board",
-    "merchHook": "Lantern Keeper plush with lantern staff, mill-run keychain, lantern-glow sticker pack, and tee.",
+    "merchHook": "Lantern Keeper plush with lantern staff, mill-run keychain, alignment-game magnet set, and Tabletop Kingdom mill-board sticker pack.",
     "built": true,
     "boardVariant": "nine-mens-morris"
   },
@@ -6337,7 +6337,7 @@
     "universeName": "Tabletop Kingdom",
     "genre": "Strategy",
     "mascot": "Pebble Sage",
-    "description": "Surround empty space and capture groups with no liberties. Suicide and repeated positions are forbidden.",
+    "description": "Surround empty spaces and capture enemy groups in this ancient stone-placing game. Pebble Sage teaches territorial control on a pond-stone grid where patience outranks aggression.",
     "image": "/assets/images/tabletop-cards/pebble-pond-go.svg",
     "detailUrl": "/games/pebble-pond-go/",
     "playUrl": "/play/pebble-pond-go/",
@@ -6347,7 +6347,7 @@
     "plays": 0,
     "status": "Playable",
     "engine": "board",
-    "merchHook": "Pebble Sage plush with stone bowl, go-board mat, pebble keychain, and territory tee.",
+    "merchHook": "Pebble Sage plush with stone bowl, go-board mat, pebble keychain, and Tabletop Kingdom Go-starter set with instruction scroll.",
     "built": true,
     "boardVariant": "go-9x9"
   },
@@ -6359,7 +6359,7 @@
     "universeName": "Tabletop Kingdom",
     "genre": "Strategy",
     "mascot": "Hexa Knight",
-    "description": "Connect your left and right shores with a chain of sun stones. The moon keeper connects top to bottom. Hex has no draw.",
+    "description": "Connect your shores with a chain of sunstone bridges across a hexagonal sea. Hexa Knight defends the isles as you outflank your opponent. First to bridge the gap wins the realm.",
     "image": "/assets/images/tabletop-cards/hexbridge-heroes.svg",
     "detailUrl": "/games/hexbridge-heroes/",
     "playUrl": "/play/hexbridge-heroes/",
@@ -6369,7 +6369,7 @@
     "plays": 0,
     "status": "Playable",
     "engine": "board",
-    "merchHook": "Hexa Knight plush with hex shield, bridge-builder keychain, hex-grid sticker pack, and connection tee.",
+    "merchHook": "Hexa Knight plush with hex shield, bridge-builder keychain, hexagonal strategy magnet set, and Tabletop Kingdom hex-board sticker pack.",
     "built": true,
     "boardVariant": "hex"
   },
@@ -6381,7 +6381,7 @@
     "universeName": "Tabletop Kingdom",
     "genre": "Strategy",
     "mascot": "Admiral Chart",
-    "description": "Your fleets are placed automatically on an 8x8 sea. Tap the rival chart to fire one unique shot per turn; sink every ship first.",
+    "description": "Command your fleet across an 8x8 sea in this classic naval battle game. Admiral Chart plots salvos against hidden enemy ships. Sink the armada before yours rests on the ocean floor.",
     "image": "/assets/images/tabletop-cards/treasure-fleet-tactics.svg",
     "detailUrl": "/games/treasure-fleet-tactics/",
     "playUrl": "/play/treasure-fleet-tactics/",
@@ -6391,7 +6391,7 @@
     "plays": 0,
     "status": "Playable",
     "engine": "board",
-    "merchHook": "Admiral Chart plush with spyglass, treasure-fleet keychain, sea-chart sticker pack, and naval tee.",
+    "merchHook": "Admiral Chart plush with spyglass, treasure-fleet keychain, naval battle grid set, and Tabletop Kingdom battleship sticker sheet.",
     "built": true,
     "boardVariant": "treasure-fleet"
   },
@@ -6403,7 +6403,7 @@
     "universeName": "Tabletop Kingdom",
     "genre": "Puzzle",
     "mascot": "Crystal Cipher",
-    "description": "Build a four-crystal guess from six colors; duplicates are allowed. Exact and color-only clues appear after submission.",
+    "description": "Decode a hidden four-crystal sequence using pure logic. Crystal Cipher reveals clues with each guess. Crack the code in as few attempts as possible in this satisfying deduction game.",
     "image": "/assets/images/tabletop-cards/codebreaker-crystals.svg",
     "detailUrl": "/games/codebreaker-crystals/",
     "playUrl": "/play/codebreaker-crystals/",
@@ -6413,7 +6413,7 @@
     "plays": 0,
     "status": "Playable",
     "engine": "board",
-    "merchHook": "Crystal Cipher plush with crystal crown, code-cracker keychain, gemstone sticker pack, and deduction tee.",
+    "merchHook": "Crystal Cipher plush with crystal crown, code-cracker keychain, logic-deduction magnet set, and Tabletop Kingdom mastermind puzzle pack.",
     "built": true,
     "boardVariant": "codebreaker"
   },
@@ -6425,7 +6425,7 @@
     "universeName": "Tabletop Kingdom",
     "genre": "Board",
     "mascot": "Cloud Rider",
-    "description": "Tap Roll and race to square 100. Ladders lift you and cloud chutes drift you down once per turn.",
+    "description": "Roll the dice and race across a cloud kingdom where ladders lift you higher. Cloud Rider navigates shifting sky paths. First to reach square 100 claims the rainbow crown.",
     "image": "/assets/images/tabletop-cards/cloudpath-chutes-charms.svg",
     "detailUrl": "/games/cloudpath-chutes-charms/",
     "playUrl": "/play/cloudpath-chutes-charms/",
@@ -6435,7 +6435,7 @@
     "plays": 0,
     "status": "Playable",
     "engine": "board",
-    "merchHook": "Cloud Rider plush with rainbow-chute scarf, ladder-climb keychain, charm-path sticker pack, and racing tee.",
+    "merchHook": "Cloud Rider plush with rainbow-chute scarf, ladder-climb keychain, race-game magnet set, and Tabletop Kingdom cloud-path board game.",
     "built": true,
     "boardVariant": "snakes-and-ladders"
   },
@@ -6447,7 +6447,7 @@
     "universeName": "Tabletop Kingdom",
     "genre": "Board",
     "mascot": "Dicey Bear",
-    "description": "Roll two dice, then move ivory checkers toward home. Blocked points hold two rivals; a lone rival is bumped to the bar.",
+    "description": "Roll two dice and race your checkers home before your opponent blocks the path. Dicey Bear brings warm fireside strategy to this timeless classic. Doubling cube optional, cozy vibes mandatory.",
     "image": "/assets/images/tabletop-cards/cozy-backgammon.svg",
     "detailUrl": "/games/cozy-backgammon/",
     "playUrl": "/play/cozy-backgammon/",
@@ -6457,7 +6457,7 @@
     "plays": 0,
     "status": "Playable",
     "engine": "board",
-    "merchHook": "Dicey Bear plush with foam dice, backgammon board sticker, cozy-game tee, and enamel pin.",
+    "merchHook": "Dicey Bear plush with foam dice set, backgammon board sticker, cozy-game keychain, and Tabletop Kingdom backgammon travel set.",
     "built": true,
     "boardVariant": "backgammon"
   },
@@ -6469,7 +6469,7 @@
     "universeName": "Tabletop Kingdom",
     "genre": "Board",
     "mascot": "Crown Prince",
-    "description": "Roll a six to leave the yard; land on a rival to send it home, while starred squares are safe. Reach home exactly.",
+    "description": "Roll a six to leave the starting yard and send rivals back to begin again. Crown Prince races around the carnival board collecting trinkets. Four players enter, one claims the crown.",
     "image": "/assets/images/tabletop-cards/cross-crown-carnival.svg",
     "detailUrl": "/games/cross-crown-carnival/",
     "playUrl": "/play/cross-crown-carnival/",
@@ -6479,7 +6479,7 @@
     "plays": 0,
     "status": "Playable",
     "engine": "board",
-    "merchHook": "Crown Prince plush with crown, carnival-pawn keychain, game-board sticker pack, and royal tee.",
+    "merchHook": "Crown Prince plush with crown jewel, carnival-pawn keychain, game-of-goose magnet set, and Tabletop Kingdom carnival board game.",
     "built": true,
     "boardVariant": "cross-and-crown"
   },
@@ -6491,7 +6491,7 @@
     "universeName": "Puzzle Realm",
     "genre": "Match-3",
     "mascot": "Crystal Fox",
-    "description": "Swap shimmering crystals to match three or more in a row. Chain reactions earn bonus points and unlock cascading power-gems that clear entire rows.",
+    "description": "Swap shimmering crystals across an enchanted grid to match three or more. Crystal Fox guides you through puzzle chambers where every cascade echoes through the cavern. Trigger chain reactions for bonus points.",
     "image": "/assets/images/puzzle-cards/crystal-cascade.svg",
     "detailUrl": "/games/crystal-cascade/",
     "playUrl": "/play/crystal-cascade/",
@@ -6501,7 +6501,7 @@
     "plays": 0,
     "status": "Playable",
     "engine": "match3",
-    "merchHook": "Crystal Fox plush with gem-tail keychain, cascade sticker pack, match-3 strategy tee, and rainbow-crystal enamel pin.",
+    "merchHook": "Crystal Fox plush with gem-tail keychain, cascade sticker pack, match-3 magnet set, and Puzzle Realm crystal-grid puzzle book.",
     "built": true
   },
   {
@@ -6512,7 +6512,7 @@
     "universeName": "Puzzle Realm",
     "genre": "Memory",
     "mascot": "Mosaic Owl",
-    "description": "Flip beautifully illustrated tiles to find matching pairs. Fewer flips mean a higher score — but the mosaic shuffles between rounds to keep your memory sharp.",
+    "description": "Flip illustrated tiles to find matching pairs before the starlight fades. Mosaic Owl watches over the temple of remembrance as you sharpen your mind across increasingly complex patterns.",
     "image": "/assets/images/puzzle-cards/memory-mosaic.svg",
     "detailUrl": "/games/memory-mosaic/",
     "playUrl": "/play/memory-mosaic/",
@@ -6522,7 +6522,7 @@
     "plays": 0,
     "status": "Playable",
     "engine": "memory",
-    "merchHook": "Mosaic Owl plush with patterned wings, tile-flip magnet set, memory-challenge tee, and eye-pattern enamel pin.",
+    "merchHook": "Mosaic Owl plush with patterned wings, tile-flip magnet set, memory-game keychain, and Puzzle Realm mosaic-pattern sticker pack.",
     "built": true
   },
   {
@@ -6533,7 +6533,7 @@
     "universeName": "Puzzle Realm",
     "genre": "Pipeline",
     "mascot": "Piper Mole",
-    "description": "Rotate and place pipe segments to connect the mystic source to the portal. Every drop that flows through powers the realm — but leaks cost you points.",
+    "description": "Rotate mystical pipe segments to connect the mystic source to the glowing portal. Piper Mole burrows through floating islands in this meditative puzzle where every connection lights a new path.",
     "image": "/assets/images/puzzle-cards/pipe-dream-portal.svg",
     "detailUrl": "/games/pipe-dream-portal/",
     "playUrl": "/play/pipe-dream-portal/",
@@ -6543,7 +6543,7 @@
     "plays": 0,
     "status": "Playable",
     "engine": "pipeline",
-    "merchHook": "Piper Mole plush with wrench paw, pipe-segment keychain, portal sticker pack, and pipeline-puzzle tee.",
+    "merchHook": "Piper Mole plush with wrench paw, pipe-segment keychain, portal-connection magnet set, and Puzzle Realm pipe-puzzle activity book.",
     "built": true
   },
   {
@@ -6554,7 +6554,7 @@
     "universeName": "Puzzle Realm",
     "genre": "Maze",
     "mascot": "Lantern Hare",
-    "description": "Guide a beam of light through twisting corridors by tilting the labyrinth. Reflect off mirrors and avoid shadow patches to reach the prism at the heart.",
+    "description": "Guide a beam of light through twisting crystal corridors by tilting the maze. Lantern Hare hops between mirrors and prisms, bending light around corners to illuminate the hidden exit.",
     "image": "/assets/images/puzzle-cards/labyrinth-of-light.svg",
     "detailUrl": "/games/labyrinth-of-light/",
     "playUrl": "/play/labyrinth-of-light/",
@@ -6564,7 +6564,7 @@
     "plays": 0,
     "status": "Playable",
     "engine": "maze",
-    "merchHook": "Lantern Hare plush with glow-in-dark ears, labyrinth mirror keychain, beam-path sticker pack, and prism tee.",
+    "merchHook": "Lantern Hare plush with glow-in-dark ears, labyrinth mirror keychain, light-path magnet set, and Puzzle Realm mirror-maze sticker pack.",
     "built": true
   },
   {
@@ -6575,7 +6575,7 @@
     "universeName": "Puzzle Realm",
     "genre": "Bubble Shooter",
     "mascot": "Orbit Orb",
-    "description": "Aim and launch colorful orbs to match three or more and clear the cosmic board. Bounce off walls for trick shots and chain reactions for big combos.",
+    "description": "Aim carefully and launch colorful orbs to match three or more against the cosmic ceiling. Orbit Orb floats through astral bubble fields where clean shots clear space and every ricochet tells a story.",
     "image": "/assets/images/puzzle-cards/orbit-popper.svg",
     "detailUrl": "/games/orbit-popper/",
     "playUrl": "/play/orbit-popper/",
@@ -6585,7 +6585,7 @@
     "plays": 0,
     "status": "Playable",
     "engine": "bubbleshooter",
-    "merchHook": "Orbit Orb plush with glow sphere, bubble-popper keychain, cosmic sticker pack, and orbital tee.",
+    "merchHook": "Orbit Orb plush with glow sphere, bubble-popper keychain, cosmic-match magnet set, and Puzzle Realm bubble-shooter activity book.",
     "built": true
   },
   {
@@ -6596,7 +6596,7 @@
     "universeName": "Puzzle Realm",
     "genre": "Breakout",
     "mascot": "Brick Sage",
-    "description": "Each layer of bricks hides a riddle. Break through with a magic ball that accelerates on every paddle hit — clear the wall to reveal the answer.",
+    "description": "Each layer of enchanted bricks hides an ancient riddle. Brick Sage swings the mystic mallet through walls of wisdom. Break through to reveal secrets in this satisfying brick-breaker.",
     "image": "/assets/images/puzzle-cards/riddle-brick.svg",
     "detailUrl": "/games/riddle-brick/",
     "playUrl": "/play/riddle-brick/",
@@ -6606,7 +6606,7 @@
     "plays": 0,
     "status": "Playable",
     "engine": "breakout",
-    "merchHook": "Brick Sage plush with scroll staff, riddle-brick magnet set, sage-wall sticker pack, and breakout tee.",
+    "merchHook": "Brick Sage plush with scroll staff, riddle-brick magnet set, breakout-key keychain, and Puzzle Realm brick-breaker sticker pack.",
     "built": true
   },
   {
@@ -6617,7 +6617,7 @@
     "universeName": "Puzzle Realm",
     "genre": "Cannon",
     "mascot": "Rune Bear",
-    "description": "Adjust angle and power to launch rune-stones at mystic pillars. Score bonus rings by bouncing off walls and landing perfect shots on moving targets.",
+    "description": "Adjust angle and power to launch glowing rune-stones at mystic pillars. Rune Bear calibrates each shot with precision in this physics-based cannon puzzler set in the ruins of the First Library.",
     "image": "/assets/images/puzzle-cards/rune-cannon.svg",
     "detailUrl": "/games/rune-cannon/",
     "playUrl": "/play/rune-cannon/",
@@ -6627,7 +6627,7 @@
     "plays": 0,
     "status": "Playable",
     "engine": "cannon",
-    "merchHook": "Rune Bear plush with cannon accessory, runestone keychain, aim-trainer sticker pack, and bombardier tee.",
+    "merchHook": "Rune Bear plush with cannon accessory, runestone keychain, aiming-angle magnet set, and Puzzle Realm cannon-puzzle activity book.",
     "built": true
   },
   {
@@ -6638,7 +6638,7 @@
     "universeName": "Puzzle Realm",
     "genre": "Helix",
     "mascot": "Spiral Sprite",
-    "description": "Guide a glowing pearl down a spiral tower by rotating rings with missing segments. Collect star motes for points and avoid the dark voids.",
+    "description": "Guide a glowing pearl down an infinite spiral tower by rotating ring segments. Spiral Sprite flits between platforms in this meditative descent through ever-tightening helical pathways.",
     "image": "/assets/images/puzzle-cards/spiral-spire.svg",
     "detailUrl": "/games/spiral-spire/",
     "playUrl": "/play/spiral-spire/",
@@ -6648,7 +6648,7 @@
     "plays": 0,
     "status": "Playable",
     "engine": "helix",
-    "merchHook": "Spiral Sprite plush with spiral halo, pearl-drop keychain, spire sticker pack, and rotation tee.",
+    "merchHook": "Spiral Sprite plush with spiral halo, pearl-drop keychain, helix-ring magnet set, and Puzzle Realm spiral-tower sticker pack.",
     "built": true
   },
   {
@@ -6659,7 +6659,7 @@
     "universeName": "Puzzle Realm",
     "genre": "Merge",
     "mascot": "Alchemist Newt",
-    "description": "Drag identical ingredients together to evolve them into rare concoctions. Discover new recipes by merging wisely — the ultimate elixir unlocks the philosopher stone.",
+    "description": "Drag identical ingredients together to evolve them into rare compounds. Alchemist Newt tends bubbling cauldrons in this satisfying merge-puzzle adventure. Discover all combinations in the Grand Tome of Recipes.",
     "image": "/assets/images/puzzle-cards/alchemy-merge.svg",
     "detailUrl": "/games/alchemy-merge/",
     "playUrl": "/play/alchemy-merge/",
@@ -6669,7 +6669,7 @@
     "plays": 0,
     "status": "Playable",
     "engine": "merge",
-    "merchHook": "Alchemist Newt plush with mixing cauldron, ingredient keychain set, recipe sticker pack, and alchemy tee.",
+    "merchHook": "Alchemist Newt plush with mixing cauldron, ingredient keychain, merge-recipe magnet set, and Puzzle Realm alchemy activity book.",
     "built": true
   },
   {
@@ -6680,7 +6680,7 @@
     "universeName": "Puzzle Realm",
     "genre": "Climber",
     "mascot": "Cloud Hopper",
-    "description": "Bounce from cloud to cloud as you ascend through a dreamy sky. Time your landings on moving, crumbling and spring-loaded clouds to reach the zenith.",
+    "description": "Bounce from cloud to cloud through a dreamy stratosphere filled with sky temples. Cloud Hopper uses trampoline-foot timing to reach ever-higher platforms in this gravity-defying climber.",
     "image": "/assets/images/puzzle-cards/cloud-climb.svg",
     "detailUrl": "/games/cloud-climb/",
     "playUrl": "/play/cloud-climb/",
@@ -6690,7 +6690,7 @@
     "plays": 0,
     "status": "Playable",
     "engine": "doodlejump",
-    "merchHook": "Cloud Hopper plush with trampoline feet, cloud-platform keychain, sky-climb sticker pack, and ascension tee.",
+    "merchHook": "Cloud Hopper plush with trampoline feet, cloud-platform keychain, bounce-timing magnet set, and Puzzle Realm cloud-climber sticker pack.",
     "built": true
   },
   {
@@ -6701,7 +6701,7 @@
     "universeName": "Puzzle Realm",
     "genre": "Stacker",
     "mascot": "Balance Bird",
-    "description": "Stack geometric blocks with perfect timing. Each layer sits on the last — narrow your placements for a taller tower but risk tipping the balance.",
+    "description": "Stack geometric blocks with perfect precision as each layer narrows. Balance Bird perches on the growing tower, counting every wobble. Build toward the sky in this zen stacking challenge.",
     "image": "/assets/images/puzzle-cards/equilibrium.svg",
     "detailUrl": "/games/equilibrium/",
     "playUrl": "/play/equilibrium/",
@@ -6711,7 +6711,7 @@
     "plays": 0,
     "status": "Playable",
     "engine": "stacker",
-    "merchHook": "Balance Bird plush with level-perch, block-stack keychain, equilibrium sticker pack, and steady-hand tee.",
+    "merchHook": "Balance Bird plush with level-perch, block-stack keychain, equilibrium magnet set, and Puzzle Realm stacking challenge activity book.",
     "built": true
   },
   {
@@ -6722,7 +6722,7 @@
     "universeName": "Puzzle Realm",
     "genre": "Snake",
     "mascot": "Prism Serpent",
-    "description": "Guide a prism serpent through a crystal grid, collecting light shards to grow longer. Avoid your own tail and the dark crystals that block your path.",
+    "description": "Guide a prism serpent through a crystal grid collecting light-shards. Prism Serpent winds through jewel-toned corridors where a wrong turn means starting over. Grow long and avoid the walls.",
     "image": "/assets/images/puzzle-cards/prism-path.svg",
     "detailUrl": "/games/prism-path/",
     "playUrl": "/play/prism-path/",
@@ -6732,7 +6732,7 @@
     "plays": 0,
     "status": "Playable",
     "engine": "snake",
-    "merchHook": "Prism Serpent plush with segmented body, light-shard keychain, crystal-grid sticker pack, and snake-tee.",
+    "merchHook": "Prism Serpent plush with segmented body, light-shard keychain, snake-path magnet set, and Puzzle Realm prism-maze sticker pack.",
     "built": true
   },
   {
@@ -6743,7 +6743,7 @@
     "universeName": "Candy Galaxy",
     "genre": "Match-3",
     "mascot": "Sweet Star",
-    "description": "Swap gleaming candy-stars across a cosmic grid to match three or more. Chain supernova reactions to clear whole constellations in one blast.",
+    "description": "Swap gleaming candy-stars across a cosmic grid to match three or more. Sweet Star sprinkles stardust as cascading combinations light up the galaxy with sugary chain reactions.",
     "image": "/assets/images/candy-cards/starburst-swap.svg",
     "detailUrl": "/games/starburst-swap/",
     "playUrl": "/play/starburst-swap/",
@@ -6753,7 +6753,7 @@
     "plays": 0,
     "status": "Playable",
     "engine": "match3",
-    "merchHook": "Sweet Star plush with glow-in-dark glitter, cosmic-match keychain, starburst sticker pack, and galaxy-swap tee.",
+    "merchHook": "Sweet Star plush with glow-in-dark glitter, cosmic-match keychain, swap-cascade magnet set, and Candy Galaxy star-sweet sticker pack.",
     "built": true
   },
   {
@@ -6764,7 +6764,7 @@
     "universeName": "Candy Galaxy",
     "genre": "Flappy",
     "mascot": "Comet Drop",
-    "description": "Tap to guide a candy-comet through floating gumdrop rings. Collect sugar dust for speed boosts and dodge the dark-matter asteroids.",
+    "description": "Tap to guide a candy-comet through floating gumdrop rings in the Cotton Candy Nebula. Comet Drop leaves a stardust trail as you navigate tighter gaps for maximum distance.",
     "image": "/assets/images/candy-cards/comet-candy-flap.svg",
     "detailUrl": "/games/comet-candy-flap/",
     "playUrl": "/play/comet-candy-flap/",
@@ -6774,7 +6774,7 @@
     "plays": 0,
     "status": "Playable",
     "engine": "flappy",
-    "merchHook": "Comet Drop plush with candy-tail keychain, flappy-ring magnet set, comet-trail sticker pack, and flutter tee.",
+    "merchHook": "Comet Drop plush with candy-tail keychain, flappy-ring magnet set, gap-navigation sticker pack, and Candy Galaxy comet-flight activity book.",
     "built": true
   },
   {
@@ -6785,7 +6785,7 @@
     "universeName": "Candy Galaxy",
     "genre": "Runner",
     "mascot": "Gummy Glider",
-    "description": "Sprint across a track made of licorice and stardust. Slide under chocolate arches, vault over marshmallow planets, and collect jellybean stars.",
+    "description": "Sprint across a track of licorice and stardust in the Gummy Galaxy Grand Prix. Gummy Glider slides under caramel canopies and vaults over marshmallow barriers in this sweet endless runner.",
     "image": "/assets/images/candy-cards/gummy-galaxy-dash.svg",
     "detailUrl": "/games/gummy-galaxy-dash/",
     "playUrl": "/play/gummy-galaxy-dash/",
@@ -6795,7 +6795,7 @@
     "plays": 0,
     "status": "Playable",
     "engine": "runner",
-    "merchHook": "Gummy Glider plush with running candy shoes, galaxy-dash keychain, gummy-grid sticker pack, and sprint tee.",
+    "merchHook": "Gummy Glider plush with running candy shoes, galaxy-dash keychain, obstacle-dodge magnet set, and Candy Galaxy runner sticker pack.",
     "built": true
   },
   {
@@ -6806,7 +6806,7 @@
     "universeName": "Candy Galaxy",
     "genre": "Shooter",
     "mascot": "Nebula Nibbler",
-    "description": "Blast colorful nebula nuggets at incoming space-creatures. Aim carefully — every candy shot that hits charges your sugar-bar for a screen-clearing super blast.",
+    "description": "Blast colorful nebula nuggets at incoming space-creatures with a candy-powered cannon. Nebula Nibbler defends the confectionery cosmos from the Void Mites in this sugar-fueled shooter.",
     "image": "/assets/images/candy-cards/nebula-nugget-blast.svg",
     "detailUrl": "/games/nebula-nugget-blast/",
     "playUrl": "/play/nebula-nugget-blast/",
@@ -6816,7 +6816,7 @@
     "plays": 0,
     "status": "Playable",
     "engine": "shooter",
-    "merchHook": "Nebula Nibbler plush with candy-blaster, nugget keychain, nebula sticker pack, and blast-tee.",
+    "merchHook": "Nebula Nibbler plush with candy-blaster, nugget keychain, nebula-blast magnet set, and Candy Galaxy shooter sticker pack.",
     "built": true
   },
   {
@@ -6827,7 +6827,7 @@
     "universeName": "Candy Galaxy",
     "genre": "Whack",
     "mascot": "Sugar Sprite",
-    "description": "Whack candy sprites as they pop out of gumball machines. Hit the golden wrappers for bonus points but avoid the sour bombs that fizz your score.",
+    "description": "Whack mischievous candy sprites popping out of gumball machines across the galaxy. Sugar Sprite swings the cosmic mallet earning bonus points for rapid reactions and streak combos.",
     "image": "/assets/images/candy-cards/sugar-pop-whack.svg",
     "detailUrl": "/games/sugar-pop-whack/",
     "playUrl": "/play/sugar-pop-whack/",
@@ -6837,7 +6837,7 @@
     "plays": 0,
     "status": "Playable",
     "engine": "whack",
-    "merchHook": "Sugar Sprite plush with whack-mallet, pop-candy keychain, sprite sticker pack, and whack-tee.",
+    "merchHook": "Sugar Sprite plush with whack-mallet, pop-candy keychain, speed-reaction magnet set, and Candy Galaxy whack-a-sprite sticker pack.",
     "built": true
   },
   {
@@ -6848,7 +6848,7 @@
     "universeName": "Candy Galaxy",
     "genre": "Serve",
     "mascot": "Cotton Wisp",
-    "description": "Serve candy-floss clouds to hungry star-beasts floating by. Match the right flavor to each creature before they drift away — speed and accuracy rule the sky.",
+    "description": "Serve fluffy candy-floss clouds to hungry star-beasts orbiting the Milky Way malt shop. Cotton Wisp balances trays and takes orders in this fast-paced cosmic service game.",
     "image": "/assets/images/candy-cards/cotton-cloud-serve.svg",
     "detailUrl": "/games/cotton-cloud-serve/",
     "playUrl": "/play/cotton-cloud-serve/",
@@ -6858,7 +6858,7 @@
     "plays": 0,
     "status": "Playable",
     "engine": "serve",
-    "merchHook": "Cotton Wisp plush with cloud-tray, serve-order keychain, cotton-cloud sticker pack, and serve-tee.",
+    "merchHook": "Cotton Wisp plush with cloud-tray, serve-order keychain, customer-service magnet set, and Candy Galaxy cafe sticker pack.",
     "built": true
   },
   {
@@ -6869,7 +6869,7 @@
     "universeName": "Candy Galaxy",
     "genre": "Memory",
     "mascot": "Candy Star",
-    "description": "Flip candy-wrapper tiles to reveal matching pairs of cosmic sweets. Fewer flips earn a golden star — but the candy constellation shuffles each round.",
+    "description": "Flip candy-wrapper tiles to reveal matching pairs of cosmic confections. Candy Star rewards sharp eyes as the board grows complex with sweet wrappers and frosted emblem tiles.",
     "image": "/assets/images/candy-cards/candy-star-memory.svg",
     "detailUrl": "/games/candy-star-memory/",
     "playUrl": "/play/candy-star-memory/",
@@ -6879,7 +6879,7 @@
     "plays": 0,
     "status": "Playable",
     "engine": "memory",
-    "merchHook": "Candy Star plush with memory-tile cape, star-pair keychain, wrapper sticker pack, and memory-tee.",
+    "merchHook": "Candy Star plush with memory-tile cape, star-pair keychain, flip-match magnet set, and Candy Galaxy memory-game sticker pack.",
     "built": true
   },
   {
@@ -6890,7 +6890,7 @@
     "universeName": "Candy Galaxy",
     "genre": "Stacker",
     "mascot": "Lolli Hopper",
-    "description": "Stack lollipops of different flavors with perfect timing. Each narrower layer scores more points but risks toppling your sugar tower.",
+    "description": "Stack colorful lollipops with precision timing in the Grand Confectionery. Lolli Hopper builds the tallest sugar-stack as each wobbling layer narrows toward the sky.",
     "image": "/assets/images/candy-cards/lollipop-stack.svg",
     "detailUrl": "/games/lollipop-stack/",
     "playUrl": "/play/lollipop-stack/",
@@ -6900,7 +6900,7 @@
     "plays": 0,
     "status": "Playable",
     "engine": "stacker",
-    "merchHook": "Lolli Hopper plush with pop-stick accessory, stacker keychain, flavor-wheel sticker pack, and balance-tee.",
+    "merchHook": "Lolli Hopper plush with pop-stick accessory, stacker keychain, precision-timing magnet set, and Candy Galaxy stacking sticker pack.",
     "built": true
   },
   {
@@ -6911,7 +6911,7 @@
     "universeName": "Candy Galaxy",
     "genre": "Merge",
     "mascot": "Milky Mite",
-    "description": "Drag and merge candy debris into bigger cosmic confections. Discover rare galaxy recipes and unlock the legendary Nebula Nougat.",
+    "description": "Drag and merge floating candy debris into bigger cosmic confections. Milky Mite starts with stardust crumbs and works up to galaxy-sized desserts in this sweetly satisfying merger.",
     "image": "/assets/images/candy-cards/milky-way-merge.svg",
     "detailUrl": "/games/milky-way-merge/",
     "playUrl": "/play/milky-way-merge/",
@@ -6921,7 +6921,7 @@
     "plays": 0,
     "status": "Playable",
     "engine": "merge",
-    "merchHook": "Milky Mite plush with merge-cauldron, galaxy-ingredient keychain, recipe sticker pack, and merge-tee.",
+    "merchHook": "Milky Mite plush with merge-cauldron, galaxy-ingredient keychain, recipe-merge magnet set, and Candy Galaxy merger activity book.",
     "built": true
   },
   {
@@ -6932,7 +6932,7 @@
     "universeName": "Candy Galaxy",
     "genre": "Bubble Shooter",
     "mascot": "Bubblegum Bear",
-    "description": "Aim and launch bubblegum planets to match three or more. Bounce shots off asteroid walls to reach tight clusters and trigger chain-reaction pops.",
+    "description": "Aim and launch bubblegum planets to match three or more across a cosmic bubble field. Bubblegum Bear blows the biggest bubbles as chain reactions clear the sticky sky.",
     "image": "/assets/images/candy-cards/bubblegum-galaxy.svg",
     "detailUrl": "/games/bubblegum-galaxy/",
     "playUrl": "/play/bubblegum-galaxy/",
@@ -6942,7 +6942,7 @@
     "plays": 0,
     "status": "Playable",
     "engine": "bubbleshooter",
-    "merchHook": "Bubblegum Bear plush with bubble-blaster, gum-planet keychain, galaxy-bubble sticker pack, and pop-tee.",
+    "merchHook": "Bubblegum Bear plush with bubble-blaster, gum-planet keychain, aim-shoot magnet set, and Candy Galaxy bubble-popper sticker pack.",
     "built": true
   },
   {
@@ -6953,7 +6953,7 @@
     "universeName": "Candy Galaxy",
     "genre": "Breakout",
     "mascot": "Licorice Lynx",
-    "description": "Break through layers of licorice bricks with a caramel-coated ball. Each paddle hit speeds the ball — clear the wall to unlock the candy vault.",
+    "description": "Break through layers of licorice bricks with a caramel-coated paddle ball. Licorice Lynx weaves between candy canes and chocolate walls in this sweet brick-breaker.",
     "image": "/assets/images/candy-cards/licorice-break.svg",
     "detailUrl": "/games/licorice-break/",
     "playUrl": "/play/licorice-break/",
@@ -6963,7 +6963,7 @@
     "plays": 0,
     "status": "Playable",
     "engine": "breakout",
-    "merchHook": "Licorice Lynx plush with paddle tail, brick-break keychain, licorice sticker pack, and breakout-tee.",
+    "merchHook": "Licorice Lynx plush with paddle tail, brick-break keychain, angle-ricochet magnet set, and Candy Galaxy brick-breaker sticker pack.",
     "built": true
   },
   {
@@ -6974,7 +6974,7 @@
     "universeName": "Candy Galaxy",
     "genre": "Pong",
     "mascot": "Caramel Cub",
-    "description": "Volley a caramel drop across a chocolate court against the AI. Rallies build sugar rush speed — first to seven scoops wins the sundae crown.",
+    "description": "Volley a warm caramel drop across a chocolate court against the AI Pastry Chef. Caramel Cub keeps the rally going as the court fills with frosting obstacles in this dessert pong duel.",
     "image": "/assets/images/candy-cards/caramel-paddle.svg",
     "detailUrl": "/games/caramel-paddle/",
     "playUrl": "/play/caramel-paddle/",
@@ -6984,7 +6984,7 @@
     "plays": 0,
     "status": "Playable",
     "engine": "pong",
-    "merchHook": "Caramel Cub plush with paddle accessory, caramel-ball keychain, court-stripe sticker pack, and volley-tee.",
+    "merchHook": "Caramel Cub plush with paddle accessory, caramel-ball keychain, volley-rally magnet set, and Candy Galaxy pong-duel sticker pack.",
     "built": true
   },
   {
@@ -6995,7 +6995,7 @@
     "universeName": "Mango Island",
     "genre": "Fishing",
     "mascot": "Coral Cast",
-    "description": "Cast your line into a turquoise reef and reel in tropical fish. Each catch earns pearls — rare deep-water species give huge bonuses but test your patience.",
+    "description": "Cast your line into a turquoise coral reef and reel in tropical fish. Coral Cast reads the currents in this relaxing fishing adventure beneath mango-island waves.",
     "image": "/assets/images/mango-cards/coral-rod-reel.svg",
     "detailUrl": "/games/coral-rod-reel/",
     "playUrl": "/play/coral-rod-reel/",
@@ -7005,7 +7005,7 @@
     "plays": 0,
     "status": "Playable",
     "engine": "fishing",
-    "merchHook": "Coral Cast plush with fishing rod, pearl keychain, reef sticker pack, and angler tee.",
+    "merchHook": "Coral Cast plush with fishing rod, pearl keychain, reef sticker pack, and Mango Island fishing magnet set.",
     "built": true
   },
   {
@@ -7016,7 +7016,7 @@
     "universeName": "Mango Island",
     "genre": "Archery",
     "mascot": "Coconut Archer",
-    "description": "Draw and release to launch coconuts at moving targets. Account for the island breeze and hit bullseyes to unlock the secret pineapple prize.",
+    "description": "Draw, aim and release to launch coconuts at moving targets across the beach. Coconut Archer tests precision against wind as driftwood targets swing in the tropical breeze.",
     "image": "/assets/images/mango-cards/coconut-cannonade.svg",
     "detailUrl": "/games/coconut-cannonade/",
     "playUrl": "/play/coconut-cannonade/",
@@ -7026,7 +7026,7 @@
     "plays": 0,
     "status": "Playable",
     "engine": "archery",
-    "merchHook": "Coconut Archer plush with bow accessory, coconut-target keychain, tropical sticker pack, and archer tee.",
+    "merchHook": "Coconut Archer plush with bow accessory, coconut-target keychain, aim-precision magnet set, and Mango Island archery sticker pack.",
     "built": true
   },
   {
@@ -7037,7 +7037,7 @@
     "universeName": "Mango Island",
     "genre": "Sports",
     "mascot": "Sandy Spiker",
-    "description": "Spike, set and bump a beach ball across the net. Rally chains build power — win the point before the ball hits the sand on your side.",
+    "description": "Spike, set and bump a giant beach ball across the net in a sun-soaked volleyball showdown. Sandy Spiker rallies against AI opponents while crabs scuttle across the warm sand.",
     "image": "/assets/images/mango-cards/beach-ball-blitz.svg",
     "detailUrl": "/games/beach-ball-blitz/",
     "playUrl": "/play/beach-ball-blitz/",
@@ -7047,7 +7047,7 @@
     "plays": 0,
     "status": "Playable",
     "engine": "sports",
-    "merchHook": "Sandy Spiker plush with mini beach ball, net-jump keychain, sand-court sticker pack, and spike tee.",
+    "merchHook": "Sandy Spiker plush with mini beach ball, net-jump keychain, rally-combo magnet set, and Mango Island volleyball sticker pack.",
     "built": true
   },
   {
@@ -7058,7 +7058,7 @@
     "universeName": "Mango Island",
     "genre": "Racing",
     "mascot": "Palm Racer",
-    "description": "Race a drift-coconut kart around palm-tree circuits. Boost through fruit-powerups and drift on sandy corners to leave rivals in the dust.",
+    "description": "Race a drift-coconut kart around palm-tree circuits with boost pads and hairpin turns. Palm Racer drifts through sandy corners and catches air over dune jumps in the island grand prix.",
     "image": "/assets/images/mango-cards/palm-speedway.svg",
     "detailUrl": "/games/palm-speedway/",
     "playUrl": "/play/palm-speedway/",
@@ -7068,7 +7068,7 @@
     "plays": 0,
     "status": "Playable",
     "engine": "racing",
-    "merchHook": "Palm Racer plush with kart wheels, drift-key keychain, speedway sticker pack, and racer tee.",
+    "merchHook": "Palm Racer plush with kart wheels, drift-key keychain, speed-boost magnet set, and Mango Island racing sticker pack.",
     "built": true
   },
   {
@@ -7079,7 +7079,7 @@
     "universeName": "Mango Island",
     "genre": "Platformer",
     "mascot": "Island Hopper",
-    "description": "Hop across floating islands in a lush tropical sea. Collect starfruit, avoid falling fronds, and discover hidden cave shortcuts.",
+    "description": "Hop across floating islands in a lush tropical sea collecting mangoes and dodging coconut traps. Island Hopper uses vine-swings and trampoline flowers in this vibrant platformer paradise.",
     "image": "/assets/images/mango-cards/tropical-trek.svg",
     "detailUrl": "/games/tropical-trek/",
     "playUrl": "/play/tropical-trek/",
@@ -7089,7 +7089,7 @@
     "plays": 0,
     "status": "Playable",
     "engine": "platformer",
-    "merchHook": "Island Hopper plush with vine-swing, trek-key keychain, island sticker pack, and jumper tee.",
+    "merchHook": "Island Hopper plush with vine-swing, trek-key keychain, platform-hop magnet set, and Mango Island platformer sticker pack.",
     "built": true
   },
   {
@@ -7100,7 +7100,7 @@
     "universeName": "Mango Island",
     "genre": "Runner",
     "mascot": "Surf Runner",
-    "description": "Sprint along a sun-soaked beach boardwalk. Slide under cabanas, vault over sandcastles, and surf on rolling waves for speed bursts.",
+    "description": "Sprint along a sun-soaked beach boardwalk dodging beach balls and sandcastles. Surf Runner vaults over obstacles and slides under cabanas in this endless summer runner.",
     "image": "/assets/images/mango-cards/surfside-sprint.svg",
     "detailUrl": "/games/surfside-sprint/",
     "playUrl": "/play/surfside-sprint/",
@@ -7110,7 +7110,7 @@
     "plays": 0,
     "status": "Playable",
     "engine": "runner",
-    "merchHook": "Surf Runner plush with running surfboard, sprint-key keychain, boardwalk sticker pack, and runner tee.",
+    "merchHook": "Surf Runner plush with running surfboard, sprint-key keychain, obstacle-dodge magnet set, and Mango Island runner sticker pack.",
     "built": true
   },
   {
@@ -7121,7 +7121,7 @@
     "universeName": "Mango Island",
     "genre": "Flappy",
     "mascot": "Parrot Flyer",
-    "description": "Tap to guide a parrot through a canopy of tropical fruit. Dodge mango swarms and ride thermal updrafts for high-flying combos.",
+    "description": "Tap to guide a rainbow parrot through a canopy of tropical fruit. Parrot Flyer dodges swinging vines and greedy monkeys while collecting golden mangoes in this colorful flapper.",
     "image": "/assets/images/mango-cards/parrot-passage.svg",
     "detailUrl": "/games/parrot-passage/",
     "playUrl": "/play/parrot-passage/",
@@ -7131,7 +7131,7 @@
     "plays": 0,
     "status": "Playable",
     "engine": "flappy",
-    "merchHook": "Parrot Flyer plush with rainbow wings, feather keychain, canopy sticker pack, and flyer tee.",
+    "merchHook": "Parrot Flyer plush with rainbow wings, feather keychain, canopy-gap magnet set, and Mango Island flapper sticker pack.",
     "built": true
   },
   {
@@ -7142,7 +7142,7 @@
     "universeName": "Mango Island",
     "genre": "Whack",
     "mascot": "Pincer Whacker",
-    "description": "Whack hermit crabs as they peek out of coconut shells. Hit the golden crab for bonus points but avoid the spiky urchins that pinch your score.",
+    "description": "Whack hermit crabs as they peek out of coconut shells buried in the sand. Pincer Whacker earns shell-shattering combos by spotting crabs before they scuttle away.",
     "image": "/assets/images/mango-cards/crab-pot-clatter.svg",
     "detailUrl": "/games/crab-pot-clatter/",
     "playUrl": "/play/crab-pot-clatter/",
@@ -7152,7 +7152,7 @@
     "plays": 0,
     "status": "Playable",
     "engine": "whack",
-    "merchHook": "Pincer Whacker plush with crab-mallet, pot-key keychain, shell sticker pack, and whacker tee.",
+    "merchHook": "Pincer Whacker plush with crab-mallet, pot-key keychain, shell-smash magnet set, and Mango Island whack-a-crab sticker pack.",
     "built": true
   },
   {
@@ -7163,7 +7163,7 @@
     "universeName": "Mango Island",
     "genre": "Serve",
     "mascot": "Tiki Server",
-    "description": "Serve tropical drinks to island guests lounging on the beach. Match the right fruit garnish to each order before the sun sets.",
+    "description": "Serve tropical drinks to island guests lounging by the lagoon. Tiki Server balances trays of mango smoothies and coconut concoctions in this frantic beachside service game.",
     "image": "/assets/images/mango-cards/tiki-torch-tray.svg",
     "detailUrl": "/games/tiki-torch-tray/",
     "playUrl": "/play/tiki-torch-tray/",
@@ -7173,7 +7173,7 @@
     "plays": 0,
     "status": "Playable",
     "engine": "serve",
-    "merchHook": "Tiki Server plush with tray accessory, torch-key keychain, tropical-drink sticker pack, and server tee.",
+    "merchHook": "Tiki Server plush with tray accessory, torch-key keychain, drink-serve magnet set, and Mango Island tiki-cafe sticker pack.",
     "built": true
   },
   {
@@ -7184,7 +7184,7 @@
     "universeName": "Mango Island",
     "genre": "Pong",
     "mascot": "Wave Rider",
-    "description": "Volley a glowing surfball across a lagoon court. Each rally builds wave energy — first to seven points claims the high-tide trophy.",
+    "description": "Volley a glowing surfball across a lagoon court surrounded by torches and tikis. Wave Rider rides the rhythm of the ocean in this beach pong game with rising tide difficulty.",
     "image": "/assets/images/mango-cards/wave-paddle.svg",
     "detailUrl": "/games/wave-paddle/",
     "playUrl": "/play/wave-paddle/",
@@ -7194,7 +7194,7 @@
     "plays": 0,
     "status": "Playable",
     "engine": "pong",
-    "merchHook": "Wave Rider plush with paddle accessory, surfball keychain, lagoon sticker pack, and paddle tee.",
+    "merchHook": "Wave Rider plush with paddle accessory, surfball keychain, lagoon-rally magnet set, and Mango Island water-pong sticker pack.",
     "built": true
   },
   {
@@ -7205,7 +7205,7 @@
     "universeName": "Mango Island",
     "genre": "Snake",
     "mascot": "Mangrove Serpent",
-    "description": "Guide a mangrove serpent through twisting tidal channels. Eat glow-fish to grow longer and avoid your own coils in the narrowing waterways.",
+    "description": "Guide a mangrove serpent through twisting tidal channels eating glow-fish. Mangrove Serpent weaves through the delta maze where one wrong turn tangles the trail.",
     "image": "/assets/images/mango-cards/mangrove-maze.svg",
     "detailUrl": "/games/mangrove-maze/",
     "playUrl": "/play/mangrove-maze/",
@@ -7215,7 +7215,7 @@
     "plays": 0,
     "status": "Playable",
     "engine": "snake",
-    "merchHook": "Mangrove Serpent plush with segmented body, glow-fish keychain, tidal sticker pack, and serpent tee.",
+    "merchHook": "Mangrove Serpent plush with segmented body, glow-fish keychain, channel-navigate magnet set, and Mango Island maze sticker pack.",
     "built": true
   },
   {
@@ -7226,7 +7226,7 @@
     "universeName": "Mango Island",
     "genre": "Maze",
     "mascot": "Lava Leaper",
-    "description": "Navigate a maze of volcanic tunnels as lava rises. Collect obsidian gems to unlock shortcuts and reach the summit before the molten tide.",
+    "description": "Navigate volcanic tunnels as lava rises steadily from below. Lava Leaper collects obsidian gems and finds shortcuts while hot magma floods the lower passages in this escape maze.",
     "image": "/assets/images/mango-cards/volcano-escape.svg",
     "detailUrl": "/games/volcano-escape/",
     "playUrl": "/play/volcano-escape/",
@@ -7236,7 +7236,7 @@
     "plays": 0,
     "status": "Playable",
     "engine": "maze",
-    "merchHook": "Lava Leaper plush with glow-lava veins, obsidian keychain, volcano sticker pack, and leaper tee.",
+    "merchHook": "Lava Leaper plush with glow-lava veins, obsidian keychain, volcano-escape magnet set, and Mango Island escape-maze sticker pack.",
     "built": true
   },
   {
@@ -7247,7 +7247,7 @@
     "universeName": "Mochi World",
     "genre": "Idle Clicker",
     "mascot": "Mochi Chef",
-    "description": "Run your own mochi kitchen! Tap to shape rice cakes, unlock new flavors like matcha and sakura, and hire helpers to automate production. Earn enough to open the legendary Golden Mochi stand.",
+    "description": "Run your very own mochi kitchen in the heart of Mochi World. Tap to shape rice cakes, unlock premium ingredients and serve hungry customers. Hire helpers and automate your rising pastry empire.",
     "image": "/assets/images/mochi-cards/mochi-maker.svg",
     "detailUrl": "/games/mochi-maker/",
     "playUrl": "/play/mochi-maker/",
@@ -7257,7 +7257,7 @@
     "plays": 0,
     "status": "Playable",
     "engine": "idleclicker",
-    "merchHook": "Mochi Chef plush with apron and chef hat, mochi-making kit keychain, recipe sticker pack, and kitchen tee.",
+    "merchHook": "Mochi Chef plush with apron and chef hat, mochi-making kit keychain, kitchen-automation magnet set, and Mochi World recipe sticker pack.",
     "built": true
   },
   {
@@ -7268,7 +7268,7 @@
     "universeName": "Mochi World",
     "genre": "Platformer",
     "mascot": "Mochi Hopper",
-    "description": "Hop across floating mochi platforms to scale the Great Mochi Mountain. Leap over gaps, collect pink rice balls, and avoid the sticky syrup pits.",
+    "description": "Hop across floating mochi platforms to scale the legendary Great Mochi Mountain. Mochi Hopper springs between pillowy platforms avoiding sticky syrup traps and cream whirlpools.",
     "image": "/assets/images/mochi-cards/mochi-mountain.svg",
     "detailUrl": "/games/mochi-mountain/",
     "playUrl": "/play/mochi-mountain/",
@@ -7278,7 +7278,7 @@
     "plays": 0,
     "status": "Playable",
     "engine": "platformer",
-    "merchHook": "Mochi Hopper plush with spring shoes, mountain-key keychain, peak sticker pack, and jumper tee.",
+    "merchHook": "Mochi Hopper plush with spring shoes, mountain-key keychain, platform-spring magnet set, and Mochi World climber sticker pack.",
     "built": true
   },
   {
@@ -7289,7 +7289,7 @@
     "universeName": "Mochi World",
     "genre": "Flappy",
     "mascot": "Mochi Glider",
-    "description": "Tap to glide a flying mochi through a pastry-filled sky. Dodge rolling dorayaki and collect anko bean boosts to stay aloft.",
+    "description": "Tap to glide a flying mochi through a pastry-filled sky of dumplings and cream clouds. Mochi Glider dips between steaming buns and soars over sweet soup bowls in this dreamy flapper.",
     "image": "/assets/images/mochi-cards/mochi-glide.svg",
     "detailUrl": "/games/mochi-glide/",
     "playUrl": "/play/mochi-glide/",
@@ -7299,7 +7299,7 @@
     "plays": 0,
     "status": "Playable",
     "engine": "flappy",
-    "merchHook": "Mochi Glider plush with tiny wings, glide-key keychain, pastry-sky sticker pack, and flyer tee.",
+    "merchHook": "Mochi Glider plush with tiny wings, glide-key keychain, pastry-dodge magnet set, and Mochi World sky-flapper sticker pack.",
     "built": true
   },
   {
@@ -7310,7 +7310,7 @@
     "universeName": "Mochi World",
     "genre": "Whack",
     "mascot": "Mochi Sprite",
-    "description": "Whack mischievous mochi sprites as they pop out of steaming rice bowls. Hit the golden kinako mochi for bonus points but avoid the spicy wasabi bombs.",
+    "description": "Whack mischievous mochi sprites popping out of steaming bamboo baskets. Mochi Sprite swings the wooden paddle chaining combos as faster sprites emerge from the kitchen.",
     "image": "/assets/images/mochi-cards/mochi-pop.svg",
     "detailUrl": "/games/mochi-pop/",
     "playUrl": "/play/mochi-pop/",
@@ -7320,7 +7320,7 @@
     "plays": 0,
     "status": "Playable",
     "engine": "whack",
-    "merchHook": "Mochi Sprite plush with whack paddle, pop-key keychain, bowl sticker pack, and whack tee.",
+    "merchHook": "Mochi Sprite plush with whack paddle, pop-key keychain, bowl-bash magnet set, and Mochi World whack-a-sprite sticker pack.",
     "built": true
   },
   {
@@ -7331,7 +7331,7 @@
     "universeName": "Mochi World",
     "genre": "Match-3",
     "mascot": "Mochi Panda",
-    "description": "Swap and match colorful mochi on a sushi-go-round grid. Chain three or more pink, green, and yellow mochi to clear the board and feed the hungry panda.",
+    "description": "Swap and match colorful mochi on a sushi-go-round grid. Mochi Panda guides you through temples of dessert-matching where chain reactions unlock rare confections.",
     "image": "/assets/images/mochi-cards/mochi-match.svg",
     "detailUrl": "/games/mochi-match/",
     "playUrl": "/play/mochi-match/",
@@ -7341,7 +7341,7 @@
     "plays": 0,
     "status": "Playable",
     "engine": "match3",
-    "merchHook": "Mochi Panda plush with bamboo bowl, match-key keychain, sushi-go-round sticker pack, and match tee.",
+    "merchHook": "Mochi Panda plush with bamboo bowl, match-key keychain, sushi-swap magnet set, and Mochi World match-3 sticker pack.",
     "built": true
   },
   {
@@ -7352,7 +7352,7 @@
     "universeName": "Mochi World",
     "genre": "Merge",
     "mascot": "Mochi Alchemist",
-    "description": "Drag and merge mochi ingredients to create premium confections. Combine rice flour + matcha → matcha mochi, then merge further to discover the legendary \"Mochi of the Stars\".",
+    "description": "Drag and merge mochi ingredients to create premium confections. Mochi Alchemist combines rice flour bean paste and matcha to discover legendary mochi recipes.",
     "image": "/assets/images/mochi-cards/mochi-merge.svg",
     "detailUrl": "/games/mochi-merge/",
     "playUrl": "/play/mochi-merge/",
@@ -7362,7 +7362,7 @@
     "plays": 0,
     "status": "Playable",
     "engine": "merge",
-    "merchHook": "Mochi Alchemist plush with mixing bowl, ingredient-key keychain, recipe sticker pack, and merge tee.",
+    "merchHook": "Mochi Alchemist plush with mixing bowl, ingredient-key keychain, recipe-merge magnet set, and Mochi World confection-combo sticker pack.",
     "built": true
   },
   {
@@ -7373,7 +7373,7 @@
     "universeName": "Mochi World",
     "genre": "Tower Defense",
     "mascot": "Mochi Guardian",
-    "description": "Defend the sacred mochi pantry from hungry critters. Place sticky rice traps, summon wasabi guards, and build a fortress of sweets to protect the legendary mochi stash.",
+    "description": "Defend the sacred mochi pantry from hungry critters using steam vents and rolling pin launchers. Mochi Guardian places defenses strategically to protect the ancient rice stores.",
     "image": "/assets/images/mochi-cards/mochi-tower.svg",
     "detailUrl": "/games/mochi-tower/",
     "playUrl": "/play/mochi-tower/",
@@ -7383,7 +7383,7 @@
     "plays": 0,
     "status": "Playable",
     "engine": "tower",
-    "merchHook": "Mochi Guardian plush with bamboo staff, tower-key keychain, pantry sticker pack, and defense tee.",
+    "merchHook": "Mochi Guardian plush with bamboo staff, tower-key keychain, defense-strategy magnet set, and Mochi World tower-defense sticker pack.",
     "built": true
   },
   {
@@ -7394,7 +7394,7 @@
     "universeName": "Mochi World",
     "genre": "Stacker",
     "mascot": "Mochi Stacker",
-    "description": "Stack colorful mochi layers with precision timing. Each narrower tier scores more points but wobbles — keep the tower steady to earn the golden mochi crown.",
+    "description": "Stack colorful mochi layers with precision timing in the Grand Stacking Tournament. Mochi Stacker builds wobbling towers of rice cake treats in this zen challenge.",
     "image": "/assets/images/mochi-cards/mochi-stack.svg",
     "detailUrl": "/games/mochi-stack/",
     "playUrl": "/play/mochi-stack/",
@@ -7404,7 +7404,7 @@
     "plays": 0,
     "status": "Playable",
     "engine": "stacker",
-    "merchHook": "Mochi Stacker plush with stackable tiers, balance-key keychain, tower sticker pack, and stacker tee.",
+    "merchHook": "Mochi Stacker plush with stackable tiers, balance-key keychain, precision-stack magnet set, and Mochi World stacking sticker pack.",
     "built": true
   },
   {
@@ -7415,7 +7415,7 @@
     "universeName": "Mochi World",
     "genre": "Memory",
     "mascot": "Mochi Scholar",
-    "description": "Flip mochi tiles to find matching pairs of traditional sweets. Remember the layout under increasing time pressure — complete the set to earn a scroll of wisdom.",
+    "description": "Flip mochi tiles to find matching pairs of traditional sweets in the Hall of Sweet Remembrance. Mochi Scholar tests your memory across increasingly complex boards of wagashi.",
     "image": "/assets/images/mochi-cards/mochi-memory.svg",
     "detailUrl": "/games/mochi-memory/",
     "playUrl": "/play/mochi-memory/",
@@ -7425,7 +7425,7 @@
     "plays": 0,
     "status": "Playable",
     "engine": "memory",
-    "merchHook": "Mochi Scholar plush with book scroll, tile-key keychain, wisdom sticker pack, and memory tee.",
+    "merchHook": "Mochi Scholar plush with book scroll, tile-key keychain, wisdom-match magnet set, and Mochi World memory-game sticker pack.",
     "built": true
   },
   {
@@ -7436,7 +7436,7 @@
     "universeName": "Mochi World",
     "genre": "Breakout",
     "mascot": "Mochi Breaker",
-    "description": "Bounce a sticky rice ball through layers of wafer-thin mochi bricks. Each hit speeds up the action — clear the wall to reveal a hidden dessert recipe.",
+    "description": "Bounce a sticky rice ball through layers of wafer-thin mochi bricks. Mochi Breaker aims for perfect angles to crack through frozen matcha blocks and red bean barriers.",
     "image": "/assets/images/mochi-cards/mochi-break.svg",
     "detailUrl": "/games/mochi-break/",
     "playUrl": "/play/mochi-break/",
@@ -7446,7 +7446,7 @@
     "plays": 0,
     "status": "Playable",
     "engine": "breakout",
-    "merchHook": "Mochi Breaker plush with paddle tail, brick-key keychain, wafer sticker pack, and breaker tee.",
+    "merchHook": "Mochi Breaker plush with paddle tail, brick-key keychain, wafer-break magnet set, and Mochi World brick-breaker sticker pack.",
     "built": true
   },
   {
@@ -7457,7 +7457,7 @@
     "universeName": "Mochi World",
     "genre": "Climber",
     "mascot": "Mochi Bouncer",
-    "description": "Bounce a springy mochi ever upward through a confectionary sky. Land on moving platforms made of pocky, macarons, and marshmallows — the higher you go, the sweeter the view.",
+    "description": "Bounce a springy mochi ever upward through a confectionary sky. Mochi Bouncer uses coil-leg timing to rebound between floating daifuku platforms in this skyward climber.",
     "image": "/assets/images/mochi-cards/mochi-bounce.svg",
     "detailUrl": "/games/mochi-bounce/",
     "playUrl": "/play/mochi-bounce/",
@@ -7467,7 +7467,7 @@
     "plays": 0,
     "status": "Playable",
     "engine": "doodlejump",
-    "merchHook": "Mochi Bouncer plush with coil legs, bounce-key keychain, cloud sticker pack, and jumper tee.",
+    "merchHook": "Mochi Bouncer plush with coil legs, bounce-key keychain, cloud-rebound magnet set, and Mochi World spring-climber sticker pack.",
     "built": true
   },
   {
@@ -7478,7 +7478,7 @@
     "universeName": "Mochi World",
     "genre": "Pong",
     "mascot": "Mochi Paddler",
-    "description": "Volley a sticky mochi ball across a zen garden court. Rallies build rhythm — time your returns perfectly to outpace the AI. First to seven wins the tea ceremony trophy.",
+    "description": "Volley a sticky mochi ball across a zen garden court lined with bamboo. Mochi Paddler rallies against AI opponents while koi fish swim beneath the court.",
     "image": "/assets/images/mochi-cards/mochi-paddle.svg",
     "detailUrl": "/games/mochi-paddle/",
     "playUrl": "/play/mochi-paddle/",
@@ -7488,7 +7488,7 @@
     "plays": 0,
     "status": "Playable",
     "engine": "pong",
-    "merchHook": "Mochi Paddler plush with paddle fan, mochi-ball keychain, zen-court sticker pack, and rally tee.",
+    "merchHook": "Mochi Paddler plush with paddle fan, mochi-ball keychain, zen-rally magnet set, and Mochi World pong-duel sticker pack.",
     "built": true
   },
   {
@@ -7499,7 +7499,7 @@
     "universeName": "Panda Kingdom",
     "genre": "Runner",
     "mascot": "Panda Sprint",
-    "description": "Sprint through a bamboo forest at breakneck speed. Slide under low branches, leap over streams, and collect lucky bamboo leaves for a speed boost.",
+    "description": "Sprint through a towering bamboo forest at breakneck speed. Panda Sprint slides under low branches and vaults over roots collecting golden shoots in this lush endless runner.",
     "image": "/assets/images/panda-cards/bamboo-sprint.svg",
     "detailUrl": "/games/bamboo-sprint/",
     "playUrl": "/play/bamboo-sprint/",
@@ -7509,7 +7509,7 @@
     "plays": 0,
     "status": "Playable",
     "engine": "runner",
-    "merchHook": "Panda Sprint plush with running shoes, bamboo-key keychain, sprint sticker pack, and runner tee.",
+    "merchHook": "Panda Sprint plush with running shoes, bamboo-key keychain, forest-dash magnet set, and Panda Kingdom runner sticker pack.",
     "built": true
   },
   {
@@ -7520,7 +7520,7 @@
     "universeName": "Panda Kingdom",
     "genre": "Platformer",
     "mascot": "Bamboo Hopper",
-    "description": "Hop across bamboo platforms rising through misty mountains. Time your jumps on swaying stalks and ride giant leaves to reach the sacred panda temple.",
+    "description": "Hop across bamboo platforms rising through misty mountain peaks. Bamboo Hopper scales the Jade Summit leaping between swaying stalks and avoiding thorny vines.",
     "image": "/assets/images/panda-cards/panda-platforms.svg",
     "detailUrl": "/games/panda-platforms/",
     "playUrl": "/play/panda-platforms/",
@@ -7530,7 +7530,7 @@
     "plays": 0,
     "status": "Playable",
     "engine": "platformer",
-    "merchHook": "Bamboo Hopper plush with platform staff, mountain-key keychain, temple sticker pack, and hopper tee.",
+    "merchHook": "Bamboo Hopper plush with platform staff, mountain-key keychain, peak-leap magnet set, and Panda Kingdom platformer sticker pack.",
     "built": true
   },
   {
@@ -7541,7 +7541,7 @@
     "universeName": "Panda Kingdom",
     "genre": "Flappy",
     "mascot": "Panda Flutter",
-    "description": "Guide a flying panda through sky gardens filled with blooming cherry trees. Dodge falling petals and catch magic dumplings to stay aloft.",
+    "description": "Guide a flying panda through sky gardens filled with cherry trees and pagodas. Panda Flutter uses leaf-shaped wings to catch updrafts between cloud platforms.",
     "image": "/assets/images/panda-cards/panda-glide.svg",
     "detailUrl": "/games/panda-glide/",
     "playUrl": "/play/panda-glide/",
@@ -7551,7 +7551,7 @@
     "plays": 0,
     "status": "Playable",
     "engine": "flappy",
-    "merchHook": "Panda Flutter plush with leaf wings, flutter-key keychain, cherry sticker pack, and glide tee.",
+    "merchHook": "Panda Flutter plush with leaf wings, flutter-key keychain, sky-garden magnet set, and Panda Kingdom glider sticker pack.",
     "built": true
   },
   {
@@ -7562,7 +7562,7 @@
     "universeName": "Panda Kingdom",
     "genre": "Whack",
     "mascot": "Bamboo Whacker",
-    "description": "Whack mischievous bamboo sprites as they peek out from hollow stalks. Hit the golden panda for bonus points but dodge the spicy chili bombs.",
+    "description": "Whack mischievous bamboo sprites peeking from hollow stalks. Bamboo Whacker defends the grove with precision timing as sprites pop up faster each wave.",
     "image": "/assets/images/panda-cards/bamboo-pop.svg",
     "detailUrl": "/games/bamboo-pop/",
     "playUrl": "/play/bamboo-pop/",
@@ -7572,7 +7572,7 @@
     "plays": 0,
     "status": "Playable",
     "engine": "whack",
-    "merchHook": "Bamboo Whacker plush with mallet, sprout-key keychain, grove sticker pack, and whack tee.",
+    "merchHook": "Bamboo Whacker plush with mallet, sprout-key keychain, grove-bash magnet set, and Panda Kingdom whack-a-sprite sticker pack.",
     "built": true
   },
   {
@@ -7583,7 +7583,7 @@
     "universeName": "Panda Kingdom",
     "genre": "Match-3",
     "mascot": "Panda Matcha",
-    "description": "Swap and match bamboo tokens decorated with panda faces. Line up three or more to clear the board — chain reactions earn a visit from the Lucky Panda.",
+    "description": "Swap and match bamboo tokens decorated with panda faces in the Temple of Taste. Panda Matcha guides through matcha-green boards where chain reactions bloom like cherry blossoms.",
     "image": "/assets/images/panda-cards/panda-match.svg",
     "detailUrl": "/games/panda-match/",
     "playUrl": "/play/panda-match/",
@@ -7593,7 +7593,7 @@
     "plays": 0,
     "status": "Playable",
     "engine": "match3",
-    "merchHook": "Panda Matcha plush with token bowl, bamboo-grid keychain, matcha sticker pack, and puzzle tee.",
+    "merchHook": "Panda Matcha plush with token bowl, bamboo-grid keychain, matcha-swap magnet set, and Panda Kingdom match-3 sticker pack.",
     "built": true
   },
   {
@@ -7604,7 +7604,7 @@
     "universeName": "Panda Kingdom",
     "genre": "Merge",
     "mascot": "Panda Alchemist",
-    "description": "Drag and merge bamboo shoots to grow a panda paradise. Combine saplings into groves, unlock rare golden bamboo, and discover the enchanted Panda Stone.",
+    "description": "Drag and merge bamboo shoots to grow a panda paradise. Panda Alchemist starts with a sprout and cultivates a forest filled with playful pandas and golden stalks.",
     "image": "/assets/images/panda-cards/panda-merge.svg",
     "detailUrl": "/games/panda-merge/",
     "playUrl": "/play/panda-merge/",
@@ -7614,7 +7614,7 @@
     "plays": 0,
     "status": "Playable",
     "engine": "merge",
-    "merchHook": "Panda Alchemist plush with mortar and pestle, bamboo-shoot keychain, garden sticker pack, and merge tee.",
+    "merchHook": "Panda Alchemist plush with mortar and pestle, bamboo-shoot keychain, grove-merge magnet set, and Panda Kingdom merger sticker pack.",
     "built": true
   },
   {
@@ -7625,7 +7625,7 @@
     "universeName": "Panda Kingdom",
     "genre": "Tower Defense",
     "mascot": "Panda Guardian",
-    "description": "Defend the ancient bamboo tower from hungry red pandas. Place spiky bamboo traps, recruit crane allies, and fortify the tower levels to protect the sacred grove.",
+    "description": "Defend the ancient Bamboo Tower from hungry red pandas using spiky branches and honey pots. Panda Guardian places defenses along the spiral staircase.",
     "image": "/assets/images/panda-cards/bamboo-tower.svg",
     "detailUrl": "/games/bamboo-tower/",
     "playUrl": "/play/bamboo-tower/",
@@ -7635,7 +7635,7 @@
     "plays": 0,
     "status": "Playable",
     "engine": "tower",
-    "merchHook": "Panda Guardian plush with bamboo staff, tower-key keychain, defense sticker pack, and guardian tee.",
+    "merchHook": "Panda Guardian plush with bamboo staff, tower-key keychain, defense-strategy magnet set, and Panda Kingdom tower-defense sticker pack.",
     "built": true
   },
   {
@@ -7646,7 +7646,7 @@
     "universeName": "Panda Kingdom",
     "genre": "Stacker",
     "mascot": "Panda Stacker",
-    "description": "Stack bamboo logs with perfect precision. Each narrower layer scores higher — but one mistimed placement sends the whole tower tumbling.",
+    "description": "Stack bamboo logs with perfect precision as each layer narrows toward the sky. Panda Stacker builds the tallest pagoda balancing green segments in this zen challenge.",
     "image": "/assets/images/panda-cards/bamboo-stack.svg",
     "detailUrl": "/games/bamboo-stack/",
     "playUrl": "/play/bamboo-stack/",
@@ -7656,7 +7656,7 @@
     "plays": 0,
     "status": "Playable",
     "engine": "stacker",
-    "merchHook": "Panda Stacker plush with stacking logs, balance-key keychain, precision sticker pack, and stacker tee.",
+    "merchHook": "Panda Stacker plush with stacking logs, balance-key chain, precision-stack magnet set, and Panda Kingdom stacking sticker pack.",
     "built": true
   },
   {
@@ -7667,7 +7667,7 @@
     "universeName": "Panda Kingdom",
     "genre": "Memory",
     "mascot": "Panda Scholar",
-    "description": "Flip bamboo scroll tiles to reveal matching panda emblems. Train your memory across increasingly complex layouts — complete a set to earn an ancient proverb.",
+    "description": "Flip bamboo scrolls to reveal matching panda emblems in the Hall of Ancestors. Panda Scholar deciphers ancient patterns across increasingly complex memory puzzles.",
     "image": "/assets/images/panda-cards/panda-memory.svg",
     "detailUrl": "/games/panda-memory/",
     "playUrl": "/play/panda-memory/",
@@ -7677,7 +7677,7 @@
     "plays": 0,
     "status": "Playable",
     "engine": "memory",
-    "merchHook": "Panda Scholar plush with scroll, emblem-key keychain, wisdom sticker pack, and memory tee.",
+    "merchHook": "Panda Scholar plush with scroll, emblem-key keychain, wisdom-match magnet set, and Panda Kingdom memory-game sticker pack.",
     "built": true
   },
   {
@@ -7688,7 +7688,7 @@
     "universeName": "Panda Kingdom",
     "genre": "Breakout",
     "mascot": "Panda Breaker",
-    "description": "Bounce a panda pellet through layers of bamboo bricks. Each breaking layer reveals calligraphy — clear the wall to read the fortune message.",
+    "description": "Bounce a panda pellet through layers of bamboo bricks and lotus barriers. Panda Breaker aims for perfect ricochets to clear the board and reveal hidden garden paths.",
     "image": "/assets/images/panda-cards/bamboo-break.svg",
     "detailUrl": "/games/bamboo-break/",
     "playUrl": "/play/bamboo-break/",
@@ -7698,7 +7698,7 @@
     "plays": 0,
     "status": "Playable",
     "engine": "breakout",
-    "merchHook": "Panda Breaker plush with paddle, brick-key keychain, bamboo sticker pack, and breaker tee.",
+    "merchHook": "Panda Breaker plush with paddle, brick-key keychain, bamboo-break magnet set, and Panda Kingdom brick-breaker sticker pack.",
     "built": true
   },
   {
@@ -7709,7 +7709,7 @@
     "universeName": "Panda Kingdom",
     "genre": "Climber",
     "mascot": "Panda Bouncer",
-    "description": "Bounce a springy panda ever upward through cherry blossom skies. Land on drifting cloud platforms made of mochi, petals, and bamboo — go high enough to touch the moon.",
+    "description": "Bounce a springy panda upward through cherry blossom clouds above the kingdom. Panda Bouncer rebounds between floral platforms to reach the sky gardens.",
     "image": "/assets/images/panda-cards/panda-bounce.svg",
     "detailUrl": "/games/panda-bounce/",
     "playUrl": "/play/panda-bounce/",
@@ -7719,7 +7719,7 @@
     "plays": 0,
     "status": "Playable",
     "engine": "doodlejump",
-    "merchHook": "Panda Bouncer plush with coil legs, bounce-key keychain, cloud sticker pack, and jumper tee.",
+    "merchHook": "Panda Bouncer plush with coil legs, bounce-key keychain, cloud-climb magnet set, and Panda Kingdom spring-climber sticker pack.",
     "built": true
   },
   {
@@ -7730,7 +7730,7 @@
     "universeName": "Panda Kingdom",
     "genre": "Maze",
     "mascot": "Panda Explorer",
-    "description": "Navigate a winding bamboo maze to find the hidden panda shrine. Push through thickets, avoid thorny patches, and solve the garden path puzzle.",
+    "description": "Navigate a winding bamboo maze to find the hidden panda shrine. Panda Explorer weaves through living hedges collecting ancient wisdom scrolls along the path.",
     "image": "/assets/images/panda-cards/bamboo-maze.svg",
     "detailUrl": "/games/bamboo-maze/",
     "playUrl": "/play/bamboo-maze/",
@@ -7740,7 +7740,7 @@
     "plays": 0,
     "status": "Playable",
     "engine": "maze",
-    "merchHook": "Panda Explorer plush with explorer hat, maze-key keychain, garden sticker pack, and explorer tee.",
+    "merchHook": "Panda Explorer plush with explorer hat, maze-key keychain, grove-navigate magnet set, and Panda Kingdom maze sticker pack.",
     "built": true
   },
   {
@@ -7751,7 +7751,7 @@
     "universeName": "Pixel Playground",
     "genre": "Platformer",
     "mascot": "Pixel Panda",
-    "description": "Leap across crumbling neon rooftops in a glitchy pixel metropolis. Pixel Panda must reach the antenna spire before the system corrupts — every platform is a gamble, every jump a prayer in this unforgiving digital city.",
+    "description": "Leap across crumbling neon rooftops in a glitchy pixel metropolis. Pixel Panda vaults over data gaps and slides under lasers in this retro platformer set inside a corrupted video game world.",
     "image": "/assets/images/pixel-cards/pixel-panda-parkour.svg",
     "detailUrl": "/games/pixel-panda-parkour/",
     "playUrl": "/play/pixel-panda-parkour/",
@@ -7761,7 +7761,7 @@
     "plays": 0,
     "status": "Playable",
     "engine": "platformer",
-    "merchHook": "Pixel Panda plush with LED sneakers, roof-key keychain, cityscape sticker pack, and parkour hoodie.",
+    "merchHook": "Pixel Panda plush with LED sneakers, roof-key keychain, city-skyline sticker pack, and Pixel Playground retro-platformer magnet set.",
     "built": true
   },
   {
@@ -7772,7 +7772,7 @@
     "universeName": "Pixel Playground",
     "genre": "Match-3",
     "mascot": "Pixel Prawn",
-    "description": "Dive into a sunken data vault where corrupted memory fragments float like jellyfish. Pixel Prawn must sort and match binary coral clusters to restore the ocean of lost code. Every match defragments a piece of the great algorithm.",
+    "description": "Dive into a sunken data vault of corrupted memory fragments. Pixel Prawn swaps debug tokens to match three or more cleaning the ocean of bugs one cascade at a time.",
     "image": "/assets/images/pixel-cards/pixel-prawn-deep-sea-debugger.svg",
     "detailUrl": "/games/pixel-prawn-deep-sea-debugger/",
     "playUrl": "/play/pixel-prawn-deep-sea-debugger/",
@@ -7782,7 +7782,7 @@
     "plays": 0,
     "status": "Playable",
     "engine": "match3",
-    "merchHook": "Pixel Prawn plush with diving helmet, coral-key keychain, debug sticker pack, and deep-sea tee.",
+    "merchHook": "Pixel Prawn plush with diving helmet, coral-key keychain, debug-token magnet set, and Pixel Playground underwater puzzle sticker pack.",
     "built": true
   },
   {
@@ -7793,7 +7793,7 @@
     "universeName": "Pixel Playground",
     "genre": "Runner",
     "mascot": "Pixel Fox",
-    "description": "A wildfire of pixels races through a burning forest of code. Pixel Fox sprints through shifting terrain, dodges firewall barriers, and collects ember shards to outrun the great deletion before the world reboots.",
+    "description": "A wildfire of pixels races through a burning forest of code. Pixel Fox sprints through glitch-filled levels vaulting over corrupted data blocks in this high-speed retro runner.",
     "image": "/assets/images/pixel-cards/pixel-fox-speedrun.svg",
     "detailUrl": "/games/pixel-fox-speedrun/",
     "playUrl": "/play/pixel-fox-speedrun/",
@@ -7803,7 +7803,7 @@
     "plays": 0,
     "status": "Playable",
     "engine": "runner",
-    "merchHook": "Pixel Fox plush with speed goggles, ember-key keychain, wildfire sticker pack, and speedrun tee.",
+    "merchHook": "Pixel Fox plush with speed goggles, ember-key keychain, wildfire-speed magnet set, and Pixel Playground runner sticker pack.",
     "built": true
   },
   {
@@ -7814,7 +7814,7 @@
     "universeName": "Pixel Playground",
     "genre": "Flappy",
     "mascot": "Pixel Bunny",
-    "description": "Float through a dreamscape of floating islands and pixelated carrots. Pixel Bunny uses its oversized ears to catch updrafts, weaving through cloud servers and dodging error-message birds in the sky garden.",
+    "description": "Float through a dreamscape of floating islands and pixelated clouds. Pixel Bunny hovers across gaps using magical carrot power collecting radishes in this serene pixel flapper.",
     "image": "/assets/images/pixel-cards/pixel-bunny-hover.svg",
     "detailUrl": "/games/pixel-bunny-hover/",
     "playUrl": "/play/pixel-bunny-hover/",
@@ -7824,7 +7824,7 @@
     "plays": 0,
     "status": "Playable",
     "engine": "flappy",
-    "merchHook": "Pixel Bunny plush with floppy ears, carrot-key keychain, dreamscape sticker pack, and hover tee.",
+    "merchHook": "Pixel Bunny plush with floppy ears, carrot-key keychain, dream-flote magnet set, and Pixel Playground hover-flapper sticker pack.",
     "built": true
   },
   {
@@ -7835,7 +7835,7 @@
     "universeName": "Pixel Playground",
     "genre": "Whack",
     "mascot": "Pixel Raccoon",
-    "description": "Raccoons keep popping out of pixel trash bins! Whack them with a newspaper-roll before they steal your shiny data fragments. Hit the golden pixel racoon for a jackpot — but don't whack the skunk pixel.",
+    "description": "Raccoons keep popping out of pixel trash bins across the neon alleyway. Pixel Raccoon whacks them with a lid-shield chaining combos as faster sprites emerge from the dumpsters.",
     "image": "/assets/images/pixel-cards/pixel-raccoon-dig.svg",
     "detailUrl": "/games/pixel-raccoon-dig/",
     "playUrl": "/play/pixel-raccoon-dig/",
@@ -7845,7 +7845,7 @@
     "plays": 0,
     "status": "Playable",
     "engine": "whack",
-    "merchHook": "Pixel Raccoon plush with trash-lid shield, shiny-key keychain, dumpster sticker pack, and dig tee.",
+    "merchHook": "Pixel Raccoon plush with trash-lid shield, shiny-key keychain, bin-whack magnet set, and Pixel Playground alley-game sticker pack.",
     "built": true
   },
   {
@@ -7856,7 +7856,7 @@
     "universeName": "Pixel Playground",
     "genre": "Merge",
     "mascot": "Pixel Bear",
-    "description": "Merge honeycomb pixels into bigger, better bears. Start with pixel cubs, combine them into grizzlies, and eventually craft the legendary Data Bear — a guardian of the binary forest. Every merge hums with harmonic code.",
+    "description": "Merge honeycomb pixels into bigger better bears in the Forest of Frames. Pixel Bear starts as a cub and evolves through forms by combining identical sprites in this retro merger.",
     "image": "/assets/images/pixel-cards/pixel-bear-merge.svg",
     "detailUrl": "/games/pixel-bear-merge/",
     "playUrl": "/play/pixel-bear-merge/",
@@ -7866,7 +7866,7 @@
     "plays": 0,
     "status": "Playable",
     "engine": "merge",
-    "merchHook": "Pixel Bear plush with honey pot, comb-key keychain, forest sticker pack, and merge tee.",
+    "merchHook": "Pixel Bear plush with honey pot, comb-key keychain, forest-merge magnet set, and Pixel Playground merger sticker pack.",
     "built": true
   },
   {
@@ -7877,7 +7877,7 @@
     "universeName": "Pixel Playground",
     "genre": "Tower Defense",
     "mascot": "Pixel Panda",
-    "description": "Build pixel fortifications around the bamboo server farm. Pixel Panda deploys firewall turrets, anti-virus bamboo shoots, and data-mirror shields against waves of corrupt packets trying to take down the network.",
+    "description": "Build pixel fortifications around the bamboo server farm. Pixel Panda places defenses against virus-creatures trying to corrupt the mainframe in this retro tower defense.",
     "image": "/assets/images/pixel-cards/pixel-panda-tower.svg",
     "detailUrl": "/games/pixel-panda-tower/",
     "playUrl": "/play/pixel-panda-tower/",
@@ -7887,7 +7887,7 @@
     "plays": 0,
     "status": "Playable",
     "engine": "tower",
-    "merchHook": "Pixel Panda guardian plush with tower shield, firewall-key keychain, defense sticker pack, and tower tee.",
+    "merchHook": "Pixel Panda guardian plush with tower shield, firewall-key keychain, defense-grid magnet set, and Pixel Playground tower-defense sticker pack.",
     "built": true
   },
   {
@@ -7898,7 +7898,7 @@
     "universeName": "Pixel Playground",
     "genre": "Stacker",
     "mascot": "Pixel Bunny",
-    "description": "Stack pixel carrot crates as high as the moon. Each narrower layer challenges your precision — one wobble and the whole tower tumbles into the digital rabbit hole. Perfect stacks unlock golden eggs.",
+    "description": "Stack pixel carrot crates as high as the moon in the Bunny Warehouse. Pixel Stacker times each placement as the wobbling tower narrows toward the retro skyline.",
     "image": "/assets/images/pixel-cards/pixel-bunny-stack.svg",
     "detailUrl": "/games/pixel-bunny-stack/",
     "playUrl": "/play/pixel-bunny-stack/",
@@ -7908,7 +7908,7 @@
     "plays": 0,
     "status": "Playable",
     "engine": "stacker",
-    "merchHook": "Pixel Bunny stacker plush with carrot crate, balance-key keychain, precision sticker pack, and stacker tee.",
+    "merchHook": "Pixel Bunny stacker plush with carrot crate, balance-key chain, precision-stack magnet set, and Pixel Playground stacking sticker pack.",
     "built": true
   },
   {
@@ -7919,7 +7919,7 @@
     "universeName": "Pixel Playground",
     "genre": "Memory",
     "mascot": "Pixel Fox",
-    "description": "Flip pixel tiles in the ancient fox shrine to reveal matching animal spirits. Pixel Fox must remember the patterns of the forest — match all pairs to awaken the great Data Kitsune and restore the digital balance.",
+    "description": "Flip pixel tiles in the ancient fox shrine to reveal matching glyphs. Pixel Fox Scholar remembers fallen leaf patterns in this pixel-perfect memory game.",
     "image": "/assets/images/pixel-cards/pixel-fox-memory.svg",
     "detailUrl": "/games/pixel-fox-memory/",
     "playUrl": "/play/pixel-fox-memory/",
@@ -7929,7 +7929,7 @@
     "plays": 0,
     "status": "Playable",
     "engine": "memory",
-    "merchHook": "Pixel Fox scholar plush with memory scroll, shrine-key keychain, wisdom sticker pack, and memory tee.",
+    "merchHook": "Pixel Fox scholar plush with memory scroll, shrine-key keychain, glyph-match magnet set, and Pixel Playground memory-game sticker pack.",
     "built": true
   },
   {
@@ -7940,7 +7940,7 @@
     "universeName": "Pixel Playground",
     "genre": "Breakout",
     "mascot": "Pixel Prawn",
-    "description": "Crack through layers of corrupted data bricks in the deep-sea server trench. Pixel Prawn paddles through increasing pressure levels — each broken brick releases a clean byte. Clear the floor to defrag the abyss.",
+    "description": "Crack through layers of corrupted data bricks in the deep-sea server trench. Pixel Prawn Breaker bounces a debug-ball through error blocks to reach the clean data core.",
     "image": "/assets/images/pixel-cards/pixel-prawn-brick-bash.svg",
     "detailUrl": "/games/pixel-prawn-brick-bash/",
     "playUrl": "/play/pixel-prawn-brick-bash/",
@@ -7950,7 +7950,7 @@
     "plays": 0,
     "status": "Playable",
     "engine": "breakout",
-    "merchHook": "Pixel Prawn breaker plush with data paddle, brick-key keychain, abyss sticker pack, and bash tee.",
+    "merchHook": "Pixel Prawn breaker plush with data paddle, brick-key keychain, debug-crack magnet set, and Pixel Playground brick-breaker sticker pack.",
     "built": true
   },
   {
@@ -7961,7 +7961,7 @@
     "universeName": "Pixel Playground",
     "genre": "Climber",
     "mascot": "Pixel Bear",
-    "description": "Bounce a pixel bear through the honey-sweet clouds of the confectionary kingdom. Pixel Bear lands on marshmallow platforms and jellybean springs — climb high enough and you'll reach the great beehive in the sky.",
+    "description": "Bounce a pixel bear through the honey-sweet clouds of the color-space continuum. Pixel Bear Bouncer rebounds between platforms collecting pixel nectar.",
     "image": "/assets/images/pixel-cards/pixel-bear-bounce.svg",
     "detailUrl": "/games/pixel-bear-bounce/",
     "playUrl": "/play/pixel-bear-bounce/",
@@ -7971,7 +7971,7 @@
     "plays": 0,
     "status": "Playable",
     "engine": "doodlejump",
-    "merchHook": "Pixel Bear bouncer plush with honey-jar coil, bounce-key keychain, cloud sticker pack, and bounce tee.",
+    "merchHook": "Pixel Bear bouncer plush with honey-jar coil, bounce-key keychain, cloud-rebound magnet set, and Pixel Playground spring-climber sticker pack.",
     "built": true
   },
   {
@@ -7982,7 +7982,7 @@
     "universeName": "Pixel Playground",
     "genre": "Maze",
     "mascot": "Pixel Raccoon",
-    "description": "Navigate a sprawling pixel junkyard maze to find the legendary Shiny Data Orb. Pixel Raccoon squeezes through pipe tunnels, dodges guard-dog routines, and picks pixel locks. Every dead end hides a secret cache.",
+    "description": "Navigate a sprawling pixel junkyard maze to find the Golden Memory Shard. Pixel Raccoon Explorer uses night-vision to spot hidden paths through the scrap heap.",
     "image": "/assets/images/pixel-cards/pixel-raccoon-maze.svg",
     "detailUrl": "/games/pixel-raccoon-maze/",
     "playUrl": "/play/pixel-raccoon-maze/",
@@ -7992,7 +7992,7 @@
     "plays": 0,
     "status": "Playable",
     "engine": "maze",
-    "merchHook": "Pixel Raccoon explorer plush with night-vision goggles, orb-key keychain, junkyard sticker pack, and maze tee.",
+    "merchHook": "Pixel Raccoon explorer plush with night-vision goggles, orb-key keychain, junkyard-navigate magnet set, and Pixel Playground maze sticker pack.",
     "built": true
   },
   {
@@ -8003,7 +8003,7 @@
     "universeName": "Pixel Playground",
     "genre": "Shooter",
     "mascot": "Pixel Bunny",
-    "description": "Defend the pixel carrot garden from waves of hungry glitch-rodents! Pixel Bunny hops between turret stations, firing seeds and magic carrots at encroaching bugs. Boss waves bring corrupted mega-moles.",
+    "description": "Defend the pixel carrot garden from hungry glitch-rabbits using a carrot cannon. Pixel Bunny Shooter upgrades firepower between waves in this retro shooter.",
     "image": "/assets/images/pixel-cards/pixel-bunny-blast.svg",
     "detailUrl": "/games/pixel-bunny-blast/",
     "playUrl": "/play/pixel-bunny-blast/",
@@ -8013,7 +8013,7 @@
     "plays": 0,
     "status": "Playable",
     "engine": "shooter",
-    "merchHook": "Pixel Bunny shooter plush with carrot cannon, blast-key keychain, garden sticker pack, and blaster tee.",
+    "merchHook": "Pixel Bunny shooter plush with carrot cannon, blast-key keychain, garden-defense magnet set, and Pixel Playground shooter sticker pack.",
     "built": true
   },
   {
@@ -8024,7 +8024,7 @@
     "universeName": "Pixel Playground",
     "genre": "Idle Clicker",
     "mascot": "Pixel Panda",
-    "description": "Build a pixel panda empire from a single bamboo shoot. Click to plant, automate with panda workers, research bamboo tech, and unlock the legendary Golden Grove. Every leaf generates passive luck points.",
+    "description": "Build a pixel panda empire from a single bamboo shoot. Click to plant hire helpers and automate your grove. Pixel Panda Entrepreneur expands across the retro landscape.",
     "image": "/assets/images/pixel-cards/pixel-panda-idle.svg",
     "detailUrl": "/games/pixel-panda-idle/",
     "playUrl": "/play/pixel-panda-idle/",
@@ -8034,7 +8034,7 @@
     "plays": 0,
     "status": "Playable",
     "engine": "idleclicker",
-    "merchHook": "Pixel Panda entrepreneur plush with golden bamboo, leaf-key keychain, empire sticker pack, and idle tee.",
+    "merchHook": "Pixel Panda entrepreneur plush with golden bamboo, leaf-key keychain, empire-build magnet set, and Pixel Playground idle-clicker sticker pack.",
     "built": true
   },
   {
@@ -8045,7 +8045,7 @@
     "universeName": "Pixel Playground",
     "genre": "Pong",
     "mascot": "Pixel Fox",
-    "description": "A retro pixel pong duel under neon stadium lights. Pixel Fox faces off against the AI raccoon in a high-speed rally across a glowing grid. The ball leaves light trails as volleys grow faster. First to 11 wins the digital trophy.",
+    "description": "A retro pixel pong duel under neon stadium lights. Pixel Fox Athlete volleys the energy ball as pixel fans cheer every rally in this arcade classic.",
     "image": "/assets/images/pixel-cards/pixel-fox-pong.svg",
     "detailUrl": "/games/pixel-fox-pong/",
     "playUrl": "/play/pixel-fox-pong/",
@@ -8055,7 +8055,7 @@
     "plays": 0,
     "status": "Playable",
     "engine": "pong",
-    "merchHook": "Pixel Fox athlete plush with ping paddle, rally-key keychain, stadium sticker pack, and pong tee.",
+    "merchHook": "Pixel Fox athlete plush with ping paddle, rally-key keychain, neon-duel magnet set, and Pixel Playground arcade-pong sticker pack.",
     "built": true
   },
   {
@@ -8066,7 +8066,7 @@
     "universeName": "Pixel Playground",
     "genre": "Snake",
     "mascot": "Pixel Bear",
-    "description": "Guide a pixel bear snake through honeycomb grids, collecting glowing data-honey drops. Each drop lengthens the bear train — don't crash into your own tail! Grow long enough to spell the ancient bear runes across the screen.",
+    "description": "Guide a pixel bear snake through honeycomb grids collecting glowing nectar. Pixel Bear Serpent winds through retro tunnels where one wrong pixel means starting over.",
     "image": "/assets/images/pixel-cards/pixel-bear-serpent.svg",
     "detailUrl": "/games/pixel-bear-serpent/",
     "playUrl": "/play/pixel-bear-serpent/",
@@ -8076,7 +8076,7 @@
     "plays": 0,
     "status": "Playable",
     "engine": "snake",
-    "merchHook": "Pixel Bear serpent plush with honey snake, rune-key keychain, grid sticker pack, and serpent tee.",
+    "merchHook": "Pixel Bear serpent plush with honey snake, rune-key keychain, honeycomb-path magnet set, and Pixel Playground snake-game sticker pack.",
     "built": true
   }
 ]

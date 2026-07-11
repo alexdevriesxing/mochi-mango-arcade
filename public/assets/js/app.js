@@ -95,6 +95,7 @@ function footer(){
           <h4>Explore</h4>
           <a href="/">${t('home')}</a>
           <a href="/games/">${t('games')}</a>
+          <a href="/shop/">${t('shop')}</a>
           <a href="/universes/">${t('universes')}</a>
           <a href="/characters/">${t('characters')}</a>
         </div>
