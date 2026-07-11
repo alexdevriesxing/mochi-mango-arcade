@@ -52,5 +52,11 @@
     "color": "#7b5ea7",
     "accent": "#b8a9e8",
     "description": "A kingdom of logic, memory, and wit — where every challenge sharpens the mind and rewards clever thinking."
+  },
+  "candy-galaxy": {
+    "name": "Candy Galaxy",
+    "color": "#ff6b9d",
+    "accent": "#fce4ec",
+    "description": "A sugary universe where every star is a candy and every planet is a dessert waiting to be explored."
   }
 }
