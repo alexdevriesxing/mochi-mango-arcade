@@ -34,5 +34,17 @@
     "color": "#ffbd2e",
     "accent": "#ff4f9a",
     "description": "One-off mascot games built for quick fun and merch."
+  },
+  "retroverse": {
+    "name": "Mochi Mango Retroverse",
+    "color": "#ff3cac",
+    "accent": "#39ffde",
+    "description": "A neon-CRT universe celebrating three decades of arcade and home-game mechanics through new mascots, worlds, and stories."
+  },
+  "tabletop-kingdom": {
+    "name": "Tabletop Kingdom",
+    "color": "#6b4c3b",
+    "accent": "#f0c987",
+    "description": "Wooden boards, carved pieces and classic strategy games reimagined with storybook charm."
   }
 }

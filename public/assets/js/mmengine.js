@@ -21,17 +21,20 @@ const UNIVERSE = {
   ninegates:  { primary: '#19c39c', accent: '#f7c948', belly: '#d8fff4', sky: ['#0a5c4d', '#0fbf9f'], ground: '#0b8f78', dark: true,  scene: 'temple' },
   snackstreet:{ primary: '#ff6b35', accent: '#ffd100', belly: '#ffe4c9', sky: ['#2a1030', '#7a2a52'], ground: '#3a2138', dark: true,  scene: 'city' },
   oracle:     { primary: '#a24dff', accent: '#ff4f9a', belly: '#e9d6ff', sky: ['#140a2e', '#3a1060'], ground: '#241246', dark: true,  scene: 'night' },
+  retroverse:  { primary: '#ff3cac', accent: '#39ffde', belly: '#ffebf5', sky: ['#0a0520', '#2a1050'], ground: '#1a0d3a', dark: true,  scene: 'retro' },
   standalone: { primary: '#ffbd2e', accent: '#ff4f9a', belly: '#fff2cf', sky: ['#fff2d6', '#ffd9e6'], ground: '#7fd6c2', dark: false, scene: 'candy' }
 };
 
 const ITEMS = {
   cozyverse: ['🍓', '🍯', '🌸', '🍄', '🌰'], astromochi: ['⭐', '🪐', '🌟', '☄️', '🛸'],
   ninegates: ['🀄', '🏮', '🪙', '🎋', '🥮'], snackstreet: ['🍜', '🍔', '🍤', '🌮', '🧋'],
-  oracle: ['🔮', '🌙', '🃏', '✨', '🕯️'], standalone: ['🍬', '🍭', '⭐', '🎈', '🧁']
+  oracle: ['🔮', '🌙', '🃏', '✨', '🕯️'], retroverse: ['🕹️', '👾', '💾', '📼', '🖲️'],
+  standalone: ['🍬', '🍭', '⭐', '🎈', '🧁']
 };
 const HAZ = {
   cozyverse: ['🐝', '🌧️', '🪨'], astromochi: ['☄️', '👾', '🌑'], ninegates: ['💣', '🐍', '🌩️'],
-  snackstreet: ['🌶️', '🔥', '💣'], oracle: ['💀', '🕷️', '⚡'], standalone: ['💣', '🌩️', '🪨']
+  snackstreet: ['🌶️', '🔥', '💣'], oracle: ['💀', '🕷️', '⚡'], retroverse: ['💥', '⚡', '📟'],
+  standalone: ['💣', '🌩️', '🪨']
 };
 
 const EXPLICIT_MODES = new Set([
@@ -230,7 +233,7 @@ class Base {
     });
     addEventListener('fullscreenchange', this._fs = () => this._resize());
 
-    this.showStart();
+    this.showPreroll();
   }
 
   _resize() {
@@ -307,6 +310,54 @@ class Base {
       { id: 'guardian', icon: '🛡️', name: 'Guardian start', description: 'Extra life + 18-second shield' },
       { id: 'score-spark', icon: '✨', name: 'Score spark', description: '20 seconds of double score + 250 points' },
     ];
+  }
+
+  
+  showPreroll() {
+    const skipKey = 'mma_preroll_skipped_' + this.game.slug;
+    if (sessionStorage.getItem(skipKey)) {
+      this.showStart();
+      return;
+    }
+    this.overlay.innerHTML = '<div class="mma-panel mma-preroll-panel">'
+      + '<div class="mma-preroll-icon">📺</div>'
+      + '<h2>Sponsored moment</h2>'
+      + '<p>This game is brought to you by our sponsors.<br>Continue to the start menu in a moment, or visit our sponsor to skip.</p>'
+      + '<div class="mma-preroll-timer"><span class="mma-preroll-seconds">5</span></div>'
+      + '<div class="mma-preroll-actions">'
+      + '<button class="mma-btn mma-reward-btn">🎁 Visit sponsor & unlock</button>'
+      + '<button class="mma-btn mma-btn-secondary mma-skip-btn">Skip</button>'
+      + '</div></div>';
+    this.overlay.classList.add('show');
+    let countdown = 5;
+    const timerEl = this.overlay.querySelector('.mma-preroll-seconds');
+    const skipBtn = this.overlay.querySelector('.mma-skip-btn');
+    const rewardBtn = this.overlay.querySelector('.mma-reward-btn');
+    const finish = () => {
+      clearInterval(this._prerollInterval);
+      sessionStorage.setItem(skipKey, '1');
+      this.overlay.innerHTML = '';
+      this.showStart();
+    };
+    this._prerollInterval = setInterval(() => {
+      countdown--;
+      if (timerEl) timerEl.textContent = String(Math.max(1, countdown));
+      if (countdown <= 0) {
+        clearInterval(this._prerollInterval);
+        this._prerollInterval = null;
+        finish();
+      }
+    }, 1000);
+    if (skipBtn) skipBtn.onclick = () => { if (this._prerollInterval) { clearInterval(this._prerollInterval); this._prerollInterval = null; } finish(); };
+    if (rewardBtn) rewardBtn.onclick = () => {
+      if (!window.MochiMangoRewards?.request) { if (this._prerollInterval) { clearInterval(this._prerollInterval); this._prerollInterval = null; } finish(); return; }
+      window.MochiMangoRewards.request({
+        slug: this.game.slug,
+        source: 'preroll',
+        onRewardGranted: () => { if (this._prerollInterval) { clearInterval(this._prerollInterval); this._prerollInterval = null; } finish(); },
+        onRewardFailed: () => { /* stay on countdown */ },
+      });
+    };
   }
 
   showStart() {

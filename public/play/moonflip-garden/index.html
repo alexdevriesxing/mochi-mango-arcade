@@ -1,0 +1,12 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no"><title>Moonflip Garden - Play Tabletop Kingdom</title><meta name="description" content="Luna Flipper: Place a sun disk to bracket moon disks in any direction and flip them. A player with no legal move passes; the fuller garden wins."><link rel="icon" type="image/svg+xml" href="/favicon.svg"><link rel="dns-prefetch" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="/assets/css/styles.css"><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fredoka:wght@300..700&family=Outfit:wght@300;400;500;600;700;800;900&display=swap"><style>
+#mm-game{width:100%;max-width:540px;margin:0 auto;display:block;aspect-ratio:3/4;background:#231815;border-radius:16px;overflow:hidden;box-shadow:0 8px 32px rgba(0,0,0,.3)}.play-wrapper{min-height:100vh;background:linear-gradient(135deg,#6b4c3b 0%,#4a3328 100%);padding:24px 16px;display:flex;flex-direction:column;align-items:center}
+</style></head><body class="play-wrapper"><h1 style="color:#f0c987;font-size:22px;margin:0 0 4px;text-align:center">Moonflip Garden</h1><p style="color:#c4a87c;font-size:13px;margin:0 0 16px;text-align:center">Luna Flipper · Strategy</p><div id="mm-game"></div>
+<script type="module">
+import { startGame } from '/assets/js/mmengine.js';
+import { themeFor, modeFor } from '/assets/js/mmengine.js';
+const game = {"id":7049,"title":"Moonflip Garden","slug":"moonflip-garden","universe":"tabletop-kingdom","genre":"Strategy","engine":"board","boardVariant":"reversi","mascot":"Luna Flipper","description":"Place a sun disk to bracket moon disks in any direction and flip them. A player with no legal move passes; the fuller garden wins."};
+const mount = document.getElementById('mm-game');
+startGame(mount, game);
+</script>
+<p style="color:#c4a87c;font-size:12px;margin:16px 0 0;text-align:center">← <a href="/games/moonflip-garden/" style="color:#f0c987">Game details</a> · <a href="/" style="color:#f0c987">Home</a></p>
+<script src="/assets/js/monetag-loader.js" defer></script></body></html>
