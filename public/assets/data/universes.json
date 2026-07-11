@@ -64,5 +64,11 @@
     "color": "#ff9800",
     "accent": "#fff3e0",
     "description": "A tropical paradise of sun, sand, and fruity fun — where every wave brings a new game and every palm hides a challenge."
+  },
+  "mochi-world": {
+    "name": "Mochi World",
+    "color": "#e8a0c0",
+    "accent": "#fff0f5",
+    "description": "A squishy, sweet universe where everything is made of mochi — from the clouds to the mountains to the friends you make along the way."
   }
 }
