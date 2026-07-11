@@ -1036,6 +1036,54 @@ function gameDetail(sl){
   </main>`;
 }
 
+const EXPLICIT_GAME_MODES = new Set([
+  'sports', 'racing', 'breakout', 'snake', 'rhythm', 'tower', 'pinball',
+  'fishing', 'archery', 'pong', 'bubbleshooter', 'cannon', 'merge', 'helix',
+  'doodlejump', 'asteroids', 'pipeline', 'gallery', 'idleclicker', 'flappy',
+  'platformer', 'shooter', 'whack', 'match3', 'serve', 'maze', 'memory',
+  'stacker', 'dodger', 'runner', 'board',
+]);
+
+function engineMode(g) {
+  const s = (g.genre + ' ' + g.engine + ' ' + (g.title || '') + ' ' + (g.slug || '')).toLowerCase();
+  if (EXPLICIT_GAME_MODES.has(g.engine)) return g.engine;
+  if (/(soccer|football|kick|penalty|goal|sport|basketball|hoop|shoot-out|stadium|league|club|team)/.test(s)) return 'sports';
+  if (/(racing|racer|driv|kart|speed|grand.prix|circuit|track|\bdrag\b|drift|moto|\bcar\b|vehicle|wheels|race|derby)/.test(s)) return 'racing';
+  if (/(breakout|brick|smash|block.blast|blocky|bouncer|paddle|wall.break|brick.break)/.test(s)) return 'breakout';
+  if (/(snake|slither|serpent|worm|noodle|crawler|coil|conda)/.test(s)) return 'snake';
+  if (/(rhythm|beat|dance|music|tempo|groove|jam|jukebox|drumline|drum|bongo|concert|melody|tune|harmony|band)/.test(s)) return 'rhythm';
+  if (/(tower|defense|defence|guard|fortress|castle.defense|wave|siege|bastion|warden)/.test(s)) return 'tower';
+  if (/(pinball|flipper|bumper|arcade.ball|plunger|tilt)/.test(s)) return 'pinball';
+  if (/(fish|fishing|angle|angler|cast|reel|hook|pond|lake|tide|aquarium|ocean|whale|submarine|deep)/.test(s)) return 'fishing';
+  if (/(pong|tennis|paddle|racket|ping.pong|table.tennis)/.test(s)) return 'pong';
+  if (/(bubble|pop|shoot.bubble|burst|color.match|balloon)/.test(s)) return 'bubbleshooter';
+  if (/(cannon|artillery|launch|projectile|catapult|mortar|howitzer)/.test(s)) return 'cannon';
+  if (/(merge|2048|combine|grow|evolve|synthesize|fuse|combine.tile)/.test(s)) return 'merge';
+  if (/(helix|spiral|spin|fall|descent|tunnel|vortex|whirl|rotating)/.test(s)) return 'helix';
+  if (/(doodle|doodle.jump|bounce.up|spring|jump.climb|vertical.climb|ascend|flap.up)/.test(s)) return 'doodlejump';
+  if (/(asteroid|space.shoot|meteor|alien.invader|space.battle|cosmic|shooter.space)/.test(s)) return 'asteroids';
+  if (/(pipe|pipeline|connect|plumb|flow|route|tube|pipe.puzzle|water.pipe)/.test(s)) return 'pipeline';
+  if (/(gallery|shooting.gallery|shoot.gallery|target.range|aim.bonus|sharpshooter|fair.shoot)/.test(s)) return 'gallery';
+  if (/(idle|clicker|tap|farm|mine|earn|incremental|collect|grind|tapper|auto.click)/.test(s)) return 'idleclicker';
+  if (/(archery|arrow|bow|target|aim|bullseye|dart|crossbow|sharpshoot|hunter|snipe)/.test(s)) return 'archery';
+  if (/(parcel|kite|airlift|balloon|glide|flight|flying|aerial|paraglide|sky-diner|sky diner)/.test(s)) return 'flappy';
+  if (/(maze|labyrinth|heist)/.test(s)) return 'maze';
+  if (/(memory|mirror|hidden|detective|solitaire|concentration|mooncat|tarot|matching)/.test(s)) return 'memory';
+  if (/(\bstack\b|\bfort\b|blanket|pillow|sleepover|snowflake|honey-rescue)/.test(s)) return 'stacker';
+  if (/(defen|patrol|survival|boss|arena|shooter|bullet|battler|tactic)/.test(s)) return 'shooter';
+  if (/(whack|reaction|coordination|emergency|reflex|cleanup)/.test(s)) return 'whack';
+  if (/(match|tile|mahjong|sort|flow|logic|gravity|deduction|slide)/.test(s)) return 'match3';
+  if (/(manage|cook|serv|shop|hotel|tavern|farm|sim|cafe|kitchen|bakery|time management|market|salon|dress|diner|restaurant)/.test(s)) return 'serve';
+  if (/(platform|jump|hop|bounce|climb|parkour|wall)/.test(s)) return 'platformer';
+  if (/(runner|lane|dash|sprint|drift|run)/.test(s)) return 'runner';
+  if (g.engine === 'runner') return 'runner';
+  if (g.engine === 'puzzle') return 'match3';
+  if (g.engine === 'management') return 'serve';
+  return 'dodger';
+}
+
+const IFRAME_GAMES = [];
+
 function rewardBenefit(g) {
   if (g.slug === 'puddle-pip-meadow-dash') return 'Revive with a guardian shield and keep your score';
   if (g.slug === 'puddles-pancake-panic') return '+20 seconds, full power charge and Golden Rush';
@@ -1201,13 +1249,6 @@ function playPage(sl){
   </main>`;
 }
 
-const EXPLICIT_GAME_MODES = new Set([
-  'sports', 'racing', 'breakout', 'snake', 'rhythm', 'tower', 'pinball',
-  'fishing', 'archery', 'pong', 'bubbleshooter', 'cannon', 'merge', 'helix',
-  'doodlejump', 'asteroids', 'pipeline', 'gallery', 'idleclicker', 'flappy',
-  'platformer', 'shooter', 'whack', 'match3', 'serve', 'maze', 'memory',
-  'stacker', 'dodger', 'runner', 'board',
-]);
 let activeGame=null,queuedReward=null,arcadeEventsBound=false;
 const profileRunStartedAt=new Map(),submittedRewardIds=new Set();
 
