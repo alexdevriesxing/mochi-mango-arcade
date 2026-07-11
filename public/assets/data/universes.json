@@ -76,5 +76,11 @@
     "color": "#5a8a5a",
     "accent": "#e8f5e9",
     "description": "A lush bamboo realm where gentle pandas guard ancient forests, solve nature puzzles, and embark on leaf-strewn adventures."
+  },
+  "pixel-playground": {
+    "name": "Pixel Playground",
+    "color": "#e94560",
+    "accent": "#e94560",
+    "description": "A neon-drenched digital dimension where pixel creatures code, compete, and crash through glitchy arcade worlds."
   }
 }

@@ -2603,6 +2603,7 @@ img[src*=".png"] {
 .play-shell[data-universe="mango-island"] { --stage-accent: #fff3e0; }
 .play-shell[data-universe="mochi-world"] { --stage-accent: #fff0f5; }
 .play-shell[data-universe="panda-kingdom"] { --stage-accent: #e8f5e9; }
+.play-shell[data-universe="pixel-playground"] { --stage-accent: #e94560; }
 .play-shell::after {
   content: "";
   position: absolute;
