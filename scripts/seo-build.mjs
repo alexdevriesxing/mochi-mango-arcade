@@ -291,6 +291,31 @@ const GAMEPLAY = {
     controls: 'Tap and drag to aim your bow. Pull back further for more power. Release to fire at the target.',
     tips: 'Account for wind and distance. A steady hand and consistent pull angle are the keys to accuracy.',
     features: ['Precision archery mechanics', 'Wind and distance physics', 'Multiple rounds', 'Score tracking']
+  },
+  'gallery': {
+    controls: 'Tap or click on targets as they appear on screen. Quick reflexes and precision aim earn bonus points. Watch for rare golden targets worth extra score.',
+    tips: 'Focus on moving targets first — they disappear faster. Chain consecutive hits for a combo multiplier. Golden targets are worth 3x points.',
+    features: ['Rapid target popping', 'Combo multiplier chain', 'Moving and static targets', 'Golden bonus targets']
+  },
+  'asteroids': {
+    controls: 'Rotate your ship with left/right, thrust forward with up, and fire with space or tap. Destroy floating asteroids before they hit you — they split into smaller pieces when shot.',
+    tips: 'Smaller asteroids move faster but are worth more points. Keep moving — a stationary ship is an easy target. Aim for openings between asteroid clusters.',
+    features: ['Vector space physics', 'Asteroid fragmentation', 'Screen-wrapping playfield', 'Increasing difficulty waves']
+  },
+  'pipeline': {
+    controls: 'Tap pipe segments to rotate them. Connect the water source to the endpoint by forming an unbroken path before time runs out.',
+    tips: 'Work from the source outward — trace the path before making moves. Dead-end segments can be rotated back into useful positions.',
+    features: ['Tile-rotation puzzle', 'Progressive time pressure', 'Multiple difficulty tiers', 'Endless procedural levels']
+  },
+  'rhythm': {
+    controls: 'Tap or press the key when the moving indicator aligns with the target zone. Perfect timing earns the highest score. Chain beats for multiplier combos.',
+    tips: 'Watch the beat pattern — it repeats every few bars. Focus on the center of the target zone, not the edge. A steady rhythm beats frantic tapping.',
+    features: ['Beat-matched timing', 'Combo multiplier chain', 'Multiple difficulty levels', 'Original chiptune soundtrack']
+  },
+  'dodger': {
+    controls: 'Move left or right with arrows, drag, or swipe. Collect falling goodies while avoiding hazardous objects. Each catch adds score — each hit costs a life.',
+    tips: 'Watch the edges — hazards often come in clusters from one side. Prioritize power-ups over score items. Memorize spawn patterns to predict danger.',
+    features: ['Falling-object avoidance', 'Power-up collection', 'Progressive speed increase', 'Score combo system']
   }
 };
 
