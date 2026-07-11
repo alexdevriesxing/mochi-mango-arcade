@@ -11,6 +11,7 @@
  *   • eight modes for genre variety.
  */
 import { sprites, drawVectorChar, speciesOf, shade, tint } from './mmchar.js';
+import { createBoardArena } from './boardgames.js';
 
 /* ============================================================ Theme */
 
@@ -33,6 +34,14 @@ const HAZ = {
   snackstreet: ['🌶️', '🔥', '💣'], oracle: ['💀', '🕷️', '⚡'], standalone: ['💣', '🌩️', '🪨']
 };
 
+const EXPLICIT_MODES = new Set([
+  'sports', 'racing', 'breakout', 'snake', 'rhythm', 'tower', 'pinball',
+  'fishing', 'archery', 'pong', 'bubbleshooter', 'cannon', 'merge', 'helix',
+  'doodlejump', 'asteroids', 'pipeline', 'gallery', 'idleclicker', 'flappy',
+  'platformer', 'shooter', 'whack', 'match3', 'serve', 'maze', 'memory',
+  'stacker', 'dodger', 'board',
+]);
+
 function themeFor(g) {
   const u = UNIVERSE[g.universe] || UNIVERSE.standalone;
   return { ...u, items: ITEMS[g.universe] || ITEMS.standalone, hazards: HAZ[g.universe] || HAZ.standalone,
@@ -43,8 +52,9 @@ function themeFor(g) {
 function modeFor(g) {
   // read title + slug too, so genre-generic games still play their real genre
   const s = (g.genre + ' ' + g.engine + ' ' + (g.title || '') + ' ' + (g.slug || '')).toLowerCase();
+  if (EXPLICIT_MODES.has(g.engine)) return g.engine;
   if (/(soccer|football|kick|penalty|goal|sport|basketball|hoop|penalty|score|shoot-out|stadium|league|club|team)/.test(s)) return 'sports';
-  if (/(racing|racer|driv|kart|speed|grand.prix|circuit|track|drag|drift|moto|car|vehicle|wheels|race|derby)/.test(s)) return 'racing';
+  if (/(racing|racer|driv|kart|speed|grand.prix|circuit|track|\bdrag\b|drift|moto|\bcar\b|vehicle|wheels|race|derby)/.test(s)) return 'racing';
   if (/(breakout|brick|smash|block.blast|blocky|bouncer|paddle|wall.break|brick.break)/.test(s)) return 'breakout';
   if (/(snake|slither|serpent|worm|noodle|crawler|coil|conda)/.test(s)) return 'snake';
   if (/(rhythm|beat|dance|music|tempo|groove|jam|jukebox|drumline|drum|bongo|concert|melody|tune|harmony|band)/.test(s)) return 'rhythm';
@@ -61,7 +71,7 @@ function modeFor(g) {
   if (/(pipe|pipeline|connect|plumb|flow|route|tube|pipe.puzzle|water.pipe)/.test(s)) return 'pipeline';
   if (/(gallery|shooting.gallery|shoot.gallery|target.range|aim.bonus|sharpshooter|fair.shoot)/.test(s)) return 'gallery';
   if (/(idle|clicker|tap|farm|mine|earn|incremental|collect|grind|tapper|auto.click)/.test(s)) return 'idleclicker';
-    if (/(archery|arrow|bow|target|aim|bullseye|dart|crossbow|sharpshoot|hunter|snipe)/.test(s)) return 'archery';
+  if (/(archery|arrow|bow|target|aim|bullseye|dart|crossbow|sharpshoot|hunter|snipe)/.test(s)) return 'archery';
   if (/(parcel|kite|airlift|balloon|glide|flight|flying|aerial|paraglide|sky-diner|sky diner)/.test(s)) return 'flappy';
   if (/(maze|labyrinth|heist)/.test(s)) return 'maze';
   if (/(memory|mirror|hidden|detective|solitaire|concentration|mooncat|tarot|matching)/.test(s)) return 'memory';
@@ -71,7 +81,7 @@ function modeFor(g) {
   if (/(match|tile|mahjong|sort|flow|logic|gravity|deduction|slide)/.test(s)) return 'match3';
   if (/(manage|cook|serv|shop|hotel|tavern|farm|sim|cafe|kitchen|bakery|time management|market|salon|dress|diner|restaurant)/.test(s)) return 'serve';
   if (/(platform|jump|hop|bounce|climb|parkour|wall)/.test(s)) return 'platformer';
-  if (/(runner|lane|dash|sprint|rhythm|drift|run)/.test(s)) return 'runner';
+  if (/(runner|lane|dash|sprint|drift|run)/.test(s)) return 'runner';
   if (g.engine === 'runner') return 'runner';
   if (g.engine === 'puzzle') return 'match3';
   if (g.engine === 'management') return 'serve';
@@ -125,16 +135,56 @@ class Base {
     this.time = 0; this.last = 0; this.shake = 0;
     this.combo = 0; this.comboT = 0; this.mult = 1;
     this.powers = {};                       // type -> remaining seconds
-    this.scroll = 0;
+    this.scroll = 0; this._timers = [];
+    this.rewardUsed = false; this.rewardPending = false;
+    this._resumeAfterReward = false; this._armedBoost = null; this._selectedBoostId = 'mode-special';
+    this.challenge = ['cozy', 'arcade', 'legend'].includes(localStorage.getItem(`mma_challenge_${game.slug}`))
+      ? localStorage.getItem(`mma_challenge_${game.slug}`) : 'arcade';
     this._build();
+    this._rewardPendingHandler = (event) => {
+      if (!this._matchesReward(event.detail)) return;
+      this.rewardPending = true;
+      this._resumeAfterReward = this.running;
+      this.running = false;
+      this._updateRewardMenu('pending', 'Sponsor opened. Return after the short visit to arm your boost.');
+    };
+    this._rewardGrantedHandler = (event) => {
+      if (!this._matchesReward(event.detail)) return;
+      this.armReward(event.detail);
+    };
+    this._rewardBlockedHandler = (event) => {
+      if (!this._matchesReward(event.detail)) return;
+      this.rewardPending = false;
+      this.running = this._resumeAfterReward && !this.over;
+      this.last = performance.now();
+      const reason = event.detail?.reason;
+      this._updateRewardMenu('blocked', reason === 'popup-blocked'
+        ? 'Pop-up blocked. Allow sponsor pop-ups, or play normally.'
+        : 'Boost was not unlocked. You can retry or play normally.');
+    };
+    this._rewardProgressHandler = (event) => {
+      if (!this._matchesReward(event.detail)) return;
+      const seconds = Math.max(1, Math.ceil((event.detail?.remainingMs || 0) / 1000));
+      this._updateRewardMenu('pending', `Almost there — keep the sponsor page open about ${seconds}s longer, then return.`);
+    };
+    addEventListener('mma:reward-pending', this._rewardPendingHandler);
+    addEventListener('mma:reward-granted', this._rewardGrantedHandler);
+    addEventListener('mma:reward-blocked', this._rewardBlockedHandler);
+    addEventListener('mma:reward-progress', this._rewardProgressHandler);
+    const restoredBoost = window.MochiMangoRewards?.peekReady?.(this.game.slug);
+    if (restoredBoost) this.armReward(restoredBoost, true);
   }
 
   _build() {
     this.mount.innerHTML = ''; this.mount.classList.add('mma-stage');
     this.canvas = document.createElement('canvas'); this.canvas.className = 'mma-canvas';
+    this.canvas.tabIndex = 0;
+    this.canvas.setAttribute('role', 'application');
+    this.canvas.setAttribute('aria-label', `${this.game.title}. ${this.instructions()} Press F for fullscreen.`);
     this.ctx = this.canvas.getContext('2d'); this.mount.appendChild(this.canvas);
 
     this.hud = document.createElement('div'); this.hud.className = 'mma-hud';
+    this.hud.setAttribute('role', 'status'); this.hud.setAttribute('aria-label', 'Game status');
     this.hud.innerHTML = `<div class="mma-hud-left"><div class="mma-score">0</div><div class="mma-combo"></div></div>
       <div class="mma-hud-right"><div class="mma-powers"></div><div class="mma-lives"></div>
       <button class="mma-mute" aria-label="Mute">${this.sound.muted ? '🔇' : '🔊'}</button></div>`;
@@ -154,64 +204,206 @@ class Base {
     addEventListener('keydown', this._kd = (e) => {
       const k = e.key.toLowerCase(); this.keys[k] = true;
       if ([' ', 'arrowup', 'arrowdown', 'arrowleft', 'arrowright'].includes(k)) e.preventDefault();
-      if ((!this.started || this.over) && (k === ' ' || k === 'enter')) this.start();
+      if (k === 'f' && !e.ctrlKey && !e.metaKey && !e.altKey && !/input|textarea|select/i.test(document.activeElement?.tagName || '')) {
+        e.preventDefault();
+        if (document.fullscreenElement) document.exitFullscreen?.();
+        else this.mount.requestFullscreen?.();
+      }
+      if ((!this.started || this.over) && (k === ' ' || k === 'enter')) this.start(Boolean(this._armedBoost));
     });
     addEventListener('keyup', this._ku = (e) => { this.keys[e.key.toLowerCase()] = false; });
 
     const rect = () => this.canvas.getBoundingClientRect();
     this.canvas.addEventListener('pointerdown', (e) => {
       const r = rect(); this.pointer.x = e.clientX - r.left; this.pointer.y = e.clientY - r.top;
-      this.pointer.down = true; this.pointer.tapped = true; this.sound.ensure();
-      if (!this.started || this.over) this.start();
+      this.pointer.down = true; this.pointer.tapped = true; this.sound.ensure(); this.canvas.focus({ preventScroll: true });
+      if (!this.started || this.over) this.start(Boolean(this._armedBoost));
+      if (this.running && this._pointerDown) this._pointerDown(this.pointer.x, this.pointer.y, e);
     });
-    this.canvas.addEventListener('pointermove', (e) => { const r = rect(); this.pointer.x = e.clientX - r.left; this.pointer.y = e.clientY - r.top; });
-    addEventListener('pointerup', this._pu = () => { this.pointer.down = false; });
+    this.canvas.addEventListener('pointermove', (e) => {
+      const r = rect(); this.pointer.x = e.clientX - r.left; this.pointer.y = e.clientY - r.top;
+      if (this._pointerMove) this._pointerMove(this.pointer.x, this.pointer.y, e);
+    });
+    addEventListener('pointerup', this._pu = (e) => {
+      if (this.pointer.down && this._pointerUp) this._pointerUp(this.pointer.x, this.pointer.y, e);
+      this.pointer.down = false;
+    });
+    addEventListener('fullscreenchange', this._fs = () => this._resize());
 
     this.showStart();
   }
 
   _resize() {
+    const previousW = this.W, previousH = this.H;
     const w = this.mount.clientWidth || 360, h = this.mount.clientHeight || Math.round(w * 1.2);
     this.W = w; this.H = h;
     this.canvas.width = Math.round(w * this.dpr); this.canvas.height = Math.round(h * this.dpr);
     this.canvas.style.width = w + 'px'; this.canvas.style.height = h + 'px';
     this.ctx.setTransform(this.dpr, 0, 0, this.dpr, 0, 0);
-    if (this.onResize) this.onResize();
+    if (this.started && !this.over && previousW && previousH) this._preserveRunOnResize(previousW, previousH);
+    else if (this.onResize) this.onResize(previousW, previousH);
+  }
+
+  _preserveRunOnResize(previousW, previousH) {
+    const sx = this.W / previousW, sy = this.H / previousH, ss = Math.min(sx, sy);
+    if (!Number.isFinite(sx) || !Number.isFinite(sy) || (Math.abs(sx - 1) < 0.001 && Math.abs(sy - 1) < 0.001)) return;
+
+    if (modeFor(this.game) === 'snake') {
+      this.cell = Math.max(16, Math.min(this.W, this.H) / 18);
+      this.cols = Math.max(8, Math.floor(this.W / this.cell));
+      this.rows = Math.max(8, Math.floor(this.H / this.cell));
+      const clampCell = (cell) => {
+        if (!cell) return;
+        cell.x = Math.max(0, Math.min(this.cols - 1, Math.round(cell.x)));
+        cell.y = Math.max(0, Math.min(this.rows - 1, Math.round(cell.y)));
+      };
+      (this.snake || []).forEach(clampCell); clampCell(this.food); clampCell(this.powerFood); (this.gates || []).forEach(clampCell);
+      return;
+    }
+
+    const visited = new WeakSet();
+    const scaleState = (value, depth = 0) => {
+      if (!value || typeof value !== 'object' || visited.has(value) || depth > 3) return;
+      visited.add(value);
+      if (Number.isFinite(value.x)) value.x *= sx;
+      if (Number.isFinite(value.y)) value.y *= sy;
+      if (Number.isFinite(value.px)) value.px *= sx;
+      if (Number.isFinite(value.py)) value.py *= sy;
+      if (Number.isFinite(value.vx)) value.vx *= sx;
+      if (Number.isFinite(value.vy)) value.vy *= sy;
+      if (Number.isFinite(value.w)) value.w *= sx;
+      if (Number.isFinite(value.h)) value.h *= sy;
+      if (Number.isFinite(value.r)) value.r *= ss;
+      if (Number.isFinite(value.s)) value.s *= ss;
+      if (Number.isFinite(value.size)) value.size *= ss;
+      if (Number.isFinite(value.maxR)) value.maxR *= ss;
+      if (Number.isFinite(value.range)) value.range *= ss;
+      if (Number.isFinite(value.speed)) value.speed *= ss;
+      for (const child of Object.values(value)) if (child && typeof child === 'object') scaleState(child, depth + 1);
+    };
+    [
+      this.p, this.pl, this.player, this.ship, this.ball, this.hook, this.arrow, this.target, this.goalie,
+      this.paddle, this.ai, this.spinner, this.obs, this.foes, this.enemies, this.targets, this.coins,
+      this.pu, this.pellets, this.towers, this.bubbles, this.pipes, this.fish, this.notes, this.bricks,
+      this.balls, this.platforms, this.cards, this.orders, this.queue, this.path, this.bumpers, this.falling,
+      this.bullets, this.ballTrail, this.sparks, this.ripples, this.arrowsHit, this.hitRings, this.particles,
+      this.floats, this.rings, this.weather,
+    ].forEach((value) => scaleState(value));
+
+    for (const key of ['cx', 'goalL', 'goalR', 'goalW', 'trackW', 'flipLx', 'flipRx', 'flipLen', 'pw', 'ox']) {
+      if (Number.isFinite(this[key])) this[key] *= sx;
+    }
+    for (const key of ['cy', 'goalY', 'waterLine', 'flipY', 'gy', 'groundY', 'oy']) {
+      if (Number.isFinite(this[key])) this[key] *= sy;
+    }
+    if (Number.isFinite(this.trackR)) this.trackR *= ss;
+    if (Number.isFinite(this.maxSpeed)) this.maxSpeed *= ss;
+    if (typeof this.onPreservedResize === 'function') this.onPreservedResize(previousW, previousH);
+  }
+
+  boostOptions() {
+    return [
+      { id: 'mode-special', icon: '⚡', name: 'Signature boost', description: this.rewardLabel() },
+      { id: 'guardian', icon: '🛡️', name: 'Guardian start', description: 'Extra life + 18-second shield' },
+      { id: 'score-spark', icon: '✨', name: 'Score spark', description: '20 seconds of double score + 250 points' },
+    ];
   }
 
   showStart() {
-    const card = this.game.image ? this.game.image.replace('.svg', '.jpg') : '';
-    this.overlay.innerHTML = `<div class="mma-panel">
-      ${card ? `<img class="mma-keyart" src="${card}" alt="${this.game.title}" onerror="this.remove()">` : ''}
+    const card = this.game.image || '';
+    const boosts = this.boostOptions();
+    const armed = this._armedBoost;
+    const activeBoost = armed?.boosterId || this._selectedBoostId;
+    this.overlay.innerHTML = `<div class="mma-panel mma-start-panel">
+      ${card ? `<img class="mma-keyart" src="${card}" alt="${this.game.title} key art" decoding="async" onerror="this.remove()">` : ''}
       <h2>${this.game.title}</h2>
-      <p>${this.instructions()}</p>
-      <button class="mma-btn">▶ Play</button>
-      <div class="mma-best">Best: ${this.best}</div></div>`;
+      <p class="mma-instructions">${this.instructions()}</p>
+      <div class="mma-difficulty" aria-label="Challenge level">
+        <span>Challenge</span>
+        ${[
+          ['cozy', 'Cozy'], ['arcade', 'Arcade'], ['legend', 'Legend'],
+        ].map(([id, label]) => `<button type="button" data-challenge="${id}" aria-pressed="${this.challenge === id}" class="${this.challenge === id ? 'is-selected' : ''}">${label}</button>`).join('')}
+      </div>
+      <div class="mma-boost-picker" aria-label="Choose an optional start boost">
+        <div class="mma-boost-heading"><span>Optional sponsor boost</span><small>One visit • one next run</small></div>
+        <div class="mma-boost-options">
+          ${boosts.map((boost) => `<button type="button" class="mma-boost-choice ${activeBoost === boost.id ? 'is-selected' : ''}" data-boost="${boost.id}" aria-pressed="${activeBoost === boost.id}">
+            <span class="mma-boost-icon">${boost.icon}</span><span><b>${boost.name}</b><small>${boost.description}</small></span>
+          </button>`).join('')}
+        </div>
+        <div class="mma-reward-status" data-reward-status aria-live="polite">${armed ? `Boost ready: ${boosts.find((item) => item.id === activeBoost)?.name || 'Signature boost'}.` : 'Choose a boost, visit the sponsor, then return and start when you are ready.'}</div>
+        ${armed
+          ? '<button class="mma-btn mma-boost-start" type="button">⚡ Start boosted</button>'
+          : '<button class="mma-btn mma-reward-btn" type="button">Unlock selected boost</button>'}
+      </div>
+      <button class="mma-btn mma-btn-secondary mma-play-normal" type="button">▶ Play normally</button>
+      <div class="mma-best">Best: ${this.best} · Press F for fullscreen</div>
+    </div>`;
     this.overlay.classList.add('show');
-    this.overlay.querySelector('.mma-btn').onclick = () => this.start();
+
+    this.overlay.querySelectorAll('[data-challenge]').forEach((button) => button.addEventListener('click', () => {
+      this.challenge = button.dataset.challenge;
+      localStorage.setItem(`mma_challenge_${this.game.slug}`, this.challenge);
+      this.showStart();
+    }));
+    this.overlay.querySelectorAll('[data-boost]').forEach((button) => button.addEventListener('click', () => {
+      if (this.rewardPending || this._armedBoost) return;
+      this._selectedBoostId = button.dataset.boost;
+      this.showStart();
+    }));
+    this.overlay.querySelector('.mma-play-normal').onclick = () => this.start(false);
+    const boostStart = this.overlay.querySelector('.mma-boost-start');
+    if (boostStart) boostStart.onclick = () => this.start(true);
+    const rewardButton = this.overlay.querySelector('.mma-reward-btn');
+    if (rewardButton) rewardButton.onclick = () => this.requestReward(rewardButton, 'start-menu', this._selectedBoostId);
   }
 
   showOver() {
+    if (this.over) return;
     this.over = true; this.running = false; this.sound.over();
+    const outcome = this.outcome || this.raceResult || (this.completed || this.won ? 'win' : 'loss');
     const nb = this.score > this.best; if (nb) { this.best = Math.floor(this.score); localStorage[this.bestKey] = this.best; }
     if (window.MochiMangoSDK && window.MochiMangoSDK.reportScore) try { window.MochiMangoSDK.reportScore(this.game.slug, Math.floor(this.score)); } catch (e) {}
+    window.dispatchEvent(new CustomEvent('mma:game-over', { detail: {
+      slug: this.game.slug, score: Math.floor(this.score), combo: this.combo, outcome,
+      challenge: this.challenge, level: this.level, wave: this.wave,
+    } }));
+    const armed = this._armedBoost;
     this.overlay.innerHTML = `<div class="mma-panel">
       <div class="mma-medal">${nb ? '🏆' : '⭐'}</div>
-      <h2>${nb ? 'New Best!' : 'Game Over'}</h2>
+      <h2>${nb ? 'New Best!' : outcome === 'win' ? 'Victory!' : 'Run Complete'}</h2>
       <p class="mma-final">Score <b>${Math.floor(this.score)}</b></p>
       <div class="mma-best">Best: ${this.best}</div>
-      <button class="mma-btn">↻ Play Again</button></div>`;
+      <div class="mma-over-actions">
+        ${armed ? '<button class="mma-btn mma-boost-start">⚡ Start boosted</button>' : this.rewardUsed ? '' : '<button class="mma-btn mma-reward-btn">🎁 Unlock a boosted restart</button>'}
+        <button class="mma-btn mma-btn-secondary">↻ Play again normally</button>
+      </div></div>`;
     this.overlay.classList.add('show');
-    this.overlay.querySelector('.mma-btn').onclick = () => this.start();
+    this.overlay.querySelector('.mma-btn-secondary').onclick = () => this.start(false);
+    const boostStart = this.overlay.querySelector('.mma-boost-start');
+    if (boostStart) boostStart.onclick = () => this.start(true);
+    const rewardButton = this.overlay.querySelector('.mma-reward-btn');
+    if (rewardButton) rewardButton.onclick = () => this.requestReward(rewardButton, 'game-over', this._selectedBoostId);
   }
 
-  start() {
+  start(useArmedBoost = Boolean(this._armedBoost)) {
+    const armedBoost = useArmedBoost
+      ? (this._armedBoost || window.MochiMangoRewards?.peekReady?.(this.game.slug) || null)
+      : null;
     this.overlay.classList.remove('show'); this.overlay.innerHTML = '';
-    this.score = 0; this.lives = 3; this.over = false; this.started = true; this.running = true;
-    this.particles = []; this.floats = []; this.rings = []; this.time = 0; this.shake = 0;
+    this.score = 0; this.lives = 3; this.over = false; this.outcome = ''; this.started = true; this.running = true;
+    this.particles = []; this.floats = []; this.rings = []; this._timers = []; this.time = 0; this.shake = 0;
     this.combo = 0; this.comboT = 0; this.mult = 1; this.powers = {}; this.scroll = 0;
+    this.rewardUsed = false; this.rewardPending = false; this._resumeAfterReward = false;
     this.setScore(0); this.drawLives(); this.drawPowers(); this.comboEl.textContent = '';
     if (this.reset) this.reset();
+    window.dispatchEvent(new CustomEvent('mma:run-started', { detail: {
+      slug: this.game.slug, challenge: this.challenge, boosted: Boolean(armedBoost),
+    } }));
+    if (armedBoost) {
+      this._armedBoost = null;
+      this.applyReward(armedBoost);
+    }
     this.last = performance.now();
     if (!this._raf) this.loop(this.last);
   }
@@ -227,6 +419,10 @@ class Base {
   }
 
   stepMeta(dt) {
+    for (const timer of this._timers) timer.remaining -= dt;
+    const dueTimers = this._timers.filter((timer) => timer.remaining <= 0);
+    this._timers = this._timers.filter((timer) => timer.remaining > 0);
+    for (const timer of dueTimers) try { timer.callback(); } catch (error) { console.error('Game timer failed', error); }
     // power-up timers
     for (const k in this.powers) { this.powers[k] -= dt; if (this.powers[k] <= 0) delete this.powers[k]; }
     this.drawPowers();
@@ -240,24 +436,35 @@ class Base {
     for (const r of this.rings) { r.life -= dt; r.r += r.vr * dt; }
     this.rings = this.rings.filter(r => r.life > 0);
     if (this.shake > 0) { this.shake -= dt * 2.5; if (this.shake < 0) this.shake = 0; }
+    if (this._rewardPaddleUntil && this.time >= this._rewardPaddleUntil && this.p1 && this.pw) {
+      this.p1.w = this.pw;
+      this._rewardPaddleUntil = 0;
+    }
   }
 
-  difficulty() { return 1 + this.time / 45; }          // ramps over time
+  difficulty() {
+    const smoothRamp = Math.min(1.05, this.time / 75);
+    const tierRamp = Math.min(0.35, Math.floor(this.time / 35) * 0.07);
+    const challengeFactor = this.challenge === 'cozy' ? 0.82 : this.challenge === 'legend' ? 1.18 : 1;
+    return Math.max(0.72, Math.min(2.65, (1 + smoothRamp + tierRamp) * challengeFactor));
+  }
+
+  difficultyTier() { return Math.min(5, 1 + Math.floor(this.time / 35)); }
+
+  schedule(delaySeconds, callback) {
+    if (typeof callback !== 'function') return;
+    this._timers.push({ remaining: Math.max(0, Number(delaySeconds) || 0), callback });
+  }
 
   hitCombo(x, y, base) {
     this.combo++; this.comboT = 2.2;
     this.mult = this.combo >= 12 ? 4 : this.combo >= 6 ? 3 : this.combo >= 3 ? 2 : 1;
-    const g = base * this.mult * (this.powers.x2 ? 2 : 1);
+    const challengeScore = this.challenge === 'cozy' ? 0.9 : this.challenge === 'legend' ? 1.35 : 1;
+    const g = Math.max(1, Math.round(base * this.mult * (this.powers.x2 ? 2 : 1) * challengeScore));
     this.addScore(g);
     if (this.mult > 1) { this.comboEl.textContent = `${this.mult}× combo`; this.sound.combo(this.combo); }
     this.float(x, y, '+' + g, this.theme.accent);
     return g;
-  }
-
-  grantPower(type) {
-    this.powers[type] = POWERS[type].dur; this.sound.power();
-    this.float(this.W / 2, this.H * 0.4, POWERS[type].tip + '!', POWERS[type].color);
-    this.ring(this.W / 2, this.H * 0.4, POWERS[type].color);
   }
 
   setScore(v) { this.score = v; this.scoreEl.textContent = Math.floor(v); }
@@ -353,7 +560,13 @@ class Base {
   applyShake(c) { if (this.shake > 0) c.translate((Math.random() - 0.5) * 12 * this.shake, (Math.random() - 0.5) * 12 * this.shake); }
 
   destroy() { this.running = false; if (this._raf) cancelAnimationFrame(this._raf); this._raf = null;
-    removeEventListener('keydown', this._kd); removeEventListener('keyup', this._ku); removeEventListener('pointerup', this._pu); if (this._ro) this._ro.disconnect(); }
+    removeEventListener('keydown', this._kd); removeEventListener('keyup', this._ku); removeEventListener('pointerup', this._pu);
+    removeEventListener('fullscreenchange', this._fs);
+    removeEventListener('mma:reward-pending', this._rewardPendingHandler);
+    removeEventListener('mma:reward-granted', this._rewardGrantedHandler);
+    removeEventListener('mma:reward-blocked', this._rewardBlockedHandler);
+    removeEventListener('mma:reward-progress', this._rewardProgressHandler);
+    if (this._ro) this._ro.disconnect(); }
 
   /* -------- Weather system -------- */
   _weatherType() {
@@ -459,6 +672,226 @@ class Base {
     this.flash(this.theme.accent, 0.2);
   }
 
+  _matchesReward(detail) {
+    return !detail?.slug || detail.slug === this.game.slug;
+  }
+
+  _updateRewardMenu(state, message) {
+    const status = this.overlay?.querySelector('[data-reward-status]');
+    const button = this.overlay?.querySelector('.mma-reward-btn');
+    if (status && message) status.textContent = message;
+    if (button) {
+      button.disabled = state === 'pending' || state === 'ready';
+      button.textContent = state === 'pending' ? 'Sponsor opened — return to unlock'
+        : state === 'ready' ? 'Boost ready ✓' : 'Unlock selected boost';
+    }
+    if (this.overlay) this.overlay.dataset.rewardState = state;
+  }
+
+  armReward(detail = {}, restored = false) {
+    if (!this._matchesReward(detail)) return false;
+    if (this._armedBoost?.requestId && this._armedBoost.requestId === detail.requestId) return false;
+    this._armedBoost = { ...detail, boosterId: detail.boosterId || this._selectedBoostId || 'mode-special' };
+    this._selectedBoostId = this._armedBoost.boosterId;
+    this.rewardPending = false;
+    const shouldResume = this._resumeAfterReward && this.started && !this.over;
+    this.running = shouldResume || this.running;
+    this._resumeAfterReward = false;
+    this.last = performance.now();
+    if (!this.started || this.over || !this.running) {
+      this.showStart();
+      this._updateRewardMenu('ready', 'Boost armed. Start whenever you are ready.');
+    } else {
+      const option = this.boostOptions().find((item) => item.id === this._armedBoost.boosterId);
+      this.float(this.W / 2, this.H * 0.3, `${option?.icon || '⚡'} Boost ready for your next run`, this.theme.accent);
+      this.sound.power();
+    }
+    window.dispatchEvent(new CustomEvent('mma:reward-armed', { detail: {
+      ...this._armedBoost, restored, slug: this.game.slug,
+    } }));
+    return true;
+  }
+
+  requestReward(button, source = 'game', boosterId = this._selectedBoostId) {
+    if (this.rewardUsed || this.rewardPending || this._armedBoost || !window.MochiMangoRewards?.request) return false;
+    const originalText = button?.textContent;
+    const accepted = window.MochiMangoRewards.request({
+      slug: this.game.slug,
+      source,
+      boosterId,
+      intent: 'next-run',
+      onRewardFailed: () => {
+        if (button) {
+          button.disabled = false;
+          button.textContent = originalText;
+        }
+      },
+    });
+    if (accepted && button) {
+      button.disabled = true;
+      button.textContent = 'Sponsor opened — return to unlock';
+    }
+    return accepted;
+  }
+
+  rewardLabel() {
+    const mode = modeFor(this.game);
+    if (Number.isFinite(this.timeLeft)) return '+20 seconds + double score';
+    if (mode === 'gallery') return '+10 seconds + double score';
+    if (mode === 'sports' || mode === 'archery') return '+3 attempts + power shield';
+    if (mode === 'tower') return '+100 coins + one life';
+    if (mode === 'idleclicker') return '90 seconds of bonus earnings';
+    if (mode === 'bubbleshooter' || mode === 'cannon') return 'Extra shots + double score';
+    if (mode === 'serve') return 'Full patience + Rush Hour boost';
+    if (mode === 'racing') return 'Turbo boost + double score';
+    if (mode === 'pong') return 'Mega paddle + double score';
+    return '+1 life + shield + double score';
+  }
+
+  applyReward(detail = {}) {
+    if (this.rewardUsed) return false;
+    if (!this.started || this.over) return this.armReward(detail);
+
+    const mode = modeFor(this.game);
+    const boosterId = detail.boosterId || 'mode-special';
+    let label = this.rewardLabel();
+
+    if (boosterId === 'guardian') {
+      if (Number.isFinite(this.lives) && this.lives < 100) this.lives = Math.min(7, Math.max(1, this.lives) + 1);
+      this.powers.shield = Math.max(this.powers.shield || 0, 18);
+      this.addScore(50);
+      label = 'Guardian start: extra life + 18-second shield';
+    } else if (boosterId === 'score-spark') {
+      this.powers.x2 = Math.max(this.powers.x2 || 0, 20);
+      this.addScore(250);
+      label = 'Score spark: 20 seconds of double score + 250 points';
+    } else {
+      const handledByMode = typeof this.applyModeBoost === 'function' && this.applyModeBoost(detail);
+      if (handledByMode) {
+        label = detail.label || this.rewardLabel();
+      } else if (Number.isFinite(this.timeLeft)) {
+        this.timeLeft = Math.min(180, this.timeLeft + 20);
+      } else if (mode === 'gallery' && Number.isFinite(this.roundTimer)) {
+        this.roundTimer = Math.min((this.roundDuration || 30) + 15, this.roundTimer + 10);
+      } else if ((mode === 'sports' || mode === 'archery') && Number.isFinite(this.shotsLeft)) {
+        this.shotsLeft += 3;
+      } else if (mode === 'tower') {
+        this.coins = (this.coins || 0) + 100;
+        this.lives = Math.min(7, Math.max(1, this.lives) + 1);
+      } else if (mode === 'idleclicker') {
+        const bonus = Math.max(250, Math.floor((this.autoEarn || 0) * 90), Math.floor((this.clickPower || 1) * 100));
+        this.coins = (this.coins || 0) + bonus;
+        this.totalCoins = (this.totalCoins || 0) + bonus;
+        label = `+${bonus.toLocaleString()} bonus coins`;
+      } else if (mode === 'bubbleshooter') {
+        this.shotLimit = (this.shotLimit || 0) + 10;
+      } else if (mode === 'cannon') {
+        this.maxShots = (this.maxShots || 0) + 5;
+      } else if (mode === 'serve') {
+        for (const order of this.queue || []) order.patience = 1;
+        this.rush = Math.max(this.rush || 0, 10);
+      } else if (mode === 'racing') {
+        this.powers.rush = 12;
+      } else if (mode === 'pong' && this.p1 && this.pw) {
+        this.p1.w = Math.max(this.p1.w, this.pw * 1.8);
+        this._rewardPaddleUntil = this.time + 12;
+      } else if (Number.isFinite(this.lives) && this.lives < 100) {
+        this.lives = Math.min(5, Math.max(1, this.lives) + 1);
+      }
+      this.powers.shield = Math.max(this.powers.shield || 0, 12);
+      this.powers.x2 = Math.max(this.powers.x2 || 0, 12);
+      this.addScore(100);
+    }
+
+    this.rewardUsed = true;
+    this.rewardPending = false;
+    this._resumeAfterReward = false;
+    this.last = performance.now();
+    window.MochiMangoRewards?.consumeReady?.(this.game.slug, detail.requestId);
+    this.drawLives(); this.drawPowers();
+    this.sound.power();
+    this.achievement(label, '🎁');
+    this.flash(this.theme.accent, 0.35);
+
+    const appliedDetail = { ...detail, boosterId, slug: this.game.slug, mode, label };
+    window.dispatchEvent(new CustomEvent('mma:reward-applied', { detail: appliedDetail }));
+    return true;
+  }
+
+  renderText() {
+    const point = (value) => value && typeof value === 'object' && Number.isFinite(value.x) && Number.isFinite(value.y)
+      ? { x: Math.round(value.x), y: Math.round(value.y), vx: Math.round(value.vx || 0), vy: Math.round(value.vy || 0) }
+      : null;
+    const entityArrays = [
+      'obs', 'foes', 'enemies', 'targets', 'coins', 'pu', 'pellets', 'towers', 'bubbles', 'pipes',
+      'fish', 'notes', 'bricks', 'balls', 'platforms', 'gates', 'cards', 'orders', 'queue', 'snake',
+    ];
+    const entities = [];
+    for (const key of entityArrays) {
+      const values = this[key];
+      if (!Array.isArray(values)) continue;
+      for (const value of values.slice(0, 8)) {
+        const position = point(value);
+        if (position) entities.push({ group: key, ...position, kind: value.kind || value.type || undefined });
+      }
+      if (entities.length >= 16) break;
+    }
+
+    return JSON.stringify({
+      coordinateSystem: 'origin top-left; x increases right; y increases down; canvas units are CSS pixels',
+      slug: this.game.slug,
+      mode: modeFor(this.game),
+      phase: this.over ? 'gameover' : this.started ? (this.running ? 'playing' : 'paused') : 'menu',
+      challenge: this.challenge,
+      difficultyTier: this.difficultyTier(),
+      score: Math.floor(this.score),
+      best: Math.floor(this.best),
+      lives: this.lives < 100 ? this.lives : null,
+      elapsedSeconds: +this.time.toFixed(2),
+      timeLeft: Number.isFinite(this.timeLeft) ? +this.timeLeft.toFixed(2) : undefined,
+      roundTimer: Number.isFinite(this.roundTimer) ? +this.roundTimer.toFixed(2) : undefined,
+      coins: typeof this.coins === 'number' ? Math.floor(this.coins) : undefined,
+      level: this.level,
+      wave: this.wave,
+      shotsLeft: this.shotsLeft,
+      goals: this.goals,
+      caught: this.totalCatch,
+      hookState: this.hook?.state,
+      turn: this.turn,
+      status: this.status,
+      activePowers: Object.fromEntries(Object.entries(this.powers).map(([key, value]) => [key, +value.toFixed(2)])),
+      reward: {
+        pending: this.rewardPending,
+        armed: Boolean(this._armedBoost),
+        boosterId: this._armedBoost?.boosterId,
+        usedThisRun: this.rewardUsed,
+        benefit: this.rewardLabel(),
+      },
+      player: point(this.p) || point(this.pl) || point(this.player) || point(this.ship) || point(this.ball) || point(this.hook) || point(this.arrow),
+      entities,
+    });
+  }
+
+  advanceTime(ms) {
+    if (!this.started) {
+      this.parallax(0);
+      return this.renderText();
+    }
+    const steps = Math.max(1, Math.min(600, Math.round(Number(ms || 0) / (1000 / 60))));
+    for (let i = 0; i < steps; i++) {
+      const dt = 1 / 60;
+      if (this.running) {
+        this.time += dt;
+        this.stepMeta(dt);
+        this._updateWeather(dt);
+        this.update(dt);
+      }
+    }
+    this.render(); this._drawFlash(); this._drawLevelBanner();
+    this.pointer.tapped = false;
+    return this.renderText();
+  }
+
   /* -------- Enhanced power-up handling -------- */
   grantPower(type) {
     if (type === 'bomb') {
@@ -486,6 +919,8 @@ class Base {
   instructions() { return 'Tap or press Space to play.'; }
   reset() {} update() {} render() { this.sky(); }
 }
+
+const BoardArena = createBoardArena(Base);
 
 /* ============================================================ RUNNER */
 
@@ -954,7 +1389,7 @@ class Match3 extends Base {
         for (let r = this.N - 1; r >= 0; r--) if (this.grid[r][col] != null) { this.grid[w][col] = this.grid[r][col]; this.sp[w][col] = this.sp[r][col]; if (w !== r) { this.grid[r][col] = null; this.sp[r][col] = null; } w--; }
         for (let r = w; r >= 0; r--) { this.grid[r][col] = Math.floor(Math.random() * this.symbols.length); this.sp[r][col] = null; } }
       cause = null;
-      setTimeout(step, 130);
+      this.schedule(0.13, step);
     };
     step();
   }
@@ -1478,7 +1913,8 @@ class Sports extends Base {
   _pointerUp() {
     if (this.aiming) {
       this.aiming = false;
-      const dx = this.aimX - this.ball.x, dy = this.aimY - this.ball.y;
+      let dx = this.aimX - this.ball.x, dy = this.aimY - this.ball.y;
+      if (Math.hypot(dx, dy) < 12) { dx = this.W * 0.5 - this.ball.x; dy = this.goalY - this.ball.y; }
       const dist = Math.max(20, Math.sqrt(dx * dx + dy * dy));
       const power = this.power * 600 + 200;
       this.ball.vx = (dx / dist) * power;
@@ -1496,13 +1932,13 @@ class Sports extends Base {
 class Racing extends Base {
   instructions() { return 'Steer with arrows or drag! Collect boosts, dodge cones, beat the AI rival! Fastest lap gets bonus points. Upgrade speed each lap!'; }
   reset() {
-    this.player = { x: this.W * 0.5, y: this.H * 0.8, angle: -Math.PI / 2, speed: 0, lap: 0 };
-    this.ai = { x: this.W * 0.5, y: this.H * 0.8, angle: -Math.PI / 2, speed: 0, lap: 0, aiAngle: -Math.PI / 2, aiLapDone: false };
     this.trackR = Math.min(this.W, this.H) * 0.32;
     this.cx = this.W / 2; this.cy = this.H / 2;
     this.trackW = Math.max(60, this.W * 0.12);
+    this.player = { x: this.cx, y: this.cy + this.trackR, angle: Math.PI, speed: 0, lap: 0 };
+    this.ai = { x: this.cx, y: this.cy + this.trackR, angle: Math.PI, speed: 0, lap: 0, progress: Math.PI / 2 + 0.28 };
     this.cones = []; this.boosts = []; this.sparks = [];
-    this.lapT = 0; this.lastQuad = 0;
+    this.lapT = 0; this.lastQuad = 3; this.targetLaps = 3; this.raceResult = '';
     this._spawnCones();
     this._spawnBoosts();
     this.maxSpeed = Math.max(200, this.W * 0.5);
@@ -1532,7 +1968,7 @@ class Racing extends Base {
     // Auto-accelerate
     p.speed = Math.min(this.maxSpeed, p.speed + this.accel * dt);
     // Steering
-    const steer = (this.keys['ArrowLeft'] || this.keys['a'] ? -1 : 0) + (this.keys['ArrowRight'] || this.keys['d'] ? 1 : 0);
+    const steer = (this.keys['arrowleft'] || this.keys['a'] ? -1 : 0) + (this.keys['arrowright'] || this.keys['d'] ? 1 : 0);
     if (this.pointer.down) {
       const dx = this.pointer.x - p.x, dy = this.pointer.y - p.y;
       if (Math.abs(dx) > 5) p.angle += Math.sign(dx) * 3 * dt;
@@ -1558,10 +1994,22 @@ class Racing extends Base {
     const ang = Math.atan2(dy, dx);
     const quad = Math.floor(((ang + Math.PI) / (Math.PI * 2)) * 4) % 4;
     if (this.lastQuad === 3 && quad === 0) {
-      p.lap++; this.lapTime = 0; this.addScore(50); this.confetti(p.x, p.y); this.sound.power();
-      this.float(p.x, p.y - 30, `Lap ${p.lap}!`, this.theme.accent);
+      const completedLap = Math.max(0.1, this.lapTime);
+      p.lap++;
+      if (!this.fastestLap || completedLap < this.fastestLap) {
+        this.fastestLap = completedLap;
+        this.addScore(150);
+        this.float(p.x, p.y - 54, 'FASTEST LAP!', '#ffd166');
+      }
+      this.addScore(Math.max(60, Math.floor(320 - completedLap * 8)));
+      this.maxSpeed *= 1.06;
+      this.lapTime = 0; this.confetti(p.x, p.y); this.sound.power();
+      this.float(p.x, p.y - 30, `Lap ${p.lap}/${this.targetLaps}! Speed upgraded`, this.theme.accent);
       // Reshuffle cones and boosts
       this._spawnCones(); this._spawnBoosts();
+      if (p.lap >= this.targetLaps) {
+        this.raceResult = 'win'; this.addScore(500); this.achievement('Circuit champion', '🏁'); this.showOver(); return;
+      }
     }
     this.lastQuad = quad;
     this.lapTime += dt;
@@ -1584,22 +2032,18 @@ class Racing extends Base {
       }
     }
 
-    // AI car - follows track with slight speed variation
+    // AI rival follows the racing line and gets slightly faster each lap.
     const ai = this.ai;
-    const aiAng = Math.atan2(this.cy - ai.y, this.cx - ai.x);
-    ai.aiAngle += (aiAng - ai.aiAngle) * 0.05;
-    ai.angle = ai.aiAngle + Math.sin(this.time * 0.5 + this.player.lap) * 0.3;
-    ai.speed = this.maxSpeed * (0.7 + this.player.lap * 0.03);
-    ai.x += Math.cos(ai.angle) * ai.speed * dt;
-    ai.y += Math.sin(ai.angle) * ai.speed * dt;
-    const aiDx = ai.x - this.cx, aiDy = ai.y - this.cy;
-    const aiDist = Math.sqrt(aiDx * aiDx + aiDy * aiDy);
-    if (aiDist > this.trackR + this.trackW / 2) { const a = Math.atan2(aiDy, aiDx); ai.x = this.cx + Math.cos(a) * (this.trackR + this.trackW / 2); ai.y = this.cy + Math.sin(a) * (this.trackR + this.trackW / 2); }
-    if (aiDist < this.trackR - this.trackW / 2) { const a = Math.atan2(aiDy, aiDx); ai.x = this.cx + Math.cos(a) * (this.trackR - this.trackW / 2); ai.y = this.cy + Math.sin(a) * (this.trackR - this.trackW / 2); }
-    // AI lap tracking
-    const aiQuad = Math.floor(((Math.atan2(aiDy, aiDx) + Math.PI) / (Math.PI * 2)) * 4) % 4;
-    if (ai.aiLastQuad === 3 && aiQuad === 0) { ai.lap++; }
-    ai.aiLastQuad = aiQuad;
+    ai.speed = this.maxSpeed * Math.min(0.92, 0.72 + ai.lap * 0.045 + (this.challenge === 'legend' ? 0.08 : 0));
+    ai.progress += (ai.speed / Math.max(1, this.trackR)) * dt;
+    ai.lap = Math.max(ai.lap, Math.floor((ai.progress - Math.PI / 2) / (Math.PI * 2)));
+    const aiLine = this.trackR + Math.sin(ai.progress * 2.3) * this.trackW * 0.08;
+    ai.x = this.cx + Math.cos(ai.progress) * aiLine;
+    ai.y = this.cy + Math.sin(ai.progress) * aiLine;
+    ai.angle = ai.progress + Math.PI / 2;
+    if (ai.lap >= this.targetLaps) {
+      this.raceResult = 'loss'; this.float(this.W / 2, this.H * 0.3, 'Rival wins — rematch!', '#ff8aa8'); this.showOver(); return;
+    }
 
     // Passive score
     this.addScore(dt * 4 * (p.speed / this.maxSpeed));
@@ -1644,6 +2088,14 @@ class Racing extends Base {
     this.sparks.forEach(s => { c.globalAlpha = s.life / 0.3; c.fillStyle = '#ffd166'; c.beginPath(); c.arc(s.x, s.y, 3, 0, 7); c.fill(); });
     c.globalAlpha = 1;
 
+    // AI rival car
+    const rival = this.ai;
+    c.save(); c.translate(rival.x, rival.y); c.rotate(rival.angle + Math.PI / 2);
+    c.shadowColor = '#8a5cff'; c.shadowBlur = 10;
+    c.fillStyle = '#8a5cff'; c.strokeStyle = '#efe7ff'; c.lineWidth = 2;
+    rr2(c, -9, -15, 18, 30, 5); c.fill(); c.stroke();
+    c.shadowBlur = 0; c.fillStyle = '#25d8ff'; c.fillRect(-6, -9, 12, 7); c.restore();
+
     // Player car
     const p = this.player;
     c.save(); c.translate(p.x, p.y); c.rotate(p.angle + Math.PI / 2);
@@ -1658,7 +2110,7 @@ class Racing extends Base {
 
     // HUD: lap + time
     c.fillStyle = '#fff'; c.font = 'bold 16px Outfit'; c.textAlign = 'left'; c.textBaseline = 'top';
-    c.fillText(`Lap: ${p.lap}  |  Time: ${this.lapTime.toFixed(1)}s`, 16, 50);
+    c.fillText(`Lap: ${Math.min(this.targetLaps, p.lap + 1)}/${this.targetLaps}  |  ${this.lapTime.toFixed(1)}s${this.fastestLap ? `  |  Best ${this.fastestLap.toFixed(1)}s` : ''}`, 16, 50);
 
     this.drawFx(); c.restore();
   }
@@ -1695,7 +2147,7 @@ class Breakout extends Base {
   update(dt) {
     const D = this.difficulty();
     // Paddle
-    const steer = (this.keys['ArrowLeft'] ? -1 : 0) + (this.keys['ArrowRight'] ? 1 : 0);
+    const steer = (this.keys['arrowleft'] ? -1 : 0) + (this.keys['arrowright'] ? 1 : 0);
     this.paddle.x += steer * 400 * dt;
     if (this.pointer.down || this.pointer.x) this.paddle.x = this.pointer.x;
     this.paddle.x = Math.max(this.paddle.w / 2, Math.min(this.W - this.paddle.w / 2, this.paddle.x));
@@ -1839,10 +2291,10 @@ class Snake extends Base {
   }
   update(dt) {
     // Direction from input
-    if (this.keys['ArrowUp'] && this.dir.y === 0) this.nextDir = { x: 0, y: -1 };
-    if (this.keys['ArrowDown'] && this.dir.y === 0) this.nextDir = { x: 0, y: 1 };
-    if (this.keys['ArrowLeft'] && this.dir.x === 0) this.nextDir = { x: -1, y: 0 };
-    if (this.keys['ArrowRight'] && this.dir.x === 0) this.nextDir = { x: 1, y: 0 };
+    if (this.keys['arrowup'] && this.dir.y === 0) this.nextDir = { x: 0, y: -1 };
+    if (this.keys['arrowdown'] && this.dir.y === 0) this.nextDir = { x: 0, y: 1 };
+    if (this.keys['arrowleft'] && this.dir.x === 0) this.nextDir = { x: -1, y: 0 };
+    if (this.keys['arrowright'] && this.dir.x === 0) this.nextDir = { x: 1, y: 0 };
     if (this.pointer.tapped) {
       const dx = this.pointer.x - this.W / 2, dy = this.pointer.y - this.H / 2;
       if (Math.abs(dx) > Math.abs(dy)) { if (this.dir.x === 0) this.nextDir = { x: Math.sign(dx), y: 0 }; }
@@ -1956,19 +2408,20 @@ class Rhythm extends Base {
     this.notes = []; this.hitRings = []; this.spawnT = 0; this.spawnInterval = 1.2;
     this.perfectStreak = 0; this.totalHits = 0; this.misses = 0; this.maxStreak = 0;
     this.beatT = 0; this.beatPulse = 0;
-    this.songProgress = 0;
+    this.songProgress = 0; this.songDuration = 45; this.songEnded = false;
+    this.lives = 5; this.drawLives();
   }
   onResize() { this.reset(); }
   update(dt) {
     const D = this.difficulty();
-    this.spawnInterval = Math.max(0.6, 1.3 - this.time * 0.005);
+    this.spawnInterval = Math.max(0.48, 1.22 - this.time * 0.009) / Math.max(0.9, D * 0.78);
     this.beatT += dt;
-    this.songProgress += dt * 0.04;
+    this.songProgress = Math.min(1, this.time / this.songDuration);
     if (this.beatT > 60 / 120) { this.beatT = 0; this.beatPulse = 1; this.sound.blip(200, 0.03, 'sine', 0.05); }
     if (this.beatPulse > 0) this.beatPulse -= dt * 3;
 
     this.spawnT += dt;
-    if (this.spawnT >= this.spawnInterval) {
+    if (this.time < this.songDuration && this.spawnT >= this.spawnInterval) {
       this.spawnT = 0;
       const x = this.W * (0.2 + Math.random() * 0.6);
       const y = this.H * (0.25 + Math.random() * 0.45);
@@ -1982,7 +2435,8 @@ class Rhythm extends Base {
       if (n.life <= 0 && !n.hit) {
         n.hit = true; this.misses++; this.perfectStreak = 0; this.combo = 0; this.mult = 1; this.comboEl.textContent = '';
         this.float(n.x, n.y, 'MISS', '#ff2a54'); this.sound.blip(150, 0.15, 'sawtooth', 0.1);
-        this.shake = 0.3;
+        this.shake = 0.3; this.loseLife();
+        if (this.over) return;
       }
       // Check tap
       if (!n.hit && this.pointer.tapped) {
@@ -2000,6 +2454,11 @@ class Rhythm extends Base {
             this.confetti(n.x, n.y); this.sound.power();
             this.hitRings.push({ x: n.x, y: n.y, r: 0, life: 0.5, color: '#ffd166' });
             this.float(n.x, n.y - 20, 'PERFECT!', '#ffd166');
+            if (n.type === 'special') {
+              this.powers.x2 = Math.max(this.powers.x2 || 0, 8);
+              this.addScore(50); this.flash('#ffd166', 0.18);
+              this.float(n.x, n.y + 38, 'STAR NOTE: DOUBLE SCORE!', '#fff3a0');
+            }
             if (this.perfectStreak >= 5 && this.perfectStreak % 5 === 0) this.float(n.x, n.y - 45, this.perfectStreak + 'x streak!', '#ffd166');
           } else if (acc < 20) {
             this.totalHits++; this.hitCombo(n.x, n.y, 10);
@@ -2009,6 +2468,8 @@ class Rhythm extends Base {
           } else {
             this.perfectStreak = 0; this.misses++; this.combo = 0; this.mult = 1; this.comboEl.textContent = '';
             this.float(n.x, n.y, 'EARLY', '#ff2a54'); this.sound.blip(150, 0.1, 'sawtooth', 0.08);
+            this.loseLife();
+            if (this.over) return;
           }
         }
       }
@@ -2016,6 +2477,15 @@ class Rhythm extends Base {
     this.notes = this.notes.filter(n => !n.hit || n.life > -0.2);
     this.hitRings.forEach(r => { r.r += 200 * dt; r.life -= dt; });
     this.hitRings = this.hitRings.filter(r => r.life > 0);
+    if (!this.songEnded && this.time >= this.songDuration && this.notes.every((note) => note.hit || note.life <= 0)) {
+      this.songEnded = true;
+      const attempts = this.totalHits + this.misses;
+      const accuracy = attempts ? this.totalHits / attempts : 0;
+      const clearBonus = Math.round(300 + accuracy * 700 + this.maxStreak * 12);
+      this.addScore(clearBonus);
+      this.achievement(accuracy >= 0.9 ? 'Platinum performance' : 'Song complete', accuracy >= 0.9 ? '💿' : '🎵');
+      this.showOver();
+    }
   }
   render() {
     const c = this.ctx; c.save(); this.applyShake(c); this.parallax(0);
@@ -2053,7 +2523,6 @@ class Rhythm extends Base {
     c.fillText(`Hits: ${this.totalHits}  Perfect: ${this.perfectStreak}×  Miss: ${this.misses}`, 16, 50);
     this.drawFx(); c.restore();
   }
-}
 }
 
 /* ============================================================ TOWER DEFENSE */
@@ -2259,8 +2728,8 @@ class Pinball extends Base {
   }
   update(dt) {
     // Flipper control
-    this.flipL.active = this.keys['ArrowLeft'] || (this.pointer.down && this.pointer.x < this.W / 2);
-    this.flipR.active = this.keys['ArrowRight'] || (this.pointer.down && this.pointer.x > this.W / 2);
+    this.flipL.active = this.keys['arrowleft'] || (this.pointer.down && this.pointer.x < this.W / 2);
+    this.flipR.active = this.keys['arrowright'] || (this.pointer.down && this.pointer.x > this.W / 2);
     this.flipL.target = this.flipL.active ? -0.5 : 0.4;
     this.flipR.target = this.flipR.active ? 0.5 : -0.4;
     this.flipL.angle += (this.flipL.target - this.flipL.angle) * Math.min(1, dt * 20);
@@ -2400,7 +2869,7 @@ class Pinball extends Base {
 /* ============================================================ FISHING */
 
 class Fishing extends Base {
-  instructions() { return 'Tap to cast! Tap rapidly when fish bites to reel in. Rarer fish = more points. Chain catches for combo bonus!'; }
+  instructions() { return 'Hold to choose your cast depth, release to cast, then tap rapidly when a fish bites. Rare catches and streaks earn huge bonuses!'; }
   reset() {
     this.hook = { x: this.W / 2, y: this.H * 0.3, vy: 0, state: 'idle', depth: 0 };
     this.fish = []; this.castPower = 0; this.casting = false;
@@ -2557,6 +3026,25 @@ class Fishing extends Base {
     c.fillStyle = '#fff'; c.font = 'bold 14px Outfit'; c.textAlign = 'left'; c.textBaseline = 'top'; c.fillText(`Caught: ${this.totalCatch}  Streak: ${this.catchStreak}  Rare: ${this.rareCount}`, 16, 50);
     this.drawFx(); c.restore();
   }
+  _pointerDown(x) {
+    if (this.hook.state !== 'idle') return;
+    this.hook.x = Math.max(24, Math.min(this.W - 24, x));
+    this.castPower = 0.18;
+    this.casting = true;
+  }
+  _pointerMove(x) {
+    if (this.casting) this.hook.x = Math.max(24, Math.min(this.W - 24, x));
+  }
+  _pointerUp() {
+    if (!this.casting || this.hook.state !== 'idle') return;
+    this.casting = false;
+    this.castPower = Math.max(0.22, this.castPower);
+    this.hook.y = this.waterLine;
+    this.hook.vy = 45;
+    this.hook.state = 'casting';
+    this.sound.jump();
+    this.ripples.push({ x: this.hook.x, y: this.waterLine, r: 0, life: 0.7 });
+  }
 }
 
 /* ============================================================ ARCHERY (Aim & Shoot) */
@@ -2673,6 +3161,33 @@ class Archery extends Base {
     c.fillStyle = '#fff'; c.font = 'bold 14px Outfit'; c.textAlign = 'left'; c.textBaseline = 'top'; c.fillText(`Arrows: ${this.shotsLeft}`, 16, 50);
     this.drawFx(); c.restore();
   }
+  _pointerDown(x, y) {
+    if (this.arrow || this.shotsLeft <= 0) return;
+    this.charging = true;
+    this.charge = 0.12;
+    this.aimX = x; this.aimY = y;
+  }
+  _pointerMove(x, y) {
+    if (this.charging) { this.aimX = x; this.aimY = y; }
+  }
+  _pointerUp() {
+    if (!this.charging || this.arrow) return;
+    this.charging = false;
+    const bx = this.W * 0.12, by = this.H * 0.5;
+    const dx = this.aimX - bx, dy = this.aimY - by;
+    const dist = Math.max(1, Math.hypot(dx, dy));
+    const power = 360 + Math.max(0.18, this.charge) * 520;
+    this.arrow = {
+      x: bx + dx / dist * 28,
+      y: by + dy / dist * 28,
+      vx: dx / dist * power,
+      vy: dy / dist * power,
+      ang: Math.atan2(dy, dx),
+      trail: [],
+    };
+    this.sound.jump();
+    this.burst(bx, by, this.theme.accent, 7, 0.7);
+  }
 }
 
 
@@ -2698,7 +3213,7 @@ class Pong extends Base {
   update(dt) {
     const D = this.difficulty();
     // Player paddle
-    const steer = (this.keys['ArrowLeft'] ? -1 : 0) + (this.keys['ArrowRight'] ? 1 : 0);
+    const steer = (this.keys['arrowleft'] ? -1 : 0) + (this.keys['arrowright'] ? 1 : 0);
     this.p1.x += steer * 480 * dt;
     if (this.pointer.down) this.p1.x = this.pointer.x;
     this.p1.x = Math.max(this.p1.w / 2, Math.min(this.W - this.p1.w / 2, this.p1.x));
@@ -2777,11 +3292,11 @@ class Pong extends Base {
       f.y += f.vy * dt;
       // Player catch
       if (f.y > this.p1.y - 15 && Math.abs(f.x - this.p1.x) < this.p1.w / 2 + 18) {
-        if (f.type === 'mega') { this.p1.w = this.pw * 1.7; setTimeout(() => this.p1.w = this.pw, 5000); }
+        if (f.type === 'mega') { this.p1.w = this.pw * 1.7; this.schedule(5, () => { this.p1.w = this.pw; }); }
         else if (f.type === 'shield') { this.grantPower('shield'); }
         else if (f.type === 'slow') {
           for (const b of this.balls) { b.vx *= 0.5; b.vy *= 0.5; }
-          setTimeout(() => { for (const b of this.balls) { b.vx *= 2; b.vy *= 2; } }, 4000);
+          this.schedule(4, () => { for (const b of this.balls) { b.vx *= 2; b.vy *= 2; } });
         }
         else if (f.type === 'bomb') {
           // Multi-ball!
@@ -3260,7 +3775,7 @@ class Cannon extends Base {
     for (const ob of this.barriers) {
       if (ob === b || !ob.explosive) continue;
       if (Math.hypot(ob.x - b.x, ob.y - b.y) < 100) {
-        setTimeout(() => { if (ob.explosive) this._barrelBlast(ob); }, 200);
+        this.schedule(0.2, () => { if (ob.explosive) this._barrelBlast(ob); });
       }
     }
   }
@@ -3459,8 +3974,8 @@ class Merge extends Base {
       }
       this.keys['z'] = this.keys['Z'] = false;
     }
-    const dir = this.keys['ArrowLeft'] ? 'left' : this.keys['ArrowRight'] ? 'right' : this.keys['ArrowUp'] ? 'up' : this.keys['ArrowDown'] ? 'down' : '';
-    if (dir) { this._move(dir); this.keys['ArrowLeft'] = this.keys['ArrowRight'] = this.keys['ArrowUp'] = this.keys['ArrowDown'] = false; }
+    const dir = this.keys['arrowleft'] ? 'left' : this.keys['arrowright'] ? 'right' : this.keys['arrowup'] ? 'up' : this.keys['arrowdown'] ? 'down' : '';
+    if (dir) { this._move(dir); this.keys['arrowleft'] = this.keys['arrowright'] = this.keys['arrowup'] = this.keys['arrowdown'] = false; }
     if (this.pointer.tapped) {
       if (this._swipe) {
         const dx = this.pointer.x - this._swipe.x;
@@ -3567,8 +4082,8 @@ class Helix extends Base {
     this.consecutiveGaps = 0;
   }
   update(dt) {
-    if (this.keys['ArrowLeft'] || this.keys['a']) this.targetRot += (2.5 + this.level * 0.15) * dt;
-    if (this.keys['ArrowRight'] || this.keys['d']) this.targetRot -= (2.5 + this.level * 0.15) * dt;
+    if (this.keys['arrowleft'] || this.keys['a']) this.targetRot += (2.5 + this.level * 0.15) * dt;
+    if (this.keys['arrowright'] || this.keys['d']) this.targetRot -= (2.5 + this.level * 0.15) * dt;
     if (this.pointer.down) {
       if (this.pointer.x < this.W / 2) this.targetRot += (2.5 + this.level * 0.15) * dt;
       else this.targetRot -= (2.5 + this.level * 0.15) * dt;
@@ -3739,7 +4254,7 @@ class DoodleJump extends Base {
     }
   }
   update(dt) {
-    const steer = (this.keys['ArrowLeft'] ? -1 : 0) + (this.keys['ArrowRight'] ? 1 : 0);
+    const steer = (this.keys['arrowleft'] ? -1 : 0) + (this.keys['arrowright'] ? 1 : 0);
     if (steer) this.p.vx = steer * this.W * 0.5;
     else if (this.pointer.down) { const dx = this.pointer.x - this.W / 2; this.p.vx = dx * 0.9; }
     else this.p.vx *= 0.92;
@@ -3881,9 +4396,9 @@ class Asteroids extends Base {
   }
   update(dt) {
     this.invulnTimer -= dt;
-    if (this.keys['ArrowLeft']) this.ship.ang -= 3.5 * dt;
-    if (this.keys['ArrowRight']) this.ship.ang += 3.5 * dt;
-    this.ship.thrust = this.keys['ArrowUp'] || false;
+    if (this.keys['arrowleft']) this.ship.ang -= 3.5 * dt;
+    if (this.keys['arrowright']) this.ship.ang += 3.5 * dt;
+    this.ship.thrust = this.keys['arrowup'] || false;
     if (this.ship.thrust) {
       this.ship.vx += Math.cos(this.ship.ang) * 220 * dt;
       this.ship.vy += Math.sin(this.ship.ang) * 220 * dt;
@@ -4196,13 +4711,13 @@ class Pipeline extends Base {
           this.sound.power();
           this.confetti(this.W / 2, this.H * 0.3);
           this.float(this.W / 2, this.H * 0.25, '+' + bonus + ' time bonus!', this.theme.accent);
-          setTimeout(() => {
+          this.schedule(1.2, () => {
             this.rows = Math.min(8, 5 + Math.floor(this.level * 0.3));
             this.cols = this.rows;
             this.level++;
             this._resizeGrid();
             this.completed = false;
-          }, 1200);
+          });
         }
       }
     }
@@ -4657,7 +5172,7 @@ function rr2(c, x, y, w, h, r) { c.beginPath(); c.moveTo(x + r, y); c.arcTo(x + 
 
 /* ============================================================ Entry */
 
-const MODES = { runner: Runner, flappy: Flappy, platformer: Platformer, dodger: Dodger, shooter: Shooter, whack: Whack, match3: Match3, serve: Serve, maze: Maze, memory: Memory, stacker: Stacker, sports: Sports, racing: Racing, breakout: Breakout, snake: Snake, rhythm: Rhythm, tower: TowerDefense, pinball: Pinball, fishing: Fishing, archery: Archery, pong: Pong, bubbleshooter: BubbleShooter, cannon: Cannon, merge: Merge, helix: Helix, doodlejump: DoodleJump, asteroids: Asteroids, pipeline: Pipeline, gallery: Gallery, idleclicker: IdleClicker };
+const MODES = { runner: Runner, flappy: Flappy, platformer: Platformer, dodger: Dodger, shooter: Shooter, whack: Whack, match3: Match3, serve: Serve, maze: Maze, memory: Memory, stacker: Stacker, sports: Sports, racing: Racing, breakout: Breakout, snake: Snake, rhythm: Rhythm, tower: TowerDefense, pinball: Pinball, fishing: Fishing, archery: Archery, pong: Pong, bubbleshooter: BubbleShooter, cannon: Cannon, merge: Merge, helix: Helix, doodlejump: DoodleJump, asteroids: Asteroids, pipeline: Pipeline, gallery: Gallery, idleclicker: IdleClicker, board: BoardArena };
 const sound = new Sound();
 let current = null;
 
@@ -4668,6 +5183,11 @@ export function startGame(mount, game) {
   sprites.get(theme.slug);                       // warm sprite cache
   const Cls = MODES[modeFor(game)] || Dodger;
   current = new Cls(mount, game, theme, sound);
+  window.render_game_to_text = () => current ? current.renderText() : JSON.stringify({ phase: 'unmounted' });
+  window.advanceTime = (ms) => current ? current.advanceTime(ms) : null;
   return current;
 }
+
+export function getCurrentGame() { return current; }
+export function grantRewardToCurrent(detail) { return current?.applyReward(detail) || false; }
 export { themeFor, modeFor };

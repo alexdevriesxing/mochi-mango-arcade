@@ -109,6 +109,8 @@ const STATE={TITLE:'title',PLAY:'play',PAUSE:'pause',END:'end'};
 let state=STATE.TITLE;
 let shiftTime=120, score=0, coins=0, combo=0, fever=0, feverGlow=0, reputation=5, served=0, missed=0, perfects=0, best=Number(localStorage.getItem('pancakePanicUltimateBest')||0);
 let starCharge=0, slowTime=0, goldenRush=0, tipMult=1;
+let rewardUsed=false;
+const processedRewardIds=new Set();
 
 const particles=[], confetti=[], floats=[];
 const clouds=[...Array(14)].map((_,i)=>({x:rand(W),y:rand(30,220),s:rand(1.8,.7),v:rand(16,4),seed:i*1.31}));
@@ -151,7 +153,7 @@ const pointer={x:0,y:0,down:false};
 
 function portal(event,data={}){try{window.parent&&window.parent.postMessage({source:'mochi-mango-arcade',game:'puddles-pancake-panic',event,data},'*')}catch(e){}}
 function resetGame(){
-  state=STATE.PLAY; shiftTime=120; score=0; coins=0; combo=0; fever=0; feverGlow=0; reputation=5; served=0; missed=0; perfects=0; starCharge=0; slowTime=0; goldenRush=0; tipMult=1;
+  state=STATE.PLAY; shiftTime=120; score=0; coins=0; combo=0; fever=0; feverGlow=0; reputation=5; served=0; missed=0; perfects=0; starCharge=0; slowTime=0; goldenRush=0; tipMult=1; rewardUsed=false;
   plate.count=0; plate.toppings.length=0; plate.qualities.length=0; plate.shine=0;
   pans.forEach(p=>{p.state='empty';p.cook=0;p.q1=0;p.smoke=0;p.flash=0;});
   orders=[]; spawnTimer=.1; specialTimer=20; particles.length=0; confetti.length=0; floats.length=0; addFloat('Breakfast Rush!',W/2,180,COLORS.gold,40); audio.power(); portal('game_start');
@@ -226,13 +228,39 @@ function serve(order){
 }
 function endGame(){ state=STATE.END; best=Math.max(best,score); localStorage.setItem('pancakePanicUltimateBest',best); addConfetti(); portal('game_end',{score,served,coins,perfects}); }
 
+function applySponsorBoost(detail={}){
+  if(rewardUsed)return false;
+  rewardUsed=true;
+  if(state===STATE.END)state=STATE.PLAY;
+  shiftTime=Math.min(180,Math.max(shiftTime,0)+20);
+  reputation=Math.max(reputation,5);
+  starCharge=100;
+  goldenRush=Math.max(goldenRush,12);
+  tipMult=Math.max(tipMult,2);
+  addFloat('SPONSOR BOOST! +20s',W/2,160,COLORS.gold,44);
+  addParticle(W/2,190,COLORS.gold,100,2.1);
+  addConfetti(W/2,150,90);
+  audio.power();
+  portal('reward_applied',{requestId:detail.requestId,score,shiftTime});
+  return true;
+}
+
 function pointerPos(e){ const r=canvas.getBoundingClientRect(); const cx=e.touches?e.touches[0].clientX:e.clientX; const cy=e.touches?e.touches[0].clientY:e.clientY; return {x:(cx-r.left)/r.width*W,y:(cy-r.top)/r.height*H}; }
 function handleDown(e){ e.preventDefault(); audio.init(); const p=pointerPos(e); pointer.x=p.x; pointer.y=p.y; pointer.down=true; clickAt(p.x,p.y); }
 function handleMove(e){ const p=pointerPos(e); pointer.x=p.x; pointer.y=p.y; }
 function handleUp(){ pointer.down=false; }
 canvas.addEventListener('pointerdown',handleDown); canvas.addEventListener('pointermove',handleMove); addEventListener('pointerup',handleUp);
 canvas.addEventListener('touchstart',handleDown,{passive:false}); canvas.addEventListener('touchmove',handleMove,{passive:false}); addEventListener('touchend',handleUp,{passive:true});
-addEventListener('keydown',e=>{ if(e.key===' '||e.key==='Enter'){audio.init(); if(state===STATE.TITLE||state===STATE.END) resetGame(); else if(state===STATE.PAUSE) state=STATE.PLAY; else if(state===STATE.PLAY) state=STATE.PAUSE;} if(e.key==='Escape'){ state=state===STATE.PLAY?STATE.PAUSE:STATE.PLAY; } if(e.key.toLowerCase()==='q') activatePower(); });
+addEventListener('keydown',e=>{ if(e.key===' '||e.key==='Enter'){audio.init(); if(state===STATE.TITLE||state===STATE.END) resetGame(); else if(state===STATE.PAUSE) state=STATE.PLAY; else if(state===STATE.PLAY) state=STATE.PAUSE;} if(e.key==='Escape'){ state=state===STATE.PLAY?STATE.PAUSE:STATE.PLAY; } if(e.key.toLowerCase()==='q') activatePower(); if(e.key.toLowerCase()==='f'&&!e.ctrlKey&&!e.metaKey&&!e.altKey){e.preventDefault();document.fullscreenElement?document.exitFullscreen?.():document.getElementById('stage')?.requestFullscreen?.();} });
+addEventListener('message',event=>{
+  if(event.origin!==location.origin||event.source!==parent)return;
+  const message=event.data||{};
+  if(message.channel!=='mma-reward-v1'||message.type!=='result'||!message.granted)return;
+  const requestId=message.detail?.requestId;
+  if(!requestId||processedRewardIds.has(requestId))return;
+  processedRewardIds.add(requestId);
+  applySponsorBoost(message.detail);
+});
 function hit(x,y,r){ return x>=r.x&&x<=r.x+r.w&&y>=r.y&&y<=r.y+r.h; }
 function clickAt(x,y){
   if(state===STATE.TITLE){ resetGame(); return; }
@@ -248,8 +276,10 @@ function clickAt(x,y){
   for(const o of orders){ if(hit(x,y,{x:o.x-30,y:o.y-10,w:220,h:150})){ serve(o); return; } }
 }
 
-function update(){
-  const t=now(); dt=Math.min(.033,t-tPrev); tPrev=t; time+=dt;
+function update(forcedDt){
+  const t=now();
+  dt=Number.isFinite(forcedDt)?forcedDt:Math.min(.033,t-tPrev);
+  tPrev=t; time+=dt;
   const ts = slowTime>0 ? 0.55 : 1;
   if(state===STATE.PLAY){
     shiftTime -= dt;
@@ -490,6 +520,16 @@ function render(){
   if(state===STATE.TITLE) drawTitleOverlay(); else if(state===STATE.PAUSE) drawPause(); else if(state===STATE.END) drawEnd();
 }
 
+window.render_game_to_text=()=>JSON.stringify({
+  coordinateSystem:'origin top-left; x increases right; y increases down; canvas is 1600x900',
+  slug:'puddles-pancake-panic',mode:state,score:Math.floor(score),best:Math.floor(best),coins:Math.floor(coins),combo,
+  timeLeft:+shiftTime.toFixed(2),reputation,served,missed,perfects,
+  activePowers:{starCharge:+starCharge.toFixed(1),slowTime:+slowTime.toFixed(2),goldenRush:+goldenRush.toFixed(2),tipMultiplier:tipMult},
+  reward:{usedThisRun:rewardUsed,benefit:'+20 seconds, full power and Golden Rush'},
+  orders:orders.slice(0,4).map(order=>({id:order.id,items:order.count,toppings:order.toppings,patience:+order.patience.toFixed(1)})),
+  pans:pans.map(pan=>({state:pan.state,cook:+pan.cook.toFixed(2)})),plate:{count:plate.count,toppings:plate.toppings},
+});
+window.advanceTime=ms=>{const steps=Math.max(1,Math.min(600,Math.round(Number(ms||0)/(1000/60))));for(let i=0;i<steps;i++)update(1/60);render();return window.render_game_to_text();};
 function loop(){ update(); render(); requestAnimationFrame(loop); }
 setTimeout(()=>loader.classList.add('hide'), 850);
 requestAnimationFrame(loop);

@@ -6,7 +6,7 @@
   }
 
   const VERSION = '2.0.0-stunning';
-  const GAME_SLUG = 'puddle-and-pip-meadow-dash';
+  const GAME_SLUG = 'puddle-pip-meadow-dash';
   const STORAGE_KEY = 'mma_puddle_pip_meadow_dash_best_v2';
   const canvas = document.getElementById('gameCanvas');
   const ctx = canvas.getContext('2d', { alpha: false, desynchronized: true });
@@ -61,7 +61,8 @@
     shield: 0,
     fever: 0,
     worldPulse: 0,
-    biome: 0
+    biome: 0,
+    rewardUsed: false
   };
 
   const player = {
@@ -78,6 +79,7 @@
   const floaters = [];
   const pollen = [];
   const foregroundGrass = [];
+  const processedRewardIds = new Set();
 
   const cloudPalette = ['#ffffff', '#fff9e8', '#f3fdff'];
   const flowerPalette = ['#ff65a3', '#ffd166', '#7aef8b', '#67d7ff', '#b05cff', '#fff59b'];
@@ -179,7 +181,7 @@
       mode: 'playing', time: state.time, runTime: 0, distance: 0, score: 0, fuzzies: 0, combo: 1, comboTimer: 0,
       speed: clamp(W * .35, 320, 480), targetSpeed: clamp(W * .35, 320, 480), difficulty: 1,
       spawnObstacle: .8, spawnFuzzy: .16, spawnSpark: .05, shake: 0, flash: 0, magnet: 0, shield: 0, fever: 0, worldPulse: 0,
-      biome: Math.random()
+      biome: Math.random(), rewardUsed: false
     });
     Object.assign(player, {
       x: W * (W < 680 ? .24 : .205), y: groundY - player.r, vy: 0, rot: 0, grounded: true, coyote: .12,
@@ -191,6 +193,9 @@
     pip.trail.length = 0;
     for (let i = 0; i < 8; i++) addFuzzy(W + i * 92, groundY - rand(90, 185), true);
     show(null);
+    ui.revive.disabled = false;
+    ui.revive.hidden = false;
+    ui.revive.textContent = 'Watch ad to revive';
     updateHud();
     portal.emit('start', { bestScore });
     sfx.chord(420);
@@ -221,6 +226,7 @@
     ui.finalCoins.textContent = state.fuzzies.toLocaleString();
     ui.bestScore.textContent = bestScore.toLocaleString();
     ui.scoreLine.textContent = `Score ${Math.floor(state.score).toLocaleString()} · Fuzzies ${state.fuzzies.toLocaleString()} · Combo ×${state.combo}`;
+    ui.revive.hidden = state.rewardUsed;
     show('gameOver');
     portal.emit('gameover', { score: Math.floor(state.score), fuzzies: state.fuzzies, bestScore });
     state.shake = .35;
@@ -229,6 +235,8 @@
   }
 
   function revive() {
+    state.rewardUsed = true;
+    ui.revive.disabled = true;
     player.alive = true;
     player.invincible = 3;
     player.y = groundY - player.r;
@@ -244,6 +252,27 @@
     show(null);
     portal.emit('revive', { score: Math.floor(state.score) });
     sfx.power();
+  }
+
+  function applySponsorBoost(detail = {}) {
+    if (state.rewardUsed) return false;
+    state.rewardUsed = true;
+    ui.revive.disabled = true;
+    if (state.mode === 'gameover') {
+      revive();
+    } else {
+      state.shield = Math.max(state.shield, 12);
+      state.magnet = Math.max(state.magnet, 10);
+      state.fever = Math.max(state.fever, 10);
+      state.score += 500;
+      player.invincible = Math.max(player.invincible, 4);
+      state.flash = .55;
+      burst(player.x, player.y, '#fff6a5', 72, 7);
+      floatText(player.x, player.y - player.r * 2, 'SPONSOR BOOST!', '#fff6a5');
+      sfx.power();
+      portal.emit('reward_applied', { score: Math.floor(state.score), requestId: detail.requestId });
+    }
+    return true;
   }
 
   function jump() {
@@ -1014,6 +1043,10 @@
       if (e.code === 'Space' || e.code === 'ArrowUp' || e.code === 'KeyW') { e.preventDefault(); jump(); }
       if (e.code === 'ArrowDown' || e.code === 'KeyS') { e.preventDefault(); roll(); }
       if (e.code === 'Escape' || e.code === 'KeyP') { e.preventDefault(); state.mode === 'playing' ? pauseGame() : resumeGame(); }
+      if (e.code === 'KeyF' && !e.ctrlKey && !e.metaKey && !e.altKey) {
+        e.preventDefault();
+        document.fullscreenElement ? document.exitFullscreen?.() : document.getElementById('gameFrame')?.requestFullscreen?.();
+      }
     });
     window.addEventListener('keyup', (e) => { if (['Space', 'ArrowUp', 'KeyW'].includes(e.code)) releaseJump(); });
     canvas.addEventListener('pointerdown', (e) => { pointerIsDown = true; pointerStartY = e.clientY; canvas.setPointerCapture?.(e.pointerId); jump(); });
@@ -1032,7 +1065,23 @@
     ui.restartPause.addEventListener('click', resetRun);
     ui.restart.addEventListener('click', resetRun);
     ui.soundBtn.addEventListener('click', () => { muted = !muted; ui.soundBtn.textContent = muted ? '×' : '♪'; ui.soundBtn.setAttribute('aria-pressed', String(!muted)); if (!muted) sfx.power(); });
-    ui.revive.addEventListener('click', async () => { if (state.mode !== 'gameover') return; const ok = await portal.rewardedAd('revive'); if (ok) revive(); });
+    ui.revive.addEventListener('click', async () => {
+      if (state.mode !== 'gameover' || state.rewardUsed) return;
+      ui.revive.disabled = true;
+      ui.revive.textContent = 'Sponsor opened…';
+      const ok = await portal.rewardedAd('revive');
+      if (ok) revive();
+      else { ui.revive.disabled = false; ui.revive.textContent = 'Watch ad to revive'; }
+    });
+    window.addEventListener('message', (event) => {
+      if (event.origin !== location.origin || event.source !== parent) return;
+      const message = event.data || {};
+      if (message.channel !== 'mma-reward-v1' || message.type !== 'result' || !message.granted) return;
+      const requestId = message.detail?.requestId;
+      if (!requestId || processedRewardIds.has(requestId)) return;
+      processedRewardIds.add(requestId);
+      applySponsorBoost(message.detail);
+    });
   }
 
   function init() {
@@ -1045,6 +1094,27 @@
     requestAnimationFrame(loop);
     setTimeout(() => { state.mode = 'menu'; show('start'); }, 850);
   }
+
+  window.render_game_to_text = () => JSON.stringify({
+    coordinateSystem: 'origin top-left; x increases right; y increases down; canvas units are CSS pixels',
+    slug: GAME_SLUG,
+    mode: state.mode,
+    score: Math.floor(state.score),
+    best: bestScore,
+    fuzzies: state.fuzzies,
+    combo: state.combo,
+    elapsedSeconds: +state.runTime.toFixed(2),
+    activePowers: { shield: +state.shield.toFixed(2), magnet: +state.magnet.toFixed(2), fever: +state.fever.toFixed(2) },
+    reward: { usedThisRun: state.rewardUsed, benefit: 'revive or shield + magnet + 500 score' },
+    player: { x: Math.round(player.x), y: Math.round(player.y), vx: 0, vy: Math.round(player.vy), alive: player.alive },
+    obstacles: objects.filter((object) => !object.dead).slice(0, 12).map((object) => ({ type: object.type, x: Math.round(object.x), y: Math.round(object.y) })),
+  });
+  window.advanceTime = (ms) => {
+    const steps = Math.max(1, Math.min(600, Math.round(Number(ms || 0) / (1000 / 60))));
+    for (let i = 0; i < steps; i++) update(1 / 60);
+    draw();
+    return window.render_game_to_text();
+  };
 
   init();
 })();

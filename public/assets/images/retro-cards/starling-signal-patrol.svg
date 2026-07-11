@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 450" role="img" aria-labelledby="title desc" shape-rendering="geometricPrecision">
+  <title id="title">Starling Signal Patrol key art</title><desc id="desc">An original amber and cyan vector star patrol scene with Stella Starling's signal craft.</desc>
+  <defs><linearGradient id="bg" x2="0" y2="1"><stop stop-color="#080915"/><stop offset="1" stop-color="#191034"/></linearGradient><pattern id="scan" width="4" height="4" patternUnits="userSpaceOnUse"><path d="M0 3.5h4" stroke="#fff" stroke-opacity=".055"/></pattern><filter id="glow"><feGaussianBlur stdDeviation="4" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs>
+  <rect width="720" height="450" rx="28" fill="url(#bg)"/><path d="M55 65H665M55 105H665M55 145H665M55 185H665" stroke="#39ffde" stroke-opacity=".13"/>
+  <g fill="none" stroke="#ffcf40" stroke-width="5" filter="url(#glow)"><path d="M125 92l16 10 16-10-16 25zM215 118l16 10 16-10-16 25zM305 82l16 10 16-10-16 25zM395 118l16 10 16-10-16 25zM485 92l16 10 16-10-16 25z"/><path d="M575 130l16 10 16-10-16 25z"/></g>
+  <g transform="translate(360 248)" filter="url(#glow)"><path d="M0-68L58 35 0 18-58 35z" fill="#39ffde" stroke="#f7fbff" stroke-width="5"/><path d="M0-42l17 54H-17z" fill="#ff4f9a"/><circle cy="-9" r="8" fill="#ffcf40"/><path d="M-33 36l-12 31M33 36l12 31" stroke="#ffcf40" stroke-width="6"/></g>
+  <g fill="#f7fbff"><circle cx="82" cy="55" r="3"/><circle cx="630" cy="57" r="4"/><circle cx="89" cy="205" r="2"/><circle cx="625" cy="217" r="3"/><circle cx="270" cy="214" r="2"/></g>
+  <rect x="30" y="24" width="180" height="29" rx="14" fill="#39ffde"/><text x="120" y="44" text-anchor="middle" font-family="Arial,sans-serif" font-size="15" font-weight="900" fill="#080915" letter-spacing="2">RETRO · 70s</text>
+  <text x="36" y="376" font-family="Arial Black,Arial,sans-serif" font-size="45" font-weight="900" fill="#f7fbff">STARLING SIGNAL</text><text x="36" y="421" font-family="Arial Black,Arial,sans-serif" font-size="45" font-weight="900" fill="#ffcf40">PATROL</text>
+  <rect width="720" height="450" rx="28" fill="url(#scan)"/><rect x="8" y="8" width="704" height="434" rx="23" fill="none" stroke="#39ffde" stroke-width="3"/>
+</svg>

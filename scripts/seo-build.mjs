@@ -78,6 +78,7 @@ function head({ title, desc, canonical, image, jsonld }) {
     `<link rel="preload" href="/assets/data/games.json" as="fetch" crossorigin>` +
     `<link rel="stylesheet" href="/assets/css/styles.css">` +
     `<script type="application/ld+json">${JSON.stringify(jsonld)}</script>` +
+    `<script src="/js/monetag-loader.js" defer></script>` +
     `</head>`;
 }
 

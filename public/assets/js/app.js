@@ -32,7 +32,8 @@ function header(active='home'){
     ['/characters/','characters', t('characters')],
     ['/shop/','shop', 'Merch Shop'],
     ['/new-releases/','newReleases', 'New Releases <span class="new-dot">NEW</span>'],
-    ['/about/','about', t('about')]
+    ['/about/','about', t('about')],
+    ['/profile/','profile', '🏆 Profile']
   ];
   return `<a class="skip-link" href="#main">Skip</a>
   <header class="topbar">
@@ -1035,6 +1036,34 @@ function gameDetail(sl){
   </main>`;
 }
 
+function rewardBenefit(g) {
+  if (g.slug === 'puddle-pip-meadow-dash') return 'Revive with a guardian shield and keep your score';
+  if (g.slug === 'puddles-pancake-panic') return '+20 seconds, full power charge and Golden Rush';
+  const mode = engineMode(g);
+  if (['match3', 'memory', 'pipeline'].includes(mode)) return '+20 seconds and double score';
+  if (mode === 'gallery') return '+10 seconds and double score';
+  if (['sports', 'archery'].includes(mode)) return '+3 attempts and a power shield';
+  if (mode === 'tower') return '+100 tower coins and one life';
+  if (mode === 'idleclicker') return '90 seconds of bonus earnings';
+  if (['bubbleshooter', 'cannon'].includes(mode)) return 'Extra shots and double score';
+  if (mode === 'serve') return 'Full patience and a Rush Hour boost';
+  if (mode === 'racing') return 'Turbo boost and double score';
+  if (mode === 'pong') return 'Mega paddle and double score';
+  return '+1 life, a 12-second shield and double score';
+}
+
+function rewardCard(g) {
+  return `<section class="reward-card" data-reward-panel data-slug="${g.slug}">
+    <div class="reward-card-icon" aria-hidden="true">🎁</div>
+    <div class="reward-card-copy">
+      <span class="reward-kicker">Optional rewarded boost</span>
+      <strong>${rewardBenefit(g)}</strong>
+      <span class="reward-status" aria-live="polite">Visit our sponsor, then return to unlock your boost.</span>
+    </div>
+    <button class="btn reward-ad-button" type="button" data-reward-ad data-slug="${g.slug}">Visit sponsor & unlock</button>
+  </section>`;
+}
+
 function playPage(sl){
   let g=S.games.find(x=>x.slug==sl)||S.games[0];
   if(!g.built){
@@ -1057,9 +1086,10 @@ function playPage(sl){
       ${adTop()}
       <div class="detail-layout">
         <section>
-          <div class="play-shell" style="padding:0;overflow:hidden;aspect-ratio:16/9;background:#000;border-radius:28px;box-shadow:0 12px 40px rgba(0,0,0,0.6);border:1.5px solid var(--border-color);">
+          <div class="play-shell" data-universe="${g.universe}" style="padding:0;overflow:hidden;aspect-ratio:16/9;background:#000;border-radius:28px;box-shadow:0 12px 40px rgba(0,0,0,0.6);border:1.5px solid var(--border-color);">
             <iframe src="game/index.html" style="width:100%;height:100%;border:none;display:block;border-radius:26px;" allow="autoplay"></iframe>
           </div>
+          ${rewardCard(g)}
           ${adNative('post-game-ad')}
         </section>
         <aside class="side-stack">
@@ -1083,9 +1113,10 @@ function playPage(sl){
       ${adTop()}
       <div class="detail-layout">
         <section>
-          <div class="play-shell" style="padding:0;overflow:hidden;aspect-ratio:16/9;background:#000;border-radius:28px;box-shadow:0 12px 40px rgba(0,0,0,0.6);border:1.5px solid var(--border-color);">
+          <div class="play-shell" data-universe="${g.universe}" style="padding:0;overflow:hidden;aspect-ratio:16/9;background:#000;border-radius:28px;box-shadow:0 12px 40px rgba(0,0,0,0.6);border:1.5px solid var(--border-color);">
             <iframe src="game/index.html" style="width:100%;height:100%;border:none;display:block;border-radius:26px;" allow="autoplay"></iframe>
           </div>
+          ${rewardCard(g)}
           ${adNative('post-game-ad')}
         </section>
         <aside class="side-stack">
@@ -1143,9 +1174,10 @@ function playPage(sl){
     <div class="detail-layout">
       <section>
         <h1 class="play-heading">${g.title}</h1>
-        <div class="play-shell game-stage-shell">
+        <div class="play-shell game-stage-shell" data-universe="${g.universe}">
           <div id="gameStage" class="game-stage" data-slug="${g.slug}"></div>
         </div>
+        ${rewardCard(g)}
         ${adNative('post-game-ad')}
         <div class="play-links">
           <a class="btn secondary small" href="${g.detailUrl}">ℹ️ Game details</a>
@@ -1169,10 +1201,19 @@ function playPage(sl){
   </main>`;
 }
 
+const EXPLICIT_GAME_MODES = new Set([
+  'sports', 'racing', 'breakout', 'snake', 'rhythm', 'tower', 'pinball',
+  'fishing', 'archery', 'pong', 'bubbleshooter', 'cannon', 'merge', 'helix',
+  'doodlejump', 'asteroids', 'pipeline', 'gallery', 'idleclicker', 'flappy',
+  'platformer', 'shooter', 'whack', 'match3', 'serve', 'maze', 'memory',
+  'stacker', 'dodger', 'runner',
+]);
+
 function engineMode(g){
   let s=(g.genre+' '+g.engine+' '+(g.title||'')+' '+(g.slug||'')).toLowerCase();
+  if(EXPLICIT_GAME_MODES.has(g.engine))return g.engine;
   if(/(soccer|football|kick|penalty|goal|sport|basketball|hoop|score|shoot-out|stadium|league|club|team)/.test(s))return 'sports';
-  if(/(racing|racer|driv|kart|speed|grand.prix|circuit|track|drag|drift|moto|car|vehicle|wheels|race|derby)/.test(s))return 'racing';
+  if(/(racing|racer|driv|kart|speed|grand.prix|circuit|track|\bdrag\b|drift|moto|\bcar\b|vehicle|wheels|race|derby)/.test(s))return 'racing';
   if(/(breakout|brick|smash|block.blast|blocky|bouncer|paddle|wall.break)/.test(s))return 'breakout';
   if(/(snake|slither|serpent|worm|noodle|crawler|coil|conda)/.test(s))return 'snake';
   if(/(rhythm|beat|dance|music|tempo|groove|jam|jukebox|drumline|drum|bongo|concert|melody|tune|band)/.test(s))return 'rhythm';
@@ -1207,12 +1248,132 @@ function engineMode(g){
 }
 
 const IFRAME_GAMES=['puddle-pip-meadow-dash','puddles-pancake-panic'];
+let activeGame=null,queuedReward=null,arcadeEventsBound=false;
+const profileRunStartedAt=new Map(),submittedRewardIds=new Set();
+
 function mountEngine(sl){
   let stage=document.getElementById('gameStage');
   if(!stage)return;
   let g=S.games.find(x=>x.slug==sl)||S.games[0];
-  import('/assets/js/mmengine.js').then(m=>m.startGame(stage,g)).catch(e=>{
+  import('/assets/js/mmengine.js').then(m=>{
+    activeGame=m.startGame(stage,g);
+    if(queuedReward){activeGame?.applyReward(queuedReward);queuedReward=null;}
+  }).catch(e=>{
+    console.error('Game engine failed to load',e);
     stage.innerHTML='<div class="empty" style="padding:40px">This game could not load. <a href="'+g.detailUrl+'">View details</a></div>';
+  });
+}
+
+function profileEventId(prefix='event'){
+  if(globalThis.crypto?.randomUUID)return crypto.randomUUID();
+  return `${prefix}_${Date.now().toString(36)}_${Math.random().toString(36).slice(2)}`;
+}
+
+async function syncProfileEvent(endpoint,payload){
+  if(localStorage.getItem('mma_profile_active')!=='1')return;
+  try{
+    const response=await fetch(endpoint,{method:'POST',credentials:'same-origin',headers:{'content-type':'application/json'},body:JSON.stringify(payload)});
+    if(response.status===401)localStorage.removeItem('mma_profile_active');
+    if(!response.ok)return;
+    const result=await response.json();
+    const unlocked=result.newAchievements||[];
+    if(unlocked.length){
+      const trophy=unlocked[0];
+      toast(`🏆 Achievement unlocked: ${trophy.name||'New trophy!'}`);
+    }
+  }catch(error){/* Profile sync is optional while signed out/offline. */}
+}
+
+function beginProfileRun(slug){
+  if(slug)profileRunStartedAt.set(slug,performance.now());
+}
+
+function finishProfileRun(slug,data={}){
+  if(!slug)return;
+  const startedAt=profileRunStartedAt.get(slug)??performance.now();
+  profileRunStartedAt.delete(slug);
+  const score=Math.max(0,Math.min(10_000_000,Math.floor(Number(data.score)||0)));
+  const durationMs=Math.max(0,Math.min(21_600_000,Math.floor(performance.now()-startedAt)));
+  const game=S.games.find(item=>item.slug===slug);
+  syncProfileEvent('/api/profile/events/game',{
+    eventId:profileEventId('game'),gameId:slug,score,durationMs,outcome:data.outcome||'loss',
+    mode:game?engineMode(game):undefined,
+  });
+}
+
+function recordProfileReward(slug,data={}){
+  if(!slug)return;
+  const supplied=typeof data.requestId==='string'&&/^[A-Za-z0-9_-]{8,80}$/.test(data.requestId)?data.requestId:null;
+  const eventId=supplied||profileEventId('reward');
+  if(submittedRewardIds.has(eventId))return;
+  submittedRewardIds.add(eventId);
+  syncProfileEvent('/api/profile/events/reward',{
+    eventId,gameId:slug,rewardType:'power-up',amount:1,
+  });
+}
+
+function setRewardPanel(state,message){
+  $$('[data-reward-panel]').forEach(panel=>{
+    const button=panel.querySelector('[data-reward-ad]'),status=panel.querySelector('.reward-status');
+    if(status)status.textContent=message;
+    if(button){
+      button.disabled=state==='pending'||state==='applied';
+      button.textContent=state==='pending'?'Sponsor opened — return to unlock':state==='applied'?'Boost unlocked ✓':'Visit sponsor & unlock';
+    }
+    panel.dataset.state=state;
+  });
+}
+
+function bindRewardButtons(){
+  $$('[data-reward-ad]').forEach(button=>button.addEventListener('click',()=>{
+    const panel=button.closest('[data-reward-panel]');
+    const slug=button.dataset.slug||document.body.dataset.slug;
+    if(!window.MochiMangoRewards?.request){
+      setRewardPanel('blocked','The reward service is still loading. Please try again.');
+      return;
+    }
+    const accepted=window.MochiMangoRewards.request({slug,source:'play-page'});
+    if(!accepted)setRewardPanel('blocked','Pop-up blocked. Allow pop-ups, then try again.');
+    else if(panel)panel.dataset.state='pending';
+  }));
+}
+
+function bindArcadeEvents(){
+  if(arcadeEventsBound)return;
+  arcadeEventsBound=true;
+  addEventListener('mma:reward-granted',event=>{
+    const slug=document.body.dataset.slug;
+    if(event.detail?.slug===slug&&!IFRAME_GAMES.includes(slug)&&!activeGame)queuedReward=event.detail;
+    if(IFRAME_GAMES.includes(slug)){
+      setRewardPanel('applied','Boost delivered to the game. Have fun!');
+    }
+  });
+  addEventListener('mma:reward-pending',()=>setRewardPanel('pending','Sponsor opened. Return after your visit to unlock the boost.'));
+  addEventListener('mma:reward-blocked',event=>{
+    const reason=event.detail?.reason;
+    const message=reason==='returned-too-quickly'?'Stay on the sponsor page a little longer, then return.':'Reward not opened. Check your pop-up settings and try again.';
+    setRewardPanel('blocked',message);
+  });
+  addEventListener('mma:reward-applied',event=>{
+    setRewardPanel('applied',`Unlocked: ${event.detail?.label||'reward boost'}.`);
+    toast(`🎁 ${event.detail?.label||'Reward boost unlocked!'}`);
+    recordProfileReward(event.detail?.slug||document.body.dataset.slug,event.detail);
+  });
+  addEventListener('mma:run-started',event=>{
+    setRewardPanel('ready','Visit our sponsor, then return to unlock your boost.');
+    beginProfileRun(event.detail?.slug);
+  });
+  addEventListener('mma:game-over',event=>finishProfileRun(event.detail?.slug,event.detail));
+  addEventListener('message',event=>{
+    const frame=$('.play-shell iframe');
+    if(event.origin!==location.origin||!frame||event.source!==frame.contentWindow)return;
+    const message=event.data||{};
+    const data=message.payload||message.data||{};
+    if(message.source!=='mochi-mango-arcade')return;
+    const gameSlug=document.body.dataset.slug;
+    if(message.event==='gameover'||message.event==='game_end')finishProfileRun(gameSlug,data);
+    if(message.event==='start'||message.event==='game_start')beginProfileRun(gameSlug);
+    if(message.event==='revive'||message.event==='reward_applied')recordProfileReward(gameSlug,data);
   });
 }
 
@@ -1506,6 +1667,8 @@ function render(){
   hydrateShop();
   drawCart();
   applyI18n();
+  bindArcadeEvents();
+  bindRewardButtons();
   if(p=='play'&&sl&&!IFRAME_GAMES.includes(sl))mountEngine(sl);
   if(location.hash)setTimeout(()=>$(location.hash)?.scrollIntoView({behavior:'smooth'}),120);
   mountAds();

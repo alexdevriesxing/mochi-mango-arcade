@@ -1,0 +1,304 @@
+- generic [ref=e1]:
+  - link "Skip to profile" [ref=e2] [cursor=pointer]:
+    - /url: "#main"
+  - generic:
+    - generic: ✦
+    - generic: ✦
+    - generic: ✦
+  - banner [ref=e3]:
+    - generic [ref=e4]:
+      - link "Mochi Mango Arcade home" [ref=e5] [cursor=pointer]:
+        - /url: /
+        - img "Mochi Mango Arcade" [ref=e6]
+      - navigation "Primary navigation" [ref=e7]:
+        - link "Home" [ref=e8] [cursor=pointer]:
+          - /url: /
+        - link "Games" [ref=e9] [cursor=pointer]:
+          - /url: /games/
+        - link "Universes" [ref=e10] [cursor=pointer]:
+          - /url: /universes/
+        - link "Leaderboards" [ref=e11] [cursor=pointer]:
+          - /url: /leaderboards/
+        - link "My Profile" [ref=e12] [cursor=pointer]:
+          - /url: /profile/
+      - generic [ref=e13]:
+        - generic [ref=e14]: Sky Player
+        - link "My profile" [ref=e16] [cursor=pointer]:
+          - /url: /profile/
+  - main [ref=e17]:
+    - region [ref=e18]:
+      - generic [ref=e19]:
+        - generic [ref=e23]: ✦
+        - generic [ref=e24]: ✦
+      - generic [ref=e25]:
+        - generic [ref=e26]:
+          - generic [ref=e27]:
+            - generic: ✦ ✦
+            - img "Mochi avatar" [ref=e378]
+          - generic [ref=e29]: Your profile
+        - generic [ref=e31]:
+          - generic [ref=e32]:
+            - generic [ref=e33]: Level 8
+            - generic [ref=e34]: Sparkly Adventurer
+          - heading "Sky Player" [level=1] [ref=e35]
+          - paragraph [ref=e36]: "@skyplayer · Joined apr 2026"
+          - paragraph [ref=e37]: Collecting cozy high scores one tiny adventure at a time.
+          - generic "Level progress" [ref=e38]:
+            - generic [ref=e39]:
+              - generic [ref=e40]:
+                - strong [ref=e41]: "4.965"
+                - text: XP
+              - generic [ref=e42]: 1.435 XP to level 9
+        - generic [ref=e45]:
+          - button "Avatar Studio" [active] [ref=e46] [cursor=pointer]:
+            - generic [ref=e47]: 🎨
+            - text: Avatar Studio
+          - button "Share profile" [ref=e48] [cursor=pointer]:
+            - generic [ref=e49]: 🔗
+            - text: Share profile
+          - button "Sign out" [ref=e50] [cursor=pointer]
+      - region "Player statistics" [ref=e51]:
+        - article [ref=e52]:
+          - generic [ref=e53]: 🎮
+          - generic [ref=e54]:
+            - strong [ref=e55]: "27"
+            - generic [ref=e56]: Games played
+        - article [ref=e57]:
+          - generic [ref=e58]: 🏆
+          - generic [ref=e59]:
+            - strong [ref=e60]: "6"
+            - generic [ref=e61]: Achievements
+        - article [ref=e62]:
+          - generic [ref=e63]: ⭐
+          - generic [ref=e64]:
+            - strong [ref=e65]: "115"
+            - generic [ref=e66]: Trophy points
+        - article [ref=e67]:
+          - generic [ref=e68]: ⏱
+          - generic [ref=e69]:
+            - strong [ref=e70]: 16m
+            - generic [ref=e71]: Play time
+      - generic [ref=e72]:
+        - region [ref=e73]:
+          - generic [ref=e74]:
+            - generic [ref=e75]:
+              - generic [ref=e76]: Collector's cabinet
+              - heading "Achievements & trophies" [level=2] [ref=e77]
+              - paragraph [ref=e78]: 6 bright moments collected — keep exploring!
+            - generic [ref=e79] [cursor=pointer]:
+              - checkbox "Show locked" [checked]
+              - text: Show locked
+          - generic [ref=e82]:
+            - generic [ref=e83]:
+              - strong [ref=e84]: "6"
+              - text: of
+              - strong [ref=e85]: "20"
+              - text: unlocked
+            - generic [ref=e86]: 30%
+          - generic [ref=e89]:
+            - article [ref=e380]:
+              - generic [ref=e381]: 🌸
+              - heading "Warm Welcome" [level=3] [ref=e382]
+              - paragraph [ref=e383]: Finish your first game.
+              - generic [ref=e384]:
+                - generic [ref=e385]: ✓ Earned
+                - generic [ref=e386]: Unlocked jul 2026 · 10 pts
+            - article [ref=e387]:
+              - generic [ref=e388]: 🧸
+              - heading "Getting Comfy" [level=3] [ref=e389]
+              - paragraph [ref=e390]: Play ten games.
+              - generic [ref=e391]:
+                - generic [ref=e392]: ✓ Earned
+                - generic [ref=e393]: Unlocked jul 2026 · 25 pts
+            - article [ref=e394]:
+              - generic [ref=e395]: 🕹️ 🔒
+              - heading "Arcade Regular" [level=3] [ref=e396]
+              - paragraph [ref=e397]: Play fifty games.
+              - generic [ref=e398]:
+                - generic [ref=e399]: Locked
+                - generic [ref=e400]: 27 / 50 · 75 pts
+            - article [ref=e401]:
+              - generic [ref=e402]: 👑 🔒
+              - heading "Arcade Legend" [level=3] [ref=e403]
+              - paragraph [ref=e404]: Play two hundred games.
+              - generic [ref=e405]:
+                - generic [ref=e406]: Locked
+                - generic [ref=e407]: 27 / 200 · 200 pts
+            - article [ref=e408]:
+              - generic [ref=e409]: ✨ 🔒
+              - heading "Pocket Sparkles" [level=3] [ref=e410]
+              - paragraph [ref=e411]: Earn 1,000 total points.
+              - generic [ref=e412]:
+                - generic [ref=e413]: Locked
+                - generic [ref=e414]: 1.000 / 1.000 · 15 pts
+            - article [ref=e415]:
+              - generic [ref=e416]: ⭐
+              - heading "Score Spark" [level=3] [ref=e417]
+              - paragraph [ref=e418]: Earn 10,000 total points.
+              - generic [ref=e419]:
+                - generic [ref=e420]: ✓ Earned
+                - generic [ref=e421]: Unlocked jul 2026 · 40 pts
+            - article [ref=e422]:
+              - generic [ref=e423]: 🌟 🔒
+              - heading "Score Superstar" [level=3] [ref=e424]
+              - paragraph [ref=e425]: Earn 100,000 total points.
+              - generic [ref=e426]:
+                - generic [ref=e427]: Locked
+                - generic [ref=e428]: 48.500 / 100.000 · 100 pts
+            - article [ref=e429]:
+              - generic [ref=e430]: 💫 🔒
+              - heading "Million Mochi" [level=3] [ref=e431]
+              - paragraph [ref=e432]: Earn one million total points.
+              - generic [ref=e433]:
+                - generic [ref=e434]: Locked
+                - generic [ref=e435]: 48.500 / 1.000.000 · 300 pts
+            - article [ref=e436]:
+              - generic [ref=e437]: 🎉
+              - heading "First Victory" [level=3] [ref=e438]
+              - paragraph [ref=e439]: Win your first game.
+              - generic [ref=e440]:
+                - generic [ref=e441]: ✓ Earned
+                - generic [ref=e442]: Unlocked jul 2026 · 15 pts
+            - article [ref=e443]:
+              - generic [ref=e444]: 🎋 🔒
+              - heading "Winning Ways" [level=3] [ref=e445]
+              - paragraph [ref=e446]: Win twenty-five games.
+              - generic [ref=e447]:
+                - generic [ref=e448]: Locked
+                - generic [ref=e449]: 9 / 25 · 75 pts
+            - article [ref=e450]:
+              - generic [ref=e451]: 🏆 🔒
+              - heading "Cozy Champion" [level=3] [ref=e452]
+              - paragraph [ref=e453]: Win one hundred games.
+              - generic [ref=e454]:
+                - generic [ref=e455]: Locked
+                - generic [ref=e456]: 9 / 100 · 200 pts
+            - article [ref=e457]:
+              - generic [ref=e458]: 🎁
+              - heading "Helpful Boost" [level=3] [ref=e459]
+              - paragraph [ref=e460]: Claim your first rewarded boost.
+              - generic [ref=e461]:
+                - generic [ref=e462]: ✓ Earned
+                - generic [ref=e463]: Unlocked jul 2026 · 10 pts
+            - article [ref=e464]:
+              - generic [ref=e465]: ⚡ 🔒
+              - heading "Power Pal" [level=3] [ref=e466]
+              - paragraph [ref=e467]: Claim ten rewarded boosts.
+              - generic [ref=e468]:
+                - generic [ref=e469]: Locked
+                - generic [ref=e470]: 4 / 10 · 35 pts
+            - article [ref=e471]:
+              - generic [ref=e472]: 🏅 🔒
+              - heading "Reward Ranger" [level=3] [ref=e473]
+              - paragraph [ref=e474]: Claim fifty rewarded boosts.
+              - generic [ref=e475]:
+                - generic [ref=e476]: Locked
+                - generic [ref=e477]: 4 / 50 · 100 pts
+            - article [ref=e478]:
+              - generic [ref=e479]: 🎨 🔒
+              - heading "Fresh Look" [level=3] [ref=e480]
+              - paragraph [ref=e481]: Create your first custom avatar look.
+              - generic [ref=e482]:
+                - generic [ref=e483]: Locked
+                - generic [ref=e484]: 1 / 1 · 10 pts
+            - article [ref=e485]:
+              - generic [ref=e486]: 🪡 🔒
+              - heading "Cozy Fashionista" [level=3] [ref=e487]
+              - paragraph [ref=e488]: Try ten avatar looks.
+              - generic [ref=e489]:
+                - generic [ref=e490]: Locked
+                - generic [ref=e491]: 2 / 10 · 50 pts
+            - article [ref=e492]:
+              - generic [ref=e493]: 🗺️
+              - heading "Cozy Explorer" [level=3] [ref=e494]
+              - paragraph [ref=e495]: Play five different games.
+              - generic [ref=e496]:
+                - generic [ref=e497]: ✓ Earned
+                - generic [ref=e498]: Unlocked jul 2026 · 25 pts
+            - article [ref=e499]:
+              - generic [ref=e500]: 🌏 🔒
+              - heading "World Traveler" [level=3] [ref=e501]
+              - paragraph [ref=e502]: Play twenty-five different games.
+              - generic [ref=e503]:
+                - generic [ref=e504]: Locked
+                - generic [ref=e505]: 8 / 25 · 100 pts
+            - article [ref=e506]:
+              - generic [ref=e507]: 🚀 🔒
+              - heading "High Flyer" [level=3] [ref=e508]
+              - paragraph [ref=e509]: Score 10,000 points in one game.
+              - generic [ref=e510]:
+                - generic [ref=e511]: Locked
+                - generic [ref=e512]: 10.000 / 10.000 · 60 pts
+            - article [ref=e513]:
+              - generic [ref=e514]: 🌠 🔒
+              - heading "Star Player" [level=3] [ref=e515]
+              - paragraph [ref=e516]: Score 100,000 points in one game.
+              - generic [ref=e517]:
+                - generic [ref=e518]: Locked
+                - generic [ref=e519]: 12.850 / 100.000 · 180 pts
+        - complementary [ref=e230]:
+          - region [ref=e231]:
+            - generic [ref=e232]:
+              - generic [ref=e233]:
+                - generic [ref=e234]: Personal records
+                - heading "Best scores" [level=2] [ref=e235]
+              - link "All boards" [ref=e236] [cursor=pointer]:
+                - /url: /leaderboards/
+                - text: All boards →
+            - list [ref=e237]:
+              - listitem [ref=e520]:
+                - link "Puddle Pip Meadow Dash Personal best · jul 2026 12.850" [ref=e521] [cursor=pointer]:
+                  - /url: /games/puddle-pip-meadow-dash/
+                  - generic [ref=e522]:
+                    - strong [ref=e523]: Puddle Pip Meadow Dash
+                    - generic [ref=e524]: Personal best · jul 2026
+                  - generic [ref=e525]: "12.850"
+              - listitem [ref=e526]:
+                - link "Puddles Pancake Panic Personal best · jul 2026 9.320" [ref=e527] [cursor=pointer]:
+                  - /url: /games/puddles-pancake-panic/
+                  - generic [ref=e528]:
+                    - strong [ref=e529]: Puddles Pancake Panic
+                    - generic [ref=e530]: Personal best · jul 2026
+                  - generic [ref=e531]: "9.320"
+              - listitem [ref=e532]:
+                - link "Bramble Bears Berry Defense Personal best · jul 2026 7.440" [ref=e533] [cursor=pointer]:
+                  - /url: /games/bramble-bears-berry-defense/
+                  - generic [ref=e534]:
+                    - strong [ref=e535]: Bramble Bears Berry Defense
+                    - generic [ref=e536]: Personal best · jul 2026
+                  - generic [ref=e537]: "7.440"
+          - region [ref=e256]:
+            - generic [ref=e257]: ✦
+            - generic [ref=e258]: Favorite companion
+            - heading "Adventure buddy" [level=2] [ref=e259]
+            - generic [ref=e260]:
+              - img "Mochi" [ref=e538]
+              - generic [ref=e262]:
+                - strong [ref=e263]: Mochi
+                - generic [ref=e264]: Sweet, round, and ready!
+          - region [ref=e265]:
+            - generic [ref=e266]: 🕹️
+            - generic [ref=e267]:
+              - generic [ref=e268]: Next achievement
+              - heading "Arcade Regular" [level=2] [ref=e269]
+              - paragraph [ref=e270]: Play fifty games.
+            - generic [ref=e273]: 27 / 50
+  - contentinfo [ref=e274]:
+    - generic [ref=e275]:
+      - link [ref=e276] [cursor=pointer]:
+        - /url: /
+        - img "Mochi Mango Arcade" [ref=e277]
+      - paragraph [ref=e278]: Play free. Collect the cuteness. 💖
+      - navigation "Footer navigation" [ref=e279]:
+        - link "Games" [ref=e280] [cursor=pointer]:
+          - /url: /games/
+        - link "Leaderboards" [ref=e281] [cursor=pointer]:
+          - /url: /leaderboards/
+        - link "Privacy" [ref=e282] [cursor=pointer]:
+          - /url: /privacy/
+        - link "Terms" [ref=e283] [cursor=pointer]:
+          - /url: /terms/
+  - text: ✦ ✦ 🔒 🔒 🔒 🔒 🔒 🔒 🔒 🔒
+  - status [ref=e539]:
+    - generic [ref=e540]: ✨
+    - generic [ref=e541]: Avatar saved — you look adorable!

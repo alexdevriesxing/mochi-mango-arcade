@@ -11,3 +11,8 @@ routes = [
 
 [observability]
 enabled = true
+
+[[d1_databases]]
+binding = "PROFILES_DB"
+database_name = "mochi-mango-arcade-profiles"
+database_id = "7d9fa6d4-8748-4058-90e2-037b987801d9"

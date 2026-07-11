@@ -1,0 +1,350 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#ff4f9a">
+  <meta name="color-scheme" content="light">
+  <title>Player Profile | Mochi Mango Arcade</title>
+  <meta name="description" content="Create your Mochi Mango Arcade profile, choose a cozy character avatar, collect achievements, and show off your best game scores.">
+  <meta name="robots" content="index,follow,max-image-preview:large">
+  <link rel="canonical" href="https://www.mochimangoarcade.com/profile/">
+  <meta property="og:type" content="profile">
+  <meta property="og:site_name" content="Mochi Mango Arcade">
+  <meta property="og:title" content="Player Profile | Mochi Mango Arcade">
+  <meta property="og:description" content="Collect trophies, build a cozy avatar, and share your Mochi Mango Arcade achievements.">
+  <meta property="og:image" content="https://www.mochimangoarcade.com/assets/images/home_hero_main_characters.jpg">
+  <link rel="icon" href="/favicon.svg">
+  <link rel="apple-touch-icon" href="/favicon.svg">
+  <link rel="manifest" href="/manifest.webmanifest">
+  <link rel="preload" href="/assets/css/styles.css" as="style">
+  <link rel="preload" href="/assets/css/profile.css" as="style">
+  <link rel="stylesheet" href="/assets/css/styles.css">
+  <link rel="stylesheet" href="/assets/css/profile.css">
+  <script src="/js/monetag-loader.js" defer></script>
+  <script src="/assets/js/profile.js" defer></script>
+</head>
+<body class="profile-page">
+  <a class="profile-skip-link" href="#main">Skip to profile</a>
+
+  <div class="profile-sky" aria-hidden="true">
+    <span class="profile-cloud cloud-one"></span>
+    <span class="profile-cloud cloud-two"></span>
+    <span class="profile-glow glow-one"></span>
+    <span class="profile-glow glow-two"></span>
+    <span class="profile-star star-one">✦</span>
+    <span class="profile-star star-two">✦</span>
+    <span class="profile-star star-three">✦</span>
+  </div>
+
+  <header class="profile-topbar">
+    <div class="profile-nav-wrap">
+      <a class="profile-brand" href="/" aria-label="Mochi Mango Arcade home">
+        <img src="/assets/images/logo.svg" alt="Mochi Mango Arcade" width="160" height="60">
+      </a>
+
+      <nav class="profile-nav-links" aria-label="Primary navigation">
+        <a href="/">Home</a>
+        <a href="/games/">Games</a>
+        <a href="/universes/">Universes</a>
+        <a href="/leaderboards/">Leaderboards</a>
+        <a class="is-active" href="/profile/" aria-current="page">My Profile</a>
+      </nav>
+
+      <div class="profile-nav-actions">
+        <span class="nav-player-chip" id="navPlayerChip" hidden>
+          <img id="navAvatarImage" src="/assets/images/characters/mochi.svg" alt="" width="32" height="32">
+          <span id="navPlayerName">Player</span>
+        </span>
+        <a class="profile-button profile-button-small" id="navAuthButton" href="#account">Sign in</a>
+        <button class="profile-menu-button" id="profileMenuButton" type="button" aria-expanded="false" aria-controls="profileMobileNav">
+          <span class="sr-only">Open navigation</span>
+          <span aria-hidden="true"></span><span aria-hidden="true"></span><span aria-hidden="true"></span>
+        </button>
+      </div>
+    </div>
+    <nav class="profile-mobile-nav" id="profileMobileNav" aria-label="Mobile navigation" hidden>
+      <a href="/">Home</a>
+      <a href="/games/">Games</a>
+      <a href="/universes/">Universes</a>
+      <a href="/leaderboards/">Leaderboards</a>
+      <a class="is-active" href="/profile/" aria-current="page">My Profile</a>
+    </nav>
+  </header>
+
+  <main id="main" class="profile-shell">
+    <div class="profile-notice" id="profileNotice" role="status" hidden>
+      <span class="profile-notice-icon" aria-hidden="true">🌱</span>
+      <span id="profileNoticeText"></span>
+      <button id="dismissNotice" type="button" aria-label="Dismiss message">×</button>
+    </div>
+
+    <section class="profile-loading" id="profileLoading" aria-live="polite" aria-label="Loading profile">
+      <div class="loading-banner"></div>
+      <div class="loading-body">
+        <div class="loading-avatar"></div>
+        <div class="loading-lines"><i></i><i></i><i></i></div>
+      </div>
+      <p>Gathering your trophies…</p>
+    </section>
+
+    <section class="account-gateway" id="accountGateway" aria-labelledby="gatewayTitle" hidden>
+      <div class="gateway-story">
+        <span class="eyebrow"><span aria-hidden="true">✨</span> Your cozy corner of the arcade</span>
+        <h1 id="gatewayTitle">Every great play deserves a <em>little celebration.</em></h1>
+        <p class="gateway-lead">Save high scores, unlock hand-drawn achievements, and create an avatar from your favorite Mochi Mango friends.</p>
+
+        <div class="gateway-preview" aria-label="Profile feature preview">
+          <div class="preview-avatar-orbit" aria-hidden="true">
+            <span class="orbit-badge orbit-badge-one">🏆</span>
+            <span class="orbit-badge orbit-badge-two">⭐</span>
+            <span class="orbit-badge orbit-badge-three">🎮</span>
+            <div class="mini-avatar avatar-bg-peach-sky">
+              <img src="/assets/images/sprites/puddle-pip.png" alt="">
+            </div>
+          </div>
+          <div class="preview-copy">
+            <strong>Your arcade story, all in one place</strong>
+            <ul>
+              <li><span aria-hidden="true">✓</span> Keep your best scores</li>
+              <li><span aria-hidden="true">✓</span> Collect trophies and awards</li>
+              <li><span aria-hidden="true">✓</span> Share a safe public profile</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="gateway-achievements" aria-label="Achievement examples">
+          <article><span aria-hidden="true">🌱</span><div><strong>First Sprout</strong><small>Play your first game</small></div></article>
+          <article><span aria-hidden="true">🌈</span><div><strong>Universe Hopper</strong><small>Explore three worlds</small></div></article>
+          <article><span aria-hidden="true">👑</span><div><strong>Arcade Royalty</strong><small>Reach level twenty</small></div></article>
+        </div>
+      </div>
+
+      <div class="account-card" id="account">
+        <div class="auth-tabs" role="tablist" aria-label="Account options">
+          <button id="signInTab" class="auth-tab is-active" type="button" role="tab" aria-selected="true" aria-controls="signInPanel">Sign in</button>
+          <button id="signUpTab" class="auth-tab" type="button" role="tab" aria-selected="false" aria-controls="signUpPanel" tabindex="-1">Create account</button>
+        </div>
+
+        <div id="signInPanel" class="auth-panel" role="tabpanel" aria-labelledby="signInTab">
+          <div class="account-card-heading">
+            <span class="account-card-icon" aria-hidden="true">👋</span>
+            <div><h2>Welcome back!</h2><p>Your trophies missed you.</p></div>
+          </div>
+          <form id="signInForm" novalidate>
+            <div class="profile-field">
+              <label for="signInIdentifier">Username or email</label>
+              <div class="field-control"><span aria-hidden="true">@</span><input id="signInIdentifier" name="identifier" type="text" autocomplete="username" maxlength="80" required placeholder="mochi_fan"></div>
+            </div>
+            <div class="profile-field">
+              <div class="field-label-row"><label for="signInPassword">Password</label></div>
+              <div class="field-control"><span aria-hidden="true">🔑</span><input id="signInPassword" name="password" type="password" autocomplete="current-password" minlength="8" maxlength="128" required placeholder="Your password"><button class="password-toggle" type="button" data-password-toggle="signInPassword" aria-label="Show password">Show</button></div>
+            </div>
+            <p class="form-message" id="signInMessage" role="alert" hidden></p>
+            <button class="profile-button profile-button-wide" type="submit"><span>Enter the arcade</span><span aria-hidden="true">→</span></button>
+          </form>
+          <p class="auth-footnote">New around here? <button type="button" data-open-auth="signup">Create a free account</button></p>
+        </div>
+
+        <div id="signUpPanel" class="auth-panel" role="tabpanel" aria-labelledby="signUpTab" hidden>
+          <div class="account-card-heading">
+            <span class="account-card-icon account-card-icon-purple" aria-hidden="true">🌟</span>
+            <div><h2>Make your profile</h2><p>Choose a buddy to begin.</p></div>
+          </div>
+          <form id="signUpForm" novalidate>
+            <fieldset class="starter-avatar-fieldset">
+              <legend>Pick your first avatar</legend>
+              <div class="starter-avatar-list" id="starterAvatarList">
+                <button class="starter-avatar is-selected" type="button" data-starter-character="mochi" aria-pressed="true"><img src="/assets/images/characters/mochi.svg" alt="Mochi"><span>Mochi</span></button>
+                <button class="starter-avatar" type="button" data-starter-character="mango" aria-pressed="false"><img src="/assets/images/characters/mango.svg" alt="Mango"><span>Mango</span></button>
+                <button class="starter-avatar" type="button" data-starter-character="pandy" aria-pressed="false"><img src="/assets/images/characters/pandy.svg" alt="Pandy"><span>Pandy</span></button>
+                <button class="starter-avatar" type="button" data-starter-character="neko" aria-pressed="false"><img src="/assets/images/characters/neko.svg" alt="Neko"><span>Neko</span></button>
+                <button class="starter-avatar" type="button" data-starter-character="zuzu" aria-pressed="false"><img src="/assets/images/characters/zuzu.svg" alt="Zuzu"><span>Zuzu</span></button>
+              </div>
+            </fieldset>
+            <div class="two-fields">
+              <div class="profile-field">
+                <label for="signUpDisplayName">Display name</label>
+                <div class="field-control"><span aria-hidden="true">✨</span><input id="signUpDisplayName" name="displayName" type="text" autocomplete="nickname" minlength="1" maxlength="40" required placeholder="Mochi Friend"></div>
+              </div>
+              <div class="profile-field">
+                <label for="signUpUsername">Username</label>
+                <div class="field-control"><span aria-hidden="true">@</span><input id="signUpUsername" name="username" type="text" autocomplete="username" inputmode="text" minlength="3" maxlength="24" pattern="[A-Za-z0-9][A-Za-z0-9_-]{1,22}[A-Za-z0-9]" required placeholder="mochi_friend" aria-describedby="usernameHint"></div>
+                <small id="usernameHint">3–24 letters, numbers, underscores, or hyphens.</small>
+              </div>
+            </div>
+            <div class="profile-field">
+              <label for="signUpEmail">Email</label>
+              <div class="field-control"><span aria-hidden="true">✉</span><input id="signUpEmail" name="email" type="email" autocomplete="email" maxlength="120" required placeholder="you@example.com"></div>
+            </div>
+            <div class="two-fields">
+              <div class="profile-field">
+                <label for="signUpPassword">Password</label>
+                <div class="field-control"><span aria-hidden="true">🔑</span><input id="signUpPassword" name="password" type="password" autocomplete="new-password" minlength="10" maxlength="128" pattern="(?=.*[A-Za-z])(?=.*[0-9]).{10,128}" title="Use at least 10 characters with a letter and number." required placeholder="10+ characters"><button class="password-toggle" type="button" data-password-toggle="signUpPassword" aria-label="Show password">Show</button></div>
+              </div>
+              <div class="profile-field">
+                <label for="signUpConfirm">Confirm</label>
+                <div class="field-control"><span aria-hidden="true">✓</span><input id="signUpConfirm" name="confirmPassword" type="password" autocomplete="new-password" minlength="10" maxlength="128" required placeholder="Repeat password"></div>
+              </div>
+            </div>
+            <label class="terms-check"><input type="checkbox" name="terms" required><span>I agree to the <a href="/terms/">Terms</a> and <a href="/privacy/">Privacy Policy</a>.</span></label>
+            <p class="form-message" id="signUpMessage" role="alert" hidden></p>
+            <button class="profile-button profile-button-wide" type="submit"><span>Create my profile</span><span aria-hidden="true">✨</span></button>
+          </form>
+          <p class="auth-footnote">Already have a profile? <button type="button" data-open-auth="signin">Sign in</button></p>
+        </div>
+      </div>
+    </section>
+
+    <section class="player-profile" id="playerProfile" aria-labelledby="profileDisplayName" hidden>
+      <div class="profile-cover" aria-hidden="true">
+        <span class="cover-hill cover-hill-one"></span><span class="cover-hill cover-hill-two"></span>
+        <span class="cover-sun"></span><span class="cover-spark cover-spark-one">✦</span><span class="cover-spark cover-spark-two">✦</span>
+      </div>
+
+      <div class="profile-identity-card">
+        <div class="profile-avatar-column">
+          <div class="avatar-canvas avatar-canvas-large" id="profileAvatar" data-background="peach-sky" data-frame="none">
+            <span class="avatar-decoration" aria-hidden="true"></span>
+            <img id="profileAvatarImage" src="/assets/images/characters/mochi.svg" alt="Mochi avatar">
+          </div>
+          <span class="online-badge" id="profileStatusBadge"><i aria-hidden="true"></i> Arcade member</span>
+        </div>
+
+        <div class="profile-identity-copy">
+          <div class="identity-kicker"><span id="profileLevelPill">Level 1</span><span id="profileTitle">New Sprout</span></div>
+          <h1 id="profileDisplayName">Mochi Friend</h1>
+          <p class="profile-handle">@<span id="profileUsername">player</span> <span aria-hidden="true">·</span> Joined <span id="profileJoinDate">recently</span></p>
+          <p class="profile-bio" id="profileBio">A cozy adventurer making their way through the arcade.</p>
+          <div class="xp-block" aria-label="Level progress">
+            <div class="xp-label"><span><strong id="profileXp">0</strong> XP</span><span id="profileNextLevel">100 XP to level 2</span></div>
+            <div class="xp-track"><span id="profileXpBar" style="width:0%"></span></div>
+          </div>
+        </div>
+
+        <div class="profile-identity-actions">
+          <button class="profile-button" id="editAvatarButton" type="button"><span aria-hidden="true">🎨</span> Avatar Studio</button>
+          <button class="profile-button profile-button-ghost" id="shareProfileButton" type="button"><span aria-hidden="true">🔗</span> Share profile</button>
+          <button class="profile-text-button" id="signOutButton" type="button">Sign out</button>
+        </div>
+      </div>
+
+      <div class="profile-private-note" id="profilePrivateNote" hidden>
+        <span aria-hidden="true">👀</span>
+        <p>You are viewing <strong id="publicProfileName">this player's</strong> public trophy shelf.</p>
+        <a href="/profile/">Go to my profile</a>
+      </div>
+
+      <section class="profile-stat-grid" aria-label="Player statistics">
+        <article class="profile-stat stat-pink"><span class="stat-icon" aria-hidden="true">🎮</span><div><strong id="statGamesPlayed">0</strong><span>Games played</span></div></article>
+        <article class="profile-stat stat-purple"><span class="stat-icon" aria-hidden="true">🏆</span><div><strong id="statAchievements">0</strong><span>Achievements</span></div></article>
+        <article class="profile-stat stat-orange"><span class="stat-icon" aria-hidden="true">⭐</span><div><strong id="statTrophyPoints">0</strong><span>Trophy points</span></div></article>
+        <article class="profile-stat stat-blue"><span class="stat-icon" aria-hidden="true">⏱</span><div><strong id="statPlayTime">0m</strong><span>Play time</span></div></article>
+      </section>
+
+      <div class="profile-dashboard">
+        <section class="profile-panel achievement-panel" aria-labelledby="achievementHeading">
+          <div class="panel-heading">
+            <div><span class="section-kicker">Collector's cabinet</span><h2 id="achievementHeading">Achievements & trophies</h2><p id="achievementSummary">Every adventure leaves a little sparkle.</p></div>
+            <label class="lock-toggle"><input id="showLockedToggle" type="checkbox" checked><span aria-hidden="true"></span> Show locked</label>
+          </div>
+          <div class="cabinet-progress">
+            <div><span><strong id="cabinetUnlocked">0</strong> of <strong id="cabinetTotal">12</strong> unlocked</span><span id="cabinetPercent">0%</span></div>
+            <div class="cabinet-track"><span id="cabinetProgressBar" style="width:0%"></span></div>
+          </div>
+          <div class="achievement-grid" id="achievementGrid"></div>
+          <div class="empty-state" id="achievementEmpty" hidden><span aria-hidden="true">🗝️</span><h3>No trophies here yet</h3><p>A quick game is all it takes to start your cabinet.</p><a class="profile-button profile-button-small" href="/games/">Find a game</a></div>
+        </section>
+
+        <aside class="profile-sidebar">
+          <section class="profile-panel score-panel" aria-labelledby="scoreHeading">
+            <div class="panel-heading panel-heading-compact"><div><span class="section-kicker">Personal records</span><h2 id="scoreHeading">Best scores</h2></div><a href="/leaderboards/">All boards <span aria-hidden="true">→</span></a></div>
+            <ol class="score-list" id="scoreList"></ol>
+            <div class="empty-state empty-state-small" id="scoreEmpty" hidden><span aria-hidden="true">🎯</span><h3>Your first record awaits</h3><p>Play any game while signed in.</p><a href="/games/">Choose a game</a></div>
+          </section>
+
+          <section class="profile-panel favorite-panel" id="favoritePanel" aria-labelledby="favoriteHeading">
+            <span class="favorite-spark" aria-hidden="true">✦</span>
+            <span class="section-kicker">Favorite companion</span>
+            <h2 id="favoriteHeading">Adventure buddy</h2>
+            <div class="favorite-character"><img id="favoriteCharacterImage" src="/assets/images/characters/mochi.svg" alt="Mochi"><div><strong id="favoriteCharacterName">Mochi</strong><span id="favoriteCharacterTagline">Sweet, round, and ready!</span></div></div>
+          </section>
+
+          <section class="profile-panel next-award-panel" aria-labelledby="nextAwardHeading">
+            <span class="next-award-icon" id="nextAwardIcon" aria-hidden="true">🌈</span>
+            <div><span class="section-kicker">Next achievement</span><h2 id="nextAwardHeading">Universe Hopper</h2><p id="nextAwardDescription">Explore more Mochi Mango worlds.</p></div>
+            <div class="mini-progress"><span id="nextAwardBar" style="width:0%"></span></div>
+            <small id="nextAwardProgress">0 / 3 universes</small>
+          </section>
+        </aside>
+      </div>
+
+      <section class="profile-cta" id="profileSignInCta" hidden>
+        <div><span aria-hidden="true">🌟</span><div><h2>Want a trophy shelf of your own?</h2><p>Create a free profile and let every play count.</p></div></div>
+        <a class="profile-button" href="/profile/#account">Create my profile</a>
+      </section>
+    </section>
+
+    <section class="profile-error" id="profileError" hidden aria-labelledby="profileErrorTitle">
+      <div class="error-character"><img src="/assets/images/sprites/pip.png" alt="Pip looking for a profile"></div>
+      <span class="eyebrow">Oops — a cloud drifted by</span>
+      <h1 id="profileErrorTitle">We couldn't find that profile.</h1>
+      <p id="profileErrorMessage">Check the username and try again, or head back to the arcade.</p>
+      <div><button class="profile-button" id="retryProfileButton" type="button">Try again</button><a class="profile-button profile-button-ghost" href="/games/">Play a game</a></div>
+    </section>
+  </main>
+
+  <footer class="profile-footer">
+    <div class="profile-footer-inner">
+      <a href="/" class="profile-footer-brand"><img src="/assets/images/logo.svg" alt="Mochi Mango Arcade" width="150" height="56"></a>
+      <p>Play free. Collect the cuteness. <span aria-hidden="true">💖</span></p>
+      <nav aria-label="Footer navigation"><a href="/games/">Games</a><a href="/leaderboards/">Leaderboards</a><a href="/privacy/">Privacy</a><a href="/terms/">Terms</a></nav>
+    </div>
+  </footer>
+
+  <dialog class="avatar-studio" id="avatarStudio" aria-labelledby="avatarStudioTitle">
+    <form method="dialog" class="avatar-studio-shell" id="avatarStudioForm">
+      <div class="studio-header">
+        <div><span class="section-kicker">Mix, match, make it yours</span><h2 id="avatarStudioTitle">Avatar Studio <span aria-hidden="true">🎨</span></h2><p>Your favorite cozy character, framed your way.</p></div>
+        <button class="studio-close" value="cancel" type="submit" aria-label="Close Avatar Studio">×</button>
+      </div>
+
+      <div class="studio-layout">
+        <div class="studio-preview-wrap">
+          <div class="studio-preview-glow" aria-hidden="true"></div>
+          <div class="avatar-canvas avatar-canvas-studio" id="studioAvatarPreview" data-background="peach-sky" data-frame="none">
+            <span class="avatar-decoration" aria-hidden="true"></span>
+            <img id="studioAvatarImage" src="/assets/images/characters/mochi.svg" alt="Mochi avatar preview">
+          </div>
+          <strong id="studioCharacterName">Mochi</strong>
+          <span>Looking lovely!</span>
+        </div>
+
+        <div class="studio-controls">
+          <fieldset>
+            <legend><span>1</span> Choose a character</legend>
+            <div class="character-choice-grid" id="characterChoices"></div>
+          </fieldset>
+          <fieldset>
+            <legend><span>2</span> Pick a frame</legend>
+            <div class="frame-choice-grid" id="frameChoices"></div>
+          </fieldset>
+          <fieldset>
+            <legend><span>3</span> Set the scene</legend>
+            <div class="background-choice-grid" id="backgroundChoices"></div>
+          </fieldset>
+        </div>
+      </div>
+
+      <p class="form-message studio-message" id="studioMessage" role="alert" hidden></p>
+      <div class="studio-footer">
+        <span><span aria-hidden="true">🔒</span> Your avatar is shown on your public profile.</span>
+        <div><button class="profile-button profile-button-ghost" value="cancel" type="submit">Cancel</button><button class="profile-button" id="saveAvatarButton" value="default" type="submit"><span aria-hidden="true">✨</span> Save avatar</button></div>
+      </div>
+    </form>
+  </dialog>
+
+  <div class="profile-toast" id="profileToast" role="status" aria-live="polite" hidden><span aria-hidden="true">✨</span><span id="profileToastText"></span></div>
+  <noscript><div class="noscript-note">Please enable JavaScript to sign in and see arcade profiles.</div></noscript>
+</body>
+</html>

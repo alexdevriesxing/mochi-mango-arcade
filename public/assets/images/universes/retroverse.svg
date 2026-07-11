@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 300" role="img" aria-labelledby="title desc">
+  <title id="title">Mochi Mango Retroverse</title><desc id="desc">An original neon CRT universe banner spanning vector, pixel, and low-poly arcade styles from the 1970s through the 1990s.</desc>
+  <defs>
+    <linearGradient id="bg" x2="1" y2="1"><stop stop-color="#07091e"/><stop offset=".48" stop-color="#31105b"/><stop offset="1" stop-color="#101c46"/></linearGradient>
+    <linearGradient id="word" x2="1"><stop stop-color="#39ffde"/><stop offset=".5" stop-color="#ffe05c"/><stop offset="1" stop-color="#ff3cac"/></linearGradient>
+    <linearGradient id="floor" x2="0" y2="1"><stop stop-color="#39ffde" stop-opacity=".35"/><stop offset="1" stop-color="#39ffde" stop-opacity="0"/></linearGradient>
+    <pattern id="scan" width="4" height="4" patternUnits="userSpaceOnUse"><path d="M0 3.5h4" stroke="#fff" stroke-opacity=".055"/></pattern>
+    <filter id="glow"><feGaussianBlur stdDeviation="5" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+  </defs>
+  <rect width="720" height="300" rx="28" fill="url(#bg)"/><circle cx="92" cy="71" r="74" fill="#ff3cac" opacity=".14"/><circle cx="629" cy="65" r="94" fill="#39ffde" opacity=".12"/>
+  <path d="M0 230h720v70H0z" fill="url(#floor)"/><path d="M360 205v95M255 205l-74 95M465 205l74 95M150 205L0 278M570 205l150 73M0 229h720M0 255h720M0 280h720" stroke="#39ffde" stroke-opacity=".28" stroke-width="2"/>
+  <g transform="translate(34 104)">
+    <path d="M0 0h176l18 126H-18z" fill="#07111f" stroke="#ffe05c" stroke-width="4"/><path d="M88 13l30 54-30-13-30 13z" fill="none" stroke="#39ffde" stroke-width="5" filter="url(#glow)"/><path d="M27 29l15 9 15-9-15 23zM132 31l15 9 15-9-15 23z" fill="none" stroke="#ff3cac" stroke-width="4"/><circle cx="32" cy="76" r="3" fill="#fff"/><circle cx="151" cy="85" r="3" fill="#fff"/><rect x="18" y="96" width="140" height="22" rx="11" fill="#ffe05c"/><text x="88" y="112" text-anchor="middle" font-family="Arial,sans-serif" font-size="14" font-weight="900" fill="#07111f">70s · VECTOR</text>
+  </g>
+  <g transform="translate(272 104)" shape-rendering="crispEdges">
+    <path d="M0 0h176l18 126H-18z" fill="#15103a" stroke="#39ffde" stroke-width="4"/><rect x="18" y="65" width="58" height="12" fill="#7cff72"/><rect x="99" y="41" width="58" height="12" fill="#ff3cac"/><rect x="65" y="15" width="44" height="50" fill="#fff"/><rect x="58" y="26" width="14" height="25" fill="#15103a"/><rect x="102" y="26" width="14" height="25" fill="#15103a"/><rect x="73" y="26" width="8" height="8" fill="#15103a"/><rect x="93" y="26" width="8" height="8" fill="#15103a"/><rect x="18" y="96" width="140" height="22" rx="3" fill="#39ffde"/><text x="88" y="112" text-anchor="middle" font-family="monospace" font-size="14" font-weight="900" fill="#15103a">80s · PIXEL</text>
+  </g>
+  <g transform="translate(510 104)">
+    <path d="M0 0h176l18 126H-18z" fill="#11154a" stroke="#ff3cac" stroke-width="4"/><path d="M17 75L58 13l32 62z" fill="#5ce1ff"/><path d="M58 13l9 62H17z" fill="#8c6cff"/><path d="M89 75l47-55 36 55z" fill="#ff6fae"/><path d="M68 74h40l36 19H32z" fill="#303967"/><path d="M77 78h22l17 14H60z" fill="#ffe05c"/><rect x="18" y="96" width="140" height="22" rx="11" fill="#ff3cac"/><text x="88" y="112" text-anchor="middle" font-family="Arial,sans-serif" font-size="14" font-weight="900" fill="#fff">90s · POLYGON</text>
+  </g>
+  <text x="360" y="63" text-anchor="middle" font-family="Arial Black,Arial,sans-serif" font-size="54" font-weight="900" font-style="italic" fill="url(#word)" stroke="#fff" stroke-opacity=".22" stroke-width="2" paint-order="stroke" filter="url(#glow)">RETROVERSE</text>
+  <text x="360" y="88" text-anchor="middle" font-family="Arial,sans-serif" font-size="15" font-weight="900" fill="#fff" letter-spacing="5">THREE DECADES · ALL-NEW ARCADE WORLDS</text>
+  <rect width="720" height="300" rx="28" fill="url(#scan)"/><rect x="7" y="7" width="706" height="286" rx="23" fill="none" stroke="url(#word)" stroke-width="4"/>
+</svg>

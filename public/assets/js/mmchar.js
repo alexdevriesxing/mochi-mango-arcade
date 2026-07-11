@@ -13,11 +13,19 @@
  */
 
 const SPRITE_BASE = '/assets/images/sprites/';
+const AVAILABLE_SPRITES = new Set([
+  'bramble-bear', 'madame-fortuna', 'morpheus', 'pip', 'puddle-pip', 'puddle', 'umbra',
+]);
 
 class SpriteBank {
   constructor() { this.cache = new Map(); }
   get(slug) {
     if (this.cache.has(slug)) return this.cache.get(slug);
+    if (!AVAILABLE_SPRITES.has(slug)) {
+      const rec = { img: null, ready: false, failed: true };
+      this.cache.set(slug, rec);
+      return rec;
+    }
     const img = new Image();
     const rec = { img, ready: false, failed: false };
     img.onload = () => { rec.ready = img.naturalWidth > 0; };

@@ -378,6 +378,21 @@
     showRewardedAd: function({ game, reason }) {
       console.log(`[Mochi Mango SDK] Rewarded ad requested. Game: ${game}, Reason: ${reason}`);
 
+      const rewardHost = window.parent && window.parent !== window ? window.parent : window;
+      if (rewardHost.MochiMangoRewards && typeof rewardHost.MochiMangoRewards.request === 'function') {
+        return new Promise((resolve) => {
+          let settled = false;
+          const finish = (value) => { if (!settled) { settled = true; resolve(value); } };
+          const accepted = rewardHost.MochiMangoRewards.request({
+            slug: game === 'puddle-and-pip-meadow-dash' ? 'puddle-pip-meadow-dash' : game,
+            source: reason || 'iframe-game',
+            onRewardGranted: () => finish(true),
+            onRewardFailed: () => finish(false),
+          });
+          if (!accepted) finish(false);
+        });
+      }
+
       return new Promise((resolve) => {
         // Create elements
         const overlay = document.createElement('div');

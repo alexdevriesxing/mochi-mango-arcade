@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 450" role="img" aria-labelledby="title desc" shape-rendering="crispEdges">
+  <title id="title">Lantern Labyrinth Run key art</title><desc id="desc">An original blacklight maze filled with lantern seeds, shadow moths, and Lumi Loris.</desc>
+  <defs><linearGradient id="bg" x2="1" y2="1"><stop stop-color="#09051f"/><stop offset="1" stop-color="#26115a"/></linearGradient><pattern id="scan" width="4" height="4" patternUnits="userSpaceOnUse"><path d="M0 3.5h4" stroke="#fff" stroke-opacity=".05"/></pattern><filter id="g"><feGaussianBlur stdDeviation="4" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs>
+  <rect width="720" height="450" rx="28" fill="url(#bg)"/>
+  <g fill="none" stroke="#8a5cff" stroke-width="12" stroke-linejoin="round"><path d="M55 78h160v55H115v64h100v72H55zM250 78h125v55h-62v65h95v71H250v-72h40v-64h-40zM410 78h255v65H555v54h110v72H440v-72h70v-54H410z"/></g>
+  <g fill="#ffd166" filter="url(#g)"><circle cx="84" cy="108" r="5"/><circle cx="151" cy="108" r="5"/><circle cx="145" cy="167" r="5"/><circle cx="278" cy="108" r="5"/><circle cx="342" cy="168" r="5"/><circle cx="463" cy="111" r="5"/><circle cx="580" cy="111" r="5"/><circle cx="610" cy="232" r="5"/></g>
+  <g transform="translate(305 232)" filter="url(#g)"><circle r="28" fill="#ff6fb5"/><circle cx="-10" cy="-4" r="5" fill="#fff"/><circle cx="10" cy="-4" r="5" fill="#fff"/><path d="M-9 11q9 9 18 0" fill="none" stroke="#09051f" stroke-width="4"/><path d="M0 28c28 14 39 0 37-20" fill="none" stroke="#5df2c5" stroke-width="11" stroke-linecap="round"/></g>
+  <g fill="#5df2c5"><path d="M493 220l-16-13-16 13v24h32z"/><path d="M194 222l-14-12-14 12v21h28z"/></g>
+  <rect x="30" y="24" width="180" height="29" rx="14" fill="#5df2c5"/><text x="120" y="44" text-anchor="middle" font-family="Arial,sans-serif" font-size="15" font-weight="900" fill="#09051f" letter-spacing="2">RETRO · 70s</text>
+  <text x="36" y="365" font-family="Arial Black,Arial,sans-serif" font-size="47" font-weight="900" fill="#ffd166">LANTERN LABYRINTH</text><text x="36" y="416" font-family="Arial Black,Arial,sans-serif" font-size="50" font-weight="900" fill="#fff">RUN</text>
+  <rect width="720" height="450" rx="28" fill="url(#scan)"/><rect x="8" y="8" width="704" height="434" rx="23" fill="none" stroke="#8a5cff" stroke-width="3"/>
+</svg>
