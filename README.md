@@ -8,16 +8,19 @@ Footer credit is included on every page:
 
 ## Included
 
-- 200 game catalogue with generated detail pages.
-- 200 play-shell pages ready for real HTML5 builds.
+- 384 game catalogue across 14 universes with generated detail + play pages.
+- Shared HTML5 game engine (`mmengine.js`) supporting 30+ game modes.
+- 7 built-out universes with per-game illustrated SVG card art:
+  `Tabletop Kingdom` · `Puzzle Realm` · `Candy Galaxy` · `Mango Island` · `Mochi World` · `Panda Kingdom` · `Pixel Playground`
+- Monetag rewarded ad integration with mode-specific boost benefits.
+- Cloudflare D1 profile database for accounts and trophies.
 - Merch shop with product filters, product pages and localStorage cart.
 - 18-language UI selector with RTL support for Arabic.
-- SVG logo, hero artwork, 200 generated game thumbnails, character icons, universe art and product images.
-- Modern responsive UI, hover tilt, floating orbs, cursor sparkles, VFX and reduced-motion support.
-- Adsterra-ready placement zones and ad placement map.
-- Cloudflare Worker + Static Assets setup.
-- API routes: `/api/health`, `/api/games`, `/api/game/:slug`, `/api/products`.
-- Sitemap, robots, manifest and favicon.
+- SVG logo, hero artwork, 380+ game card SVGs, character icons, universe art and product images.
+- Modern responsive UI with universe-aware arcade bezels, floating orbs, cursor sparkles, VFX and reduced-motion support.
+- Cloudflare Worker + Static Assets setup with SPA routing.
+- API routes: `/api/health`, `/api/games`, `/api/game/:slug`, `/api/products`, `/api/profile/*`.
+- Sitemap, robots.txt, llms.txt, manifest and favicon.
 
 ## Deploy
 

@@ -163,7 +163,7 @@
     "rating": 4.9,
     "plays": 25984,
     "status": "Playable",
-    "engine": "arcade",
+    "engine": "management",
     "merchHook": "Puddle plush, sticker pack, tee, enamel pin and collector card.",
     "built": true
   },
@@ -331,7 +331,7 @@
     "rating": 4.8,
     "plays": 36968,
     "status": "Playable",
-    "engine": "arcade",
+    "engine": "management",
     "merchHook": "Mochi-9 plush, sticker pack, tee, enamel pin and collector card.",
     "built": true
   },
@@ -499,7 +499,7 @@
     "rating": 4.7,
     "plays": 47952,
     "status": "Playable",
-    "engine": "arcade",
+    "engine": "match3",
     "merchHook": "Bao plush, sticker pack, tee, enamel pin and collector card.",
     "built": true
   },
@@ -562,7 +562,7 @@
     "rating": 4.1,
     "plays": 52071,
     "status": "Playable",
-    "engine": "arcade",
+    "engine": "whack",
     "merchHook": "Nori Ninja plush, sticker pack, tee, enamel pin and collector card.",
     "built": true
   },
@@ -856,7 +856,7 @@
     "rating": 4.6,
     "plays": 71293,
     "status": "Playable",
-    "engine": "arcade",
+    "engine": "cannon",
     "merchHook": "Buttonbeard plush, sticker pack, tee, enamel pin and collector card.",
     "built": true
   },
@@ -1213,7 +1213,7 @@
     "rating": 4.5,
     "plays": 94634,
     "status": "Playable",
-    "engine": "arcade",
+    "engine": "stacker",
     "merchHook": "Crash Koala plush, sticker pack, tee, enamel pin and collector card.",
     "built": true
   },
@@ -1549,7 +1549,7 @@
     "rating": 4.3,
     "plays": 116602,
     "status": "Playable",
-    "engine": "arcade",
+    "engine": "bubbleshooter",
     "merchHook": "Cupcake Cyclone plush, sticker pack, tee, enamel pin and collector card.",
     "built": true
   },
@@ -1591,7 +1591,7 @@
     "rating": 4.5,
     "plays": 119348,
     "status": "Playable",
-    "engine": "arcade",
+    "engine": "idleclicker",
     "merchHook": "Hammy Hammer plush, sticker pack, tee, enamel pin and collector card.",
     "built": true
   },
@@ -1990,7 +1990,7 @@
     "rating": 4.6,
     "plays": 145435,
     "status": "Playable",
-    "engine": "arcade",
+    "engine": "whack",
     "merchHook": "Mini Monsters plush, sticker pack, tee, enamel pin and collector card.",
     "built": true
   },
@@ -2053,7 +2053,7 @@
     "rating": 4.9,
     "plays": 149554,
     "status": "Playable",
-    "engine": "arcade",
+    "engine": "shooter",
     "merchHook": "Tiny Titans plush, sticker pack, tee, enamel pin and collector card.",
     "built": true
   },
@@ -2410,7 +2410,7 @@
     "rating": 4.8,
     "plays": 172895,
     "status": "Playable",
-    "engine": "arcade",
+    "engine": "shooter",
     "merchHook": "Captain Nova plush, sticker pack, tee, enamel pin and collector card.",
     "built": true
   },
@@ -2767,7 +2767,7 @@
     "rating": 4.7,
     "plays": 196236,
     "status": "Playable",
-    "engine": "arcade",
+    "engine": "serve",
     "merchHook": "SnackStreet Squad plush, sticker pack, tee, enamel pin and collector card.",
     "built": true
   },
@@ -3229,7 +3229,7 @@
     "rating": 4.2,
     "plays": 226442,
     "status": "Playable",
-    "engine": "arcade",
+    "engine": "runner",
     "merchHook": "Rocco Ravioli plush, sticker pack, tee, enamel pin and collector card.",
     "built": true
   },
@@ -3313,7 +3313,7 @@
     "rating": 4.6,
     "plays": 231934,
     "status": "Playable",
-    "engine": "arcade",
+    "engine": "flappy",
     "merchHook": "Penny Penguin plush, sticker pack, tee, enamel pin and collector card.",
     "built": true
   },
@@ -3649,7 +3649,7 @@
     "rating": 4.4,
     "plays": 253902,
     "status": "Playable",
-    "engine": "arcade",
+    "engine": "runner",
     "merchHook": "Solar Snail Expedition plush, sticker pack, tee, enamel pin and collector card.",
     "built": true
   },
@@ -3733,7 +3733,7 @@
     "rating": 4.8,
     "plays": 259394,
     "status": "Playable",
-    "engine": "arcade",
+    "engine": "match3",
     "merchHook": "Nico Nacho plush, sticker pack, tee, enamel pin and collector card.",
     "built": true
   },
@@ -3859,7 +3859,7 @@
     "rating": 4.5,
     "plays": 267632,
     "status": "Playable",
-    "engine": "arcade",
+    "engine": "runner",
     "merchHook": "Tiny Teapot Train plush, sticker pack, tee, enamel pin and collector card.",
     "built": true
   },
@@ -3943,7 +3943,7 @@
     "rating": 4.9,
     "plays": 273124,
     "status": "Playable",
-    "engine": "arcade",
+    "engine": "memory",
     "merchHook": "Opal Owl plush, sticker pack, tee, enamel pin and collector card.",
     "built": true
   },
@@ -4069,7 +4069,7 @@
     "rating": 4.6,
     "plays": 281362,
     "status": "Playable",
-    "engine": "arcade",
+    "engine": "rhythm",
     "merchHook": "Tango Turtle plush, sticker pack, tee, enamel pin and collector card.",
     "built": true
   },
@@ -4153,7 +4153,7 @@
     "rating": 4.1,
     "plays": 286854,
     "status": "Playable",
-    "engine": "arcade",
+    "engine": "shooter",
     "merchHook": "Ramen Robot Rampage plush, sticker pack, tee, enamel pin and collector card.",
     "built": true
   },
@@ -4237,7 +4237,7 @@
     "rating": 4.6,
     "plays": 25057,
     "status": "Playable",
-    "engine": "arcade",
+    "engine": "dodger",
     "merchHook": "Raindrop enamel pins & Puddle rain-hat plush.",
     "built": true
   },
@@ -4384,7 +4384,7 @@
     "rating": 4.6,
     "plays": 3696,
     "status": "Playable",
-    "engine": "arcade",
+    "engine": "dodger",
     "merchHook": "Berry-basket enamel pins & Bramble Bear tees.",
     "built": true
   },

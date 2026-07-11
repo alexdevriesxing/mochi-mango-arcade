@@ -2592,9 +2592,9 @@ img[src*=".png"] {
 }
 .play-shell[data-universe="cozyverse"] { --stage-accent: #ff8eb3; }
 .play-shell[data-universe="astromochi"] { --stage-accent: #25d8ff; }
-.play-shell[data-universe="ninegates"] { --stage-accent: #19c39c; }
-.play-shell[data-universe="snackstreet"] { --stage-accent: #ff8a35; }
-.play-shell[data-universe="oracle"] { --stage-accent: #a24dff; }
+.play-shell[data-universe="ninegates"] { --stage-accent: #f7c948; }
+.play-shell[data-universe="snackstreet"] { --stage-accent: #ffd100; }
+.play-shell[data-universe="oracle"] { --stage-accent: #ff4f9a; }
 .play-shell[data-universe="standalone"] { --stage-accent: #ffd166; }
 .play-shell[data-universe="retroverse"] { --stage-accent: #39ffde; }
 .play-shell[data-universe="tabletop-kingdom"] { --stage-accent: #f0c987; }
