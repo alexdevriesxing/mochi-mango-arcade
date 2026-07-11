@@ -70,5 +70,11 @@
     "color": "#e8a0c0",
     "accent": "#fff0f5",
     "description": "A squishy, sweet universe where everything is made of mochi — from the clouds to the mountains to the friends you make along the way."
+  },
+  "panda-kingdom": {
+    "name": "Panda Kingdom",
+    "color": "#5a8a5a",
+    "accent": "#e8f5e9",
+    "description": "A lush bamboo realm where gentle pandas guard ancient forests, solve nature puzzles, and embark on leaf-strewn adventures."
   }
 }
