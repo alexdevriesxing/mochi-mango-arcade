@@ -3,3 +3,11 @@
 .mma-quality-copy{display:grid;gap:3px}.mma-quality-kicker{text-transform:uppercase;letter-spacing:.12em;font-size:11px;font-weight:900;color:#7a47dc}.mma-quality-copy strong{font-size:18px;color:#2b2340}.mma-quality-copy span:last-child{font-size:13px;color:#665d7d}.mma-quality-stats{display:grid;gap:3px;text-align:right;font-size:12px;font-weight:800;color:#665d7d}.mma-quality-stats [data-quality-stars]{color:#d18a00;font-size:17px;letter-spacing:.08em}.mma-quality-ability{border:0;border-radius:999px;padding:12px 16px;background:linear-gradient(135deg,#7b3de2,#c61f68);color:#fff;font-weight:900;cursor:pointer;box-shadow:0 8px 18px rgba(123,61,226,.24)}.mma-quality-ability:disabled{opacity:.7;cursor:default}.mma-fallback-canvas{display:block;width:100%;height:100%;min-height:360px}
 @media(max-width:720px){.mma-quality-panel{grid-template-columns:1fr 1fr}.mma-quality-copy{grid-column:1/-1}.mma-quality-stats{text-align:left}.mma-quality-ability{justify-self:end;padding:11px 14px}}
 @media(prefers-reduced-motion:reduce){.mma-quality-panel,.mma-quality-ability{scroll-behavior:auto;transition:none!important}}
+
+/* MMA_BESPOKE_MOBILE_FIX */
+@media(max-width:720px){
+  body[data-page="play"] .detail-layout{display:block!important;min-width:0!important;width:100%!important}
+  body[data-page="play"] .detail-layout>*,body[data-page="play"] .play-shell,body[data-page="play"] .game-stage-shell{min-width:0!important;max-width:100%!important;width:100%!important}
+  body[data-page="play"] .play-shell iframe{display:block!important;width:100%!important;max-width:100%!important;min-width:0!important;border:0!important}
+  body[data-page="play"] .container{max-width:100%!important;overflow-x:clip!important}
+}

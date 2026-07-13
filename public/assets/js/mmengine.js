@@ -3952,11 +3952,11 @@ class Merge extends Base {
       4096: '#ff4f9a', 8192: '#a24dff'
     };
     const textColors = { 2: '#776e65', 4: '#776e65', 8: '#f9f6f2', 16: '#f9f6f2', 32: '#f9f6f2', 64: '#f9f6f2', 128: '#f9f6f2', 256: '#f9f6f2', 512: '#f9f6f2', 1024: '#f9f6f2', 2048: '#f9f6f2', 4096: '#f9f6f2', 8192: '#f9f6f2' };
-    for (let r = 0; r < this.size; r++) for (let c = 0; c < this.size; c++) {
-      const v = this.grid[r][c];
-      const x = pad + c * cellSize, y = pad + r * cellSize + this.H * 0.08;
+    for (let r = 0; r < this.size; r++) for (let colIndex = 0; colIndex < this.size; colIndex++) {
+      const v = this.grid[r][colIndex];
+      const x = pad + colIndex * cellSize, y = pad + r * cellSize + this.H * 0.08;
       // Check for merge pop animation
-      const pop = this.mergePops.find(p => !p.spawn && Math.abs(p.r - r) + Math.abs(p.c - c) < 1);
+      const pop = this.mergePops.find(p => !p.spawn && Math.abs(p.r - r) + Math.abs(p.c - colIndex) < 1);
       const scale = pop ? (1 + (1 - pop.life / pop.maxLife) * 0.2) : 1;
       c.save();
       if (scale !== 1) { c.translate(x + cellSize / 2, y + cellSize / 2); c.scale(scale, scale); c.translate(-x - cellSize / 2, -y - cellSize / 2); }
@@ -3973,7 +3973,7 @@ class Merge extends Base {
       }
       c.restore();
       // Spawn pop animation
-      const sp = this.mergePops.find(p => p.spawn && p.r === r && p.c === c);
+      const sp = this.mergePops.find(p => p.spawn && p.r === r && p.c === colIndex);
       if (sp) {
         c.globalAlpha = 1 - sp.life / sp.maxLife;
         c.fillStyle = '#fff'; c.beginPath(); c.arc(x + cellSize / 2, y + cellSize / 2, cellSize * 0.5 * (1 + (1 - sp.life / sp.maxLife)), 0, 7); c.fill();
