@@ -6,6 +6,8 @@ on:
       - master
     paths-ignore:
       - .github/deployment-status.json
+      - audit/**
+      - .github/workflows/sitewide-audit.yml
   workflow_dispatch:
 
 permissions:
@@ -65,7 +67,8 @@ jobs:
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add .github/deployment-status.json
           git commit -m "Record Cloudflare deployment result" || exit 0
-          git push
+          git pull --rebase origin master
+          git push origin HEAD:master
 
       - name: Fail workflow when deployment fails
         if: steps.deploy.outcome != 'success'
