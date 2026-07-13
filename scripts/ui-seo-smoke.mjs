@@ -67,6 +67,10 @@ for(const viewport of [{name:'desktop',width:1440,height:1000},{name:'mobile',wi
     return {ok:notice&&enabledCart===0&&cartButton===0&&products>0,notice,enabledCart,cartButton,products};
   });
   await check('play-tools',viewport,'/play/puddle-pip-meadow-dash/',async page=>{
+    await page.waitForSelector('.play-tools',{timeout:10000}).catch(()=>{});
+    await page.waitForSelector('canvas',{timeout:10000}).catch(()=>{});
+    await page.waitForSelector('.mma-campaign-panel',{timeout:10000}).catch(()=>{});
+    await page.waitForTimeout(350);
     const canvas=await page.locator('canvas').first().isVisible().catch(()=>false);
     const tools=await page.locator('.play-tools').isVisible().catch(()=>false);
     const campaign=await page.locator('.mma-campaign-panel').isVisible().catch(()=>false);
