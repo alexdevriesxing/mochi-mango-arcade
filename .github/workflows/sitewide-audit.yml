@@ -1,0 +1,60 @@
+name: Sitewide game quality audit
+
+on:
+  push:
+    branches:
+      - master
+    paths:
+      - public/**
+      - src/**
+      - scripts/sitewide-audit.mjs
+      - wrangler.toml
+      - package.json
+      - .github/workflows/sitewide-audit.yml
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: sitewide-game-audit
+  cancel-in-progress: true
+
+jobs:
+  audit:
+    name: Audit site and games
+    runs-on: ubuntu-latest
+    timeout-minutes: 35
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      - name: Install browser audit tooling
+        run: |
+          npm install --no-save playwright@1.55.0
+          npx playwright install --with-deps chromium
+
+      - name: Run complete audit
+        env:
+          AUDIT_BASE_URL: https://www.mochimangoarcade.com
+          RUN_BROWSER_AUDIT: '1'
+        run: node scripts/sitewide-audit.mjs
+
+      - name: Publish latest audit report
+        if: always()
+        run: |
+          if [ ! -f audit/sitewide-latest.json ]; then
+            echo '{"generatedAt":"'"$(date -u +%Y-%m-%dT%H:%M:%SZ)"'","sourceSha":"'"$GITHUB_SHA"'","summary":{"auditFailed":true}}' > audit/sitewide-latest.json
+            printf '# Mochi Mango Arcade audit\n\nThe audit job failed before a complete report could be generated. Inspect GitHub Actions run %s.\n' "$GITHUB_RUN_ID" > audit/sitewide-latest.md
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add audit/sitewide-latest.json audit/sitewide-latest.md
+          git commit -m "Update sitewide game audit report" || exit 0
+          git push
