@@ -6,10 +6,13 @@
   "scripts": {
     "dev": "wrangler dev",
     "deploy": "wrangler deploy",
-    "serve": "npx http-server public -p 8787 -c-1"
+    "serve": "npx http-server public -p 8787 -c-1",
+    "remediate": "node scripts/remediate-site.mjs",
+    "validate": "node scripts/validate-site.mjs",
+    "audit": "node scripts/sitewide-audit.mjs"
   },
   "devDependencies": {
-    "wrangler": "latest",
-    "http-server": "latest"
+    "wrangler": "4.30.0",
+    "http-server": "14.1.1"
   }
 }

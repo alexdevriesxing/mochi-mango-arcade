@@ -2,7 +2,7 @@ import { handleProfileApi } from './profile-api.js';
 
 const CANONICAL_HOST = 'www.mochimangoarcade.com';
 const HARDENING_SCRIPT = '<script src="/js/site-hardening.js"></script>';
-const HARDENING_STYLESHEET = '<link rel="stylesheet" href="/assets/css/hardening.css">';
+const HARDENING_STYLESHEET = '<link rel="stylesheet" href="/assets/css/hardening.css"><link rel="stylesheet" href="/assets/css/game-quality.css">';
 
 function isEmbeddedGameDocument(pathname) {
   return /^\/play\/(?:[^/]+\/)?game(?:\/|$)/.test(pathname);
@@ -117,12 +117,12 @@ function withSecurityHeaders(response, url) {
       "object-src 'none'",
       "frame-ancestors 'self'",
       "form-action 'self'",
-      "script-src 'self' 'unsafe-inline'",
+      "script-src 'self' 'unsafe-inline' https://static.cloudflareinsights.com",
       "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
       "font-src 'self' https://fonts.gstatic.com data:",
       "img-src 'self' data: blob:",
       "media-src 'self' blob:",
-      "connect-src 'self'",
+      "connect-src 'self' https://cloudflareinsights.com",
       "frame-src 'self'",
       "worker-src 'self' blob:",
       "manifest-src 'self'",
@@ -160,6 +160,32 @@ async function assetJson(env, url, pathname) {
   return response.json();
 }
 
+const TELEMETRY_EVENTS = new Set(['runtime','fallback','start','finish','ability','error']);
+async function handleTelemetry(request, env) {
+  if (request.method !== 'POST') return new Response('Method not allowed', { status: 405, headers: { Allow: 'POST' } });
+  const type = request.headers.get('content-type') || '';
+  if (!type.includes('application/json')) return Response.json({ ok: false, error: 'json_required' }, { status: 415 });
+  const length = Number(request.headers.get('content-length') || 0);
+  if (length > 4096) return Response.json({ ok: false, error: 'too_large' }, { status: 413 });
+  let body; try { body = await request.json(); } catch { return Response.json({ ok: false, error: 'invalid_json' }, { status: 400 }); }
+  const event = String(body.event || '');
+  const game = String(body.game || '');
+  const mode = String(body.mode || '').slice(0, 40);
+  const viewport = ['mobile','desktop'].includes(body.viewport) ? body.viewport : 'unknown';
+  const outcome = String(body.outcome || '').slice(0, 40);
+  const value = Number.isFinite(Number(body.value)) ? Math.max(0, Math.min(10000000, Math.round(Number(body.value)))) : null;
+  if (!TELEMETRY_EVENTS.has(event) || !/^[a-z0-9-]{2,100}$/.test(game)) return Response.json({ ok: false, error: 'invalid_event' }, { status: 400 });
+  const recordedAt = new Date().toISOString();
+  const persist = async () => {
+    if (!env.DB) return;
+    await env.DB.prepare('CREATE TABLE IF NOT EXISTS gameplay_events (id INTEGER PRIMARY KEY AUTOINCREMENT, event TEXT NOT NULL, game TEXT NOT NULL, mode TEXT, viewport TEXT, outcome TEXT, value INTEGER, recorded_at TEXT NOT NULL)').run();
+    await env.DB.prepare('INSERT INTO gameplay_events (event, game, mode, viewport, outcome, value, recorded_at) VALUES (?, ?, ?, ?, ?, ?, ?)').bind(event, game, mode, viewport, outcome, value, recordedAt).run();
+  };
+  try { await persist(); } catch (error) { console.error('telemetry_persist_failed', error); }
+  console.log(JSON.stringify({ type: 'gameplay', event, game, mode, viewport, outcome, value, recordedAt }));
+  return Response.json({ ok: true }, { status: 202 });
+}
+
 export default {
   async fetch(request, env, ctx) {
     const url = new URL(request.url);
@@ -176,6 +202,7 @@ export default {
 
     const profileResponse = await handleProfileApi(request, env, ctx);
     if (profileResponse) return withSecurityHeaders(profileResponse, url);
+    if (url.pathname === '/api/telemetry') return withSecurityHeaders(await handleTelemetry(request, env), url);
 
     if (url.pathname === '/api/health') {
       return withSecurityHeaders(Response.json({ ok: true, name: 'Mochi Mango Arcade', hardened: true }), url);

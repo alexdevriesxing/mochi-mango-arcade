@@ -1,18 +1,13 @@
 const $=(s,r=document)=>r.querySelector(s),$$=(s,r=document)=>[...r.querySelectorAll(s)];
-const S={games:[],products:[],universes:{},i18n:{},lang:localStorage.mma_lang||'en',cart:JSON.parse(localStorage.mma_cart||'[]')};
+const safeParse=(value,fallback)=>{try{return JSON.parse(value)}catch{return fallback}};
+const S={games:[],products:[],universes:{},i18n:{},lang:localStorage.mma_lang||'en',cart:safeParse(localStorage.mma_cart||'[]',[])};
 
-async function J(p){return (await fetch(p)).json()}
+async function J(p){const response=await fetch(p,{credentials:'same-origin'});if(!response.ok)throw new Error(`Failed to load ${p}: ${response.status}`);return response.json()}
 function t(k){return (S.i18n[S.lang]?.[k])||S.i18n.en?.[k]||k}
 function money(n){return '$'+Number(n).toFixed(2)}
 function slug(s){return s.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'')}
 
-function getProductRating(id) {
-  let hash = id.split('').reduce((acc, char) => acc + char.charCodeAt(0), 0);
-  let rating = 4.2 + (hash % 9) / 10.0; // between 4.2 and 5.0
-  let reviews = 42 + (hash % 380); // between 42 and 422 reviews
-  let stars = '★'.repeat(Math.round(rating)) + '☆'.repeat(5 - Math.round(rating));
-  return { rating: rating.toFixed(1), reviews, stars };
-}
+function getProductRating(){return {rating:null,reviews:0,stars:''}}
 
 function applyI18n(){
   let l=S.i18n[S.lang]||S.i18n.en;
@@ -127,86 +122,8 @@ function footer(){
   <div class="toast" id="toast"></div>`;
 }
 
-/* ================= Adsterra ad units =================
- * One entry per live Adsterra placement. `adSlot()`/`adResponsive()` only ever
- * emit an inert <div> placeholder (real <script> tags inserted via innerHTML
- * never execute) — mountAds() turns each placeholder into the live unit after
- * the page HTML is in the DOM. Each unit is mounted at most once per element,
- * and callers must not place the same unit twice on one page. */
-const AD_UNITS={
-  native:  {kind:'native', containerId:'container-15731003adb68e5841c72d781644c54c', src:'https://demolishwrestconclusions.com/15731003adb68e5841c72d781644c54c/invoke.js'},
-  social:  {kind:'social', src:'https://demolishwrestconclusions.com/96/89/82/968982935a5efce42ae73045310d4b88.js'},
-  b468x60: {kind:'banner', key:'26a2b11e2cae6cade32370e7baa140d7', w:468, h:60},
-  b300x250:{kind:'banner', key:'7b31ea2761b9b290d777ee885476f672', w:300, h:250},
-  b160x300:{kind:'banner', key:'66f8dfdd9c8f4637d8b03d6d483e7a90', w:160, h:300},
-  b160x600:{kind:'banner', key:'4be6f8b4f160d37b745dff420d456d94', w:160, h:600},
-  b320x50: {kind:'banner', key:'f29d3150200ad871305322854588825f', w:320, h:50},
-  b728x90: {kind:'banner', key:'321182c4542315a5839f21432b2ea3ca', w:728, h:90}
-};
-
-function adSlot(unit,extraClass=''){
-  const u=AD_UNITS[unit];
-  if(unit==='native') return `<div class="ad-slot ad-native ${extraClass}" data-ad-unit="native"><span class="ad-label">Advertisement</span><div id="${u.containerId}" class="ad-mount"></div></div>`;
-  return `<div class="ad-slot ad-${unit} ${extraClass}" data-ad-unit="${unit}"><span class="ad-label">Advertisement</span><div class="ad-mount" style="width:${u.w}px;height:${u.h}px"></div></div>`;
-}
-function adResponsive(desktopUnit,mobileUnit,extraClass=''){
-  return `<div class="ad-slot ad-responsive ${extraClass}" data-ad-responsive="${desktopUnit},${mobileUnit}"><span class="ad-label">Advertisement</span><div class="ad-mount"></div></div>`;
-}
-const adTop=()=>adResponsive('b728x90','b320x50','ad-top');
-const adSide=()=>adSlot('b300x250','ad-side');
-const adNative=(extraClass='')=>adSlot('native','ad-native-slot '+extraClass);
-const adSkyscraper=(unit,extraClass='')=>adSlot(unit,'ad-skyscraper '+extraClass);
-
-// Each atOptions-based banner runs in its own sandboxed iframe so different
-// banner units on the same page never clobber each other's global atOptions,
-// and so their DOM insertion is scoped to a fresh, isolated document.
-function bannerSrcdoc(u){
-  return `<!doctype html><html><head><meta charset="utf-8"><style>html,body{margin:0;padding:0;overflow:hidden;background:transparent}</style></head><body>`
-    +`<script>atOptions={"key":"${u.key}","format":"iframe","height":${u.h},"width":${u.w},"params":{}};</script>`
-    +`<script src="https://demolishwrestconclusions.com/${u.key}/invoke.js"></script>`
-    +`</body></html>`;
-}
-
-function mountAds(root=document){
-  $$('[data-ad-unit],[data-ad-responsive]',root).forEach(el=>{
-    if(el.dataset.mounted)return;
-    let unit=el.dataset.adUnit;
-    if(!unit&&el.dataset.adResponsive){
-      const [desktop,mobile]=el.dataset.adResponsive.split(',');
-      unit=window.matchMedia('(min-width:821px)').matches?desktop:mobile;
-    }
-    const u=AD_UNITS[unit];
-    if(!u)return;
-    // never fire a request into a hidden slot (mobile-collapsed skyscrapers etc.) —
-    // avoids wasted/invalid-traffic impressions and matches ad-network policy.
-    const style=getComputedStyle(el);
-    if(style.display==='none'||el.offsetParent===null)return;
-    el.dataset.mounted='1';
-    const mount=el.querySelector('.ad-mount')||el;
-    if(u.kind==='banner'){
-      const iframe=document.createElement('iframe');
-      iframe.title='Advertisement';
-      iframe.loading='lazy';
-      iframe.setAttribute('scrolling','no');
-      iframe.style.cssText=`width:${u.w}px;height:${u.h}px;border:0;display:block;max-width:100%`;
-      iframe.srcdoc=bannerSrcdoc(u);
-      mount.appendChild(iframe);
-    }else if(u.kind==='native'){
-      const s=document.createElement('script');
-      s.async=true;
-      s.setAttribute('data-cfasync','false');
-      s.src=u.src;
-      mount.after(s);
-    }
-  });
-}
-function mountSocialBar(){
-  if(window.__mmaSocialMounted)return;
-  window.__mmaSocialMounted=true;
-  const s=document.createElement('script');
-  s.src=AD_UNITS.social.src;
-  document.body.appendChild(s);
-}
+/* Advertising is disabled until consent, privacy and brand-safety controls are implemented. */
+const adSlot=()=>'';const adResponsive=()=>'';const adTop=()=>'';const adSide=()=>'';const adNative=()=>'';const adSkyscraper=()=>'';function mountAds(){}function mountSocialBar(){}
 
 function gameCard(g){
   let img = g.image || `/assets/images/games/${g.slug}.jpg`;
@@ -222,7 +139,6 @@ function gameCard(g){
         <h3 class="game-title">${g.title}</h3>
         <div class="meta">
           <span>${g.genre}</span>
-          <span class="rating">★ ${g.rating}</span>
         </div>
       </div>
     </a>
@@ -1101,17 +1017,7 @@ function rewardBenefit(g) {
   return '+1 life, a 12-second shield and double score';
 }
 
-function rewardCard(g) {
-  return `<section class="reward-card" data-reward-panel data-slug="${g.slug}">
-    <div class="reward-card-icon" aria-hidden="true">🎁</div>
-    <div class="reward-card-copy">
-      <span class="reward-kicker">Optional rewarded boost</span>
-      <strong>${rewardBenefit(g)}</strong>
-      <span class="reward-status" aria-live="polite">Visit our sponsor, then return to unlock your boost.</span>
-    </div>
-    <button class="btn reward-ad-button" type="button" data-reward-ad data-slug="${g.slug}">Visit sponsor & unlock</button>
-  </section>`;
-}
+function rewardCard(){return ''}
 
 function playPage(sl){
   let g=S.games.find(x=>x.slug==sl)||S.games[0];
@@ -1254,15 +1160,20 @@ let activeGame=null,queuedReward=null,arcadeEventsBound=false;
 const profileRunStartedAt=new Map(),submittedRewardIds=new Set();
 
 function mountEngine(sl){
-  let stage=document.getElementById('gameStage');
+  const stage=document.getElementById('gameStage');
   if(!stage)return;
-  let g=S.games.find(x=>x.slug==sl)||S.games[0];
-  import('/assets/js/mmengine.js').then(m=>{
-    activeGame=m.startGame(stage,g);
-    if(queuedReward){activeGame?.applyReward(queuedReward);queuedReward=null;}
-  }).catch(e=>{
-    console.error('Game engine failed to load',e);
-    stage.innerHTML='<div class="empty" style="padding:40px">This game could not load. <a href="'+g.detailUrl+'">View details</a></div>';
+  const g=S.games.find(x=>x.slug===sl)||S.games[0];
+  Promise.all([import('/assets/js/mmengine.js'),import('/assets/js/game-quality.js')]).then(([engine,quality])=>{
+    try{activeGame=engine.startGame(stage,g)}catch(error){console.error('Primary game runtime failed',error);activeGame=quality.startFallback(stage,g);return}
+    setTimeout(()=>{
+      const visible=stage.querySelector('canvas,iframe');
+      if(!visible){try{activeGame?.destroy?.()}catch{}activeGame=quality.startFallback(stage,g)}
+      else activeGame=quality.enhanceShared(stage,g,activeGame)||activeGame;
+      if(queuedReward){activeGame?.applyReward?.(queuedReward);queuedReward=null}
+    },350);
+  }).catch(error=>{
+    console.error('Game engine failed to load',error);
+    import('/assets/js/game-quality.js').then(quality=>{activeGame=quality.startFallback(stage,g)}).catch(()=>{stage.innerHTML='<div class="empty" style="padding:40px">This game could not load. <a href="'+g.detailUrl+'">View details</a></div>'});
   });
 }
 
@@ -1427,7 +1338,7 @@ function hydrateGames(){
     if(c)a=a.filter(x=>x.mascot.toLowerCase().includes(c)||x.title.toLowerCase().includes(c));
     if(playableOnly)a=a.filter(x=>x.built);
     // always lead with playable games, then apply the chosen sort
-    a.sort((x,y)=>{ if(!!y.built!==!!x.built) return (y.built?1:0)-(x.built?1:0); return sort=='popular'? y.plays-x.plays : x.id-y.id; });
+    a.sort((x,y)=>{ if(!!y.built!==!!x.built) return (y.built?1:0)-(x.built?1:0); return sort=='popular'? Number(y.featured)-Number(x.featured)||y.id-x.id : x.id-y.id; });
     grid.innerHTML=a.map(gameCard).join('')||'<div class="empty">No games found.</div>';
     let pc=a.filter(x=>x.built).length;
     $('#gameCount').innerHTML=`<b>${pc}</b> playable · ${a.length} shown`;
@@ -1626,7 +1537,7 @@ function bind(){
     }
   });
   
-  document.addEventListener('pointermove',spark,{passive:true});
+  /* Pointer spark disabled for performance and reduced visual noise. */
   cartButtons();
   tilt();
   badge();
@@ -1648,15 +1559,7 @@ function spark(e){
   setTimeout(()=>s.remove(),700);
 }
 
-function tilt(){
-  $$('.card').forEach(c=>{
-    c.onpointermove=e=>{
-      let r=c.getBoundingClientRect(),x=(e.clientX-r.left)/r.width-.5;
-      c.style.setProperty('--tilt',`${x*1.5}deg`);
-    };
-    c.onpointerleave=()=>c.style.removeProperty('--tilt');
-  });
-}
+function tilt(){/* Card tilt disabled for stable mobile and keyboard interaction. */}
 
 function render(){
   let p=document.body.dataset.page,sl=document.body.dataset.slug,active=p||'home';
@@ -1673,7 +1576,6 @@ function render(){
   bindRewardButtons();
   if(p=='play'&&sl&&!IFRAME_GAMES.includes(sl))mountEngine(sl);
   if(location.hash)setTimeout(()=>$(location.hash)?.scrollIntoView({behavior:'smooth'}),120);
-  mountAds();
 }
 
 async function boot(){
@@ -1684,6 +1586,5 @@ async function boot(){
     J('/assets/data/i18n.json')
   ]);
   render();
-  mountSocialBar();
 }
 boot();
