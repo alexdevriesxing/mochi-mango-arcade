@@ -13,16 +13,17 @@ async function check(name,viewport,path,assertions){
   page.on('console',message=>{if(message.type()==='error'&&!/favicon|Failed to load resource|cloudflareinsights/i.test(message.text()))errors.push(message.text())});
   try{
     const response=await page.goto(`${base}${path}`,{waitUntil:'networkidle',timeout:30000});
-    await page.waitForTimeout(450);
+    await page.waitForTimeout(500);
     const common=await page.evaluate(()=>({
       overflow:document.documentElement.scrollWidth>innerWidth+3,
       polish:Boolean(document.querySelector('link[href="/assets/css/polish-2026.css"]')),
+      fixes:Boolean(document.querySelector('link[href="/assets/css/polish-fixes.css"]')),
       mobileNav:Boolean(document.querySelector('.mobile-bottom-nav')),
       title:document.title
     }));
     const detail=await assertions(page);
     const fatal=errors.filter(error=>!/favicon|Failed to load resource|cloudflareinsights/i.test(error));
-    const ok=response?.status()===200&&!common.overflow&&common.polish&&fatal.length===0&&detail.ok;
+    const ok=response?.status()===200&&!common.overflow&&common.polish&&common.fixes&&fatal.length===0&&detail.ok;
     results.push({name,viewport,path,status:response?.status(),common,detail,errors:fatal,ok});
     if(!ok)failures.push(results.at(-1));
   }catch(error){failures.push({name,viewport,path,error:String(error)})}
@@ -39,7 +40,8 @@ for(const viewport of [{name:'desktop',width:1440,height:1000},{name:'mobile',wi
     await page.waitForTimeout(250);
     const suggestions=await page.locator('.search-suggestions.open .search-result').count();
     const cardTitles=await page.locator('.game-title').evaluateAll(nodes=>nodes.slice(0,4).map(node=>({scrollHeight:node.scrollHeight,clientHeight:node.clientHeight,text:node.textContent})));
-    return {ok:/392/.test(hero||'')&&discovery&&suggestions>0&&cardTitles.every(item=>item.clientHeight>20),hero,discovery,suggestions,cardTitles};
+    const searchLabel=await page.locator('label[for="globalSearch"]').count();
+    return {ok:/392/.test(hero||'')&&discovery&&suggestions>0&&searchLabel===1&&cardTitles.every(item=>item.clientHeight>20),hero,discovery,suggestions,searchLabel,cardTitles};
   });
   await check('games',viewport,'/games/',async page=>{
     const count=await page.locator('#gameCount').textContent();
@@ -55,6 +57,13 @@ for(const viewport of [{name:'desktop',width:1440,height:1000},{name:'mobile',wi
     const trust=await page.locator('.about-trust').isVisible().catch(()=>false);
     const machineLinks=await page.locator('.about-trust a[href="/ai/catalog.json"]').count();
     return {ok:trust&&machineLinks===1,trust,machineLinks};
+  });
+  await check('shop-preview',viewport,'/shop/',async page=>{
+    const notice=await page.locator('#shopConceptNotice').isVisible().catch(()=>false);
+    const enabledCart=await page.locator('.add-cart:not([disabled])').count();
+    const cartButton=await page.locator('.header-cart-btn').count();
+    const products=await page.locator('.product-card').count();
+    return {ok:notice&&enabledCart===0&&cartButton===0&&products>0,notice,enabledCart,cartButton,products};
   });
   await check('play-tools',viewport,'/play/puddle-pip-meadow-dash/',async page=>{
     const canvas=await page.locator('canvas').first().isVisible().catch(()=>false);
