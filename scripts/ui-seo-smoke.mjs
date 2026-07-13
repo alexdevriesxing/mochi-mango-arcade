@@ -13,8 +13,9 @@ async function check(name,viewport,path,assertions){
   page.on('pageerror',error=>errors.push(String(error.message||error)));
   page.on('console',message=>{if(message.type()==='error'&&!/favicon|Failed to load resource|cloudflareinsights/i.test(message.text()))errors.push(message.text())});
   try{
-    const response=await page.goto(`${base}${path}`,{waitUntil:'networkidle',timeout:30000});
-    await page.waitForTimeout(500);
+    const response=await page.goto(`${base}${path}`,{waitUntil:'domcontentloaded',timeout:30000});
+    await page.waitForSelector('#appHeader',{timeout:10000}).catch(()=>{});
+    await page.waitForTimeout(750);
     const common=await page.evaluate(()=>({
       overflow:document.documentElement.scrollWidth>innerWidth+3,
       polish:Boolean(document.querySelector('link[href="/assets/css/polish-2026.css"]')),
@@ -34,17 +35,19 @@ async function check(name,viewport,path,assertions){
 
 for(const viewport of [{name:'desktop',width:1440,height:1000},{name:'mobile',width:390,height:844}]){
   await check('home',viewport,'/',async page=>{
+    await page.waitForSelector('#mmaDiscovery',{timeout:10000}).catch(()=>{});
     const hero=await page.locator('.hero-content h1').textContent();
     const discovery=await page.locator('#mmaDiscovery').isVisible().catch(()=>false);
     const search=page.locator('#globalSearch');
     await search.fill('Mochi');
-    await page.waitForTimeout(250);
+    await page.waitForTimeout(350);
     const suggestions=await page.locator('.search-suggestions.open .search-result').count();
     const cardTitles=await page.locator('.game-title').evaluateAll(nodes=>nodes.slice(0,4).map(node=>({scrollHeight:node.scrollHeight,clientHeight:node.clientHeight,text:node.textContent})));
     const searchLabel=await page.locator('label[for="globalSearch"]').count();
     return {ok:/392/.test(hero||'')&&discovery&&suggestions>0&&searchLabel===1&&cardTitles.every(item=>item.clientHeight>20),hero,discovery,suggestions,searchLabel,cardTitles};
   });
   await check('games',viewport,'/games/',async page=>{
+    await page.waitForSelector('#gameCount',{timeout:10000}).catch(()=>{});
     const count=await page.locator('#gameCount').textContent();
     const toggle=page.locator('.mobile-filter-toggle');
     let filterWorks=true;
@@ -55,11 +58,13 @@ for(const viewport of [{name:'desktop',width:1440,height:1000},{name:'mobile',wi
     return {ok:/392/.test(count||'')&&filterWorks,count,filterWorks};
   });
   await check('about',viewport,'/about/',async page=>{
+    await page.waitForSelector('.about-trust',{timeout:10000}).catch(()=>{});
     const trust=await page.locator('.about-trust').isVisible().catch(()=>false);
     const machineLinks=await page.locator('.about-trust a[href="/ai/catalog.json"]').count();
     return {ok:trust&&machineLinks===1,trust,machineLinks};
   });
   await check('shop-preview',viewport,'/shop/',async page=>{
+    await page.waitForSelector('#shopConceptNotice',{timeout:10000}).catch(()=>{});
     const notice=await page.locator('#shopConceptNotice').isVisible().catch(()=>false);
     const enabledCart=await page.locator('.add-cart:not([disabled])').count();
     const cartButton=await page.locator('.header-cart-btn').count();
