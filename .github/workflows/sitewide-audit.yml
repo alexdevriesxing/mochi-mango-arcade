@@ -75,4 +75,5 @@ jobs:
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add audit/sitewide-latest.json audit/sitewide-latest.md
           git commit -m "Update sitewide game audit report" || exit 0
-          git push
+          git pull --rebase origin master
+          git push origin HEAD:master
