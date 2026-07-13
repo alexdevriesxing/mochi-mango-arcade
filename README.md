@@ -1,26 +1,26 @@
 # Mochi Mango Arcade
 
-Polished, scalable, multilingual HTML5 game portal and merch shop for **mochimangoarcade.com**.
-
-Footer credit is included on every page:
-
-**© 2026 by Fire Dragon Interactive · www.firedragoninteractive.com**
+Mochi Mango Arcade is a scalable, multilingual HTML5 game portal for **mochimangoarcade.com**, published by Fire Dragon Interactive.
 
 ## Included
 
-- 384 game catalogue across 14 universes with generated detail + play pages.
-- Shared HTML5 game engine (`mmengine.js`) supporting 30+ game modes.
-- 7 built-out universes with per-game illustrated SVG card art:
-  `Tabletop Kingdom` · `Puzzle Realm` · `Candy Galaxy` · `Mango Island` · `Mochi World` · `Panda Kingdom` · `Pixel Playground`
-- Monetag rewarded ad integration with mode-specific boost benefits.
-- Cloudflare D1 profile database for accounts and trophies.
-- Merch shop with product filters, product pages and localStorage cart.
+- 392 playable browser games across 14 original universes.
+- Shared HTML5 game engine supporting 30+ game modes.
+- Illustrated game cards, character art, universe art and responsive play shells.
+- Cloudflare D1 profile database for optional accounts, trophies and validated player progress.
+- Character merchandise concept preview. Purchasing and checkout are intentionally disabled until a real commerce backend is connected.
 - 18-language UI selector with RTL support for Arabic.
-- SVG logo, hero artwork, 380+ game card SVGs, character icons, universe art and product images.
-- Modern responsive UI with universe-aware arcade bezels, floating orbs, cursor sparkles, VFX and reduced-motion support.
-- Cloudflare Worker + Static Assets setup with SPA routing.
+- Cloudflare Worker and Static Assets deployment with canonical-host routing, real 404 responses and production security headers.
 - API routes: `/api/health`, `/api/games`, `/api/game/:slug`, `/api/products`, `/api/profile/*`.
 - Sitemap, robots.txt, llms.txt, manifest and favicon.
+
+## Production hardening
+
+- Third-party advertising service-worker code has been removed.
+- The cleanup service worker unregisters previous registrations and clears their caches.
+- Third-party ad scripts are disabled until consent, child-safety and brand-safety controls are implemented.
+- Synthetic ratings, review counts and public play counts are not displayed or exposed through the public API.
+- Shop and newsletter features are labelled as previews rather than simulated as live services.
 
 ## Deploy
 
@@ -30,8 +30,4 @@ npm run dev
 npm run deploy
 ```
 
-For scaling: keep the portal and lightweight builds in Workers Static Assets or Pages. Put large finished game asset packs in Cloudflare R2 and reference them from play shells.
-
-## Merch shop
-
-The shop is a front-end mockup. Connect Shopify, WooCommerce, Snipcart, Medusa, Stripe or a custom Cloudflare backend for real checkout.
+For scaling, keep the portal and lightweight builds in Workers Static Assets. Put large finished game asset packs in Cloudflare R2 and reference them from play shells.
