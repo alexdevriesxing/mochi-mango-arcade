@@ -2,14 +2,14 @@
   "name": "mochi-mango-arcade",
   "version": "1.0.0",
   "private": true,
-  "description": "Mochi Mango Arcade static HTML5 game and merch portal",
+  "description": "Mochi Mango Arcade static HTML5 game portal",
   "scripts": {
     "dev": "wrangler dev",
     "deploy": "wrangler deploy",
     "serve": "npx http-server public -p 8787 -c-1",
-    "remediate": "node scripts/remediate-site.mjs",
     "validate": "node scripts/validate-site.mjs",
-    "audit": "node scripts/sitewide-audit.mjs"
+    "audit": "node scripts/sitewide-audit.mjs",
+    "smoke": "node scripts/remediation-smoke.mjs"
   },
   "devDependencies": {
     "wrangler": "4.30.0",
