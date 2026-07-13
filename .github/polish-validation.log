@@ -7,5 +7,6 @@
   "ok": true,
   "games": 392,
   "ogCards": 392,
-  "commerceStatus": "Concept preview"
+  "commerceStatus": "Concept preview",
+  "embeddedBundles": "protected"
 }
