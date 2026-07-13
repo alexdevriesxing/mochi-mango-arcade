@@ -1,6 +1,16 @@
-self.options = {
-    "domain": "5gvci.com",
-    "zoneId": 11269362
-}
-self.lary = ""
-importScripts('https://5gvci.com/act/files/service-worker.min.js?r=sw')
+/*
+ * Service-worker cleanup release.
+ * This intentionally unregisters the previous third-party advertising worker
+ * and deletes origin caches. Do not replace it with remote importScripts().
+ */
+self.addEventListener('install', () => self.skipWaiting());
+
+self.addEventListener('activate', event => {
+  event.waitUntil((async () => {
+    const keys = await caches.keys();
+    await Promise.all(keys.map(key => caches.delete(key)));
+    await self.registration.unregister();
+    const clients = await self.clients.matchAll({ type: 'window', includeUncontrolled: true });
+    for (const client of clients) client.navigate(client.url);
+  })());
+});
