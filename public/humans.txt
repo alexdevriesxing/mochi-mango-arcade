@@ -1,0 +1,7 @@
+Mochi Mango Arcade
+Publisher: Fire Dragon Interactive
+Website: https://www.mochimangoarcade.com/
+Games: 392
+Original universes: 14
+Technology: HTML5, JavaScript, Cloudflare Workers and D1
+Last verified: 2026-07-13

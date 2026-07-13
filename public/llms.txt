@@ -1,17 +1,27 @@
 # Mochi Mango Arcade
 
-Mochi Mango Arcade is a free browser-game portal by Fire Dragon Interactive.
+> Free family-friendly browser arcade published by Fire Dragon Interactive.
 
+## Verified facts
 - Canonical URL: https://www.mochimangoarcade.com/
+- Publisher: Fire Dragon Interactive
 - Games: 392
 - Playable now: 392
-- Universes: 14
+- Original universes: 14
 - Price: Free to play
 - Account: Optional; not required to play
 - Merchandise: Concept preview; purchasing is not currently available
-- Publisher: Fire Dragon Interactive
-- Catalogue data: https://www.mochimangoarcade.com/assets/data/games.json
-- Machine-readable facts: https://www.mochimangoarcade.com/assets/data/site-facts.json
+- Last verified: 2026-07-13
+
+## Machine-readable sources
+- Verified facts: https://www.mochimangoarcade.com/assets/data/site-facts.json
+- Concise game catalogue: https://www.mochimangoarcade.com/ai/catalog.json
+- Entity graph: https://www.mochimangoarcade.com/ai/entity-graph.json
+- Source catalogue: https://www.mochimangoarcade.com/assets/data/games.json
 - Sitemap: https://www.mochimangoarcade.com/sitemap.xml
 
-Game pages provide title, genre, character, universe, objective, version and play link. All characters and game artwork are original to the publisher.
+## Content and ownership
+Game pages identify the title, genre, character, universe, objective, version, release date and direct play URL. Games, characters and artwork are original to Fire Dragon Interactive unless a page explicitly states otherwise. No synthetic user ratings, review counts or play counts are published.
+
+## Access
+Games run in modern browsers on mobile and desktop. Shared runtimes support touch, mouse and keyboard. Campaign progress and personal bests can be stored locally; an account is not required.

@@ -32,7 +32,7 @@ function header(active='home'){
     ['/about/','about', t('about')],
     ['/profile/','profile', '🏆 Profile']
   ];
-  return `<a class="skip-link" href="#main">Skip</a>
+  return `<a class="skip-link" href="#main">Skip to main content</a>
   <header class="topbar">
     <div class="container nav">
       <a class="brand" href="/">
@@ -42,7 +42,7 @@ function header(active='home'){
         ${nav.map(([u,k,label])=>`<a class="${active==k?'active':''}" href="${u}">${label}</a>`).join('')}
       </nav>
       <div class="nav-actions">
-        <label class="searchbox">🔍 <input id="globalSearch" data-i18n-placeholder="search" placeholder="${t('search')}"></label>
+        <div class="searchbox">🔍 <label class="sr-only" for="globalSearch">Search games</label><input id="globalSearch" data-i18n-placeholder="search" placeholder="${t('search')}"></div>
         <select class="lang-select" aria-label="Language">
           ${Object.entries(S.i18n).map(([c,l])=>`<option value="${c}">${l.name}</option>`).join('')}
         </select>
@@ -541,12 +541,12 @@ function section(key,arr,icon='🎮',link='/games/'){
 
 function home(){
   let built=S.games.filter(g=>g.built);
-  let f=[...built].sort((a,b)=>(b.featured?1:0)-(a.featured?1:0)).slice(0,5);
+  let f=[...built].sort((a,b)=>(b.featured?1:0)-(a.featured?1:0)).slice(0,4);
   let fset=new Set(f.map(g=>g.slug));
-  let n=built.filter(g=>!fset.has(g.slug)).slice(0,5);
+  let n=built.filter(g=>!fset.has(g.slug)).slice(0,4);
   let cc={};
   S.games.forEach(g=>cc[g.mascot]=(cc[g.mascot]||0)+1);
-  let chars=Object.entries(cc).sort((a,b)=>b[1]-a[1]).slice(0,5);
+  let chars=Object.entries(cc).sort((a,b)=>b[1]-a[1]).slice(0,4);
   
   return `<main id="main" class="container">
     ${adTop()}
@@ -559,8 +559,8 @@ function home(){
             <span class="hero-badge-pill">👶 Kid-Friendly</span>
             <span class="hero-badge-pill">⭐ Always Free</span>
           </div>
-          <h1>200+<br><span>Playful HTML5 Games</span></h1>
-          <p>${built.length} playable today with fresh games and collectible merch added every week.</p>
+          <h1>${built.length} free games.<br><span>One playful universe.</span></h1>
+          <p>Instant browser games with original characters, campaign goals and daily reasons to come back — no download and no account required.</p>
           <div class="hero-actions">
             <a href="/games/" class="btn">🎮 Play Now</a>
             <a href="/universes/" class="btn secondary">Explore Universes</a>
@@ -611,7 +611,7 @@ function gamesPage(){
     ${adTop()}
     <section class="page-hero">
       <h1 data-i18n="allGames">${t('allGames')}</h1>
-      <p>Browse all 200 games — <b>${S.games.filter(g=>g.built).length} playable now</b>, with more added every week.</p>
+      <p>Browse all <b>${S.games.length} free games</b> — every title is playable now on mobile and desktop.</p>
     </section>
     <div class="catalog-layout">
       <aside class="filters">
@@ -669,7 +669,7 @@ function universesPage(){
         <span class="chip" style="pointer-events:none">${S.games.filter(g=>g.universe==k).length} games</span>
       </div>
       <p style="color:var(--muted); font-weight:700; margin-bottom:16px;">${u.description}</p>
-      <div class="grid game-grid">${S.games.filter(g=>g.universe==k).slice(0,5).map(gameCard).join('')}</div>
+      <div class="grid game-grid">${S.games.filter(g=>g.universe==k).slice(0,4).map(gameCard).join('')}</div>
     </section>`).join('')}
   </main>`;
 }
@@ -817,7 +817,7 @@ function aboutPage(){
     ${adTop()}
     <section class="page-hero">
       <h1 data-i18n="about">${t('about')}</h1>
-      <p>Mochi Mango Arcade is a scalable HTML5 game and merch platform by Fire Dragon Interactive for 200+ games, recurring universes, ad monetization and collectibles.</p>
+      <p>Mochi Mango Arcade is a family-friendly browser arcade by Fire Dragon Interactive, built around original games, recurring characters and transparent free-to-play access.</p>
     </section>
     <section class="section">
       <div class="grid universe-grid">
@@ -840,26 +840,13 @@ function aboutPage(){
 }
 
 function leaderboardPage(){
-  let top=[...S.games].sort((a,b)=>b.plays-a.plays).slice(0,50);
-  let rows=top.map((g,i)=>`<div class="leader-row">
-      <div class="rank">#${i+1}</div>
-      <div>
-        <strong>${g.title}</strong>
-        <div class="meta"><span>${g.genre}</span><span>${g.universeName}</span></div>
-      </div>
-      <div class="hide-sm rating">★ ${g.rating}</div>
-      <div class="hide-sm" style="font-weight:800;color:var(--muted)">${g.plays.toLocaleString()} plays</div>
-    </div>`);
-  if(rows.length>10)rows.splice(10,0,adSlot('b468x60','leader-ad'));
-  if(rows.length>26)rows.splice(26,0,adNative());
-  return `<main id="main" class="container">
-    ${adTop()}
-    <section class="page-hero">
-      <h1 data-i18n="leaderboards">${t('leaderboards')}</h1>
-      <p>Mock leaderboard ready for D1, KV or Durable Objects later.</p>
-    </section>
-    ${rows.join('')}
-  </main>`;
+  const saved=S.games.map(game=>{
+    const mastery=safeParse(localStorage.getItem(`mma_mastery_${game.slug}`)||'{}',{});
+    const campaign=safeParse(localStorage.getItem(`mma_campaign_${game.slug}`)||'{}',{});
+    return {game,best:Number(mastery.best)||0,medals:Number(campaign.medals)||0};
+  }).filter(item=>item.best>0||item.medals>0).sort((a,b)=>b.best-a.best||b.medals-a.medals).slice(0,50);
+  const rows=saved.map((item,index)=>`<a class="leader-row" href="${item.game.playUrl}"><div class="rank">#${index+1}</div><div><strong>${item.game.title}</strong><div class="meta"><span>${item.game.genre}</span><span>${item.medals} medals</span></div></div><div class="hide-sm" style="font-weight:900;color:var(--purple)">${item.best.toLocaleString()}</div><div class="hide-sm" style="font-weight:800;color:var(--muted)">personal best</div></a>`);
+  return `<main id="main" class="container"><section class="page-hero"><h1 data-i18n="leaderboards">${t('leaderboards')}</h1><p>Your private on-device high scores and campaign medals. Nothing is invented and no account is required.</p></section>${rows.length?rows.join(''):'<div class="empty">Play a game to create your personal leaderboard.</div>'}</main>`;
 }
 
 function adMapPage(){
@@ -909,7 +896,7 @@ function legal(kind){
 }
 
 function gameDetail(sl){
-  let g=S.games.find(x=>x.slug==sl)||S.games[0],rel=S.games.filter(x=>x.universe==g.universe&&x.slug!=g.slug).slice(0,5);
+  let g=S.games.find(x=>x.slug==sl)||S.games[0],rel=S.games.filter(x=>x.universe==g.universe&&x.slug!=g.slug).slice(0,4);
   let img = g.image || `/assets/images/games/${g.slug}.jpg`;
   let fb = `this.onerror=null;this.src='/assets/images/games/${g.slug}.svg';this.onerror=function(){this.style.display='none'}`;
   return `<main id="main" class="container">
