@@ -19,36 +19,29 @@ Live target: https://www.mochimangoarcade.com
 
 ## Immediate defects
 
-### Broken catalogue entries
+1. **Pixel Prawn: Deep Sea Debugger** — detail and play pages return 404; image and generated pages are missing.
+2. **Pixel Panda Parkour** — detail and play pages return 404; image and generated pages are missing.
+3. **Boom Bap Cannon** — HTTP 200, but no visible game runtime was found.
+4. **Super Sean's Merge Madness** — runtime error: `Cannot read properties of undefined (reading 'push')`.
+5. **Super Sean's Pipe Puzzle** — runtime error: `c.save is not a function`.
 
-1. **Pixel Prawn: Deep Sea Debugger** — detail and play pages return 404; missing referenced image and generated pages.
-2. **Pixel Panda Parkour** — detail and play pages return 404; missing referenced image and generated pages.
-3. **Boom Bap Cannon** — HTTP 200, but no visible canvas or iframe runtime in the browser test.
+## Sitewide integration defects
 
-### Runtime JavaScript defects
+- Cloudflare Insights is injected but blocked by CSP on every browser test, so analytics is not operating correctly.
+- A third-party advertising script from `demolishwrestconclusions.com` was attempted on 44 of 46 tests and blocked by CSP. Remove the loader at source.
+- These two blocked scripts account for almost all console errors; most game canvases themselves started successfully.
 
-4. **Super Sean's Merge Madness** — `Cannot read properties of undefined (reading 'push')`.
-5. **Super Sean's Pipe Puzzle** — `c.save is not a function`.
+## Data integrity
 
-## Sitewide script and analytics issue
+- 155 broken exact image references.
+- Synthetic rating/play fields remain in all 392 source records.
+- Duplicate descriptions:
+  - `lulu-lanterns-lost-woods` / `lulu-lanterns-glow-garden`
+  - `nine-gates-mahjong-trails` / `baos-jade-dragon-rescue`
 
-Every browser test attempted to load the Cloudflare Insights beacon, but the current Content Security Policy blocks it. Analytics is therefore not functioning as configured.
+## Largest gameplay modes
 
-Forty-four of the 46 tests also attempted to load a third-party advertising script from `demolishwrestconclusions.com`. The CSP correctly blocked it, but the script reference or injection remains in the source/rendering pipeline. Remove it at source rather than relying only on CSP rejection.
-
-These blocked requests account for almost all browser console errors. They are sitewide integration errors, not evidence that all 46 game engines are broken.
-
-## Data and content integrity
-
-- **155 broken exact image references.** The UI may display fallback art, but catalogue data points to missing files. This weakens cards, detail pages, social previews, structured data and build automation.
-- **392 synthetic metric records.** The Worker removes these from public responses, but they remain in `games.json`. Remove the fields at source.
-- **Duplicate descriptions:**
-  - `lulu-lanterns-lost-woods` and `lulu-lanterns-glow-garden`
-  - `nine-gates-mahjong-trails` and `baos-jade-dragon-rescue`
-
-## Gameplay architecture
-
-| Runtime mode | Approx. games |
+| Mode | Games |
 |---|---:|
 | Runner | 55 |
 | Match-3 / tile puzzle | 50 |
@@ -60,26 +53,12 @@ These blocked requests account for almost all browser console errors. They are s
 | Tower defence | 14 |
 | Flappy / flight | 14 |
 | Stacker | 12 |
-| Bubble shooter | 10 |
-| Maze | 10 |
-| Racing | 9 |
-| Breakout | 9 |
-| Whack / reaction | 9 |
 
-The catalogue is technically broad but mechanically concentrated. Improving the six largest modes would materially improve roughly half the library.
+Improving runner, match-3, serving, memory, rhythm and shooter would improve roughly half the catalogue.
 
-## Highest-return engine upgrades
+## Priority games
 
-1. **Runner:** handcrafted obstacle sequences, branching routes, missions, abilities, stage themes, checkpoints and bosses.
-2. **Match-3/tile:** authored boards, objectives, blockers, move limits, boosters, progression and mode-specific rules.
-3. **Serving/management:** customer personalities, recipes, upgrades, day progression, rush periods and economy choices.
-4. **Memory:** themed effects, board shapes, multi-stage rounds, streaks, special pairs and difficulty modes.
-5. **Rhythm:** authored charts/music, calibration, difficulties, judgement feedback and unlockable tracks.
-6. **Shooter:** enemy archetypes, authored waves, weapons, bosses, hit feedback and stage goals.
-
-## Games to improve first
-
-### P0 — repair before promotion
+### P0 repair
 
 1. Pixel Prawn: Deep Sea Debugger
 2. Pixel Panda Parkour
@@ -87,7 +66,7 @@ The catalogue is technically broad but mechanically concentrated. Improving the 
 4. Super Sean's Merge Madness
 5. Super Sean's Pipe Puzzle
 
-### P1 — flagship depth pass
+### P1 flagship depth
 
 6. Puddle & Pip: Meadow Dash
 7. Puddle's Pancake Panic
@@ -110,40 +89,25 @@ The catalogue is technically broad but mechanically concentrated. Improving the 
 24. The Donut Dragon Derby
 25. Tika Tiger: Traffic Tango
 
-## Visual and mobile findings
+## Visual/mobile findings
 
-- No horizontal overflow appeared in the 12 priority mobile play tests.
-- Successful mobile canvases rendered at about 356 × 475 CSS pixels in a 390 × 844 viewport.
-- Successful desktop samples displayed a runtime without layout overflow.
-- The shell is stable after hardening, but most games need title-specific HUDs, effects, animation, backgrounds, win/lose screens and sound identity.
+- No horizontal overflow in the 12 priority mobile tests.
+- Mobile game canvases rendered at about 356 × 475 CSS pixels in a 390 × 844 viewport.
+- Desktop engine samples displayed without layout overflow.
+- The shell is stable, but shared-runtime games need title-specific HUDs, effects, animation, backgrounds, win/lose screens and sound identity.
 
-## SEO and technical findings
+## Technical/SEO status
 
-### Working
+Working: HTTP 200 homepage and health endpoint, real 404s, reachable robots/sitemap/llms/manifest/service-worker cleanup, HSTS, CSP and strong response times.
 
-- Homepage and health endpoint return 200.
-- Real 404 behaviour works.
-- `robots.txt`, sitemap, `llms.txt`, manifest and service-worker cleanup are reachable.
-- HSTS and CSP are present.
-- Response performance is strong.
-
-### Remaining
-
-- Repair two missing detail/play page pairs and regenerate the sitemap.
-- Correct 155 image references.
-- Remove synthetic metrics at source.
-- Remove duplicate descriptions.
-- Remove residual third-party ad loading.
-- Resolve the Cloudflare analytics/CSP mismatch.
-- Generate dedicated 1200 × 630 social cards for flagship titles.
-- Add real release dates, update history, authorship and gameplay-specific FAQ content.
+Remaining: repair missing game pages, regenerate sitemap, repair image references, remove synthetic metrics and duplicate copy, remove residual ad loading, resolve analytics/CSP, create raster social cards, and add release history/authorship/game-specific FAQ content.
 
 ## Delivery order
 
 1. Repair the five P0 games.
 2. Remove residual ad injection and resolve analytics/CSP.
-3. Batch-fix image references and synthetic metrics.
-4. Upgrade runner, match-3, serving, memory, rhythm and shooter engines.
+3. Batch-fix image references and source metrics.
+4. Upgrade the six largest gameplay modes.
 5. Give 20 flagship games bespoke progression, content, VFX, SFX and endings.
-6. Add real gameplay analytics for starts, first input, session duration, completion, replay and errors.
-7. Run the permanent sitewide audit before every major release.
+6. Add real gameplay analytics.
+7. Run the permanent sitewide audit before major releases.
