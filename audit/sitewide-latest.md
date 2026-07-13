@@ -21,28 +21,14 @@ Live target: https://www.mochimangoarcade.com
 
 ### Broken catalogue entries
 
-1. **Pixel Prawn: Deep Sea Debugger**
-   - Detail page: HTTP 404
-   - Play page: HTTP 404
-   - Missing referenced image
-   - Missing generated static detail and play files
-
-2. **Pixel Panda Parkour**
-   - Detail page: HTTP 404
-   - Play page: HTTP 404
-   - Missing referenced image
-   - Missing generated static detail and play files
-
-3. **Boom Bap Cannon**
-   - Play page returns HTTP 200, but the browser test found no visible canvas or iframe runtime.
+1. **Pixel Prawn: Deep Sea Debugger** — detail and play pages return 404; missing referenced image and generated pages.
+2. **Pixel Panda Parkour** — detail and play pages return 404; missing referenced image and generated pages.
+3. **Boom Bap Cannon** — HTTP 200, but no visible canvas or iframe runtime in the browser test.
 
 ### Runtime JavaScript defects
 
-4. **Super Sean's Merge Madness**
-   - Browser error: `Cannot read properties of undefined (reading 'push')`.
-
-5. **Super Sean's Pipe Puzzle**
-   - Browser error: `c.save is not a function`.
+4. **Super Sean's Merge Madness** — `Cannot read properties of undefined (reading 'push')`.
+5. **Super Sean's Pipe Puzzle** — `c.save is not a function`.
 
 ## Sitewide script and analytics issue
 
@@ -54,15 +40,13 @@ These blocked requests account for almost all browser console errors. They are s
 
 ## Data and content integrity
 
-- **155 broken exact image references.** The UI may display fallback art, but the catalogue data points to missing files. This weakens cards, detail pages, social previews, structured data and future build automation.
-- **392 synthetic metric records.** The Worker removes these from public responses, but they remain in `games.json`. Remove the fields at source so future generators cannot accidentally republish them.
+- **155 broken exact image references.** The UI may display fallback art, but catalogue data points to missing files. This weakens cards, detail pages, social previews, structured data and build automation.
+- **392 synthetic metric records.** The Worker removes these from public responses, but they remain in `games.json`. Remove the fields at source.
 - **Duplicate descriptions:**
   - `lulu-lanterns-lost-woods` and `lulu-lanterns-glow-garden`
   - `nine-gates-mahjong-trails` and `baos-jade-dragon-rescue`
 
 ## Gameplay architecture
-
-The shared runtime currently resolves the catalogue into approximately these gameplay-mode volumes:
 
 | Runtime mode | Approx. games |
 |---|---:|
@@ -82,33 +66,16 @@ The shared runtime currently resolves the catalogue into approximately these gam
 | Breakout | 9 |
 | Whack / reaction | 9 |
 
-The catalogue is technically broad but mechanically concentrated. Improving the six largest modes would materially improve roughly half the entire library.
+The catalogue is technically broad but mechanically concentrated. Improving the six largest modes would materially improve roughly half the library.
 
 ## Highest-return engine upgrades
 
-### 1. Runner
-
-Add handcrafted obstacle sequences, branching routes, missions, character abilities, stage themes, checkpoints and chase/boss encounters. Avoid relying on title and background changes alone.
-
-### 2. Match-3 and tile puzzles
-
-Add authored boards, varied objectives, blockers, limited moves, boosters, difficulty curves and a progression map. Mahjong, memory and logic-branded games should not all feel like the same generic swap loop.
-
-### 3. Serving and management
-
-Add customer personalities, recipes, upgrade choices, day progression, rush periods, failure/recovery states and meaningful economy decisions.
-
-### 4. Memory
-
-Add themed card effects, multiple board shapes, multi-stage rounds, streaks, special pairs, difficulty modes and character unlocks.
-
-### 5. Rhythm
-
-Add authored charts and music, timing calibration, difficulty levels, clear judgement feedback, combo systems and unlockable tracks.
-
-### 6. Shooter
-
-Add enemy archetypes, authored waves, weapons, bosses, hit feedback, stage goals and progression.
+1. **Runner:** handcrafted obstacle sequences, branching routes, missions, abilities, stage themes, checkpoints and bosses.
+2. **Match-3/tile:** authored boards, objectives, blockers, move limits, boosters, progression and mode-specific rules.
+3. **Serving/management:** customer personalities, recipes, upgrades, day progression, rush periods and economy choices.
+4. **Memory:** themed effects, board shapes, multi-stage rounds, streaks, special pairs and difficulty modes.
+5. **Rhythm:** authored charts/music, calibration, difficulties, judgement feedback and unlockable tracks.
+6. **Shooter:** enemy archetypes, authored waves, weapons, bosses, hit feedback and stage goals.
 
 ## Games to improve first
 
@@ -143,52 +110,40 @@ Add enemy archetypes, authored waves, weapons, bosses, hit feedback, stage goals
 24. The Donut Dragon Derby
 25. Tika Tiger: Traffic Tango
 
-### P2 — asset and differentiation batch
-
-Prioritise the remaining games with missing image references, especially featured titles:
-
-- Bao's Jade Dragon Rescue
-- The Bubble Tea Bears
-- The Donut Dragon Derby
-- Tika Tiger: Traffic Tango
-
-Then repair the remaining missing references in a generated batch rather than by hand.
-
 ## Visual and mobile findings
 
-- No horizontal overflow was detected in the 12 priority mobile play tests.
-- Successful mobile canvases rendered at approximately 356 × 475 CSS pixels in a 390 × 844 viewport.
-- Successful desktop engine samples rendered visible runtimes without layout overflow.
-- The current visual shell is stable after the hardening pass, but most games still need stronger title-specific visual behaviour: themed HUD elements, unique effects, character animation, backgrounds, win/lose screens and sound identity.
+- No horizontal overflow appeared in the 12 priority mobile play tests.
+- Successful mobile canvases rendered at about 356 × 475 CSS pixels in a 390 × 844 viewport.
+- Successful desktop samples displayed a runtime without layout overflow.
+- The shell is stable after hardening, but most games need title-specific HUDs, effects, animation, backgrounds, win/lose screens and sound identity.
 
 ## SEO and technical findings
 
-### Working well
+### Working
 
-- Homepage: HTTP 200.
-- Health endpoint: HTTP 200.
-- Real 404 behaviour is working.
-- `robots.txt`, `sitemap.xml`, `llms.txt`, manifest and service-worker cleanup endpoint are reachable.
-- HSTS and the hardened CSP are present.
-- Live response performance is strong.
+- Homepage and health endpoint return 200.
+- Real 404 behaviour works.
+- `robots.txt`, sitemap, `llms.txt`, manifest and service-worker cleanup are reachable.
+- HSTS and CSP are present.
+- Response performance is strong.
 
-### Still to improve
+### Remaining
 
-- Repair the two missing detail/play page pairs and regenerate the sitemap after repair.
-- Correct all missing exact image references.
+- Repair two missing detail/play page pairs and regenerate the sitemap.
+- Correct 155 image references.
 - Remove synthetic metrics at source.
 - Remove duplicate descriptions.
-- Remove the residual third-party advertising loader.
-- Either allow the official Cloudflare analytics endpoint in CSP or disable Cloudflare Web Analytics injection; do not leave it permanently blocked and noisy.
-- Generate dedicated 1200 × 630 raster social images for flagship titles.
-- Add real release dates, update history, authorship and gameplay-specific FAQ content to flagship pages.
+- Remove residual third-party ad loading.
+- Resolve the Cloudflare analytics/CSP mismatch.
+- Generate dedicated 1200 × 630 social cards for flagship titles.
+- Add real release dates, update history, authorship and gameplay-specific FAQ content.
 
-## Recommended delivery order
+## Delivery order
 
-1. Repair the five P0 games and remove the two real JavaScript errors.
-2. Remove residual ad injection and resolve the Cloudflare analytics/CSP mismatch.
-3. Batch-fix the 155 broken image references and remove synthetic source metrics.
+1. Repair the five P0 games.
+2. Remove residual ad injection and resolve analytics/CSP.
+3. Batch-fix image references and synthetic metrics.
 4. Upgrade runner, match-3, serving, memory, rhythm and shooter engines.
-5. Give the 20 flagship games bespoke progression, content, VFX, SFX and endings.
-6. Add real gameplay analytics: game start, first input, session duration, completion, replay and runtime error.
-7. Use the permanent sitewide audit workflow before every major release.
+5. Give 20 flagship games bespoke progression, content, VFX, SFX and endings.
+6. Add real gameplay analytics for starts, first input, session duration, completion, replay and errors.
+7. Run the permanent sitewide audit before every major release.
