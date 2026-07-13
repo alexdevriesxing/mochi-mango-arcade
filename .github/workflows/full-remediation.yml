@@ -1,11 +1,15 @@
 name: Build full site remediation
 
 on:
-  push:
+  pull_request:
     branches:
-      - agent/full-site-remediation
+      - master
     paths:
       - scripts/run-remediation.txt
+      - scripts/remediate-site.mjs
+      - scripts/validate-site.mjs
+      - public/assets/js/game-quality.js
+      - .github/workflows/full-remediation.yml
   workflow_dispatch:
 
 permissions:
