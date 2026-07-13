@@ -1,0 +1,113 @@
+name: Verify UI SEO production release
+
+on:
+  pull_request:
+    branches:
+      - master
+    paths:
+      - .github/workflows/verify-ui-seo-production.yml
+      - .github/verify-ui-seo-production.txt
+      - scripts/live-polish-smoke.mjs
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: verify-ui-seo-production
+  cancel-in-progress: true
+
+jobs:
+  verify:
+    name: Deploy polished release and verify live site
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    environment: production
+
+    steps:
+      - name: Check out verification branch
+        uses: actions/checkout@v4
+
+      - name: Deploy current polished release to Cloudflare
+        uses: cloudflare/wrangler-action@v3
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          wranglerVersion: "4"
+          command: deploy
+
+      - name: Wait for edge propagation
+        run: sleep 20
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      - name: Check every live URL and production status
+        env:
+          AUDIT_BASE_URL: https://www.mochimangoarcade.com
+          RUN_BROWSER_AUDIT: '0'
+        run: node scripts/sitewide-audit.mjs
+
+      - name: Verify deployed UX, SEO and GAIO assets
+        run: |
+          node - <<'NODE'
+          const fs=require('fs');
+          const base='https://www.mochimangoarcade.com';
+          const audit=JSON.parse(fs.readFileSync('audit/sitewide-latest.json','utf8'));
+          const s=audit.summary;
+          const failures=[];
+          const get=async path=>{const response=await fetch(base+path);return {response,text:await response.text()}};
+          if(s.totalGames!==392)failures.push(`Expected 392 games, got ${s.totalGames}`);
+          if(s.failedLiveUrls!==0)failures.push(`${s.failedLiveUrls} live URL failures`);
+          if(s.homepageStatus!==200)failures.push(`Homepage status ${s.homepageStatus}`);
+          if(s.healthStatus!==200)failures.push(`Health status ${s.healthStatus}`);
+          if(s.notFoundStatus!==404)failures.push(`Unknown route status ${s.notFoundStatus}`);
+
+          const pages=['/','/games/','/about/','/shop/','/play/mushmoos-moonlit-match/'];
+          for(const path of pages){
+            const {response,text}=await get(path);
+            if(response.status!==200)failures.push(`${path} returned ${response.status}`);
+            for(const token of ['/assets/css/polish-2026.css','/assets/css/polish-fixes.css','/assets/js/ux-polish.js','/assets/js/trust-polish.js']){
+              if(!text.includes(token))failures.push(`${path} missing ${token}`);
+            }
+          }
+
+          const app=(await get('/assets/js/app.js')).text;
+          const ux=(await get('/assets/js/ux-polish.js')).text;
+          const trust=(await get('/assets/js/trust-polish.js')).text;
+          if(!app.includes('Your private on-device high scores'))failures.push('Honest leaderboard not deployed');
+          for(const token of ['Find your next game','Continue playing','Focus mode','mobile-bottom-nav'])if(!ux.includes(token))failures.push(`UX module missing ${token}`);
+          for(const token of ['Merchandise concept preview','purchasing is not available','button.disabled=true'])if(!trust.includes(token))failures.push(`Trust module missing ${token}`);
+
+          const facts=JSON.parse((await get('/assets/data/site-facts.json')).text);
+          const catalogue=JSON.parse((await get('/ai/catalog.json')).text);
+          const entities=JSON.parse((await get('/ai/entity-graph.json')).text);
+          if(facts.gameCount!==392||facts.playableCount!==392)failures.push('Verified site facts are inconsistent');
+          if(facts.merchandiseStatus!=='Concept preview')failures.push('Merchandise status is not honest');
+          if(catalogue.games?.length!==392)failures.push(`AI catalogue has ${catalogue.games?.length} games`);
+          if(!Array.isArray(entities['@graph'])||entities['@graph'].length<10)failures.push('Entity graph is incomplete');
+
+          for(const path of ['/assets/images/og/home.jpg','/assets/images/og/games/mushmoos-moonlit-match.jpg']){
+            const response=await fetch(base+path,{method:'HEAD'});
+            if(response.status!==200||!/^image\/jpeg/i.test(response.headers.get('content-type')||''))failures.push(`${path} is not a live JPEG social card`);
+          }
+
+          if(failures.length){console.error(failures.join('\n'));process.exit(1)}
+          const result={verifiedAt:new Date().toISOString(),liveUrls:s.totalLiveUrls,failedLiveUrls:s.failedLiveUrls,games:facts.gameCount,playable:facts.playableCount,aiCatalogue:catalogue.games.length,commerceStatus:facts.merchandiseStatus,polishAssets:true,socialCards:true};
+          fs.mkdirSync('.github',{recursive:true});
+          fs.writeFileSync('.github/ui-seo-production-status.json',JSON.stringify(result,null,2)+'\n');
+          console.log(JSON.stringify(result,null,2));
+          NODE
+
+      - name: Upload final production reports
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: ui-seo-production-verification
+          path: |
+            audit/sitewide-latest.json
+            audit/sitewide-latest.md
+            .github/ui-seo-production-status.json
+          if-no-files-found: warn
