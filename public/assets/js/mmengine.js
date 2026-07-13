@@ -4064,7 +4064,8 @@ class Helix extends Base {
       if (this.ball.y > ring.y - 12 && this.ball.y < ring.y + 12) {
         // Check gap
         const ballAngle = Math.atan2(0, this.ball.x - this.W / 2) + (this.ball.x < this.W / 2 ? Math.PI : 0);
-        const effectiveAngles = ring.gaps.map(g => ((g + this.rotation + (ring.moving ? Math.sin(this.time * 1.5 + ring.phase) * 0.5 : 0)) % (Math.PI * 2) + Math.PI * 2) % (Math.PI * 2));
+        const safeGaps = Array.isArray(ring.gaps) ? ring.gaps : [];
+        const effectiveAngles = safeGaps.map(g => ((g + this.rotation + (ring.moving ? Math.sin(this.time * 1.5 + ring.phase) * 0.5 : 0)) % (Math.PI * 2) + Math.PI * 2) % (Math.PI * 2));
         const inGap = effectiveAngles.some(ga => {
           const diff = Math.abs((((this.rotation) % (Math.PI * 2) + Math.PI * 2) % (Math.PI * 2)) - ga);
           return diff < 0.5 || Math.abs(diff - Math.PI * 2) < 0.5;
@@ -4129,7 +4130,8 @@ class Helix extends Base {
       for (let i = 0; i < segs; i++) {
         const a1 = (i / segs) * Math.PI * 2 + this.rotation;
         const a2 = ((i + 1) / segs) * Math.PI * 2 + this.rotation;
-        const inGap = ring.gaps.some(g => {
+        const safeGaps = Array.isArray(ring.gaps) ? ring.gaps : [];
+        const inGap = safeGaps.some(g => {
           const ga = g + this.rotation + moveOffset;
           const cross = (a1 < ga && a2 > ga) || (a1 + Math.PI * 2 < ga && a2 + Math.PI * 2 > ga);
           return cross;

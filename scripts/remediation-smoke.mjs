@@ -3,7 +3,7 @@ import { chromium } from 'playwright';
 
 const base = process.env.SMOKE_BASE_URL || 'http://127.0.0.1:8787';
 const targets = [
-  'pixel-panda-parkour-standalone','pixel-prawn-deep-sea-debugger-standalone','boom-bap-cannon',
+  'scanline-sprint','pixel-panda-parkour-standalone','pixel-prawn-deep-sea-debugger-standalone','boom-bap-cannon',
   'super-seans-merge-madness','super-seans-pipe-puzzle','puddle-pip-meadow-dash',
   'puddles-pancake-panic','mushmoos-moonlit-match','bloop-bubble-rescue','nine-gates-mahjong-trails',
   'snackstreet-rush','crownlight-chess','starling-signal-patrol','glitch-garden','boot-sector',
