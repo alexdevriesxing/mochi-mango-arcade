@@ -8,12 +8,12 @@ const games=JSON.parse(fs.readFileSync(path.join(publicDir,'assets/data/games.js
 const errors=[];
 const read=relative=>fs.readFileSync(path.join(root,relative),'utf8');
 
-for(const file of ['public/assets/js/ux-polish.js','scripts/apply-ui-seo-gaio-polish.mjs','scripts/ui-seo-smoke.mjs']){
+for(const file of ['public/assets/js/ux-polish.js','public/assets/js/trust-polish.js','scripts/apply-ui-seo-gaio-polish.mjs','scripts/add-polish-fixes.mjs','scripts/final-trust-polish.mjs','scripts/ui-seo-smoke.mjs']){
   const result=spawnSync(process.execPath,['--check',path.join(root,file)],{encoding:'utf8'});
   if(result.status!==0)errors.push(`${file}: ${result.stderr||result.stdout}`);
 }
 
-for(const required of ['public/assets/css/polish-2026.css','public/ai/catalog.json','public/ai/entity-graph.json','public/humans.txt']){
+for(const required of ['public/assets/css/polish-2026.css','public/assets/css/polish-fixes.css','public/assets/images/og/home.jpg','public/ai/catalog.json','public/ai/entity-graph.json','public/humans.txt']){
   if(!fs.existsSync(path.join(root,required)))errors.push(`Missing ${required}`);
 }
 
@@ -26,9 +26,12 @@ if(facts.merchandiseStatus!=='Concept preview')errors.push('Merchandise status m
 const app=read('public/assets/js/app.js');
 for(const stale of ['200+<br>','Browse all 200 games','Mock leaderboard ready','ad monetization and collectibles'])if(app.includes(stale))errors.push(`Stale production copy remains: ${stale}`);
 if(!app.includes('Your private on-device high scores'))errors.push('Personal leaderboard replacement missing');
+if(!app.includes('label class="sr-only" for="globalSearch"'))errors.push('Accessible search label missing');
 
 const index=read('public/index.html');
-for(const token of ['/assets/css/polish-2026.css','/assets/js/ux-polish.js','/ai/catalog.json','name="application-name"'])if(!index.includes(token))errors.push(`Homepage missing ${token}`);
+for(const token of ['/assets/css/polish-2026.css','/assets/css/polish-fixes.css','/assets/js/ux-polish.js','/assets/js/trust-polish.js','/ai/catalog.json','name="application-name"','/assets/images/og/home.jpg'])if(!index.includes(token))errors.push(`Homepage missing ${token}`);
+if(/Yes\. planned character merchandise|available in the on-site merch shop/i.test(index))errors.push('Homepage schema still claims merchandise can be purchased');
+if(!index.includes('Purchasing, stock and pre-orders are not currently available'))errors.push('Homepage schema lacks honest merchandise answer');
 
 for(const game of games){
   const og=path.join(publicDir,'assets/images/og/games',`${game.slug}.jpg`);
@@ -43,4 +46,4 @@ const llms=read('public/llms.txt');
 for(const token of ['/ai/catalog.json','/ai/entity-graph.json','No synthetic user ratings'])if(!llms.includes(token))errors.push(`llms.txt missing ${token}`);
 
 if(errors.length){console.error(errors.join('\n'));process.exit(1)}
-console.log(JSON.stringify({ok:true,games:games.length,ogCards:games.length},null,2));
+console.log(JSON.stringify({ok:true,games:games.length,ogCards:games.length,commerceStatus:facts.merchandiseStatus},null,2));
