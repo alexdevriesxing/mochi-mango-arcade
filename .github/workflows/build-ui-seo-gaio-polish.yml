@@ -1,0 +1,66 @@
+name: Build UI SEO GAIO polish
+
+on:
+  pull_request:
+    branches:
+      - master
+    paths:
+      - public/assets/css/polish-2026.css
+      - public/assets/js/ux-polish.js
+      - scripts/apply-ui-seo-gaio-polish.mjs
+      - scripts/generate-og-cards.py
+      - scripts/validate-polish.mjs
+      - .github/workflows/build-ui-seo-gaio-polish.yml
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: ui-seo-gaio-polish-build
+  cancel-in-progress: false
+
+jobs:
+  build:
+    name: Generate and validate polish pass
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - name: Check out polish branch
+        uses: actions/checkout@v4
+        with:
+          ref: agent/ui-seo-gaio-polish
+          fetch-depth: 0
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install social-card tooling
+        run: python -m pip install --disable-pip-version-check pillow cairosvg
+
+      - name: Apply UI, SEO and GAIO generation
+        run: node scripts/apply-ui-seo-gaio-polish.mjs
+
+      - name: Generate raster social cards
+        run: python scripts/generate-og-cards.py
+
+      - name: Validate catalogue and polish outputs
+        run: |
+          node scripts/validate-site.mjs
+          node scripts/validate-polish.mjs
+
+      - name: Commit generated output
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          git commit -m "Generate UI SEO GAIO polish output" || exit 0
+          git pull --rebase origin agent/ui-seo-gaio-polish
+          git push origin HEAD:agent/ui-seo-gaio-polish
