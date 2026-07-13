@@ -12,6 +12,7 @@ on:
       - scripts/apply-ui-seo-gaio-polish.mjs
       - scripts/add-polish-fixes.mjs
       - scripts/final-trust-polish.mjs
+      - scripts/protect-embedded-bundles.mjs
       - scripts/generate-og-cards.py
       - scripts/generate-home-og.py
       - scripts/validate-polish.mjs
@@ -55,6 +56,7 @@ jobs:
           node scripts/apply-ui-seo-gaio-polish.mjs
           node scripts/add-polish-fixes.mjs
           node scripts/final-trust-polish.mjs
+          node scripts/protect-embedded-bundles.mjs
 
       - name: Generate raster social cards
         run: |
