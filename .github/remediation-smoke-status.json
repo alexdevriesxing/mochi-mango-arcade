@@ -1,35 +1,8 @@
 {
-  "generatedAt": "2026-07-13T18:07:22.061Z",
+  "generatedAt": "2026-07-13T18:11:43.233Z",
   "tested": 50,
-  "passed": 48,
-  "failures": [
-    {
-      "slug": "puddle-pip-meadow-dash",
-      "viewport": "mobile",
-      "status": 200,
-      "metrics": {
-        "canvas": false,
-        "iframe": true,
-        "horizontalOverflow": true,
-        "qualityPanel": false,
-        "title": "Play Puddle & Pip: Meadow Dash — Free HTML5 Game · Mochi Mango Arcade"
-      },
-      "errors": []
-    },
-    {
-      "slug": "puddles-pancake-panic",
-      "viewport": "mobile",
-      "status": 200,
-      "metrics": {
-        "canvas": false,
-        "iframe": true,
-        "horizontalOverflow": true,
-        "qualityPanel": false,
-        "title": "Play Puddle’s Pancake Panic — Free HTML5 Game · Mochi Mango Arcade"
-      },
-      "errors": []
-    }
-  ],
+  "passed": 50,
+  "failures": [],
   "results": [
     {
       "slug": "pixel-panda-parkour-standalone",
@@ -455,11 +428,11 @@
       "slug": "puddle-pip-meadow-dash",
       "viewport": "mobile",
       "status": 200,
-      "ok": false,
+      "ok": true,
       "metrics": {
         "canvas": false,
         "iframe": true,
-        "horizontalOverflow": true,
+        "horizontalOverflow": false,
         "qualityPanel": false,
         "title": "Play Puddle & Pip: Meadow Dash — Free HTML5 Game · Mochi Mango Arcade"
       },
@@ -469,11 +442,11 @@
       "slug": "puddles-pancake-panic",
       "viewport": "mobile",
       "status": 200,
-      "ok": false,
+      "ok": true,
       "metrics": {
         "canvas": false,
         "iframe": true,
-        "horizontalOverflow": true,
+        "horizontalOverflow": false,
         "qualityPanel": false,
         "title": "Play Puddle’s Pancake Panic — Free HTML5 Game · Mochi Mango Arcade"
       },
