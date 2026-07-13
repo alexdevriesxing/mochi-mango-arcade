@@ -1,5 +1,0 @@
-{
-  "ok": true,
-  "games": 392,
-  "playable": 392
-}
