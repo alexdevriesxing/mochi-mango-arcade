@@ -1,3 +1,6 @@
+// MMA_QUALITY_CSS_LOADER
+if(!document.querySelector('link[data-mma-quality]')){const link=document.createElement('link');link.rel='stylesheet';link.href='/assets/css/game-quality.css';link.dataset.mmaQuality='1';document.head.appendChild(link)}
+
 // Mochi Mango Arcade shared game-quality layer.
 // Adds persistent mastery goals, title-specific signature abilities,
 // anonymous quality telemetry and robust fallbacks for shared-runtime games.
