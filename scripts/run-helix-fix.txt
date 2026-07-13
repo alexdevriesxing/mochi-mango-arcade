@@ -1,0 +1,1 @@
+Apply and verify the Scanline Sprint Helix gap-array guard.
