@@ -2,3 +2,4 @@ Run the complete Mochi Mango Arcade remediation against the audited 13 July 2026
 Validation retry: missing standalone alias pages repaired.
 Final verification: Merge canvas shadow and bespoke mobile overflow repaired.
 Definitive verification: direct quality stylesheet loader included in the final branch head.
+Final browser gate: verify the globally loaded mobile quality stylesheet.
