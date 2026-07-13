@@ -1,0 +1,47 @@
+name: Validate site catalogue
+
+on:
+  pull_request:
+    branches:
+      - master
+    paths:
+      - public/**
+      - src/**
+      - scripts/validate-site.mjs
+      - package.json
+      - .github/workflows/validate-site.yml
+  push:
+    branches:
+      - master
+    paths:
+      - public/**
+      - src/**
+      - scripts/validate-site.mjs
+      - package.json
+      - .github/workflows/validate-site.yml
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: validate-site-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  validate:
+    name: Validate catalogue, assets and code
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      - name: Validate complete site
+        run: node scripts/validate-site.mjs
