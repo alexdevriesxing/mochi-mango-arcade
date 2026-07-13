@@ -8,6 +8,8 @@ on:
       - public/**
       - src/**
       - scripts/validate-site.mjs
+      - scripts/validate-polish.mjs
+      - scripts/protect-embedded-bundles.mjs
       - package.json
       - .github/workflows/validate-site.yml
   push:
@@ -17,6 +19,8 @@ on:
       - public/**
       - src/**
       - scripts/validate-site.mjs
+      - scripts/validate-polish.mjs
+      - scripts/protect-embedded-bundles.mjs
       - package.json
       - .github/workflows/validate-site.yml
   workflow_dispatch:
@@ -30,9 +34,9 @@ concurrency:
 
 jobs:
   validate:
-    name: Validate catalogue, assets and code
+    name: Validate catalogue, assets, code and polish
     runs-on: ubuntu-latest
-    timeout-minutes: 10
+    timeout-minutes: 12
 
     steps:
       - name: Check out repository
@@ -44,4 +48,6 @@ jobs:
           node-version: '22'
 
       - name: Validate complete site
-        run: node scripts/validate-site.mjs
+        run: |
+          node scripts/validate-site.mjs
+          node scripts/validate-polish.mjs
