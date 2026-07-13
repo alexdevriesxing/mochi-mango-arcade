@@ -1,2 +1,5 @@
-pixel-prawn-deep-sea-debugger-standalone: missing games page
-pixel-prawn-deep-sea-debugger-standalone: missing play page
+{
+  "ok": true,
+  "games": 392,
+  "playable": 392
+}
