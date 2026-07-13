@@ -5,7 +5,11 @@ const publicDir=path.join(process.cwd(),'public');
 const indexPath=path.join(publicDir,'index.html');
 let html=fs.readFileSync(indexPath,'utf8');
 const homeOg='https://www.mochimangoarcade.com/assets/images/og/home.jpg';
+const honestMerch='The merchandise area is a concept preview for future character collectibles. Purchasing, stock and pre-orders are not currently available.';
 html=html.replaceAll('https://www.mochimangoarcade.com/assets/images/home_hero_banner_200_games.jpg',homeOg);
+html=html.replace(/Yes\. planned character merchandise[^"<]*available in the on-site merch shop\.?/gi,honestMerch);
+html=html.replace(/Planned character merchandise[^"<]*available in the on-site merch shop\.?/gi,honestMerch);
+html=html.replace(/Can I buy plushies and merch of the characters\?<\/h3><p>[^<]*<\/p>/gi,`Can I buy plushies and merch of the characters?</h3><p>${honestMerch}</p>`);
 html=html.replace(/<script type="application\/ld\+json">(.*?)<\/script>/s,(full,jsonText)=>{
   try{
     const json=JSON.parse(jsonText);
@@ -22,7 +26,7 @@ html=html.replace(/<script type="application\/ld\+json">(.*?)<\/script>/s,(full,
     }
     const faq=graph.find(item=>item['@type']==='FAQPage');
     for(const entry of faq?.mainEntity||[]){
-      if(/plush|merch/i.test(entry.name||''))entry.acceptedAnswer={"@type":"Answer","text":"The merchandise area is a concept preview for future character collectibles. Purchasing, stock and pre-orders are not currently available."};
+      if(/plush|merch/i.test(entry.name||''))entry.acceptedAnswer={"@type":"Answer","text":honestMerch};
     }
     return `<script type="application/ld+json">${JSON.stringify(json)}</script>`;
   }catch{return full}
