@@ -1165,17 +1165,17 @@ function mountEngine(sl){
   const stage=document.getElementById('gameStage');
   if(!stage)return;
   const g=S.games.find(x=>x.slug===sl)||S.games[0];
-  Promise.all([import('/assets/js/mmengine.js'),import('/assets/js/game-quality.js')]).then(([engine,quality])=>{
-    try{activeGame=engine.startGame(stage,g)}catch(error){console.error('Primary game runtime failed',error);activeGame=quality.startFallback(stage,g);return}
+  Promise.all([import('/assets/js/mmengine.js'),import('/assets/js/game-quality.js'),import('/assets/js/game-campaign.js')]).then(([engine,quality,campaign])=>{
+    try{activeGame=engine.startGame(stage,g)}catch(error){console.error('Primary game runtime failed',error);activeGame=quality.startFallback(stage,g);activeGame=campaign.enhanceCampaign(stage,g,activeGame)||activeGame;return}
     setTimeout(()=>{
       const visible=stage.querySelector('canvas,iframe');
       if(!visible){try{activeGame?.destroy?.()}catch{}activeGame=quality.startFallback(stage,g)}
-      else activeGame=quality.enhanceShared(stage,g,activeGame)||activeGame;
+      else {activeGame=quality.enhanceShared(stage,g,activeGame)||activeGame;activeGame=campaign.enhanceCampaign(stage,g,activeGame)||activeGame;}
       if(queuedReward){activeGame?.applyReward?.(queuedReward);queuedReward=null}
     },350);
   }).catch(error=>{
     console.error('Game engine failed to load',error);
-    import('/assets/js/game-quality.js').then(quality=>{activeGame=quality.startFallback(stage,g)}).catch(()=>{stage.innerHTML='<div class="empty" style="padding:40px">This game could not load. <a href="'+g.detailUrl+'">View details</a></div>'});
+    Promise.all([import('/assets/js/game-quality.js'),import('/assets/js/game-campaign.js')]).then(([quality,campaign])=>{activeGame=quality.startFallback(stage,g);activeGame=campaign.enhanceCampaign(stage,g,activeGame)||activeGame}).catch(()=>{stage.innerHTML='<div class="empty" style="padding:40px">This game could not load. <a href="'+g.detailUrl+'">View details</a></div>'});
   });
 }
 

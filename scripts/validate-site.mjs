@@ -16,7 +16,7 @@ for(const game of games){
   if(!fs.existsSync(image))errors.push(`${game.slug}: missing image ${game.image}`);
   for(const kind of ['games','play'])if(!fs.existsSync(path.join(publicDir,kind,game.slug,'index.html')))errors.push(`${game.slug}: missing ${kind} page`);
 }
-for(const target of ['public/assets/js/app.js','public/assets/js/mmengine.js','public/assets/js/game-quality.js','src/worker.js','scripts/remediate-site.mjs','scripts/sitewide-audit.mjs']){
+for(const target of ['public/assets/js/app.js','public/assets/js/mmengine.js','public/assets/js/game-quality.js','public/assets/js/game-campaign.js','src/worker.js','scripts/sitewide-audit.mjs','scripts/remediation-smoke.mjs']){
   const result=spawnSync(process.execPath,['--check',path.join(root,target)],{encoding:'utf8'});
   if(result.status!==0)errors.push(`${target}: ${result.stderr||result.stdout}`);
 }
