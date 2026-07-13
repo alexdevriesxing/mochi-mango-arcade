@@ -1,3 +1,0 @@
-Apply the campaign, daily challenge and flagship story depth pass.
-Verification: campaign generator completed and validator passed.
-Definitive verification: fallback campaigns and live chapter refresh included.
