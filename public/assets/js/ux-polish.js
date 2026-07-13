@@ -210,7 +210,7 @@ function enhanceAbout(){
     if(p)p.textContent='Mochi Mango Arcade is a family-friendly browser arcade by Fire Dragon Interactive, built around original games, recurring characters and transparent free-to-play access.';
   }
   const main=$('#main');
-  if(!main)return;
+  if(!main||!hero)return;
   const trust=`<section class="about-trust"><h2>What players can expect</h2><div class="trust-grid"><div class="trust-card"><strong>Original worlds</strong><p>Games, characters and artwork are created for Mochi Mango Arcade and its connected universes.</p></div><div class="trust-card"><strong>Honest free access</strong><p>All 392 games can be played in the browser without an account or download.</p></div><div class="trust-card"><strong>Accessible controls</strong><p>Shared runtimes support touch, mouse and keyboard, with reduced-motion and visible-focus support.</p></div><div class="trust-card"><strong>Clear ownership</strong><p>The arcade is published and maintained by Fire Dragon Interactive.</p></div></div><div class="footer-proof"><a href="/assets/data/site-facts.json">Machine-readable facts</a><a href="/ai/catalog.json">AI-readable catalogue</a><a href="/llms.txt">LLM overview</a><a href="/privacy/">Privacy policy</a></div></section>`;
   hero.insertAdjacentHTML('afterend',trust);
 }
