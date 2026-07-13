@@ -1,0 +1,50 @@
+name: Build full site remediation
+
+on:
+  push:
+    branches:
+      - agent/full-site-remediation
+    paths:
+      - scripts/run-remediation.txt
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: full-site-remediation
+  cancel-in-progress: false
+
+jobs:
+  remediate:
+    name: Generate and validate remediation
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+
+    steps:
+      - name: Check out remediation branch
+        uses: actions/checkout@v4
+        with:
+          ref: agent/full-site-remediation
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      - name: Generate complete remediation
+        run: node scripts/remediate-site.mjs
+
+      - name: Refresh package lock
+        run: npm install --package-lock-only --ignore-scripts
+
+      - name: Validate generated site
+        run: node scripts/validate-site.mjs
+
+      - name: Commit generated output
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          git commit -m "Apply full site and game remediation" || exit 0
+          git push origin HEAD:agent/full-site-remediation
