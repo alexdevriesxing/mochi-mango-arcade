@@ -1,113 +1,190 @@
 # Mochi Mango Arcade — Sitewide & Game Quality Audit
 
-Generated: 13 July 2026  
+Generated: 2026-07-13T18:28:47.988Z  
+Source: `26ee2076f0a8a9c688e69e1a5d614e206ef4f680`  
 Live target: https://www.mochimangoarcade.com
 
 ## Executive summary
 
-- 392 catalogue games across 14 universes.
-- 797 live URLs checked; 793 succeeded and 4 failed.
-- Median server response: 84 ms; p95: 137 ms.
-- Homepage and `/api/health` return HTTP 200.
-- Unknown routes correctly return HTTP 404.
-- 46 browser play tests covered every raw engine plus priority mobile titles.
-- 43 of 46 tested games produced a visible playable runtime.
-- Only 2 titles use bespoke embedded game bundles; 390 rely on the shared canvas runtime.
-- 155 catalogue entries reference an image path that does not exist at that exact location.
-- All 392 catalogue records still contain synthetic rating and/or play-count fields in source data.
-- Two pairs of games use exact duplicate descriptions.
+- **392 games**, **34 shared engines**, **14 universes**.
+- **2 bespoke bundles** versus **390 shared-runtime games**.
+- **797 live URLs checked**; **0 failures**. Median **182 ms**, p95 **237 ms**.
+- **46 browser play tests**; **0 runtime failures**, **0 tests with errors**.
+- Health endpoint: **200**. Unknown route: **404** (expected 404).
+- Exact duplicate descriptions: **0**.
 
-## Immediate defects
+## Main conclusion
 
-1. **Pixel Prawn: Deep Sea Debugger** — detail and play pages return 404; image and generated pages are missing.
-2. **Pixel Panda Parkour** — detail and play pages return 404; image and generated pages are missing.
-3. **Boom Bap Cannon** — HTTP 200, but no visible game runtime was found.
-4. **Super Sean's Merge Madness** — runtime error: `Cannot read properties of undefined (reading 'push')`.
-5. **Super Sean's Pipe Puzzle** — runtime error: `c.save is not a function`.
+The largest opportunity is depth, not catalogue size. Shared engines are useful infrastructure, but most titles need authored levels, character-specific mechanics, progression, goals, stronger feedback and distinctive audio/visual behavior. Upgrade the largest engines first, then turn selected flagship titles into bespoke games.
 
-## Sitewide integration defects
+## Core live checks
 
-- Cloudflare Insights is injected but blocked by CSP on every browser test, so analytics is not operating correctly.
-- A third-party advertising script from `demolishwrestconclusions.com` was attempted on 44 of 46 tests and blocked by CSP. Remove the loader at source.
-- These two blocked scripts account for almost all console errors; most game canvases themselves started successfully.
+| Path | Status | ms | Result |
+|---|---:|---:|---|
+| / | 200 | 302 | OK |
+| /api/health | 200 | 117 | OK |
+| /games/ | 200 | 249 | OK |
+| /universes/ | 200 | 309 | OK |
+| /characters/ | 200 | 270 | OK |
+| /new-releases/ | 200 | 367 | OK |
+| /about/ | 200 | 317 | OK |
+| /robots.txt | 200 | 159 | OK |
+| /sitemap.xml | 200 | 181 | OK |
+| /llms.txt | 200 | 159 | OK |
+| /manifest.webmanifest | 200 | 44 | OK |
+| /sw.js | 200 | 40 | OK |
+| /audit-not-found-1783967232716/ | 404 | 33 | Failed |
 
-## Data integrity
+## Engine improvement roadmap
 
-- 155 broken exact image references.
-- Synthetic rating/play fields remain in all 392 source records.
-- Duplicate descriptions:
-  - `lulu-lanterns-lost-woods` / `lulu-lanterns-glow-garden`
-  - `nine-gates-mahjong-trails` / `baos-jade-dragon-rescue`
+| Engine | Games | Shared-runtime | Browser failures | Best next improvement |
+|---|---:|---:|---:|---|
+| puzzle | 66 | 66 | 0 | Add authored variety, progression and distinctive mechanics. |
+| arcade | 64 | 64 | 0 | Add authored variety, progression and distinctive mechanics. |
+| runner | 55 | 54 | 0 | Handcraft obstacle sequences, route choices, missions, character abilities and chase/boss stages. |
+| management | 22 | 21 | 0 | Add authored variety, progression and distinctive mechanics. |
+| board | 16 | 16 | 0 | Add deeper rules, competent AI, match variants, progression and strategic feedback. |
+| match3 | 10 | 10 | 0 | Add level objectives, blockers, handcrafted boards, limited moves, boosters and a progression map. |
+| shooter | 10 | 10 | 0 | Add enemy archetypes, authored waves, weapons, bosses, hit feedback and stage progression. |
+| whack | 9 | 9 | 0 | Add multi-phase rounds, target behaviors, combos, hazards and difficulty modes. |
+| breakout | 8 | 8 | 0 | Add authored brick layouts, bosses, ball modifiers, stage themes and progression. |
+| flappy | 8 | 8 | 0 | Add authored routes, mission goals, abilities, environmental changes and checkpoints. |
+| memory | 8 | 8 | 0 | Add themed card effects, multi-stage boards, difficulty curves, streak systems and unlocks. |
+| stacker | 8 | 8 | 0 | Add varied physics, objectives, environmental modifiers and structure-specific challenges. |
+| merge | 7 | 7 | 0 | Add meaningful unlocks, themed chains, objectives, limited boards and meta progression. |
+| platformer | 7 | 7 | 0 | Add handcrafted levels, enemies, secrets, checkpoints, bosses and distinct movement abilities. |
+| pong | 7 | 7 | 0 | Add opponent AI styles, arenas, modifiers, tournaments and local multiplayer. |
+| racing | 7 | 7 | 0 | Add authored tracks, opponents, drifting, lap structure, handling differences and tournaments. |
+| bubbleshooter | 6 | 6 | 0 | Add authored formations, ceiling pressure, special bubbles, goals and progression. |
+| doodlejump | 6 | 6 | 0 | Add platform archetypes, enemies, level themes, checkpoints and abilities. |
+| maze | 6 | 6 | 0 | Add authored mazes, enemy behaviors, keys, secrets and multi-stage progression. |
+| rhythm | 6 | 6 | 0 | Add authored songs/charts, calibration, difficulty levels, combo feedback and track unlocks. |
+| serve | 6 | 6 | 0 | Add recipe chains, customer personalities, upgrades, day progression and recovery states. |
+| dodger | 5 | 5 | 0 | Differentiate hazards, scoring rules, stage patterns and power-ups; add phases and mastery goals. |
+| idleclicker | 5 | 5 | 0 | Add economy choices, offline progress, upgrade branches, goals and prestige depth. |
+| snake | 5 | 5 | 0 | Add maze layouts, objectives, enemies, hazards and character-specific mechanics. |
+| tower | 5 | 5 | 0 | Add tower types, upgrades, resistances, authored maps, wave previews and strategic economy. |
+| cannon | 4 | 4 | 0 | Add destructible structures, authored puzzles, ammunition types and level grading. |
+| helix | 4 | 4 | 0 | Add authored tower sections, hazards, checkpoints, speed changes and skill scoring. |
+| pipeline | 4 | 4 | 0 | Add handcrafted puzzles, move limits, pressure systems, special pieces and campaign structure. |
+| sports | 4 | 4 | 0 | Add opponents, match states, defensive AI, tournaments, skill shots and progression. |
+| archery | 3 | 3 | 0 | Add wind, moving targets, tournaments, equipment and skill-based scoring. |
+| asteroids | 3 | 3 | 0 | Add ship upgrades, enemy craft, sectors, bosses, weapons and mission objectives. |
+| fishing | 3 | 3 | 0 | Add fish behavior, locations, equipment, collections, weather and progression. |
+| gallery | 3 | 3 | 0 | Add authored waves, accuracy grades, weapons, moving scenarios and challenge modes. |
+| pinball | 2 | 2 | 0 | Add table-specific mechanisms, missions, multiball, jackpots and persistent score goals. |
 
-## Largest gameplay modes
+## Top 50 games to improve first
 
-| Mode | Games |
-|---|---:|
-| Runner | 55 |
-| Match-3 / tile puzzle | 50 |
-| Serving / management | 31 |
-| Memory | 22 |
-| Rhythm | 18 |
-| Shooter | 18 |
-| Board | 16 |
-| Tower defence | 14 |
-| Flappy / flight | 14 |
-| Stacker | 12 |
+| # | Game | Engine | Priority | Findings |
+|---:|---|---|---:|---|
+| 1 | Bao’s Jade Dragon Rescue | puzzle | 41 | Shared puzzle runtime used by 66 games |
+| 2 | Madame Fortuna’s Mirror Match | puzzle | 37 | Shared puzzle runtime used by 66 games |
+| 3 | Mushmoo’s Moonlit Match | puzzle | 37 | Shared puzzle runtime used by 66 games |
+| 4 | Nine Gates Mahjong Trails | puzzle | 37 | Shared puzzle runtime used by 66 games |
+| 5 | The Bubble Tea Bears | puzzle | 37 | Shared puzzle runtime used by 66 games |
+| 6 | Bloop Bubble Rescue | arcade | 36 | Shared arcade runtime used by 64 games |
+| 7 | Bramble Bear's Honeycomb Match | puzzle | 36 | Shared puzzle runtime used by 66 games |
+| 8 | Madame Fortuna's Tarot Memory | puzzle | 36 | Shared puzzle runtime used by 66 games |
+| 9 | The Jellybean Knights | arcade | 36 | Shared arcade runtime used by 64 games |
+| 10 | Pip's Lily Pad Hop | arcade | 35 | Shared arcade runtime used by 64 games |
+| 11 | AstroMochi: Planet Hop | runner | 34 | Shared runner runtime used by 55 games |
+| 12 | The Donut Dragon Derby | runner | 34 | Shared runner runtime used by 55 games |
+| 13 | Tika Tiger: Traffic Tango | runner | 34 | Shared runner runtime used by 55 games |
+| 14 | Finnick Firefly’s Night Garden | puzzle | 33 | Shared puzzle runtime used by 66 games |
+| 15 | Hector Hotdog’s Stadium Sprint | puzzle | 33 | Shared puzzle runtime used by 66 games |
+| 16 | Madame Fortuna's Crystal Cascade | puzzle | 33 | Shared puzzle runtime used by 66 games |
+| 17 | Morpheus's Dreamlight Memory | puzzle | 33 | Shared puzzle runtime used by 66 games |
+| 18 | Morpheus's Pillow Tower | puzzle | 33 | Shared puzzle runtime used by 66 games |
+| 19 | Puddle & Pip: Memory Meadow | puzzle | 33 | Shared puzzle runtime used by 66 games |
+| 20 | Puddle & Pip: Pillow Fort Frenzy | puzzle | 33 | Shared puzzle runtime used by 66 games |
+| 21 | Skyrail Stunt Squad | runner | 33 | Shared runner runtime used by 55 games |
+| 22 | The Clockwork Cupcake Factory | puzzle | 33 | Shared puzzle runtime used by 66 games |
+| 23 | The Spaghetti Yeti | puzzle | 33 | Shared puzzle runtime used by 66 games |
+| 24 | Umbra's Midnight Dash | runner | 33 | Shared runner runtime used by 55 games |
+| 25 | Umbra’s Shadow Paw Heist | puzzle | 33 | Shared puzzle runtime used by 66 games |
+| 26 | Bramble Bear's Beehive Defense | arcade | 32 | Shared arcade runtime used by 64 games |
+| 27 | Bubblesaurus Bath Time | arcade | 32 | Shared arcade runtime used by 64 games |
+| 28 | Captain Cornflake’s Cereal Sea | arcade | 32 | Shared arcade runtime used by 64 games |
+| 29 | Nine Gates: Palace of Winds | puzzle | 32 | Shared puzzle runtime used by 66 games |
+| 30 | Pearl Pegasus Cloud Rescue | arcade | 32 | Shared arcade runtime used by 64 games |
+| 31 | Pip's Firefly Flight | arcade | 32 | Shared arcade runtime used by 64 games |
+| 32 | Puddle & Pip: Acorn Airlift | arcade | 32 | Shared arcade runtime used by 64 games |
+| 33 | The Sock Goblin Grand Hotel | arcade | 32 | Shared arcade runtime used by 64 games |
+| 34 | Umbra's Moonlit Labyrinth | arcade | 32 | Shared arcade runtime used by 64 games |
+| 35 | Umbra's Shadow Blast | arcade | 32 | Shared arcade runtime used by 64 games |
+| 36 | Bloop’s Alien Aquarium | arcade | 31 | Shared arcade runtime used by 64 games |
+| 37 | Lady Lemon’s Sour Castle | arcade | 31 | Shared arcade runtime used by 64 games |
+| 38 | Nine Gates Dragon Boat Dash | arcade | 31 | Shared arcade runtime used by 64 games |
+| 39 | Pip & The Cloud Kites | arcade | 31 | Shared arcade runtime used by 64 games |
+| 40 | Pip’s Sky Parcel Service | arcade | 31 | Shared arcade runtime used by 64 games |
+| 41 | Puddle’s Pajama Parade | arcade | 31 | Shared arcade runtime used by 64 games |
+| 42 | Umbra’s Moonlight Maze | arcade | 31 | Shared arcade runtime used by 64 games |
+| 43 | Bamboo Sprint | runner | 30 | Shared runner runtime used by 55 games |
+| 44 | Baxter Bean & The Coffee Comets | runner | 30 | Shared runner runtime used by 55 games |
+| 45 | Cassette Courier | runner | 30 | Shared runner runtime used by 55 games |
+| 46 | Chef BaoBao’s Midnight Noodle Run | runner | 30 | Shared runner runtime used by 55 games |
+| 47 | Circuit Courier Rush | runner | 30 | Shared runner runtime used by 55 games |
+| 48 | Frida Foxglove’s Potion Park | runner | 30 | Shared runner runtime used by 55 games |
+| 49 | Glitch Garden | match3 | 30 | Template depth and differentiation |
+| 50 | Gummy Galaxy Dash | runner | 30 | Shared runner runtime used by 55 games |
 
-Improving runner, match-3, serving, memory, rhythm and shooter would improve roughly half the catalogue.
+## Browser play tests
 
-## Priority games
+| Game | Engine | Viewport | HTTP | Runtime visible | Errors | Overflow |
+|---|---|---|---:|---|---:|---|
+| Mushmoo’s Moonlit Match | puzzle | desktop | 200 | Yes | 0 | No |
+| Bloop Bubble Rescue | arcade | desktop | 200 | Yes | 0 | No |
+| Puddle & Pip: Meadow Dash | runner | desktop | 200 | Yes | 0 | No |
+| SnackStreet Rush | management | desktop | 200 | Yes | 0 | No |
+| Crownlight Chess | board | desktop | 200 | Yes | 0 | No |
+| Glitch Garden | match3 | desktop | 200 | Yes | 0 | No |
+| Starling Signal Patrol | shooter | desktop | 200 | Yes | 0 | No |
+| Nori Ninja Slice | whack | desktop | 200 | Yes | 0 | No |
+| Super Sean's Brick Buster | breakout | desktop | 200 | Yes | 0 | No |
+| Floppy Flap | flappy | desktop | 200 | Yes | 0 | No |
+| Opal Owl’s Mystery Library | memory | desktop | 200 | Yes | 0 | No |
+| Crash Koala Construction Co. | stacker | desktop | 200 | Yes | 0 | No |
+| Super Sean's Merge Madness | merge | desktop | 200 | Yes | 0 | No |
+| Rooftop Rocket Rumble | platformer | desktop | 200 | Yes | 0 | No |
+| Super Sean's Ping Pong | pong | desktop | 200 | Yes | 0 | No |
+| Super Sean's Racing Rally | racing | desktop | 200 | Yes | 0 | No |
+| Cupcake Cyclone | bubbleshooter | desktop | 200 | Yes | 0 | No |
+| Pixel Pogo Peak | doodlejump | desktop | 200 | Yes | 0 | No |
+| Super Sean's Mystic Maze | maze | desktop | 200 | Yes | 0 | No |
+| Boot Sector | rhythm | desktop | 200 | Yes | 0 | No |
+| SnackStreet Festival Frenzy | serve | desktop | 200 | Yes | 0 | No |
+| Cathode Catch | dodger | desktop | 200 | Yes | 0 | No |
+| Hammy Hammer: Tiny Blacksmith | idleclicker | desktop | 200 | Yes | 0 | No |
+| Super Sean's Serpent Dash | snake | desktop | 200 | Yes | 0 | No |
+| Tower of Floppy | tower | desktop | 200 | Yes | 0 | No |
+| Boom Bap Cannon | cannon | desktop | 200 | Yes | 0 | No |
+| Scanline Sprint | helix | desktop | 200 | Yes | 0 | No |
+| Super Sean's Pipe Puzzle | pipeline | desktop | 200 | Yes | 0 | No |
+| Super Sean's Soccer Showdown | sports | desktop | 200 | Yes | 0 | No |
+| Super Sean's Archery Adventure | archery | desktop | 200 | Yes | 0 | No |
+| Comet Quarry Crew | asteroids | desktop | 200 | Yes | 0 | No |
+| Super Sean's Fishing Quest | fishing | desktop | 200 | Yes | 0 | No |
+| Turbo Tern Target Zone | gallery | desktop | 200 | Yes | 0 | No |
+| Super Sean's Pinball Party | pinball | desktop | 200 | Yes | 0 | No |
+| Bao’s Jade Dragon Rescue | puzzle | mobile | 200 | Yes | 0 | No |
+| Mushmoo’s Moonlit Match | puzzle | mobile | 200 | Yes | 0 | No |
+| Nine Gates Mahjong Trails | puzzle | mobile | 200 | Yes | 0 | No |
+| Madame Fortuna’s Mirror Match | puzzle | mobile | 200 | Yes | 0 | No |
+| The Bubble Tea Bears | puzzle | mobile | 200 | Yes | 0 | No |
+| Bloop Bubble Rescue | arcade | mobile | 200 | Yes | 0 | No |
+| The Jellybean Knights | arcade | mobile | 200 | Yes | 0 | No |
+| Bramble Bear's Honeycomb Match | puzzle | mobile | 200 | Yes | 0 | No |
+| Madame Fortuna's Tarot Memory | puzzle | mobile | 200 | Yes | 0 | No |
+| Pip's Lily Pad Hop | arcade | mobile | 200 | Yes | 0 | No |
+| AstroMochi: Planet Hop | runner | mobile | 200 | Yes | 0 | No |
+| Tika Tiger: Traffic Tango | runner | mobile | 200 | Yes | 0 | No |
 
-### P0 repair
+## Recommended order
 
-1. Pixel Prawn: Deep Sea Debugger
-2. Pixel Panda Parkour
-3. Boom Bap Cannon
-4. Super Sean's Merge Madness
-5. Super Sean's Pipe Puzzle
-
-### P1 flagship depth
-
-6. Puddle & Pip: Meadow Dash
-7. Puddle's Pancake Panic
-8. Mushmoo's Moonlit Match
-9. Bloop Bubble Rescue
-10. Nine Gates Mahjong Trails
-11. SnackStreet Rush
-12. Crownlight Chess
-13. Starling Signal Patrol
-14. Glitch Garden
-15. Boot Sector
-16. Rooftop Rocket Rumble
-17. Tower of Floppy
-18. Super Sean's Racing Rally
-19. Super Sean's Soccer Showdown
-20. Super Sean's Pinball Party
-21. Comet Quarry Crew
-22. Floppy Flap
-23. Bao's Jade Dragon Rescue
-24. The Donut Dragon Derby
-25. Tika Tiger: Traffic Tango
-
-## Visual/mobile findings
-
-- No horizontal overflow in the 12 priority mobile tests.
-- Mobile game canvases rendered at about 356 × 475 CSS pixels in a 390 × 844 viewport.
-- Desktop engine samples displayed without layout overflow.
-- The shell is stable, but shared-runtime games need title-specific HUDs, effects, animation, backgrounds, win/lose screens and sound identity.
-
-## Technical/SEO status
-
-Working: HTTP 200 homepage and health endpoint, real 404s, reachable robots/sitemap/llms/manifest/service-worker cleanup, HSTS, CSP and strong response times.
-
-Remaining: repair missing game pages, regenerate sitemap, repair image references, remove synthetic metrics and duplicate copy, remove residual ad loading, resolve analytics/CSP, create raster social cards, and add release history/authorship/game-specific FAQ content.
-
-## Delivery order
-
-1. Repair the five P0 games.
-2. Remove residual ad injection and resolve analytics/CSP.
-3. Batch-fix image references and source metrics.
-4. Upgrade the six largest gameplay modes.
-5. Give 20 flagship games bespoke progression, content, VFX, SFX and endings.
-6. Add real gameplay analytics.
-7. Run the permanent sitewide audit before major releases.
+1. Fix all URL, runtime, console and mobile-overflow failures.
+2. Upgrade the five largest engines so one improvement benefits many games.
+3. Select 20 flagship titles for bespoke levels, progression, unique mechanics, audio, onboarding and endings.
+4. Remove synthetic fields and stale generated metadata at source.
+5. Keep automated engine smoke tests and flagship browser tests in CI.
+6. Add real events for game start, first input, session length, completion, replay and errors.
