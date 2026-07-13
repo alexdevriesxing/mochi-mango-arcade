@@ -1,3 +1,4 @@
+import fs from 'node:fs';
 import {chromium} from 'playwright';
 
 const base=process.env.SMOKE_BASE_URL||'http://127.0.0.1:8787';
@@ -74,5 +75,8 @@ for(const viewport of [{name:'desktop',width:1440,height:1000},{name:'mobile',wi
 }
 
 await browser.close();
-console.log(JSON.stringify({tested:results.length,passed:results.filter(result=>result.ok).length,failures},null,2));
+const report={generatedAt:new Date().toISOString(),tested:results.length,passed:results.filter(result=>result.ok).length,failures,results};
+fs.mkdirSync('.github',{recursive:true});
+fs.writeFileSync('.github/ui-seo-smoke-status.json',JSON.stringify(report,null,2)+'\n');
+console.log(JSON.stringify({tested:report.tested,passed:report.passed,failures},null,2));
 if(failures.length)process.exit(1);
