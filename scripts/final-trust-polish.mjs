@@ -2,6 +2,11 @@ import fs from 'node:fs';
 import path from 'node:path';
 
 const publicDir=path.join(process.cwd(),'public');
+const uxPath=path.join(publicDir,'assets/js/ux-polish.js');
+let ux=fs.readFileSync(uxPath,'utf8');
+ux=ux.replace("  const main=$('#main');\n  if(!main)return;\n  const trust=", "  const main=$('#main');\n  if(!main||!hero)return;\n  const trust=");
+fs.writeFileSync(uxPath,ux);
+
 const indexPath=path.join(publicDir,'index.html');
 let html=fs.readFileSync(indexPath,'utf8');
 const homeOg='https://www.mochimangoarcade.com/assets/images/og/home.jpg';
