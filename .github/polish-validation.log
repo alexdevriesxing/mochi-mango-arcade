@@ -3,4 +3,9 @@
   "games": 392,
   "playable": 392
 }
-Homepage schema still claims merchandise can be purchased
+{
+  "ok": true,
+  "games": 392,
+  "ogCards": 392,
+  "commerceStatus": "Concept preview"
+}
