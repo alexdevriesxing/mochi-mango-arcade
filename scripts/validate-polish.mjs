@@ -8,7 +8,7 @@ const games=JSON.parse(fs.readFileSync(path.join(publicDir,'assets/data/games.js
 const errors=[];
 const read=relative=>fs.readFileSync(path.join(root,relative),'utf8');
 
-for(const file of ['public/assets/js/ux-polish.js','public/assets/js/trust-polish.js','scripts/apply-ui-seo-gaio-polish.mjs','scripts/add-polish-fixes.mjs','scripts/final-trust-polish.mjs','scripts/ui-seo-smoke.mjs']){
+for(const file of ['public/assets/js/ux-polish.js','public/assets/js/trust-polish.js','scripts/apply-ui-seo-gaio-polish.mjs','scripts/add-polish-fixes.mjs','scripts/final-trust-polish.mjs','scripts/protect-embedded-bundles.mjs','scripts/ui-seo-smoke.mjs']){
   const result=spawnSync(process.execPath,['--check',path.join(root,file)],{encoding:'utf8'});
   if(result.status!==0)errors.push(`${file}: ${result.stderr||result.stdout}`);
 }
@@ -42,8 +42,13 @@ for(const game of games){
   if(!html.includes('"@type":"PlayAction"'))errors.push(`${game.slug}: PlayAction missing`);
 }
 
+const pancakeBundle=read('public/play/puddles-pancake-panic/game/index.html');
+if(pancakeBundle.includes('392row'))errors.push('Pancake Panic embedded bundle still contains corrupted coordinate expression');
+if(!pancakeBundle.includes('const x=540+col*240,y=392+row*92;'))errors.push('Pancake Panic coordinate regression guard missing');
+for(const token of ['/assets/css/polish-2026.css','/assets/js/ux-polish.js','name="application-name"'])if(pancakeBundle.includes(token))errors.push(`Portal metadata leaked into Pancake Panic bundle: ${token}`);
+
 const llms=read('public/llms.txt');
 for(const token of ['/ai/catalog.json','/ai/entity-graph.json','No synthetic user ratings'])if(!llms.includes(token))errors.push(`llms.txt missing ${token}`);
 
 if(errors.length){console.error(errors.join('\n'));process.exit(1)}
-console.log(JSON.stringify({ok:true,games:games.length,ogCards:games.length,commerceStatus:facts.merchandiseStatus},null,2));
+console.log(JSON.stringify({ok:true,games:games.length,ogCards:games.length,commerceStatus:facts.merchandiseStatus,embeddedBundles:'protected'},null,2));
