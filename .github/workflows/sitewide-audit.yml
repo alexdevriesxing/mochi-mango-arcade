@@ -11,13 +11,24 @@ on:
       - wrangler.toml
       - package.json
       - .github/workflows/sitewide-audit.yml
+  pull_request:
+    branches:
+      - master
+    paths:
+      - public/**
+      - src/**
+      - scripts/sitewide-audit.mjs
+      - wrangler.toml
+      - package.json
+      - .github/workflows/sitewide-audit.yml
+      - audit-request.txt
   workflow_dispatch:
 
 permissions:
   contents: write
 
 concurrency:
-  group: sitewide-game-audit
+  group: sitewide-game-audit-${{ github.event.pull_request.number || github.ref }}
   cancel-in-progress: true
 
 jobs:
@@ -46,10 +57,28 @@ jobs:
           RUN_BROWSER_AUDIT: '1'
         run: node scripts/sitewide-audit.mjs
 
-      - name: Publish latest audit report
+      - name: Print audit report
         if: always()
         run: |
+          if [ -f audit/sitewide-latest.md ]; then
+            cat audit/sitewide-latest.md
+          else
+            echo "Audit report was not generated."
+          fi
+
+      - name: Upload audit report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: sitewide-game-audit
+          path: audit/sitewide-latest.*
+          if-no-files-found: warn
+
+      - name: Publish latest audit report
+        if: always() && github.event_name == 'push'
+        run: |
           if [ ! -f audit/sitewide-latest.json ]; then
+            mkdir -p audit
             echo '{"generatedAt":"'"$(date -u +%Y-%m-%dT%H:%M:%SZ)"'","sourceSha":"'"$GITHUB_SHA"'","summary":{"auditFailed":true}}' > audit/sitewide-latest.json
             printf '# Mochi Mango Arcade audit\n\nThe audit job failed before a complete report could be generated. Inspect GitHub Actions run %s.\n' "$GITHUB_RUN_ID" > audit/sitewide-latest.md
           fi
