@@ -1,15 +1,15 @@
 # Mochi Mango Arcade — Sitewide & Game Quality Audit
 
-Generated: 2026-07-13T18:28:47.988Z  
-Source: `26ee2076f0a8a9c688e69e1a5d614e206ef4f680`  
+Generated: 2026-07-13T18:46:48.009Z  
+Source: `d58aa1b3bbf06b57259ccfa668596aa4ffa2f84d`  
 Live target: https://www.mochimangoarcade.com
 
 ## Executive summary
 
 - **392 games**, **34 shared engines**, **14 universes**.
 - **2 bespoke bundles** versus **390 shared-runtime games**.
-- **797 live URLs checked**; **0 failures**. Median **182 ms**, p95 **237 ms**.
-- **46 browser play tests**; **0 runtime failures**, **0 tests with errors**.
+- **797 live URLs checked**; **0 failures**. Median **74 ms**, p95 **139 ms**.
+- **46 browser play tests**; **0 runtime failures**, **1 tests with errors**.
 - Health endpoint: **200**. Unknown route: **404** (expected 404).
 - Exact duplicate descriptions: **0**.
 
@@ -21,19 +21,19 @@ The largest opportunity is depth, not catalogue size. Shared engines are useful 
 
 | Path | Status | ms | Result |
 |---|---:|---:|---|
-| / | 200 | 302 | OK |
-| /api/health | 200 | 117 | OK |
-| /games/ | 200 | 249 | OK |
-| /universes/ | 200 | 309 | OK |
-| /characters/ | 200 | 270 | OK |
-| /new-releases/ | 200 | 367 | OK |
-| /about/ | 200 | 317 | OK |
-| /robots.txt | 200 | 159 | OK |
-| /sitemap.xml | 200 | 181 | OK |
-| /llms.txt | 200 | 159 | OK |
-| /manifest.webmanifest | 200 | 44 | OK |
-| /sw.js | 200 | 40 | OK |
-| /audit-not-found-1783967232716/ | 404 | 33 | Failed |
+| / | 200 | 195 | OK |
+| /api/health | 200 | 105 | OK |
+| /games/ | 200 | 185 | OK |
+| /universes/ | 200 | 160 | OK |
+| /characters/ | 200 | 171 | OK |
+| /new-releases/ | 200 | 151 | OK |
+| /about/ | 200 | 151 | OK |
+| /robots.txt | 200 | 116 | OK |
+| /sitemap.xml | 200 | 68 | OK |
+| /llms.txt | 200 | 67 | OK |
+| /manifest.webmanifest | 200 | 42 | OK |
+| /sw.js | 200 | 32 | OK |
+| /audit-not-found-1783968315987/ | 404 | 37 | Failed |
 
 ## Engine improvement roadmap
 
@@ -159,7 +159,7 @@ The largest opportunity is depth, not catalogue size. Shared engines are useful 
 | Super Sean's Serpent Dash | snake | desktop | 200 | Yes | 0 | No |
 | Tower of Floppy | tower | desktop | 200 | Yes | 0 | No |
 | Boom Bap Cannon | cannon | desktop | 200 | Yes | 0 | No |
-| Scanline Sprint | helix | desktop | 200 | Yes | 0 | No |
+| Scanline Sprint | helix | desktop | 200 | Yes | 1 | No |
 | Super Sean's Pipe Puzzle | pipeline | desktop | 200 | Yes | 0 | No |
 | Super Sean's Soccer Showdown | sports | desktop | 200 | Yes | 0 | No |
 | Super Sean's Archery Adventure | archery | desktop | 200 | Yes | 0 | No |
