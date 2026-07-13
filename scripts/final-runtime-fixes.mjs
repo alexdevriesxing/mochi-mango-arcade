@@ -22,6 +22,14 @@ if(!render.includes('colIndex')){
   fs.writeFileSync(enginePath,engine);
 }
 
+const loader="// MMA_GLOBAL_QUALITY_CSS_LOADER\nif(!document.querySelector('link[data-mma-quality]')){const qualityLink=document.createElement('link');qualityLink.rel='stylesheet';qualityLink.href='/assets/css/game-quality.css';qualityLink.dataset.mmaQuality='1';document.head.appendChild(qualityLink)}\n";
+const appPath='public/assets/js/app.js';
+let app=fs.readFileSync(appPath,'utf8');
+if(!app.includes('MMA_GLOBAL_QUALITY_CSS_LOADER')){
+  app=loader+app;
+  fs.writeFileSync(appPath,app);
+}
+
 const qualityJsPath='public/assets/js/game-quality.js';
 let qualityJs=fs.readFileSync(qualityJsPath,'utf8');
 if(!qualityJs.includes('MMA_QUALITY_CSS_LOADER')){
@@ -38,4 +46,4 @@ if(!css.includes('MMA_BESPOKE_MOBILE_FIX')){
   css += `\n/* MMA_BESPOKE_MOBILE_FIX_V2 */\n@media(max-width:720px){\n  html,body{width:100%!important;max-width:100%!important;overflow-x:hidden!important}\n  body[data-page="play"] #appMain{width:100%!important;max-width:100vw!important;overflow-x:hidden!important}\n  body[data-page="play"] main.container{box-sizing:border-box!important;width:100%!important;max-width:100vw!important;margin:0!important;padding-inline:12px!important;overflow-x:hidden!important}\n  body[data-page="play"] .detail-layout{display:block!important;grid-template-columns:minmax(0,1fr)!important;width:100%!important;max-width:100%!important;min-width:0!important}\n  body[data-page="play"] .detail-layout>*,body[data-page="play"] .play-shell,body[data-page="play"] .game-stage-shell,body[data-page="play"] .side-stack{box-sizing:border-box!important;width:100%!important;max-width:100%!important;min-width:0!important}\n  body[data-page="play"] .play-shell{overflow:hidden!important;aspect-ratio:16/9!important;height:auto!important}\n  body[data-page="play"] .play-shell iframe{display:block!important;position:static!important;width:100%!important;height:100%!important;max-width:100%!important;min-width:0!important;border:0!important}\n}\n`;
   fs.writeFileSync(cssPath,css);
 }
-console.log('Applied final Merge, direct stylesheet and bespoke mobile fixes.');
+console.log('Applied final Merge, global stylesheet and bespoke mobile fixes.');
