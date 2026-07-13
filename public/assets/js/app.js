@@ -1,3 +1,5 @@
+// MMA_GLOBAL_QUALITY_CSS_LOADER
+if(!document.querySelector('link[data-mma-quality]')){const qualityLink=document.createElement('link');qualityLink.rel='stylesheet';qualityLink.href='/assets/css/game-quality.css';qualityLink.dataset.mmaQuality='1';document.head.appendChild(qualityLink)}
 const $=(s,r=document)=>r.querySelector(s),$$=(s,r=document)=>[...r.querySelectorAll(s)];
 const safeParse=(value,fallback)=>{try{return JSON.parse(value)}catch{return fallback}};
 const S={games:[],products:[],universes:{},i18n:{},lang:localStorage.mma_lang||'en',cart:safeParse(localStorage.mma_cart||'[]',[])};
