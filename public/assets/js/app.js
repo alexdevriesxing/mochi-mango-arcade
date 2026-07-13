@@ -42,7 +42,7 @@ function header(active='home'){
         ${nav.map(([u,k,label])=>`<a class="${active==k?'active':''}" href="${u}">${label}</a>`).join('')}
       </nav>
       <div class="nav-actions">
-        <label class="searchbox">🔍 <input id="globalSearch" data-i18n-placeholder="search" placeholder="${t('search')}"></label>
+        <div class="searchbox">🔍 <label class="sr-only" for="globalSearch">Search games</label><input id="globalSearch" data-i18n-placeholder="search" placeholder="${t('search')}"></div>
         <select class="lang-select" aria-label="Language">
           ${Object.entries(S.i18n).map(([c,l])=>`<option value="${c}">${l.name}</option>`).join('')}
         </select>
