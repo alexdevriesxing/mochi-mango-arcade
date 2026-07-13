@@ -1,2 +1,0 @@
-Apply and verify the Scanline Sprint Helix gap-array guard.
-Verification: generated guard and full catalogue validator passed.
