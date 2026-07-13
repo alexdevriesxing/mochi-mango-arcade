@@ -51,12 +51,24 @@ jobs:
       - name: Generate raster social cards
         run: python scripts/generate-og-cards.py
 
-      - name: Validate catalogue and polish outputs
+      - name: Capture validation diagnostics
+        id: validation
+        continue-on-error: true
         run: |
-          node scripts/validate-site.mjs
-          node scripts/validate-polish.mjs
+          set +e
+          mkdir -p .github
+          node scripts/validate-site.mjs > .github/polish-validation.log 2>&1
+          SITE_STATUS=$?
+          node scripts/validate-polish.mjs >> .github/polish-validation.log 2>&1
+          POLISH_STATUS=$?
+          cat .github/polish-validation.log
+          if [ "$SITE_STATUS" -ne 0 ] || [ "$POLISH_STATUS" -ne 0 ]; then
+            echo "failed=true" >> "$GITHUB_OUTPUT"
+            exit 1
+          fi
+          echo "failed=false" >> "$GITHUB_OUTPUT"
 
-      - name: Commit generated output
+      - name: Commit generated output and diagnostics
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
@@ -64,3 +76,7 @@ jobs:
           git commit -m "Generate UI SEO GAIO polish output" || exit 0
           git pull --rebase origin agent/ui-seo-gaio-polish
           git push origin HEAD:agent/ui-seo-gaio-polish
+
+      - name: Fail when validation failed
+        if: steps.validation.outputs.failed == 'true'
+        run: exit 1
