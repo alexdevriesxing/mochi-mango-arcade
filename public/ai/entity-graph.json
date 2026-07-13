@@ -1,0 +1,1801 @@
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Organization",
+      "@id": "https://www.firedragoninteractive.com/#organization",
+      "name": "Fire Dragon Interactive",
+      "url": "https://www.firedragoninteractive.com"
+    },
+    {
+      "@type": "WebSite",
+      "@id": "https://www.mochimangoarcade.com/#website",
+      "name": "Mochi Mango Arcade",
+      "url": "https://www.mochimangoarcade.com/",
+      "publisher": {
+        "@id": "https://www.firedragoninteractive.com/#organization"
+      },
+      "inLanguage": "en",
+      "isAccessibleForFree": true
+    },
+    {
+      "@type": "CollectionPage",
+      "@id": "https://www.mochimangoarcade.com/games/#collection",
+      "name": "Mochi Mango Arcade Games",
+      "url": "https://www.mochimangoarcade.com/games/",
+      "numberOfItems": 392,
+      "about": [
+        {
+          "@type": "CreativeWorkSeries",
+          "@id": "https://www.mochimangoarcade.com/universes/#cozyverse",
+          "name": "Puddle & Pip Cozyverse",
+          "description": "A soft plush forest world of cozy adventures."
+        },
+        {
+          "@type": "CreativeWorkSeries",
+          "@id": "https://www.mochimangoarcade.com/universes/#astromochi",
+          "name": "The AstroMochi Crew",
+          "description": "Squishy space adventures across candy planets."
+        },
+        {
+          "@type": "CreativeWorkSeries",
+          "@id": "https://www.mochimangoarcade.com/universes/#ninegates",
+          "name": "Nine Gates Mahjong Kingdom",
+          "description": "Jade dragons, mahjong tiles and lantern festivals."
+        },
+        {
+          "@type": "CreativeWorkSeries",
+          "@id": "https://www.mochimangoarcade.com/universes/#snackstreet",
+          "name": "SnackStreet Squad",
+          "description": "Neon street-food heroes, cooking rushes and scooter chaos."
+        },
+        {
+          "@type": "CreativeWorkSeries",
+          "@id": "https://www.mochimangoarcade.com/universes/#oracle",
+          "name": "Oracle Mirror Oddities",
+          "description": "Mystical carnival magic with moon cats and tarot towers."
+        },
+        {
+          "@type": "CreativeWorkSeries",
+          "@id": "https://www.mochimangoarcade.com/universes/#standalone",
+          "name": "Mochi Mango Originals",
+          "description": "One-off mascot games built for quick fun and merch."
+        },
+        {
+          "@type": "CreativeWorkSeries",
+          "@id": "https://www.mochimangoarcade.com/universes/#retroverse",
+          "name": "Mochi Mango Retroverse",
+          "description": "A neon-CRT universe celebrating three decades of arcade and home-game mechanics through new mascots, worlds, and stories."
+        },
+        {
+          "@type": "CreativeWorkSeries",
+          "@id": "https://www.mochimangoarcade.com/universes/#tabletop-kingdom",
+          "name": "Tabletop Kingdom",
+          "description": "Wooden boards, carved pieces and classic strategy games reimagined with storybook charm."
+        },
+        {
+          "@type": "CreativeWorkSeries",
+          "@id": "https://www.mochimangoarcade.com/universes/#puzzle-realm",
+          "name": "Puzzle Realm",
+          "description": "A kingdom of logic, memory, and wit — where every challenge sharpens the mind and rewards clever thinking."
+        },
+        {
+          "@type": "CreativeWorkSeries",
+          "@id": "https://www.mochimangoarcade.com/universes/#candy-galaxy",
+          "name": "Candy Galaxy",
+          "description": "A sugary universe where every star is a candy and every planet is a dessert waiting to be explored."
+        },
+        {
+          "@type": "CreativeWorkSeries",
+          "@id": "https://www.mochimangoarcade.com/universes/#mango-island",
+          "name": "Mango Island",
+          "description": "A tropical paradise of sun, sand, and fruity fun — where every wave brings a new game and every palm hides a challenge."
+        },
+        {
+          "@type": "CreativeWorkSeries",
+          "@id": "https://www.mochimangoarcade.com/universes/#mochi-world",
+          "name": "Mochi World",
+          "description": "A squishy, sweet universe where everything is made of mochi — from the clouds to the mountains to the friends you make along the way."
+        },
+        {
+          "@type": "CreativeWorkSeries",
+          "@id": "https://www.mochimangoarcade.com/universes/#panda-kingdom",
+          "name": "Panda Kingdom",
+          "description": "A lush bamboo realm where gentle pandas guard ancient forests, solve nature puzzles, and embark on leaf-strewn adventures."
+        },
+        {
+          "@type": "CreativeWorkSeries",
+          "@id": "https://www.mochimangoarcade.com/universes/#pixel-playground",
+          "name": "Pixel Playground",
+          "description": "A neon-drenched digital dimension where pixel creatures code, compete, and crash through glitchy arcade worlds."
+        }
+      ]
+    },
+    {
+      "@type": "FictionalCharacter",
+      "name": "Puddle & Pip",
+      "url": "https://www.mochimangoarcade.com/characters/#puddle-pip",
+      "description": "Original Mochi Mango Arcade character appearing in 6 games."
+    },
+    {
+      "@type": "FictionalCharacter",
+      "name": "Puddle",
+      "url": "https://www.mochimangoarcade.com/characters/#puddle",
+      "description": "Original Mochi Mango Arcade character appearing in 5 games."
+    },
+    {
+      "@type": "FictionalCharacter",
+      "name": "Pip",
+      "url": "https://www.mochimangoarcade.com/characters/#pip",
+      "description": "Original Mochi Mango Arcade character appearing in 4 games."
+    },
+    {
+      "@type": "FictionalCharacter",
+      "name": "Mushmoo",
+      "url": "https://www.mochimangoarcade.com/characters/#mushmoo",
+      "description": "Original Mochi Mango Arcade character appearing in 2 games."
+    },
+    {
+      "@type": "FictionalCharacter",
+      "name": "Bramble Bear",
+      "url": "https://www.mochimangoarcade.com/characters/#bramble-bear",
+      "description": "Original Mochi Mango Arcade character appearing in 6 games."
+    },
+    {
+      "@type": "FictionalCharacter",
+      "name": "Lulu Lantern",
+      "url": "https://www.mochimangoarcade.com/characters/#lulu-lantern",
+      "description": "Original Mochi Mango Arcade character appearing in 2 games."
+    },
+    {
+      "@type": "FictionalCharacter",
+      "name": "Mochi-9",
+      "url": "https://www.mochimangoarcade.com/characters/#mochi-9",
+      "description": "Original Mochi Mango Arcade character appearing in 6 games."
+    },
+    {
+      "@type": "FictionalCharacter",
+      "name": "Gearbit",
+      "url": "https://www.mochimangoarcade.com/characters/#gearbit",
+      "description": "Original Mochi Mango Arcade character appearing in 3 games."
+    },
+    {
+      "@type": "FictionalCharacter",
+      "name": "Bloop",
+      "url": "https://www.mochimangoarcade.com/characters/#bloop",
+      "description": "Original Mochi Mango Arcade character appearing in 2 games."
+    },
+    {
+      "@type": "FictionalCharacter",
+      "name": "Captain Nova",
+      "url": "https://www.mochimangoarcade.com/characters/#captain-nova",
+      "description": "Original Mochi Mango Arcade character appearing in 3 games."
+    },
+    {
+      "@type": "FictionalCharacter",
+      "name": "Grumble Comet",
+      "url": "https://www.mochimangoarcade.com/characters/#grumble-comet",
+      "description": "Original Mochi Mango Arcade character appearing in 2 games."
+    },
+    {
+      "@type": "FictionalCharacter",
+      "name": "Bao",
+      "url": "https://www.mochimangoarcade.com/characters/#bao",
+      "description": "Original Mochi Mango Arcade character appearing in 7 games."
+    },
+    {
+      "@type": "FictionalCharacter",
+      "name": "Auntie Li-Wen",
+      "url": "https://www.mochimangoarcade.com/characters/#auntie-li-wen",
+      "description": "Original Mochi Mango Arcade character appearing in 2 games."
+    },
+    {
+      "@type": "FictionalCharacter",
+      "name": "Uncle Lee",
+      "url": "https://www.mochimangoarcade.com/characters/#uncle-lee",
+      "description": "Original Mochi Mango Arcade character appearing in 3 games."
+    },
+    {
+      "@type": "FictionalCharacter",
+      "name": "Mei Mei",
+      "url": "https://www.mochimangoarcade.com/characters/#mei-mei",
+      "description": "Original Mochi Mango Arcade character appearing in 2 games."
+    },
+    {
+      "@type": "FictionalCharacter",
+      "name": "The Red Crane",
+      "url": "https://www.mochimangoarcade.com/characters/#the-red-crane",
+      "description": "Original Mochi Mango Arcade character appearing in 2 games."
+    },
+    {
+      "@type": "FictionalCharacter",
+      "name": "Chef BaoBao",
+      "url": "https://www.mochimangoarcade.com/characters/#chef-baobao",
+      "description": "Original Mochi Mango Arcade character appearing in 4 games."
+    },
+    {
+      "@type": "FictionalCharacter",
+      "name": "Tika Tiger",
+      "url": "https://www.mochimangoarcade.com/characters/#tika-tiger",
+      "description": "Original Mochi Mango Arcade character appearing in 2 games."
+    },
+    {
+      "@type": "FictionalCharacter",
+      "name": "Nori Ninja",
+      "url": "https://www.mochimangoarcade.com/characters/#nori-ninja",
+      "description": "Original Mochi Mango Arcade character appearing in 2 games."
+    },
+    {
+      "@type": "FictionalCharacter",
+      "name": "Captain Churro",
+      "url": "https://www.mochimangoarcade.com/characters/#captain-churro",
+      "description": "Original Mochi Mango Arcade character appearing in 2 games."
+    },
+    {
+      "@type": "FictionalCharacter",
+      "name": "Madame Chili",
+      "url": "https://www.mochimangoarcade.com/characters/#madame-chili",
+      "description": "Original Mochi Mango Arcade character appearing in 2 games."
+    },
+    {
+      "@type": "FictionalCharacter",
+      "name": "SnackStreet Squad",
+      "url": "https://www.mochimangoarcade.com/characters/#snackstreet-squad",
+      "description": "Original Mochi Mango Arcade character appearing in 4 games."
+    },
+    {
+      "@type": "FictionalCharacter",
+      "name": "Madame Fortuna",
+      "url": "https://www.mochimangoarcade.com/characters/#madame-fortuna",
+      "description": "Original Mochi Mango Arcade character appearing in 6 games."
+    },
+    {
+      "@type": "FictionalCharacter",
+      "name": "Morpheus",
+      "url": "https://www.mochimangoarcade.com/characters/#morpheus",
+      "description": "Original Mochi Mango Arcade character appearing in 5 games."
+    },
+    {
+      "@type": "FictionalCharacter",
+      "name": "Umbra",
+      "url": "https://www.mochimangoarcade.com/characters/#umbra",
+      "description": "Original Mochi Mango Arcade character appearing in 6 games."
+    },
+    {
+      "@type": "FictionalCharacter",
+      "name": "Sol Frog",
+      "url": "https://www.mochimangoarcade.com/characters/#sol-frog",
+      "description": "Original Mochi Mango Arcade character appearing in 2 games."
+    },
+    {
+      "@type": "FictionalCharacter",
+      "name": "Clockwork Crow",
+      "url": "https://www.mochimangoarcade.com/characters/#clockwork-crow",
+      "description": "Original Mochi Mango Arcade character appearing in 2 games."
+    },
+    {
+      "@type": "FictionalCharacter",
+      "name": "Oracle Mirror Cast",
+      "url": "https://www.mochimangoarcade.com/characters/#oracle-mirror-cast",
+      "description": "Original Mochi Mango Arcade character appearing in 2 games."
+    },
+    {
+      "@type": "FictionalCharacter",
+      "name": "Buttonbeard",
+      "url": "https://www.mochimangoarcade.com/characters/#buttonbeard",
+      "description": "Original Mochi Mango Arcade character appearing in 1 games."
+    },
+    {
+      "@type": "FictionalCharacter",
+      "name": "Princess Pickle",
+      "url": "https://www.mochimangoarcade.com/characters/#princess-pickle",
+      "description": "Original Mochi Mango Arcade character appearing in 1 games."
+    },
+    {
+      "@type": "FictionalCharacter",
+      "name": "Sir Wafflesworth",
+      "url": "https://www.mochimangoarcade.com/characters/#sir-wafflesworth",
+      "description": "Original Mochi Mango Arcade character appearing in 1 games."
+    },
+    {
+      "@type": "FictionalCharacter",
+      "name": "Gobbo",
+      "url": "https://www.mochimangoarcade.com/characters/#gobbo",
+      "description": "Original Mochi Mango Arcade character appearing in 1 games."
+    },
+    {
+      "@type": "FictionalCharacter",
+      "name": "Milo Mole",
+      "url": "https://www.mochimangoarcade.com/characters/#milo-mole",
+      "description": "Original Mochi Mango Arcade character appearing in 1 games."
+    },
+    {
+      "@type": "FictionalCharacter",
+      "name": "Captain Bubblebeard",
+      "url": "https://www.mochimangoarcade.com/characters/#captain-bubblebeard",
+      "description": "Original Mochi Mango Arcade character appearing in 1 games."
+    },
+    {
+      "@type": "FictionalCharacter",
+      "name": "Socktopus",
+      "url": "https://www.mochimangoarcade.com/characters/#socktopus",
+      "description": "Original Mochi Mango Arcade character appearing in 1 games."
+    },
+    {
+      "@type": "FictionalCharacter",
+      "name": "Coco Cannon",
+      "url": "https://www.mochimangoarcade.com/characters/#coco-cannon",
+      "description": "Original Mochi Mango Arcade character appearing in 1 games."
+    },
+    {
+      "@type": "FictionalCharacter",
+      "name": "Muffin Mage",
+      "url": "https://www.mochimangoarcade.com/characters/#muffin-mage",
+      "description": "Original Mochi Mango Arcade character appearing in 1 games."
+    },
+    {
+      "@type": "FictionalCharacter",
+      "name": "Turbo Tofu",
+      "url": "https://www.mochimangoarcade.com/characters/#turbo-tofu",
+      "description": "Original Mochi Mango Arcade character appearing in 1 games."
+    },
+    {
+      "@type": "FictionalCharacter",
+      "name": "Professor Pogo",
+      "url": "https://www.mochimangoarcade.com/characters/#professor-pogo",
+      "description": "Original Mochi Mango Arcade character appearing in 1 games."
+    },
+    {
+      "@type": "FictionalCharacter",
+      "name": "Benny Banana",
+      "url": "https://www.mochimangoarcade.com/characters/#benny-banana",
+      "description": "Original Mochi Mango Arcade character appearing in 1 games."
+    },
+    {
+      "@type": "FictionalCharacter",
+      "name": "Jellybean Knights",
+      "url": "https://www.mochimangoarcade.com/characters/#jellybean-knights",
+      "description": "Original Mochi Mango Arcade character appearing in 1 games."
+    },
+    {
+      "@type": "FictionalCharacter",
+      "name": "Vera Volcano",
+      "url": "https://www.mochimangoarcade.com/characters/#vera-volcano",
+      "description": "Original Mochi Mango Arcade character appearing in 1 games."
+    },
+    {
+      "@type": "FictionalCharacter",
+      "name": "Detective Donut",
+      "url": "https://www.mochimangoarcade.com/characters/#detective-donut",
+      "description": "Original Mochi Mango Arcade character appearing in 1 games."
+    },
+    {
+      "@type": "FictionalCharacter",
+      "name": "Cloud Whales",
+      "url": "https://www.mochimangoarcade.com/characters/#cloud-whales",
+      "description": "Original Mochi Mango Arcade character appearing in 1 games."
+    },
+    {
+      "@type": "FictionalCharacter",
+      "name": "Fidget Fox",
+      "url": "https://www.mochimangoarcade.com/characters/#fidget-fox",
+      "description": "Original Mochi Mango Arcade character appearing in 1 games."
+    },
+    {
+      "@type": "FictionalCharacter",
+      "name": "Crash Koala",
+      "url": "https://www.mochimangoarcade.com/characters/#crash-koala",
+      "description": "Original Mochi Mango Arcade character appearing in 1 games."
+    },
+    {
+      "@type": "FictionalCharacter",
+      "name": "Marshmallow Mechas",
+      "url": "https://www.mochimangoarcade.com/characters/#marshmallow-mechas",
+      "description": "Original Mochi Mango Arcade character appearing in 1 games."
+    },
+    {
+      "@type": "FictionalCharacter",
+      "name": "Queen Quokka",
+      "url": "https://www.mochimangoarcade.com/characters/#queen-quokka",
+      "description": "Original Mochi Mango Arcade character appearing in 1 games."
+    },
+    {
+      "@type": "FictionalCharacter",
+      "name": "Granny Gearbox",
+      "url": "https://www.mochimangoarcade.com/characters/#granny-gearbox",
+      "description": "Original Mochi Mango Arcade character appearing in 1 games."
+    },
+    {
+      "@type": "FictionalCharacter",
+      "name": "Sproutzilla",
+      "url": "https://www.mochimangoarcade.com/characters/#sproutzilla",
+      "description": "Original Mochi Mango Arcade character appearing in 1 games."
+    },
+    {
+      "@type": "FictionalCharacter",
+      "name": "Biscuit Bandits",
+      "url": "https://www.mochimangoarcade.com/characters/#biscuit-bandits",
+      "description": "Original Mochi Mango Arcade character appearing in 1 games."
+    },
+    {
+      "@type": "FictionalCharacter",
+      "name": "Rumi Rabbit",
+      "url": "https://www.mochimangoarcade.com/characters/#rumi-rabbit",
+      "description": "Original Mochi Mango Arcade character appearing in 1 games."
+    },
+    {
+      "@type": "FictionalCharacter",
+      "name": "Tiny Tankards",
+      "url": "https://www.mochimangoarcade.com/characters/#tiny-tankards",
+      "description": "Original Mochi Mango Arcade character appearing in 1 games."
+    },
+    {
+      "@type": "FictionalCharacter",
+      "name": "Pixel Panda",
+      "url": "https://www.mochimangoarcade.com/characters/#pixel-panda",
+      "description": "Original Mochi Mango Arcade character appearing in 4 games."
+    },
+    {
+      "@type": "FictionalCharacter",
+      "name": "Chester Cheese",
+      "url": "https://www.mochimangoarcade.com/characters/#chester-cheese",
+      "description": "Original Mochi Mango Arcade character appearing in 1 games."
+    },
+    {
+      "@type": "FictionalCharacter",
+      "name": "Luna Llama",
+      "url": "https://www.mochimangoarcade.com/characters/#luna-llama",
+      "description": "Original Mochi Mango Arcade character appearing in 1 games."
+    },
+    {
+      "@type": "FictionalCharacter",
+      "name": "Pigeon Postmaster",
+      "url": "https://www.mochimangoarcade.com/characters/#pigeon-postmaster",
+      "description": "Original Mochi Mango Arcade character appearing in 1 games."
+    },
+    {
+      "@type": "FictionalCharacter",
+      "name": "Kiko Kraken",
+      "url": "https://www.mochimangoarcade.com/characters/#kiko-kraken",
+      "description": "Original Mochi Mango Arcade character appearing in 1 games."
+    },
+    {
+      "@type": "FictionalCharacter",
+      "name": "Toasty Dragon",
+      "url": "https://www.mochimangoarcade.com/characters/#toasty-dragon",
+      "description": "Original Mochi Mango Arcade character appearing in 1 games."
+    },
+    {
+      "@type": "FictionalCharacter",
+      "name": "Library Hamster",
+      "url": "https://www.mochimangoarcade.com/characters/#library-hamster",
+      "description": "Original Mochi Mango Arcade character appearing in 1 games."
+    },
+    {
+      "@type": "FictionalCharacter",
+      "name": "Bongo Beetle",
+      "url": "https://www.mochimangoarcade.com/characters/#bongo-beetle",
+      "description": "Original Mochi Mango Arcade character appearing in 1 games."
+    },
+    {
+      "@type": "FictionalCharacter",
+      "name": "Cupcake Cyclone",
+      "url": "https://www.mochimangoarcade.com/characters/#cupcake-cyclone",
+      "description": "Original Mochi Mango Arcade character appearing in 1 games."
+    },
+    {
+      "@type": "FictionalCharacter",
+      "name": "Rex Rocket",
+      "url": "https://www.mochimangoarcade.com/characters/#rex-rocket",
+      "description": "Original Mochi Mango Arcade character appearing in 1 games."
+    },
+    {
+      "@type": "FictionalCharacter",
+      "name": "Hammy Hammer",
+      "url": "https://www.mochimangoarcade.com/characters/#hammy-hammer",
+      "description": "Original Mochi Mango Arcade character appearing in 1 games."
+    },
+    {
+      "@type": "FictionalCharacter",
+      "name": "Sleepy Sloth",
+      "url": "https://www.mochimangoarcade.com/characters/#sleepy-sloth",
+      "description": "Original Mochi Mango Arcade character appearing in 1 games."
+    },
+    {
+      "@type": "FictionalCharacter",
+      "name": "Pepper Pup",
+      "url": "https://www.mochimangoarcade.com/characters/#pepper-pup",
+      "description": "Original Mochi Mango Arcade character appearing in 1 games."
+    },
+    {
+      "@type": "FictionalCharacter",
+      "name": "Giga Gecko",
+      "url": "https://www.mochimangoarcade.com/characters/#giga-gecko",
+      "description": "Original Mochi Mango Arcade character appearing in 1 games."
+    },
+    {
+      "@type": "FictionalCharacter",
+      "name": "Ollie Onion",
+      "url": "https://www.mochimangoarcade.com/characters/#ollie-onion",
+      "description": "Original Mochi Mango Arcade character appearing in 1 games."
+    },
+    {
+      "@type": "FictionalCharacter",
+      "name": "Banana Bot",
+      "url": "https://www.mochimangoarcade.com/characters/#banana-bot",
+      "description": "Original Mochi Mango Arcade character appearing in 1 games."
+    },
+    {
+      "@type": "FictionalCharacter",
+      "name": "Hugo Hippo",
+      "url": "https://www.mochimangoarcade.com/characters/#hugo-hippo",
+      "description": "Original Mochi Mango Arcade character appearing in 1 games."
+    },
+    {
+      "@type": "FictionalCharacter",
+      "name": "Mimi Meteor",
+      "url": "https://www.mochimangoarcade.com/characters/#mimi-meteor",
+      "description": "Original Mochi Mango Arcade character appearing in 1 games."
+    },
+    {
+      "@type": "FictionalCharacter",
+      "name": "Snail Racers",
+      "url": "https://www.mochimangoarcade.com/characters/#snail-racers",
+      "description": "Original Mochi Mango Arcade character appearing in 1 games."
+    },
+    {
+      "@type": "FictionalCharacter",
+      "name": "Captain Cactus",
+      "url": "https://www.mochimangoarcade.com/characters/#captain-cactus",
+      "description": "Original Mochi Mango Arcade character appearing in 1 games."
+    },
+    {
+      "@type": "FictionalCharacter",
+      "name": "Noodle Knight",
+      "url": "https://www.mochimangoarcade.com/characters/#noodle-knight",
+      "description": "Original Mochi Mango Arcade character appearing in 1 games."
+    },
+    {
+      "@type": "FictionalCharacter",
+      "name": "Tilly Teacup",
+      "url": "https://www.mochimangoarcade.com/characters/#tilly-teacup",
+      "description": "Original Mochi Mango Arcade character appearing in 1 games."
+    },
+    {
+      "@type": "FictionalCharacter",
+      "name": "Radar Raccoon",
+      "url": "https://www.mochimangoarcade.com/characters/#radar-raccoon",
+      "description": "Original Mochi Mango Arcade character appearing in 1 games."
+    },
+    {
+      "@type": "FictionalCharacter",
+      "name": "Pipkin Pumpkin",
+      "url": "https://www.mochimangoarcade.com/characters/#pipkin-pumpkin",
+      "description": "Original Mochi Mango Arcade character appearing in 1 games."
+    },
+    {
+      "@type": "FictionalCharacter",
+      "name": "Sir Sprinkle",
+      "url": "https://www.mochimangoarcade.com/characters/#sir-sprinkle",
+      "description": "Original Mochi Mango Arcade character appearing in 1 games."
+    },
+    {
+      "@type": "FictionalCharacter",
+      "name": "Gummy Golem",
+      "url": "https://www.mochimangoarcade.com/characters/#gummy-golem",
+      "description": "Original Mochi Mango Arcade character appearing in 1 games."
+    },
+    {
+      "@type": "FictionalCharacter",
+      "name": "Bubble Tea Bears",
+      "url": "https://www.mochimangoarcade.com/characters/#bubble-tea-bears",
+      "description": "Original Mochi Mango Arcade character appearing in 1 games."
+    },
+    {
+      "@type": "FictionalCharacter",
+      "name": "Clara Compass",
+      "url": "https://www.mochimangoarcade.com/characters/#clara-compass",
+      "description": "Original Mochi Mango Arcade character appearing in 1 games."
+    },
+    {
+      "@type": "FictionalCharacter",
+      "name": "Donnie Duck",
+      "url": "https://www.mochimangoarcade.com/characters/#donnie-duck",
+      "description": "Original Mochi Mango Arcade character appearing in 1 games."
+    },
+    {
+      "@type": "FictionalCharacter",
+      "name": "Mini Monsters",
+      "url": "https://www.mochimangoarcade.com/characters/#mini-monsters",
+      "description": "Original Mochi Mango Arcade character appearing in 1 games."
+    },
+    {
+      "@type": "FictionalCharacter",
+      "name": "Wobble Wizard",
+      "url": "https://www.mochimangoarcade.com/characters/#wobble-wizard",
+      "description": "Original Mochi Mango Arcade character appearing in 1 games."
+    },
+    {
+      "@type": "FictionalCharacter",
+      "name": "Skippy Shrimp",
+      "url": "https://www.mochimangoarcade.com/characters/#skippy-shrimp",
+      "description": "Original Mochi Mango Arcade character appearing in 1 games."
+    },
+    {
+      "@type": "FictionalCharacter",
+      "name": "Tiny Titans",
+      "url": "https://www.mochimangoarcade.com/characters/#tiny-titans",
+      "description": "Original Mochi Mango Arcade character appearing in 1 games."
+    },
+    {
+      "@type": "FictionalCharacter",
+      "name": "Mabel Mooncow",
+      "url": "https://www.mochimangoarcade.com/characters/#mabel-mooncow",
+      "description": "Original Mochi Mango Arcade character appearing in 1 games."
+    },
+    {
+      "@type": "FictionalCharacter",
+      "name": "Finn Finnegan",
+      "url": "https://www.mochimangoarcade.com/characters/#finn-finnegan",
+      "description": "Original Mochi Mango Arcade character appearing in 1 games."
+    },
+    {
+      "@type": "FictionalCharacter",
+      "name": "Baxter Bean",
+      "url": "https://www.mochimangoarcade.com/characters/#baxter-bean",
+      "description": "Original Mochi Mango Arcade character appearing in 1 games."
+    },
+    {
+      "@type": "FictionalCharacter",
+      "name": "Nana Noodle",
+      "url": "https://www.mochimangoarcade.com/characters/#nana-noodle",
+      "description": "Original Mochi Mango Arcade character appearing in 1 games."
+    },
+    {
+      "@type": "FictionalCharacter",
+      "name": "Pogo Panda",
+      "url": "https://www.mochimangoarcade.com/characters/#pogo-panda",
+      "description": "Original Mochi Mango Arcade character appearing in 1 games."
+    },
+    {
+      "@type": "FictionalCharacter",
+      "name": "Lemon",
+      "url": "https://www.mochimangoarcade.com/characters/#lemon",
+      "description": "Original Mochi Mango Arcade character appearing in 1 games."
+    },
+    {
+      "@type": "FictionalCharacter",
+      "name": "Mallow",
+      "url": "https://www.mochimangoarcade.com/characters/#mallow",
+      "description": "Original Mochi Mango Arcade character appearing in 1 games."
+    },
+    {
+      "@type": "FictionalCharacter",
+      "name": "Wanda Wombat",
+      "url": "https://www.mochimangoarcade.com/characters/#wanda-wombat",
+      "description": "Original Mochi Mango Arcade character appearing in 1 games."
+    },
+    {
+      "@type": "FictionalCharacter",
+      "name": "Pickle Pirates of Brine Bay",
+      "url": "https://www.mochimangoarcade.com/characters/#pickle-pirates-of-brine-bay",
+      "description": "Original Mochi Mango Arcade character appearing in 1 games."
+    },
+    {
+      "@type": "FictionalCharacter",
+      "name": "Gertie Goblin",
+      "url": "https://www.mochimangoarcade.com/characters/#gertie-goblin",
+      "description": "Original Mochi Mango Arcade character appearing in 1 games."
+    },
+    {
+      "@type": "FictionalCharacter",
+      "name": "Flapjack Falcon",
+      "url": "https://www.mochimangoarcade.com/characters/#flapjack-falcon",
+      "description": "Original Mochi Mango Arcade character appearing in 1 games."
+    },
+    {
+      "@type": "FictionalCharacter",
+      "name": "Otto Octopus Office Temp",
+      "url": "https://www.mochimangoarcade.com/characters/#otto-octopus-office-temp",
+      "description": "Original Mochi Mango Arcade character appearing in 1 games."
+    },
+    {
+      "@type": "FictionalCharacter",
+      "name": "Bumble Bop",
+      "url": "https://www.mochimangoarcade.com/characters/#bumble-bop",
+      "description": "Original Mochi Mango Arcade character appearing in 1 games."
+    },
+    {
+      "@type": "FictionalCharacter",
+      "name": "Caramel Corgi Carnival",
+      "url": "https://www.mochimangoarcade.com/characters/#caramel-corgi-carnival",
+      "description": "Original Mochi Mango Arcade character appearing in 1 games."
+    },
+    {
+      "@type": "FictionalCharacter",
+      "name": "Peapod",
+      "url": "https://www.mochimangoarcade.com/characters/#peapod",
+      "description": "Original Mochi Mango Arcade character appearing in 1 games."
+    },
+    {
+      "@type": "FictionalCharacter",
+      "name": "Rocco Ravioli",
+      "url": "https://www.mochimangoarcade.com/characters/#rocco-ravioli",
+      "description": "Original Mochi Mango Arcade character appearing in 1 games."
+    },
+    {
+      "@type": "FictionalCharacter",
+      "name": "Minty Mouse",
+      "url": "https://www.mochimangoarcade.com/characters/#minty-mouse",
+      "description": "Original Mochi Mango Arcade character appearing in 1 games."
+    },
+    {
+      "@type": "FictionalCharacter",
+      "name": "Velvet Bat Boutique",
+      "url": "https://www.mochimangoarcade.com/characters/#velvet-bat-boutique",
+      "description": "Original Mochi Mango Arcade character appearing in 1 games."
+    },
+    {
+      "@type": "FictionalCharacter",
+      "name": "Cranky Crab",
+      "url": "https://www.mochimangoarcade.com/characters/#cranky-crab",
+      "description": "Original Mochi Mango Arcade character appearing in 1 games."
+    },
+    {
+      "@type": "FictionalCharacter",
+      "name": "Penny Penguin",
+      "url": "https://www.mochimangoarcade.com/characters/#penny-penguin",
+      "description": "Original Mochi Mango Arcade character appearing in 1 games."
+    },
+    {
+      "@type": "FictionalCharacter",
+      "name": "Wiggly Worm Orchestra",
+      "url": "https://www.mochimangoarcade.com/characters/#wiggly-worm-orchestra",
+      "description": "Original Mochi Mango Arcade character appearing in 1 games."
+    },
+    {
+      "@type": "FictionalCharacter",
+      "name": "Rufus Radish",
+      "url": "https://www.mochimangoarcade.com/characters/#rufus-radish",
+      "description": "Original Mochi Mango Arcade character appearing in 1 games."
+    },
+    {
+      "@type": "FictionalCharacter",
+      "name": "Baron Biscuit",
+      "url": "https://www.mochimangoarcade.com/characters/#baron-biscuit",
+      "description": "Original Mochi Mango Arcade character appearing in 1 games."
+    },
+    {
+      "@type": "FictionalCharacter",
+      "name": "Pixel Prawn",
+      "url": "https://www.mochimangoarcade.com/characters/#pixel-prawn",
+      "description": "Original Mochi Mango Arcade character appearing in 3 games."
+    },
+    {
+      "@type": "FictionalCharacter",
+      "name": "Lantern Lizard Trail",
+      "url": "https://www.mochimangoarcade.com/characters/#lantern-lizard-trail",
+      "description": "Original Mochi Mango Arcade character appearing in 1 games."
+    },
+    {
+      "@type": "FictionalCharacter",
+      "name": "Gumbo Gecko",
+      "url": "https://www.mochimangoarcade.com/characters/#gumbo-gecko",
+      "description": "Original Mochi Mango Arcade character appearing in 1 games."
+    },
+    {
+      "@type": "FictionalCharacter",
+      "name": "Fifi Flamingo Fashion Flight",
+      "url": "https://www.mochimangoarcade.com/characters/#fifi-flamingo-fashion-flight",
+      "description": "Original Mochi Mango Arcade character appearing in 1 games."
+    },
+    {
+      "@type": "FictionalCharacter",
+      "name": "Great Gumball Galaxy",
+      "url": "https://www.mochimangoarcade.com/characters/#great-gumball-galaxy",
+      "description": "Original Mochi Mango Arcade character appearing in 1 games."
+    },
+    {
+      "@type": "FictionalCharacter",
+      "name": "Tater Tot Titan",
+      "url": "https://www.mochimangoarcade.com/characters/#tater-tot-titan",
+      "description": "Original Mochi Mango Arcade character appearing in 1 games."
+    },
+    {
+      "@type": "FictionalCharacter",
+      "name": "Momo Monkey",
+      "url": "https://www.mochimangoarcade.com/characters/#momo-monkey",
+      "description": "Original Mochi Mango Arcade character appearing in 1 games."
+    },
+    {
+      "@type": "FictionalCharacter",
+      "name": "Nibbles the Night Hamster",
+      "url": "https://www.mochimangoarcade.com/characters/#nibbles-the-night-hamster",
+      "description": "Original Mochi Mango Arcade character appearing in 1 games."
+    },
+    {
+      "@type": "FictionalCharacter",
+      "name": "Quincy Quill",
+      "url": "https://www.mochimangoarcade.com/characters/#quincy-quill",
+      "description": "Original Mochi Mango Arcade character appearing in 1 games."
+    },
+    {
+      "@type": "FictionalCharacter",
+      "name": "Bubblegum Buccaneers",
+      "url": "https://www.mochimangoarcade.com/characters/#bubblegum-buccaneers",
+      "description": "Original Mochi Mango Arcade character appearing in 1 games."
+    },
+    {
+      "@type": "FictionalCharacter",
+      "name": "Mabel Muffin",
+      "url": "https://www.mochimangoarcade.com/characters/#mabel-muffin",
+      "description": "Original Mochi Mango Arcade character appearing in 1 games."
+    },
+    {
+      "@type": "FictionalCharacter",
+      "name": "Wally Walrus Icebreaker",
+      "url": "https://www.mochimangoarcade.com/characters/#wally-walrus-icebreaker",
+      "description": "Original Mochi Mango Arcade character appearing in 1 games."
+    },
+    {
+      "@type": "FictionalCharacter",
+      "name": "Solar Snail Expedition",
+      "url": "https://www.mochimangoarcade.com/characters/#solar-snail-expedition",
+      "description": "Original Mochi Mango Arcade character appearing in 1 games."
+    },
+    {
+      "@type": "FictionalCharacter",
+      "name": "Ruby Raccoon",
+      "url": "https://www.mochimangoarcade.com/characters/#ruby-raccoon",
+      "description": "Original Mochi Mango Arcade character appearing in 1 games."
+    },
+    {
+      "@type": "FictionalCharacter",
+      "name": "Donut Dragon Derby",
+      "url": "https://www.mochimangoarcade.com/characters/#donut-dragon-derby",
+      "description": "Original Mochi Mango Arcade character appearing in 1 games."
+    },
+    {
+      "@type": "FictionalCharacter",
+      "name": "Harriet Hedgehog",
+      "url": "https://www.mochimangoarcade.com/characters/#harriet-hedgehog",
+      "description": "Original Mochi Mango Arcade character appearing in 1 games."
+    },
+    {
+      "@type": "FictionalCharacter",
+      "name": "Nico Nacho",
+      "url": "https://www.mochimangoarcade.com/characters/#nico-nacho",
+      "description": "Original Mochi Mango Arcade character appearing in 1 games."
+    },
+    {
+      "@type": "FictionalCharacter",
+      "name": "Cosmic Koala Nap Club",
+      "url": "https://www.mochimangoarcade.com/characters/#cosmic-koala-nap-club",
+      "description": "Original Mochi Mango Arcade character appearing in 1 games."
+    },
+    {
+      "@type": "FictionalCharacter",
+      "name": "Pippo Parrot",
+      "url": "https://www.mochimangoarcade.com/characters/#pippo-parrot",
+      "description": "Original Mochi Mango Arcade character appearing in 1 games."
+    },
+    {
+      "@type": "FictionalCharacter",
+      "name": "Frida Foxglove",
+      "url": "https://www.mochimangoarcade.com/characters/#frida-foxglove",
+      "description": "Original Mochi Mango Arcade character appearing in 1 games."
+    },
+    {
+      "@type": "FictionalCharacter",
+      "name": "Spaghetti Yeti",
+      "url": "https://www.mochimangoarcade.com/characters/#spaghetti-yeti",
+      "description": "Original Mochi Mango Arcade character appearing in 1 games."
+    },
+    {
+      "@type": "FictionalCharacter",
+      "name": "Zara Zebra",
+      "url": "https://www.mochimangoarcade.com/characters/#zara-zebra",
+      "description": "Original Mochi Mango Arcade character appearing in 1 games."
+    },
+    {
+      "@type": "FictionalCharacter",
+      "name": "Tiny Teapot Train",
+      "url": "https://www.mochimangoarcade.com/characters/#tiny-teapot-train",
+      "description": "Original Mochi Mango Arcade character appearing in 1 games."
+    },
+    {
+      "@type": "FictionalCharacter",
+      "name": "Milo Moonmouse",
+      "url": "https://www.mochimangoarcade.com/characters/#milo-moonmouse",
+      "description": "Original Mochi Mango Arcade character appearing in 1 games."
+    },
+    {
+      "@type": "FictionalCharacter",
+      "name": "Jellyfish Jazz Club",
+      "url": "https://www.mochimangoarcade.com/characters/#jellyfish-jazz-club",
+      "description": "Original Mochi Mango Arcade character appearing in 1 games."
+    },
+    {
+      "@type": "FictionalCharacter",
+      "name": "Cornflake",
+      "url": "https://www.mochimangoarcade.com/characters/#cornflake",
+      "description": "Original Mochi Mango Arcade character appearing in 1 games."
+    },
+    {
+      "@type": "FictionalCharacter",
+      "name": "Opal Owl",
+      "url": "https://www.mochimangoarcade.com/characters/#opal-owl",
+      "description": "Original Mochi Mango Arcade character appearing in 1 games."
+    },
+    {
+      "@type": "FictionalCharacter",
+      "name": "Bubblesaurus Bath Time",
+      "url": "https://www.mochimangoarcade.com/characters/#bubblesaurus-bath-time",
+      "description": "Original Mochi Mango Arcade character appearing in 1 games."
+    },
+    {
+      "@type": "FictionalCharacter",
+      "name": "Clockwork Cupcake Factory",
+      "url": "https://www.mochimangoarcade.com/characters/#clockwork-cupcake-factory",
+      "description": "Original Mochi Mango Arcade character appearing in 1 games."
+    },
+    {
+      "@type": "FictionalCharacter",
+      "name": "Sasha Starfish",
+      "url": "https://www.mochimangoarcade.com/characters/#sasha-starfish",
+      "description": "Original Mochi Mango Arcade character appearing in 1 games."
+    },
+    {
+      "@type": "FictionalCharacter",
+      "name": "Hector Hotdog",
+      "url": "https://www.mochimangoarcade.com/characters/#hector-hotdog",
+      "description": "Original Mochi Mango Arcade character appearing in 1 games."
+    },
+    {
+      "@type": "FictionalCharacter",
+      "name": "Moonlit Marmalade Maze",
+      "url": "https://www.mochimangoarcade.com/characters/#moonlit-marmalade-maze",
+      "description": "Original Mochi Mango Arcade character appearing in 1 games."
+    },
+    {
+      "@type": "FictionalCharacter",
+      "name": "Tango Turtle",
+      "url": "https://www.mochimangoarcade.com/characters/#tango-turtle",
+      "description": "Original Mochi Mango Arcade character appearing in 1 games."
+    },
+    {
+      "@type": "FictionalCharacter",
+      "name": "Benny Beet",
+      "url": "https://www.mochimangoarcade.com/characters/#benny-beet",
+      "description": "Original Mochi Mango Arcade character appearing in 1 games."
+    },
+    {
+      "@type": "FictionalCharacter",
+      "name": "Mini Mummy Pet Shop",
+      "url": "https://www.mochimangoarcade.com/characters/#mini-mummy-pet-shop",
+      "description": "Original Mochi Mango Arcade character appearing in 1 games."
+    },
+    {
+      "@type": "FictionalCharacter",
+      "name": "Pearl Pegasus Cloud Rescue",
+      "url": "https://www.mochimangoarcade.com/characters/#pearl-pegasus-cloud-rescue",
+      "description": "Original Mochi Mango Arcade character appearing in 1 games."
+    },
+    {
+      "@type": "FictionalCharacter",
+      "name": "Ramen Robot Rampage",
+      "url": "https://www.mochimangoarcade.com/characters/#ramen-robot-rampage",
+      "description": "Original Mochi Mango Arcade character appearing in 1 games."
+    },
+    {
+      "@type": "FictionalCharacter",
+      "name": "Sock Goblin Grand Hotel",
+      "url": "https://www.mochimangoarcade.com/characters/#sock-goblin-grand-hotel",
+      "description": "Original Mochi Mango Arcade character appearing in 1 games."
+    },
+    {
+      "@type": "FictionalCharacter",
+      "name": "Finnick Firefly",
+      "url": "https://www.mochimangoarcade.com/characters/#finnick-firefly",
+      "description": "Original Mochi Mango Arcade character appearing in 1 games."
+    },
+    {
+      "@type": "FictionalCharacter",
+      "name": "Super Sean",
+      "url": "https://www.mochimangoarcade.com/characters/#super-sean",
+      "description": "Original Mochi Mango Arcade character appearing in 32 games."
+    },
+    {
+      "@type": "FictionalCharacter",
+      "name": "Stella Starling",
+      "url": "https://www.mochimangoarcade.com/characters/#stella-starling",
+      "description": "Original Mochi Mango Arcade character appearing in 1 games."
+    },
+    {
+      "@type": "FictionalCharacter",
+      "name": "Rally Raccoon",
+      "url": "https://www.mochimangoarcade.com/characters/#rally-raccoon",
+      "description": "Original Mochi Mango Arcade character appearing in 1 games."
+    },
+    {
+      "@type": "FictionalCharacter",
+      "name": "Lumi Loris",
+      "url": "https://www.mochimangoarcade.com/characters/#lumi-loris",
+      "description": "Original Mochi Mango Arcade character appearing in 1 games."
+    },
+    {
+      "@type": "FictionalCharacter",
+      "name": "Orbit Otter",
+      "url": "https://www.mochimangoarcade.com/characters/#orbit-otter",
+      "description": "Original Mochi Mango Arcade character appearing in 1 games."
+    },
+    {
+      "@type": "FictionalCharacter",
+      "name": "Sprocket Serpent",
+      "url": "https://www.mochimangoarcade.com/characters/#sprocket-serpent",
+      "description": "Original Mochi Mango Arcade character appearing in 1 games."
+    },
+    {
+      "@type": "FictionalCharacter",
+      "name": "Brix Beaver",
+      "url": "https://www.mochimangoarcade.com/characters/#brix-beaver",
+      "description": "Original Mochi Mango Arcade character appearing in 1 games."
+    },
+    {
+      "@type": "FictionalCharacter",
+      "name": "Bim Bellbird",
+      "url": "https://www.mochimangoarcade.com/characters/#bim-bellbird",
+      "description": "Original Mochi Mango Arcade character appearing in 1 games."
+    },
+    {
+      "@type": "FictionalCharacter",
+      "name": "Tavi Turbo Toad",
+      "url": "https://www.mochimangoarcade.com/characters/#tavi-turbo-toad",
+      "description": "Original Mochi Mango Arcade character appearing in 1 games."
+    },
+    {
+      "@type": "FictionalCharacter",
+      "name": "Pogo Puffin",
+      "url": "https://www.mochimangoarcade.com/characters/#pogo-puffin",
+      "description": "Original Mochi Mango Arcade character appearing in 1 games."
+    },
+    {
+      "@type": "FictionalCharacter",
+      "name": "Bitzi Beetle",
+      "url": "https://www.mochimangoarcade.com/characters/#bitzi-beetle",
+      "description": "Original Mochi Mango Arcade character appearing in 1 games."
+    },
+    {
+      "@type": "FictionalCharacter",
+      "name": "Cassie Cassowary",
+      "url": "https://www.mochimangoarcade.com/characters/#cassie-cassowary",
+      "description": "Original Mochi Mango Arcade character appearing in 1 games."
+    },
+    {
+      "@type": "FictionalCharacter",
+      "name": "Oona Orbit Owl",
+      "url": "https://www.mochimangoarcade.com/characters/#oona-orbit-owl",
+      "description": "Original Mochi Mango Arcade character appearing in 1 games."
+    },
+    {
+      "@type": "FictionalCharacter",
+      "name": "Dash Dingo",
+      "url": "https://www.mochimangoarcade.com/characters/#dash-dingo",
+      "description": "Original Mochi Mango Arcade character appearing in 1 games."
+    },
+    {
+      "@type": "FictionalCharacter",
+      "name": "Bloop Axolotl",
+      "url": "https://www.mochimangoarcade.com/characters/#bloop-axolotl",
+      "description": "Original Mochi Mango Arcade character appearing in 1 games."
+    },
+    {
+      "@type": "FictionalCharacter",
+      "name": "Rewind Rabbit",
+      "url": "https://www.mochimangoarcade.com/characters/#rewind-rabbit",
+      "description": "Original Mochi Mango Arcade character appearing in 1 games."
+    },
+    {
+      "@type": "FictionalCharacter",
+      "name": "Roxy Radish",
+      "url": "https://www.mochimangoarcade.com/characters/#roxy-radish",
+      "description": "Original Mochi Mango Arcade character appearing in 1 games."
+    },
+    {
+      "@type": "FictionalCharacter",
+      "name": "Riff Red Panda",
+      "url": "https://www.mochimangoarcade.com/characters/#riff-red-panda",
+      "description": "Original Mochi Mango Arcade character appearing in 1 games."
+    },
+    {
+      "@type": "FictionalCharacter",
+      "name": "Pico Penguin",
+      "url": "https://www.mochimangoarcade.com/characters/#pico-penguin",
+      "description": "Original Mochi Mango Arcade character appearing in 1 games."
+    },
+    {
+      "@type": "FictionalCharacter",
+      "name": "Gemma Gerbil",
+      "url": "https://www.mochimangoarcade.com/characters/#gemma-gerbil",
+      "description": "Original Mochi Mango Arcade character appearing in 1 games."
+    },
+    {
+      "@type": "FictionalCharacter",
+      "name": "Mika Marmoset",
+      "url": "https://www.mochimangoarcade.com/characters/#mika-marmoset",
+      "description": "Original Mochi Mango Arcade character appearing in 1 games."
+    },
+    {
+      "@type": "FictionalCharacter",
+      "name": "Momo Mecha Mochi",
+      "url": "https://www.mochimangoarcade.com/characters/#momo-mecha-mochi",
+      "description": "Original Mochi Mango Arcade character appearing in 1 games."
+    },
+    {
+      "@type": "FictionalCharacter",
+      "name": "Pippa Pika",
+      "url": "https://www.mochimangoarcade.com/characters/#pippa-pika",
+      "description": "Original Mochi Mango Arcade character appearing in 1 games."
+    },
+    {
+      "@type": "FictionalCharacter",
+      "name": "Ziggy Sugar Glider",
+      "url": "https://www.mochimangoarcade.com/characters/#ziggy-sugar-glider",
+      "description": "Original Mochi Mango Arcade character appearing in 1 games."
+    },
+    {
+      "@type": "FictionalCharacter",
+      "name": "Tess Turbo Tern",
+      "url": "https://www.mochimangoarcade.com/characters/#tess-turbo-tern",
+      "description": "Original Mochi Mango Arcade character appearing in 1 games."
+    },
+    {
+      "@type": "FictionalCharacter",
+      "name": "Gilda Glitch",
+      "url": "https://www.mochimangoarcade.com/characters/#gilda-glitch",
+      "description": "Original Mochi Mango Arcade character appearing in 1 games."
+    },
+    {
+      "@type": "FictionalCharacter",
+      "name": "Pico Pounder",
+      "url": "https://www.mochimangoarcade.com/characters/#pico-pounder",
+      "description": "Original Mochi Mango Arcade character appearing in 1 games."
+    },
+    {
+      "@type": "FictionalCharacter",
+      "name": "Cathie CRT",
+      "url": "https://www.mochimangoarcade.com/characters/#cathie-crt",
+      "description": "Original Mochi Mango Arcade character appearing in 1 games."
+    },
+    {
+      "@type": "FictionalCharacter",
+      "name": "Midge Modem",
+      "url": "https://www.mochimangoarcade.com/characters/#midge-modem",
+      "description": "Original Mochi Mango Arcade character appearing in 1 games."
+    },
+    {
+      "@type": "FictionalCharacter",
+      "name": "Tuck Cassette",
+      "url": "https://www.mochimangoarcade.com/characters/#tuck-cassette",
+      "description": "Original Mochi Mango Arcade character appearing in 1 games."
+    },
+    {
+      "@type": "FictionalCharacter",
+      "name": "Floppy Fox",
+      "url": "https://www.mochimangoarcade.com/characters/#floppy-fox",
+      "description": "Original Mochi Mango Arcade character appearing in 1 games."
+    },
+    {
+      "@type": "FictionalCharacter",
+      "name": "Cy Moth",
+      "url": "https://www.mochimangoarcade.com/characters/#cy-moth",
+      "description": "Original Mochi Mango Arcade character appearing in 1 games."
+    },
+    {
+      "@type": "FictionalCharacter",
+      "name": "Sierra Pixel",
+      "url": "https://www.mochimangoarcade.com/characters/#sierra-pixel",
+      "description": "Original Mochi Mango Arcade character appearing in 1 games."
+    },
+    {
+      "@type": "FictionalCharacter",
+      "name": "Boom Bat",
+      "url": "https://www.mochimangoarcade.com/characters/#boom-bat",
+      "description": "Original Mochi Mango Arcade character appearing in 1 games."
+    },
+    {
+      "@type": "FictionalCharacter",
+      "name": "Nugget Newt",
+      "url": "https://www.mochimangoarcade.com/characters/#nugget-newt",
+      "description": "Original Mochi Mango Arcade character appearing in 1 games."
+    },
+    {
+      "@type": "FictionalCharacter",
+      "name": "Flap Disk",
+      "url": "https://www.mochimangoarcade.com/characters/#flap-disk",
+      "description": "Original Mochi Mango Arcade character appearing in 1 games."
+    },
+    {
+      "@type": "FictionalCharacter",
+      "name": "Trixie Trash",
+      "url": "https://www.mochimangoarcade.com/characters/#trixie-trash",
+      "description": "Original Mochi Mango Arcade character appearing in 1 games."
+    },
+    {
+      "@type": "FictionalCharacter",
+      "name": "Trawl Turtle",
+      "url": "https://www.mochimangoarcade.com/characters/#trawl-turtle",
+      "description": "Original Mochi Mango Arcade character appearing in 1 games."
+    },
+    {
+      "@type": "FictionalCharacter",
+      "name": "Klick Katydid",
+      "url": "https://www.mochimangoarcade.com/characters/#klick-katydid",
+      "description": "Original Mochi Mango Arcade character appearing in 1 games."
+    },
+    {
+      "@type": "FictionalCharacter",
+      "name": "Nova Hoops",
+      "url": "https://www.mochimangoarcade.com/characters/#nova-hoops",
+      "description": "Original Mochi Mango Arcade character appearing in 1 games."
+    },
+    {
+      "@type": "FictionalCharacter",
+      "name": "Bumper Beetle",
+      "url": "https://www.mochimangoarcade.com/characters/#bumper-beetle",
+      "description": "Original Mochi Mango Arcade character appearing in 1 games."
+    },
+    {
+      "@type": "FictionalCharacter",
+      "name": "Vicky Videotape",
+      "url": "https://www.mochimangoarcade.com/characters/#vicky-videotape",
+      "description": "Original Mochi Mango Arcade character appearing in 1 games."
+    },
+    {
+      "@type": "FictionalCharacter",
+      "name": "Chip Cartridge",
+      "url": "https://www.mochimangoarcade.com/characters/#chip-cartridge",
+      "description": "Original Mochi Mango Arcade character appearing in 1 games."
+    },
+    {
+      "@type": "FictionalCharacter",
+      "name": "Ace Pixel",
+      "url": "https://www.mochimangoarcade.com/characters/#ace-pixel",
+      "description": "Original Mochi Mango Arcade character appearing in 1 games."
+    },
+    {
+      "@type": "FictionalCharacter",
+      "name": "Boot Bug",
+      "url": "https://www.mochimangoarcade.com/characters/#boot-bug",
+      "description": "Original Mochi Mango Arcade character appearing in 1 games."
+    },
+    {
+      "@type": "FictionalCharacter",
+      "name": "Kingpin Pawnie",
+      "url": "https://www.mochimangoarcade.com/characters/#kingpin-pawnie",
+      "description": "Original Mochi Mango Arcade character appearing in 1 games."
+    },
+    {
+      "@type": "FictionalCharacter",
+      "name": "Captain Checker",
+      "url": "https://www.mochimangoarcade.com/characters/#captain-checker",
+      "description": "Original Mochi Mango Arcade character appearing in 1 games."
+    },
+    {
+      "@type": "FictionalCharacter",
+      "name": "Trixie Bloom",
+      "url": "https://www.mochimangoarcade.com/characters/#trixie-bloom",
+      "description": "Original Mochi Mango Arcade character appearing in 1 games."
+    },
+    {
+      "@type": "FictionalCharacter",
+      "name": "Stella Stacker",
+      "url": "https://www.mochimangoarcade.com/characters/#stella-stacker",
+      "description": "Original Mochi Mango Arcade character appearing in 1 games."
+    },
+    {
+      "@type": "FictionalCharacter",
+      "name": "Luna Flipper",
+      "url": "https://www.mochimangoarcade.com/characters/#luna-flipper",
+      "description": "Original Mochi Mango Arcade character appearing in 1 games."
+    },
+    {
+      "@type": "FictionalCharacter",
+      "name": "Petal Prime",
+      "url": "https://www.mochimangoarcade.com/characters/#petal-prime",
+      "description": "Original Mochi Mango Arcade character appearing in 1 games."
+    },
+    {
+      "@type": "FictionalCharacter",
+      "name": "Mango Merchant",
+      "url": "https://www.mochimangoarcade.com/characters/#mango-merchant",
+      "description": "Original Mochi Mango Arcade character appearing in 1 games."
+    },
+    {
+      "@type": "FictionalCharacter",
+      "name": "Doodle Fencer",
+      "url": "https://www.mochimangoarcade.com/characters/#doodle-fencer",
+      "description": "Original Mochi Mango Arcade character appearing in 1 games."
+    },
+    {
+      "@type": "FictionalCharacter",
+      "name": "Lantern Keeper",
+      "url": "https://www.mochimangoarcade.com/characters/#lantern-keeper",
+      "description": "Original Mochi Mango Arcade character appearing in 1 games."
+    },
+    {
+      "@type": "FictionalCharacter",
+      "name": "Pebble Sage",
+      "url": "https://www.mochimangoarcade.com/characters/#pebble-sage",
+      "description": "Original Mochi Mango Arcade character appearing in 1 games."
+    },
+    {
+      "@type": "FictionalCharacter",
+      "name": "Hexa Knight",
+      "url": "https://www.mochimangoarcade.com/characters/#hexa-knight",
+      "description": "Original Mochi Mango Arcade character appearing in 1 games."
+    },
+    {
+      "@type": "FictionalCharacter",
+      "name": "Admiral Chart",
+      "url": "https://www.mochimangoarcade.com/characters/#admiral-chart",
+      "description": "Original Mochi Mango Arcade character appearing in 1 games."
+    },
+    {
+      "@type": "FictionalCharacter",
+      "name": "Crystal Cipher",
+      "url": "https://www.mochimangoarcade.com/characters/#crystal-cipher",
+      "description": "Original Mochi Mango Arcade character appearing in 1 games."
+    },
+    {
+      "@type": "FictionalCharacter",
+      "name": "Cloud Rider",
+      "url": "https://www.mochimangoarcade.com/characters/#cloud-rider",
+      "description": "Original Mochi Mango Arcade character appearing in 1 games."
+    },
+    {
+      "@type": "FictionalCharacter",
+      "name": "Dicey Bear",
+      "url": "https://www.mochimangoarcade.com/characters/#dicey-bear",
+      "description": "Original Mochi Mango Arcade character appearing in 1 games."
+    },
+    {
+      "@type": "FictionalCharacter",
+      "name": "Crown Prince",
+      "url": "https://www.mochimangoarcade.com/characters/#crown-prince",
+      "description": "Original Mochi Mango Arcade character appearing in 1 games."
+    },
+    {
+      "@type": "FictionalCharacter",
+      "name": "Crystal Fox",
+      "url": "https://www.mochimangoarcade.com/characters/#crystal-fox",
+      "description": "Original Mochi Mango Arcade character appearing in 1 games."
+    },
+    {
+      "@type": "FictionalCharacter",
+      "name": "Mosaic Owl",
+      "url": "https://www.mochimangoarcade.com/characters/#mosaic-owl",
+      "description": "Original Mochi Mango Arcade character appearing in 1 games."
+    },
+    {
+      "@type": "FictionalCharacter",
+      "name": "Piper Mole",
+      "url": "https://www.mochimangoarcade.com/characters/#piper-mole",
+      "description": "Original Mochi Mango Arcade character appearing in 1 games."
+    },
+    {
+      "@type": "FictionalCharacter",
+      "name": "Lantern Hare",
+      "url": "https://www.mochimangoarcade.com/characters/#lantern-hare",
+      "description": "Original Mochi Mango Arcade character appearing in 1 games."
+    },
+    {
+      "@type": "FictionalCharacter",
+      "name": "Orbit Orb",
+      "url": "https://www.mochimangoarcade.com/characters/#orbit-orb",
+      "description": "Original Mochi Mango Arcade character appearing in 1 games."
+    },
+    {
+      "@type": "FictionalCharacter",
+      "name": "Brick Sage",
+      "url": "https://www.mochimangoarcade.com/characters/#brick-sage",
+      "description": "Original Mochi Mango Arcade character appearing in 1 games."
+    },
+    {
+      "@type": "FictionalCharacter",
+      "name": "Rune Bear",
+      "url": "https://www.mochimangoarcade.com/characters/#rune-bear",
+      "description": "Original Mochi Mango Arcade character appearing in 1 games."
+    },
+    {
+      "@type": "FictionalCharacter",
+      "name": "Spiral Sprite",
+      "url": "https://www.mochimangoarcade.com/characters/#spiral-sprite",
+      "description": "Original Mochi Mango Arcade character appearing in 1 games."
+    },
+    {
+      "@type": "FictionalCharacter",
+      "name": "Alchemist Newt",
+      "url": "https://www.mochimangoarcade.com/characters/#alchemist-newt",
+      "description": "Original Mochi Mango Arcade character appearing in 1 games."
+    },
+    {
+      "@type": "FictionalCharacter",
+      "name": "Cloud Hopper",
+      "url": "https://www.mochimangoarcade.com/characters/#cloud-hopper",
+      "description": "Original Mochi Mango Arcade character appearing in 1 games."
+    },
+    {
+      "@type": "FictionalCharacter",
+      "name": "Balance Bird",
+      "url": "https://www.mochimangoarcade.com/characters/#balance-bird",
+      "description": "Original Mochi Mango Arcade character appearing in 1 games."
+    },
+    {
+      "@type": "FictionalCharacter",
+      "name": "Prism Serpent",
+      "url": "https://www.mochimangoarcade.com/characters/#prism-serpent",
+      "description": "Original Mochi Mango Arcade character appearing in 1 games."
+    },
+    {
+      "@type": "FictionalCharacter",
+      "name": "Sweet Star",
+      "url": "https://www.mochimangoarcade.com/characters/#sweet-star",
+      "description": "Original Mochi Mango Arcade character appearing in 1 games."
+    },
+    {
+      "@type": "FictionalCharacter",
+      "name": "Comet Drop",
+      "url": "https://www.mochimangoarcade.com/characters/#comet-drop",
+      "description": "Original Mochi Mango Arcade character appearing in 1 games."
+    },
+    {
+      "@type": "FictionalCharacter",
+      "name": "Gummy Glider",
+      "url": "https://www.mochimangoarcade.com/characters/#gummy-glider",
+      "description": "Original Mochi Mango Arcade character appearing in 1 games."
+    },
+    {
+      "@type": "FictionalCharacter",
+      "name": "Nebula Nibbler",
+      "url": "https://www.mochimangoarcade.com/characters/#nebula-nibbler",
+      "description": "Original Mochi Mango Arcade character appearing in 1 games."
+    },
+    {
+      "@type": "FictionalCharacter",
+      "name": "Sugar Sprite",
+      "url": "https://www.mochimangoarcade.com/characters/#sugar-sprite",
+      "description": "Original Mochi Mango Arcade character appearing in 1 games."
+    },
+    {
+      "@type": "FictionalCharacter",
+      "name": "Cotton Wisp",
+      "url": "https://www.mochimangoarcade.com/characters/#cotton-wisp",
+      "description": "Original Mochi Mango Arcade character appearing in 1 games."
+    },
+    {
+      "@type": "FictionalCharacter",
+      "name": "Candy Star",
+      "url": "https://www.mochimangoarcade.com/characters/#candy-star",
+      "description": "Original Mochi Mango Arcade character appearing in 1 games."
+    },
+    {
+      "@type": "FictionalCharacter",
+      "name": "Lolli Hopper",
+      "url": "https://www.mochimangoarcade.com/characters/#lolli-hopper",
+      "description": "Original Mochi Mango Arcade character appearing in 1 games."
+    },
+    {
+      "@type": "FictionalCharacter",
+      "name": "Milky Mite",
+      "url": "https://www.mochimangoarcade.com/characters/#milky-mite",
+      "description": "Original Mochi Mango Arcade character appearing in 1 games."
+    },
+    {
+      "@type": "FictionalCharacter",
+      "name": "Bubblegum Bear",
+      "url": "https://www.mochimangoarcade.com/characters/#bubblegum-bear",
+      "description": "Original Mochi Mango Arcade character appearing in 1 games."
+    },
+    {
+      "@type": "FictionalCharacter",
+      "name": "Licorice Lynx",
+      "url": "https://www.mochimangoarcade.com/characters/#licorice-lynx",
+      "description": "Original Mochi Mango Arcade character appearing in 1 games."
+    },
+    {
+      "@type": "FictionalCharacter",
+      "name": "Caramel Cub",
+      "url": "https://www.mochimangoarcade.com/characters/#caramel-cub",
+      "description": "Original Mochi Mango Arcade character appearing in 1 games."
+    },
+    {
+      "@type": "FictionalCharacter",
+      "name": "Coral Cast",
+      "url": "https://www.mochimangoarcade.com/characters/#coral-cast",
+      "description": "Original Mochi Mango Arcade character appearing in 1 games."
+    },
+    {
+      "@type": "FictionalCharacter",
+      "name": "Coconut Archer",
+      "url": "https://www.mochimangoarcade.com/characters/#coconut-archer",
+      "description": "Original Mochi Mango Arcade character appearing in 1 games."
+    },
+    {
+      "@type": "FictionalCharacter",
+      "name": "Sandy Spiker",
+      "url": "https://www.mochimangoarcade.com/characters/#sandy-spiker",
+      "description": "Original Mochi Mango Arcade character appearing in 1 games."
+    },
+    {
+      "@type": "FictionalCharacter",
+      "name": "Palm Racer",
+      "url": "https://www.mochimangoarcade.com/characters/#palm-racer",
+      "description": "Original Mochi Mango Arcade character appearing in 1 games."
+    },
+    {
+      "@type": "FictionalCharacter",
+      "name": "Island Hopper",
+      "url": "https://www.mochimangoarcade.com/characters/#island-hopper",
+      "description": "Original Mochi Mango Arcade character appearing in 1 games."
+    },
+    {
+      "@type": "FictionalCharacter",
+      "name": "Surf Runner",
+      "url": "https://www.mochimangoarcade.com/characters/#surf-runner",
+      "description": "Original Mochi Mango Arcade character appearing in 1 games."
+    },
+    {
+      "@type": "FictionalCharacter",
+      "name": "Parrot Flyer",
+      "url": "https://www.mochimangoarcade.com/characters/#parrot-flyer",
+      "description": "Original Mochi Mango Arcade character appearing in 1 games."
+    },
+    {
+      "@type": "FictionalCharacter",
+      "name": "Pincer Whacker",
+      "url": "https://www.mochimangoarcade.com/characters/#pincer-whacker",
+      "description": "Original Mochi Mango Arcade character appearing in 1 games."
+    },
+    {
+      "@type": "FictionalCharacter",
+      "name": "Tiki Server",
+      "url": "https://www.mochimangoarcade.com/characters/#tiki-server",
+      "description": "Original Mochi Mango Arcade character appearing in 1 games."
+    },
+    {
+      "@type": "FictionalCharacter",
+      "name": "Wave Rider",
+      "url": "https://www.mochimangoarcade.com/characters/#wave-rider",
+      "description": "Original Mochi Mango Arcade character appearing in 1 games."
+    },
+    {
+      "@type": "FictionalCharacter",
+      "name": "Mangrove Serpent",
+      "url": "https://www.mochimangoarcade.com/characters/#mangrove-serpent",
+      "description": "Original Mochi Mango Arcade character appearing in 1 games."
+    },
+    {
+      "@type": "FictionalCharacter",
+      "name": "Lava Leaper",
+      "url": "https://www.mochimangoarcade.com/characters/#lava-leaper",
+      "description": "Original Mochi Mango Arcade character appearing in 1 games."
+    },
+    {
+      "@type": "FictionalCharacter",
+      "name": "Mochi Chef",
+      "url": "https://www.mochimangoarcade.com/characters/#mochi-chef",
+      "description": "Original Mochi Mango Arcade character appearing in 1 games."
+    },
+    {
+      "@type": "FictionalCharacter",
+      "name": "Mochi Hopper",
+      "url": "https://www.mochimangoarcade.com/characters/#mochi-hopper",
+      "description": "Original Mochi Mango Arcade character appearing in 1 games."
+    },
+    {
+      "@type": "FictionalCharacter",
+      "name": "Mochi Glider",
+      "url": "https://www.mochimangoarcade.com/characters/#mochi-glider",
+      "description": "Original Mochi Mango Arcade character appearing in 1 games."
+    },
+    {
+      "@type": "FictionalCharacter",
+      "name": "Mochi Sprite",
+      "url": "https://www.mochimangoarcade.com/characters/#mochi-sprite",
+      "description": "Original Mochi Mango Arcade character appearing in 1 games."
+    },
+    {
+      "@type": "FictionalCharacter",
+      "name": "Mochi Panda",
+      "url": "https://www.mochimangoarcade.com/characters/#mochi-panda",
+      "description": "Original Mochi Mango Arcade character appearing in 1 games."
+    },
+    {
+      "@type": "FictionalCharacter",
+      "name": "Mochi Alchemist",
+      "url": "https://www.mochimangoarcade.com/characters/#mochi-alchemist",
+      "description": "Original Mochi Mango Arcade character appearing in 1 games."
+    },
+    {
+      "@type": "FictionalCharacter",
+      "name": "Mochi Guardian",
+      "url": "https://www.mochimangoarcade.com/characters/#mochi-guardian",
+      "description": "Original Mochi Mango Arcade character appearing in 1 games."
+    },
+    {
+      "@type": "FictionalCharacter",
+      "name": "Mochi Stacker",
+      "url": "https://www.mochimangoarcade.com/characters/#mochi-stacker",
+      "description": "Original Mochi Mango Arcade character appearing in 1 games."
+    },
+    {
+      "@type": "FictionalCharacter",
+      "name": "Mochi Scholar",
+      "url": "https://www.mochimangoarcade.com/characters/#mochi-scholar",
+      "description": "Original Mochi Mango Arcade character appearing in 1 games."
+    },
+    {
+      "@type": "FictionalCharacter",
+      "name": "Mochi Breaker",
+      "url": "https://www.mochimangoarcade.com/characters/#mochi-breaker",
+      "description": "Original Mochi Mango Arcade character appearing in 1 games."
+    },
+    {
+      "@type": "FictionalCharacter",
+      "name": "Mochi Bouncer",
+      "url": "https://www.mochimangoarcade.com/characters/#mochi-bouncer",
+      "description": "Original Mochi Mango Arcade character appearing in 1 games."
+    },
+    {
+      "@type": "FictionalCharacter",
+      "name": "Mochi Paddler",
+      "url": "https://www.mochimangoarcade.com/characters/#mochi-paddler",
+      "description": "Original Mochi Mango Arcade character appearing in 1 games."
+    },
+    {
+      "@type": "FictionalCharacter",
+      "name": "Panda Sprint",
+      "url": "https://www.mochimangoarcade.com/characters/#panda-sprint",
+      "description": "Original Mochi Mango Arcade character appearing in 1 games."
+    },
+    {
+      "@type": "FictionalCharacter",
+      "name": "Bamboo Hopper",
+      "url": "https://www.mochimangoarcade.com/characters/#bamboo-hopper",
+      "description": "Original Mochi Mango Arcade character appearing in 1 games."
+    },
+    {
+      "@type": "FictionalCharacter",
+      "name": "Panda Flutter",
+      "url": "https://www.mochimangoarcade.com/characters/#panda-flutter",
+      "description": "Original Mochi Mango Arcade character appearing in 1 games."
+    },
+    {
+      "@type": "FictionalCharacter",
+      "name": "Bamboo Whacker",
+      "url": "https://www.mochimangoarcade.com/characters/#bamboo-whacker",
+      "description": "Original Mochi Mango Arcade character appearing in 1 games."
+    },
+    {
+      "@type": "FictionalCharacter",
+      "name": "Panda Matcha",
+      "url": "https://www.mochimangoarcade.com/characters/#panda-matcha",
+      "description": "Original Mochi Mango Arcade character appearing in 1 games."
+    },
+    {
+      "@type": "FictionalCharacter",
+      "name": "Panda Alchemist",
+      "url": "https://www.mochimangoarcade.com/characters/#panda-alchemist",
+      "description": "Original Mochi Mango Arcade character appearing in 1 games."
+    },
+    {
+      "@type": "FictionalCharacter",
+      "name": "Panda Guardian",
+      "url": "https://www.mochimangoarcade.com/characters/#panda-guardian",
+      "description": "Original Mochi Mango Arcade character appearing in 1 games."
+    },
+    {
+      "@type": "FictionalCharacter",
+      "name": "Panda Stacker",
+      "url": "https://www.mochimangoarcade.com/characters/#panda-stacker",
+      "description": "Original Mochi Mango Arcade character appearing in 1 games."
+    },
+    {
+      "@type": "FictionalCharacter",
+      "name": "Panda Scholar",
+      "url": "https://www.mochimangoarcade.com/characters/#panda-scholar",
+      "description": "Original Mochi Mango Arcade character appearing in 1 games."
+    },
+    {
+      "@type": "FictionalCharacter",
+      "name": "Panda Breaker",
+      "url": "https://www.mochimangoarcade.com/characters/#panda-breaker",
+      "description": "Original Mochi Mango Arcade character appearing in 1 games."
+    },
+    {
+      "@type": "FictionalCharacter",
+      "name": "Panda Bouncer",
+      "url": "https://www.mochimangoarcade.com/characters/#panda-bouncer",
+      "description": "Original Mochi Mango Arcade character appearing in 1 games."
+    },
+    {
+      "@type": "FictionalCharacter",
+      "name": "Panda Explorer",
+      "url": "https://www.mochimangoarcade.com/characters/#panda-explorer",
+      "description": "Original Mochi Mango Arcade character appearing in 1 games."
+    },
+    {
+      "@type": "FictionalCharacter",
+      "name": "Pixel Fox",
+      "url": "https://www.mochimangoarcade.com/characters/#pixel-fox",
+      "description": "Original Mochi Mango Arcade character appearing in 3 games."
+    },
+    {
+      "@type": "FictionalCharacter",
+      "name": "Pixel Bunny",
+      "url": "https://www.mochimangoarcade.com/characters/#pixel-bunny",
+      "description": "Original Mochi Mango Arcade character appearing in 3 games."
+    },
+    {
+      "@type": "FictionalCharacter",
+      "name": "Pixel Raccoon",
+      "url": "https://www.mochimangoarcade.com/characters/#pixel-raccoon",
+      "description": "Original Mochi Mango Arcade character appearing in 2 games."
+    },
+    {
+      "@type": "FictionalCharacter",
+      "name": "Pixel Bear",
+      "url": "https://www.mochimangoarcade.com/characters/#pixel-bear",
+      "description": "Original Mochi Mango Arcade character appearing in 3 games."
+    },
+    {
+      "@type": "FictionalCharacter",
+      "name": "Debug Duck",
+      "url": "https://www.mochimangoarcade.com/characters/#debug-duck",
+      "description": "Original Mochi Mango Arcade character appearing in 1 games."
+    },
+    {
+      "@type": "FictionalCharacter",
+      "name": "Vertex Viper",
+      "url": "https://www.mochimangoarcade.com/characters/#vertex-viper",
+      "description": "Original Mochi Mango Arcade character appearing in 1 games."
+    },
+    {
+      "@type": "FictionalCharacter",
+      "name": "Flip the Fox",
+      "url": "https://www.mochimangoarcade.com/characters/#flip-the-fox",
+      "description": "Original Mochi Mango Arcade character appearing in 1 games."
+    },
+    {
+      "@type": "FictionalCharacter",
+      "name": "Piper Penguin",
+      "url": "https://www.mochimangoarcade.com/characters/#piper-penguin",
+      "description": "Original Mochi Mango Arcade character appearing in 1 games."
+    },
+    {
+      "@type": "FictionalCharacter",
+      "name": "Beat Bunny",
+      "url": "https://www.mochimangoarcade.com/characters/#beat-bunny",
+      "description": "Original Mochi Mango Arcade character appearing in 1 games."
+    },
+    {
+      "@type": "FictionalCharacter",
+      "name": "Sector Squirrel",
+      "url": "https://www.mochimangoarcade.com/characters/#sector-squirrel",
+      "description": "Original Mochi Mango Arcade character appearing in 1 games."
+    },
+    {
+      "@type": "FictionalCharacter",
+      "name": "Chip the Baker",
+      "url": "https://www.mochimangoarcade.com/characters/#chip-the-baker",
+      "description": "Original Mochi Mango Arcade character appearing in 1 games."
+    },
+    {
+      "@type": "FictionalCharacter",
+      "name": "Scan Sam",
+      "url": "https://www.mochimangoarcade.com/characters/#scan-sam",
+      "description": "Original Mochi Mango Arcade character appearing in 1 games."
+    }
+  ]
+}
