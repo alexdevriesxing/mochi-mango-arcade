@@ -36,8 +36,13 @@ jobs:
         with:
           node-version: '22'
 
-      - name: Generate complete remediation
-        run: node scripts/remediate-site.mjs
+      - name: Generate complete remediation when needed
+        run: |
+          if grep -q "game-quality.js" public/assets/js/app.js && test -f public/assets/data/site-facts.json; then
+            echo "Generated remediation already present; validating current branch."
+          else
+            node scripts/remediate-site.mjs
+          fi
 
       - name: Refresh package lock
         run: npm install --package-lock-only --ignore-scripts
