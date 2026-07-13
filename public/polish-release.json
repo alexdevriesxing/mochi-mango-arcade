@@ -3,6 +3,7 @@
   "catalogueGames": 392,
   "socialCards": 392,
   "commerceStatus": "Concept preview",
-  "verification": "definitive",
-  "generatedHead": "d04be7a46d943dd7a90aa4b74a0c431d0237cc40"
+  "verification": "protected-final",
+  "embeddedBundles": "protected",
+  "generatedHead": "c185715a2bad37d0770e7b711c624d731980234e"
 }
