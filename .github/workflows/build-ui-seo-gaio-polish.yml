@@ -8,9 +8,12 @@ on:
       - public/assets/css/polish-2026.css
       - public/assets/css/polish-fixes.css
       - public/assets/js/ux-polish.js
+      - public/assets/js/trust-polish.js
       - scripts/apply-ui-seo-gaio-polish.mjs
       - scripts/add-polish-fixes.mjs
+      - scripts/final-trust-polish.mjs
       - scripts/generate-og-cards.py
+      - scripts/generate-home-og.py
       - scripts/validate-polish.mjs
       - .github/workflows/build-ui-seo-gaio-polish.yml
   workflow_dispatch:
@@ -47,13 +50,16 @@ jobs:
       - name: Install social-card tooling
         run: python -m pip install --disable-pip-version-check pillow cairosvg
 
-      - name: Apply UI, SEO and GAIO generation
+      - name: Apply UI, SEO, GAIO and trust generation
         run: |
           node scripts/apply-ui-seo-gaio-polish.mjs
           node scripts/add-polish-fixes.mjs
+          node scripts/final-trust-polish.mjs
 
       - name: Generate raster social cards
-        run: python scripts/generate-og-cards.py
+        run: |
+          python scripts/generate-og-cards.py
+          python scripts/generate-home-og.py
 
       - name: Capture validation diagnostics
         id: validation
