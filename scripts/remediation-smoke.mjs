@@ -48,10 +48,11 @@ for (const viewport of [{ name: 'desktop', width: 1280, height: 900 }, { name: '
         iframe: [...document.querySelectorAll('iframe')].some(node => { const r=node.getBoundingClientRect(); return r.width>120&&r.height>120; }),
         horizontalOverflow: document.documentElement.scrollWidth > innerWidth + 3,
         qualityPanel: Boolean(document.querySelector('.mma-quality-panel')),
+        campaignPanel: Boolean(document.querySelector('.mma-campaign-panel')),
         title: document.querySelector('h1')?.textContent || document.title
       }));
       const fatal = errors.filter(error => !/cloudflareinsights|favicon|Failed to load resource/i.test(error));
-      const ok = status === 200 && (metrics.canvas || metrics.iframe) && !metrics.horizontalOverflow && fatal.length === 0;
+      const ok = status === 200 && (metrics.canvas || metrics.iframe) && (!metrics.canvas || metrics.campaignPanel) && !metrics.horizontalOverflow && fatal.length === 0;
       results.push({ slug, viewport: viewport.name, status, ok, metrics, errors: fatal });
       if (!ok) failures.push({ slug, viewport: viewport.name, status, metrics, errors: fatal });
     } catch (error) {
