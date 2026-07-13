@@ -1,4 +1,2 @@
-pixel-panda-parkour-standalone: missing games page
-pixel-panda-parkour-standalone: missing play page
 pixel-prawn-deep-sea-debugger-standalone: missing games page
 pixel-prawn-deep-sea-debugger-standalone: missing play page
