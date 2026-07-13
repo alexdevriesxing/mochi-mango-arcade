@@ -139,6 +139,7 @@ export function enhanceCampaign(stage, game, instance) {
   const state = loadState(game);
   const panel = buildPanel(stage, game, state);
   const modifiers = modifiersFor(game);
+  const chapters = chaptersFor(game);
   const progress = panel.querySelector('[data-campaign-progress]');
   const objective = panel.querySelector('[data-campaign-objective]');
   const modifierButton = panel.querySelector('[data-campaign-modifier]');
@@ -148,6 +149,11 @@ export function enhanceCampaign(stage, game, instance) {
 
   const refresh = () => {
     const target = targetFor(state, dailyActive);
+    panel.querySelector('[data-campaign-title]').textContent = `Chapter ${state.chapter}: ${chapters[state.chapter - 1]}`;
+    panel.querySelector('[data-campaign-xp]').textContent = `${state.xp} XP`;
+    panel.querySelector('[data-campaign-tokens]').textContent = `◆ ${state.tokens}`;
+    panel.querySelector('[data-campaign-medals]').textContent = `🏅 ${state.medals}`;
+    panel.querySelector('.mma-campaign-chapters').innerHTML = chapters.map((chapter,index)=>`<li class="${index + 1 < state.chapter || state.finished ? 'complete' : index + 1 === state.chapter ? 'active' : ''}"><span>${index + 1}</span>${chapter}</li>`).join('');
     objective.textContent = `${dailyActive ? 'Daily: ' : ''}Reach ${target.toLocaleString()} points`;
     progress.style.width = `${Math.min(100, currentScore / target * 100)}%`;
     modifierButton.textContent = `Modifier: ${modifiers[state.modifier % modifiers.length][0]}`;
@@ -187,6 +193,7 @@ export function enhanceCampaign(stage, game, instance) {
 
   const baseOver = typeof instance.showOver === 'function' ? instance.showOver.bind(instance) : null;
   if (baseOver) instance.showOver = (...args) => {
+    const wasDaily = dailyActive;
     currentScore = Math.max(currentScore, Math.floor(Number(instance.score) || 0));
     const target = targetFor(state, dailyActive);
     const outcome = String(instance.outcome || instance.raceResult || '');
@@ -202,9 +209,10 @@ export function enhanceCampaign(stage, game, instance) {
       if (chapterBefore >= 5) state.finished = true;
       else state.chapter = chapterBefore + 1;
       saveState(game, state);
+      refresh();
     }
     const result = baseOver(...args);
-    setTimeout(() => resultCard(instance, game, state, success, reward, Boolean(state.dailyComplete && state.dailyDate === todayKey())), 30);
+    setTimeout(() => resultCard(instance, game, state, success, reward, wasDaily), 30);
     postTelemetry('finish', game, currentScore, success ? `chapter-${chapterBefore}-clear` : `chapter-${chapterBefore}-retry`);
     return result;
   };

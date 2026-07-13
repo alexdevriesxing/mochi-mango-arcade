@@ -1169,7 +1169,7 @@ function mountEngine(sl){
     try{activeGame=engine.startGame(stage,g)}catch(error){console.error('Primary game runtime failed',error);activeGame=quality.startFallback(stage,g);activeGame=campaign.enhanceCampaign(stage,g,activeGame)||activeGame;return}
     setTimeout(()=>{
       const visible=stage.querySelector('canvas,iframe');
-      if(!visible){try{activeGame?.destroy?.()}catch{}activeGame=quality.startFallback(stage,g)}
+      if(!visible){try{activeGame?.destroy?.()}catch{}activeGame=quality.startFallback(stage,g);activeGame=campaign.enhanceCampaign(stage,g,activeGame)||activeGame}
       else {activeGame=quality.enhanceShared(stage,g,activeGame)||activeGame;activeGame=campaign.enhanceCampaign(stage,g,activeGame)||activeGame;}
       if(queuedReward){activeGame?.applyReward?.(queuedReward);queuedReward=null}
     },350);
