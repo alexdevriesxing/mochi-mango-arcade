@@ -1,0 +1,54 @@
+name: Flagship browser smoke
+
+on:
+  pull_request:
+    branches:
+      - master
+    paths:
+      - public/**
+      - src/**
+      - scripts/remediation-smoke.mjs
+      - .github/workflows/remediation-smoke.yml
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: flagship-browser-smoke-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  smoke:
+    name: Test repaired and flagship games
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      - name: Install smoke tooling
+        run: |
+          npm install --no-save playwright@1.55.0
+          npx playwright install --with-deps chromium
+
+      - name: Start local static server
+        run: |
+          npx http-server public -p 8787 -c-1 > /tmp/mma-http.log 2>&1 &
+          for i in {1..30}; do
+            if curl -fsS http://127.0.0.1:8787/ >/dev/null; then exit 0; fi
+            sleep 1
+          done
+          cat /tmp/mma-http.log
+          exit 1
+
+      - name: Run repaired and flagship game smoke tests
+        env:
+          SMOKE_BASE_URL: http://127.0.0.1:8787
+        run: node scripts/remediation-smoke.mjs

@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="750" viewBox="0 0 1200 750" role="img" aria-labelledby="title desc">
+<title id="title">Pixel Prawn: Deep Sea Debugger</title><desc id="desc">Original key art for Pixel Prawn: Deep Sea Debugger.</desc>
+<defs><linearGradient id="bg" x1="0" x2="1" y1="0" y2="1"><stop stop-color="#ffd166"/><stop offset="1" stop-color="#8a5cff"/></linearGradient><radialGradient id="glow"><stop stop-color="#fff" stop-opacity=".8"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></radialGradient></defs>
+<rect width="1200" height="750" rx="48" fill="url(#bg)"/><circle cx="960" cy="120" r="250" fill="url(#glow)"/><circle cx="150" cy="650" r="310" fill="#140a2e" opacity=".22"/>
+<g fill="#fff" opacity=".22"><circle cx="80" cy="70" r="7"/><circle cx="217" cy="159" r="11"/><circle cx="354" cy="248" r="15"/><circle cx="491" cy="337" r="19"/><circle cx="628" cy="426" r="7"/><circle cx="765" cy="515" r="11"/><circle cx="902" cy="604" r="15"/><circle cx="1039" cy="133" r="19"/><circle cx="96" cy="222" r="7"/><circle cx="233" cy="311" r="11"/><circle cx="370" cy="400" r="15"/><circle cx="507" cy="489" r="19"/><circle cx="644" cy="578" r="7"/><circle cx="781" cy="107" r="11"/><circle cx="918" cy="196" r="15"/><circle cx="1055" cy="285" r="19"/><circle cx="112" cy="374" r="7"/><circle cx="249" cy="463" r="11"/></g>
+<g transform="translate(600 335)"><circle r="178" fill="#fff" opacity=".18"/><circle r="142" fill="#fff" opacity=".94"/><text x="0" y="36" text-anchor="middle" font-family="system-ui,sans-serif" font-weight="900" font-size="110" fill="#ffd166">PPD</text></g>
+<text x="600" y="600" text-anchor="middle" font-family="system-ui,sans-serif" font-weight="900" font-size="58" fill="#fff">Pixel Prawn: Deep Sea Debugger</text>
+<text x="600" y="657" text-anchor="middle" font-family="system-ui,sans-serif" font-weight="700" font-size="28" fill="#fff" opacity=".86">Pixel Prawn · Puzzle</text>
+</svg>

@@ -11,24 +11,13 @@ on:
       - wrangler.toml
       - package.json
       - .github/workflows/sitewide-audit.yml
-  pull_request:
-    branches:
-      - master
-    paths:
-      - public/**
-      - src/**
-      - scripts/sitewide-audit.mjs
-      - wrangler.toml
-      - package.json
-      - .github/workflows/sitewide-audit.yml
-      - audit-request.txt
   workflow_dispatch:
 
 permissions:
   contents: write
 
 concurrency:
-  group: sitewide-game-audit-${{ github.event.pull_request.number || github.ref }}
+  group: sitewide-game-audit-production
   cancel-in-progress: true
 
 jobs:
@@ -75,7 +64,7 @@ jobs:
           if-no-files-found: warn
 
       - name: Publish latest audit report
-        if: always() && github.event_name == 'push'
+        if: always()
         run: |
           if [ ! -f audit/sitewide-latest.json ]; then
             mkdir -p audit

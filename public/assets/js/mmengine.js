@@ -311,134 +311,30 @@ class Base {
       { id: 'score-spark', icon: '✨', name: 'Score spark', description: '20 seconds of double score + 250 points' },
     ];
   }
-
-  
-  showPreroll() {
-    const skipKey = 'mma_preroll_skipped_' + this.game.slug;
-    if (sessionStorage.getItem(skipKey)) {
-      this.showStart();
-      return;
-    }
-    this.overlay.innerHTML = '<div class="mma-panel mma-preroll-panel">'
-      + '<div class="mma-preroll-icon">📺</div>'
-      + '<h2>Sponsored moment</h2>'
-      + '<p>This game is brought to you by our sponsors.<br>Continue to the start menu in a moment, or visit our sponsor to skip.</p>'
-      + '<div class="mma-preroll-timer"><span class="mma-preroll-seconds">5</span></div>'
-      + '<div class="mma-preroll-actions">'
-      + '<button class="mma-btn mma-reward-btn">🎁 Visit sponsor & unlock</button>'
-      + '<button class="mma-btn mma-btn-secondary mma-skip-btn">Skip</button>'
-      + '</div></div>';
-    this.overlay.classList.add('show');
-    let countdown = 5;
-    const timerEl = this.overlay.querySelector('.mma-preroll-seconds');
-    const skipBtn = this.overlay.querySelector('.mma-skip-btn');
-    const rewardBtn = this.overlay.querySelector('.mma-reward-btn');
-    const finish = () => {
-      clearInterval(this._prerollInterval);
-      sessionStorage.setItem(skipKey, '1');
-      this.overlay.innerHTML = '';
-      this.showStart();
-    };
-    this._prerollInterval = setInterval(() => {
-      countdown--;
-      if (timerEl) timerEl.textContent = String(Math.max(1, countdown));
-      if (countdown <= 0) {
-        clearInterval(this._prerollInterval);
-        this._prerollInterval = null;
-        finish();
-      }
-    }, 1000);
-    if (skipBtn) skipBtn.onclick = () => { if (this._prerollInterval) { clearInterval(this._prerollInterval); this._prerollInterval = null; } finish(); };
-    if (rewardBtn) rewardBtn.onclick = () => {
-      if (!window.MochiMangoRewards?.request) { if (this._prerollInterval) { clearInterval(this._prerollInterval); this._prerollInterval = null; } finish(); return; }
-      if (this._prerollInterval) { clearInterval(this._prerollInterval); this._prerollInterval = null; }
-      window.MochiMangoRewards.request({
-        slug: this.game.slug,
-        source: 'preroll',
-        onRewardGranted: () => { sessionStorage.setItem(skipKey, '1'); this.start(true); },
-        onRewardFailed: () => { finish(); },
-      });
-    };
-  }
-
+  showPreroll() { this.showStart(); }
   showStart() {
-    const card = this.game.image || '';
-    const boosts = this.boostOptions();
-    const armed = this._armedBoost;
-    const activeBoost = armed?.boosterId || this._selectedBoostId;
-    this.overlay.innerHTML = `<div class="mma-panel mma-start-panel">
-      ${card ? `<img class="mma-keyart" src="${card}" alt="${this.game.title} key art" decoding="async" onerror="this.remove()">` : ''}
-      <h2>${this.game.title}</h2>
-      <p class="mma-instructions">${this.instructions()}</p>
-      <div class="mma-difficulty" aria-label="Challenge level">
-        <span>Challenge</span>
-        ${[
-          ['cozy', 'Cozy'], ['arcade', 'Arcade'], ['legend', 'Legend'],
-        ].map(([id, label]) => `<button type="button" data-challenge="${id}" aria-pressed="${this.challenge === id}" class="${this.challenge === id ? 'is-selected' : ''}">${label}</button>`).join('')}
-      </div>
-      <div class="mma-boost-picker" aria-label="Choose an optional start boost">
-        <div class="mma-boost-heading"><span>Optional sponsor boost</span><small>One visit • one next run</small></div>
-        <div class="mma-boost-options">
-          ${boosts.map((boost) => `<button type="button" class="mma-boost-choice ${activeBoost === boost.id ? 'is-selected' : ''}" data-boost="${boost.id}" aria-pressed="${activeBoost === boost.id}">
-            <span class="mma-boost-icon">${boost.icon}</span><span><b>${boost.name}</b><small>${boost.description}</small></span>
-          </button>`).join('')}
-        </div>
-        <div class="mma-reward-status" data-reward-status aria-live="polite">${armed ? `Boost ready: ${boosts.find((item) => item.id === activeBoost)?.name || 'Signature boost'}.` : 'Choose a boost, visit the sponsor, then return and start when you are ready.'}</div>
-        ${armed
-          ? '<button class="mma-btn mma-boost-start" type="button">⚡ Start boosted</button>'
-          : '<button class="mma-btn mma-reward-btn" type="button">Unlock selected boost</button>'}
-      </div>
-      <button class="mma-btn mma-btn-secondary mma-play-normal" type="button">▶ Play normally</button>
-      <div class="mma-best">Best: ${this.best} · Press F for fullscreen</div>
-    </div>`;
+    const card=this.game.image||'';
+    this.overlay.innerHTML=`<div class="mma-panel mma-start-panel">
+      ${card?`<img class="mma-keyart" src="${card}" alt="${this.game.title} key art" decoding="async" onerror="this.remove()">`:''}
+      <h2>${this.game.title}</h2><p class="mma-instructions">${this.instructions()}</p>
+      <div class="mma-difficulty" aria-label="Challenge level"><span>Challenge</span>
+      ${[['cozy','Cozy'],['arcade','Arcade'],['legend','Legend']].map(([id,label])=>`<button type="button" data-challenge="${id}" aria-pressed="${this.challenge===id}" class="${this.challenge===id?'is-selected':''}">${label}</button>`).join('')}</div>
+      <button class="mma-btn mma-play-normal" type="button">▶ Play</button>
+      <div class="mma-best">Best: ${this.best} · Press F for fullscreen</div></div>`;
     this.overlay.classList.add('show');
-
-    this.overlay.querySelectorAll('[data-challenge]').forEach((button) => button.addEventListener('click', () => {
-      this.challenge = button.dataset.challenge;
-      localStorage.setItem(`mma_challenge_${this.game.slug}`, this.challenge);
-      this.showStart();
-    }));
-    this.overlay.querySelectorAll('[data-boost]').forEach((button) => button.addEventListener('click', () => {
-      if (this.rewardPending || this._armedBoost) return;
-      this._selectedBoostId = button.dataset.boost;
-      this.showStart();
-    }));
-    this.overlay.querySelector('.mma-play-normal').onclick = () => this.start(false);
-    const boostStart = this.overlay.querySelector('.mma-boost-start');
-    if (boostStart) boostStart.onclick = () => this.start(true);
-    const rewardButton = this.overlay.querySelector('.mma-reward-btn');
-    if (rewardButton) rewardButton.onclick = () => this.requestReward(rewardButton, 'start-menu', this._selectedBoostId);
+    this.overlay.querySelectorAll('[data-challenge]').forEach(button=>button.addEventListener('click',()=>{this.challenge=button.dataset.challenge;localStorage.setItem(`mma_challenge_${this.game.slug}`,this.challenge);this.showStart()}));
+    this.overlay.querySelector('.mma-play-normal').onclick=()=>this.start(false);
   }
-
   showOver() {
-    if (this.over) return;
-    this.over = true; this.running = false; this.sound.over();
-    const outcome = this.outcome || this.raceResult || (this.completed || this.won ? 'win' : 'loss');
-    const nb = this.score > this.best; if (nb) { this.best = Math.floor(this.score); localStorage[this.bestKey] = this.best; }
-    if (window.MochiMangoSDK && window.MochiMangoSDK.reportScore) try { window.MochiMangoSDK.reportScore(this.game.slug, Math.floor(this.score)); } catch (e) {}
-    window.dispatchEvent(new CustomEvent('mma:game-over', { detail: {
-      slug: this.game.slug, score: Math.floor(this.score), combo: this.combo, outcome,
-      challenge: this.challenge, level: this.level, wave: this.wave,
-    } }));
-    const armed = this._armedBoost;
-    this.overlay.innerHTML = `<div class="mma-panel">
-      <div class="mma-medal">${nb ? '🏆' : '⭐'}</div>
-      <h2>${nb ? 'New Best!' : outcome === 'win' ? 'Victory!' : 'Run Complete'}</h2>
-      <p class="mma-final">Score <b>${Math.floor(this.score)}</b></p>
-      <div class="mma-best">Best: ${this.best}</div>
-      <div class="mma-over-actions">
-        ${armed ? '<button class="mma-btn mma-boost-start">⚡ Start boosted</button>' : this.rewardUsed ? '' : '<button class="mma-btn mma-reward-btn">🎁 Unlock a boosted restart</button>'}
-        <button class="mma-btn mma-btn-secondary">↻ Play again normally</button>
-      </div></div>`;
-    this.overlay.classList.add('show');
-    this.overlay.querySelector('.mma-btn-secondary').onclick = () => this.start(false);
-    const boostStart = this.overlay.querySelector('.mma-boost-start');
-    if (boostStart) boostStart.onclick = () => this.start(true);
-    const rewardButton = this.overlay.querySelector('.mma-reward-btn');
-    if (rewardButton) rewardButton.onclick = () => this.requestReward(rewardButton, 'game-over', this._selectedBoostId);
+    if(this.over)return;this.over=true;this.running=false;this.sound.over();
+    const outcome=this.outcome||this.raceResult||(this.completed||this.won?'win':'loss');
+    const nb=this.score>this.best;if(nb){this.best=Math.floor(this.score);localStorage[this.bestKey]=this.best}
+    window.dispatchEvent(new CustomEvent('mma:game-over',{detail:{slug:this.game.slug,score:Math.floor(this.score),combo:this.combo,outcome,challenge:this.challenge,level:this.level,wave:this.wave}}));
+    this.overlay.innerHTML=`<div class="mma-panel"><div class="mma-medal">${nb?'🏆':'⭐'}</div><h2>${nb?'New Best!':outcome==='win'?'Victory!':'Run Complete'}</h2><p class="mma-final">Score <b>${Math.floor(this.score)}</b></p><div class="mma-best">Best: ${this.best}</div><div class="mma-over-actions"><button class="mma-btn mma-btn-secondary">↻ Play again</button></div></div>`;
+    this.overlay.classList.add('show');this.overlay.querySelector('.mma-btn-secondary').onclick=()=>this.start(false);
   }
 
-  start(useArmedBoost = Boolean(this._armedBoost)) {
+  start(useArmedBoost = false) {
     const armedBoost = useArmedBoost
       ? (this._armedBoost || window.MochiMangoRewards?.peekReady?.(this.game.slug) || null)
       : null;
@@ -3932,9 +3828,9 @@ class Merge extends Base {
     this.undoGrid = null;
     this.mergesInMove = 0;
     this.bestTile = 0;
+    this.mergePops = [];
     for (let r = 0; r < this.size; r++) { this.grid[r] = []; for (let c = 0; c < this.size; c++) this.grid[r][c] = 0; }
     this._addRandom(); this._addRandom();
-    this.mergePops = [];
   }
   _addRandom() {
     const empty = [];
@@ -4056,11 +3952,11 @@ class Merge extends Base {
       4096: '#ff4f9a', 8192: '#a24dff'
     };
     const textColors = { 2: '#776e65', 4: '#776e65', 8: '#f9f6f2', 16: '#f9f6f2', 32: '#f9f6f2', 64: '#f9f6f2', 128: '#f9f6f2', 256: '#f9f6f2', 512: '#f9f6f2', 1024: '#f9f6f2', 2048: '#f9f6f2', 4096: '#f9f6f2', 8192: '#f9f6f2' };
-    for (let r = 0; r < this.size; r++) for (let c = 0; c < this.size; c++) {
-      const v = this.grid[r][c];
-      const x = pad + c * cellSize, y = pad + r * cellSize + this.H * 0.08;
+    for (let r = 0; r < this.size; r++) for (let colIndex = 0; colIndex < this.size; colIndex++) {
+      const v = this.grid[r][colIndex];
+      const x = pad + colIndex * cellSize, y = pad + r * cellSize + this.H * 0.08;
       // Check for merge pop animation
-      const pop = this.mergePops.find(p => !p.spawn && Math.abs(p.r - r) + Math.abs(p.c - c) < 1);
+      const pop = this.mergePops.find(p => !p.spawn && Math.abs(p.r - r) + Math.abs(p.c - colIndex) < 1);
       const scale = pop ? (1 + (1 - pop.life / pop.maxLife) * 0.2) : 1;
       c.save();
       if (scale !== 1) { c.translate(x + cellSize / 2, y + cellSize / 2); c.scale(scale, scale); c.translate(-x - cellSize / 2, -y - cellSize / 2); }
@@ -4077,7 +3973,7 @@ class Merge extends Base {
       }
       c.restore();
       // Spawn pop animation
-      const sp = this.mergePops.find(p => p.spawn && p.r === r && p.c === c);
+      const sp = this.mergePops.find(p => p.spawn && p.r === r && p.c === colIndex);
       if (sp) {
         c.globalAlpha = 1 - sp.life / sp.maxLife;
         c.fillStyle = '#fff'; c.beginPath(); c.arc(x + cellSize / 2, y + cellSize / 2, cellSize * 0.5 * (1 + (1 - sp.life / sp.maxLife)), 0, 7); c.fill();
@@ -4784,9 +4680,9 @@ class Pipeline extends Base {
     const cs = this.cellSize;
     c.fillStyle = 'rgba(0,0,0,.12)';
     c.fillRect(offX - 4, offY - 4, this.cols * cs + 8, this.rows * cs + 8);
-    for (let r = 0; r < this.rows; r++) for (let c = 0; c < this.cols; c++) {
-      const cell = this.grid[r][c];
-      const x = offX + c * cs + cs / 2, y = offY + r * cs + cs / 2;
+    for (let r = 0; r < this.rows; r++) for (let colIndex = 0; colIndex < this.cols; colIndex++) {
+      const cell = this.grid[r][colIndex];
+      const x = offX + colIndex * cs + cs / 2, y = offY + r * cs + cs / 2;
       const isConnected = cell.flow >= 0;
       const col = isConnected ? this.theme.accent : 'rgba(255,255,255,.25)';
       const flowAlpha = isConnected ? (0.5 + 0.5 * Math.sin(this.flowAnim + cell.flow)) : 0;
@@ -4813,10 +4709,10 @@ class Pipeline extends Base {
     }
     // Flow particles on path
     if (!this.completed) {
-      for (let r = 0; r < this.rows; r++) for (let c = 0; c < this.cols; c++) {
-        const cell = this.grid[r][c];
+      for (let r = 0; r < this.rows; r++) for (let colIndex = 0; colIndex < this.cols; colIndex++) {
+        const cell = this.grid[r][colIndex];
         if (cell.flow < 0 || cell.type === 'cross') continue;
-        const x = offX + c * cs + cs / 2, y = offY + r * cs + cs / 2;
+        const x = offX + colIndex * cs + cs / 2, y = offY + r * cs + cs / 2;
         const t = ((this.flowAnim + cell.flow * 0.3) % 1);
         c.fillStyle = 'rgba(100,200,255,' + (0.3 * (1 - t)) + ')';
         c.beginPath(); c.arc(x, y - cs * 0.35 + t * cs * 0.7, 3, 0, 7); c.fill();
