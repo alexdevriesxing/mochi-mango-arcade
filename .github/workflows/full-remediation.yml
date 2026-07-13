@@ -48,12 +48,25 @@ jobs:
         run: npm install --package-lock-only --ignore-scripts
 
       - name: Validate generated site
-        run: node scripts/validate-site.mjs
+        id: validation
+        continue-on-error: true
+        run: |
+          set +e
+          node scripts/validate-site.mjs > .github/validation-status.txt 2>&1
+          code=$?
+          echo "exit_code=$code" >> "$GITHUB_OUTPUT"
+          cat .github/validation-status.txt
+          exit $code
 
-      - name: Commit generated output
+      - name: Commit generated output and validation status
+        if: always()
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add -A
-          git commit -m "Apply full site and game remediation" || exit 0
+          git commit -m "Record remediation validation result" || exit 0
           git push origin HEAD:agent/full-site-remediation
+
+      - name: Fail when validation fails
+        if: steps.validation.outputs.exit_code != '0'
+        run: exit 1
