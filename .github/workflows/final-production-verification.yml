@@ -1,0 +1,81 @@
+name: Final production verification
+
+on:
+  pull_request:
+    branches:
+      - master
+    paths:
+      - .github/workflows/final-production-verification.yml
+      - scripts/final-production-verification.txt
+
+permissions:
+  contents: read
+
+concurrency:
+  group: final-production-verification
+  cancel-in-progress: true
+
+jobs:
+  deploy-and-audit:
+    name: Deploy final release and audit production
+    runs-on: ubuntu-latest
+    timeout-minutes: 35
+
+    steps:
+      - name: Check out final release
+        uses: actions/checkout@v4
+        with:
+          ref: agent/final-production-verification
+
+      - name: Deploy final master release to Cloudflare
+        uses: cloudflare/wrangler-action@v3
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          wranglerVersion: "4"
+          command: deploy
+
+      - name: Wait for edge propagation
+        run: sleep 15
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      - name: Install live audit browser
+        run: |
+          npm install --no-save playwright@1.55.0
+          npx playwright install --with-deps chromium
+
+      - name: Audit final production site
+        env:
+          AUDIT_BASE_URL: https://www.mochimangoarcade.com
+          RUN_BROWSER_AUDIT: '1'
+        run: node scripts/sitewide-audit.mjs
+
+      - name: Verify zero live defects
+        run: |
+          node - <<'NODE'
+          const fs=require('fs');
+          const report=JSON.parse(fs.readFileSync('audit/sitewide-latest.json','utf8'));
+          const failures=[];
+          if(report.summary?.liveFailures) failures.push(`liveFailures=${report.summary.liveFailures}`);
+          if(report.summary?.browserFailures) failures.push(`browserFailures=${report.summary.browserFailures}`);
+          if(report.summary?.browserErrors) failures.push(`browserErrors=${report.summary.browserErrors}`);
+          if(report.summary?.horizontalOverflow) failures.push(`horizontalOverflow=${report.summary.horizontalOverflow}`);
+          if(failures.length){console.error(failures.join('\n'));process.exit(1)}
+          console.log('Final production audit has zero URL, runtime, console and overflow failures.');
+          NODE
+
+      - name: Print final report
+        if: always()
+        run: cat audit/sitewide-latest.md || true
+
+      - name: Upload final report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: final-production-audit
+          path: audit/sitewide-latest.*
+          if-no-files-found: error
