@@ -2,9 +2,6 @@ from __future__ import annotations
 
 import io
 import json
-import math
-import os
-import textwrap
 from pathlib import Path
 
 import cairosvg
@@ -27,13 +24,13 @@ def font(path: str, size: int) -> ImageFont.FreeTypeFont:
 
 def gradient(size: tuple[int, int], start: tuple[int, int, int], end: tuple[int, int, int]) -> Image.Image:
     width, height = size
-    image = Image.new("RGB", size)
-    pixels = image.load()
-    for y in range(height):
-        for x in range(width):
-            t = (x / max(1, width - 1)) * 0.65 + (y / max(1, height - 1)) * 0.35
-            pixels[x, y] = tuple(round(a + (b - a) * t) for a, b in zip(start, end))
-    return image
+    strip = Image.new("RGB", (width, 1))
+    draw = ImageDraw.Draw(strip)
+    for x in range(width):
+        t = x / max(1, width - 1)
+        colour = tuple(round(a + (b - a) * t) for a, b in zip(start, end))
+        draw.point((x, 0), fill=colour)
+    return strip.resize(size, Image.Resampling.BILINEAR)
 
 
 def load_art(path_value: str) -> Image.Image | None:
@@ -52,8 +49,7 @@ def load_art(path_value: str) -> Image.Image | None:
 def fit_art(art: Image.Image, max_size: tuple[int, int]) -> Image.Image:
     max_w, max_h = max_size
     scale = min(max_w / art.width, max_h / art.height)
-    resized = art.resize((max(1, int(art.width * scale)), max(1, int(art.height * scale))), Image.Resampling.LANCZOS)
-    return resized
+    return art.resize((max(1, int(art.width * scale)), max(1, int(art.height * scale))), Image.Resampling.LANCZOS)
 
 
 def wrapped_lines(draw: ImageDraw.ImageDraw, text: str, fnt: ImageFont.FreeTypeFont, width: int, max_lines: int = 3) -> list[str]:
@@ -92,8 +88,7 @@ for game in GAMES:
     if art:
         art = fit_art(art, (470, 430))
         shadow = Image.new("RGBA", art.size, (0, 0, 0, 0))
-        alpha = art.getchannel("A")
-        shadow.putalpha(alpha.filter(ImageFilter.GaussianBlur(18)))
+        shadow.putalpha(art.getchannel("A").filter(ImageFilter.GaussianBlur(18)))
         shadow_layer = Image.new("RGBA", canvas.size, (0, 0, 0, 0))
         x = 690 + (430 - art.width) // 2
         y = 105 + (420 - art.height) // 2
@@ -107,7 +102,7 @@ for game in GAMES:
     body_font = font(FONT_REGULAR, 27)
     badge_font = font(FONT_BOLD, 23)
 
-    draw.rounded_rectangle((88, 84, 330, 132), radius=24, fill=(255, 255, 255, 235))
+    draw.rounded_rectangle((88, 84, 410, 132), radius=24, fill=(255, 255, 255, 235))
     draw.text((111, 94), "MOCHI MANGO ARCADE", font=small, fill=(63, 36, 109))
 
     y = 178
