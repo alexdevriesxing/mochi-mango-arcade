@@ -1,1 +1,2 @@
 Run the complete Mochi Mango Arcade remediation against the audited 13 July 2026 catalogue.
+Validation retry: missing standalone alias pages repaired.
