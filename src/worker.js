@@ -3,6 +3,10 @@ import { handleProfileApi } from './profile-api.js';
 const CANONICAL_HOST = 'www.mochimangoarcade.com';
 const HARDENING_SCRIPT = '<script src="/js/site-hardening.js"></script>';
 const HARDENING_STYLESHEET = '<link rel="stylesheet" href="/assets/css/hardening.css"><link rel="stylesheet" href="/assets/css/game-quality.css">';
+// Monetag rewarded/vignette loader is injected at the edge so every portal page
+// gets it without regenerating the static HTML (embedded game docs are skipped
+// by hardenHtml's isEmbeddedGameDocument guard).
+const MONETAG_LOADER_TAG = '<script src="/js/monetag-loader.js" defer></script>';
 
 function isEmbeddedGameDocument(pathname) {
   return /^\/play\/(?:[^/]+\/)?game(?:\/|$)/.test(pathname);
@@ -80,17 +84,13 @@ function hardenHtml(response, pathname) {
 
   return new HTMLRewriter()
     .on('meta[name="keywords"]', { element: element => element.remove() })
-    .on('script[src*="monetag-loader"]', { element: element => element.remove() })
-    .on('script[src*="demolishwrestconclusions.com"]', { element: element => element.remove() })
-    .on('script[src*="n6wxm.com"]', { element: element => element.remove() })
-    .on('script[src*="5gvci.com"]', { element: element => element.remove() })
     .on('script[type="application/ld+json"]', new JsonLdSanitizer())
-    .on('.ad-slot', { element: element => element.remove() })
     .on('.product-rating-row', { element: element => element.remove() })
     .on('.rating', { element: element => element.remove() })
     .on('head', {
       element(element) {
         element.append(HARDENING_STYLESHEET, { html: true });
+        element.append(MONETAG_LOADER_TAG, { html: true });
       }
     })
     .on('body', {
@@ -117,13 +117,17 @@ function withSecurityHeaders(response, url) {
       "object-src 'none'",
       "frame-ancestors 'self'",
       "form-action 'self'",
-      "script-src 'self' 'unsafe-inline' https://static.cloudflareinsights.com",
+      // Ad networks (Adsterra banners/native/social-bar, Monetag vignette) load
+      // scripts, frames and beacons from rotating third-party domains, and the
+      // banner units run inside srcdoc iframes that inherit this policy — so the
+      // fetch directives below must allow https: rather than a fixed allowlist.
+      "script-src 'self' 'unsafe-inline' https:",
       "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
       "font-src 'self' https://fonts.gstatic.com data:",
-      "img-src 'self' data: blob:",
+      "img-src 'self' data: blob: https:",
       "media-src 'self' blob:",
-      "connect-src 'self' https://cloudflareinsights.com",
-      "frame-src 'self'",
+      "connect-src 'self' https:",
+      "frame-src 'self' https:",
       "worker-src 'self' blob:",
       "manifest-src 'self'",
       'upgrade-insecure-requests'

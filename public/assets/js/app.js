@@ -124,8 +124,87 @@ function footer(){
   <div class="toast" id="toast"></div>`;
 }
 
-/* Advertising is disabled until consent, privacy and brand-safety controls are implemented. */
-const adSlot=()=>'';const adResponsive=()=>'';const adTop=()=>'';const adSide=()=>'';const adNative=()=>'';const adSkyscraper=()=>'';function mountAds(){}function mountSocialBar(){}
+/* ================= Adsterra ad units =================
+ * One entry per live Adsterra placement. `adSlot()`/`adResponsive()` only ever
+ * emit an inert <div> placeholder (real <script> tags inserted via innerHTML
+ * never execute) — mountAds() turns each placeholder into the live unit after
+ * the page HTML is in the DOM. Each unit is mounted at most once per element,
+ * and callers must not place the same unit twice on one page. */
+const AD_UNITS={
+  native:  {kind:'native', containerId:'container-15731003adb68e5841c72d781644c54c', src:'https://demolishwrestconclusions.com/15731003adb68e5841c72d781644c54c/invoke.js'},
+  social:  {kind:'social', src:'https://demolishwrestconclusions.com/96/89/82/968982935a5efce42ae73045310d4b88.js'},
+  b468x60: {kind:'banner', key:'26a2b11e2cae6cade32370e7baa140d7', w:468, h:60},
+  b300x250:{kind:'banner', key:'7b31ea2761b9b290d777ee885476f672', w:300, h:250},
+  b160x300:{kind:'banner', key:'66f8dfdd9c8f4637d8b03d6d483e7a90', w:160, h:300},
+  b160x600:{kind:'banner', key:'4be6f8b4f160d37b745dff420d456d94', w:160, h:600},
+  b320x50: {kind:'banner', key:'f29d3150200ad871305322854588825f', w:320, h:50},
+  b728x90: {kind:'banner', key:'321182c4542315a5839f21432b2ea3ca', w:728, h:90}
+};
+
+function adSlot(unit,extraClass=''){
+  const u=AD_UNITS[unit];
+  if(!u)return'';
+  if(unit==='native') return `<div class="ad-slot ad-native ${extraClass}" data-ad-unit="native"><span class="ad-label">Advertisement</span><div id="${u.containerId}" class="ad-mount"></div></div>`;
+  return `<div class="ad-slot ad-${unit} ${extraClass}" data-ad-unit="${unit}"><span class="ad-label">Advertisement</span><div class="ad-mount" style="width:${u.w}px;height:${u.h}px"></div></div>`;
+}
+function adResponsive(desktopUnit,mobileUnit,extraClass=''){
+  return `<div class="ad-slot ad-responsive ${extraClass}" data-ad-responsive="${desktopUnit},${mobileUnit}"><span class="ad-label">Advertisement</span><div class="ad-mount"></div></div>`;
+}
+const adTop=()=>adResponsive('b728x90','b320x50','ad-top');
+const adSide=()=>adSlot('b300x250','ad-side');
+const adNative=(extraClass='')=>adSlot('native','ad-native-slot '+extraClass);
+const adSkyscraper=(unit,extraClass='')=>adSlot(unit,'ad-skyscraper '+extraClass);
+
+// Each atOptions-based banner runs in its own sandboxed iframe so different
+// banner units on the same page never clobber each other's global atOptions,
+// and so their DOM insertion is scoped to a fresh, isolated document.
+function bannerSrcdoc(u){
+  return `<!doctype html><html><head><meta charset="utf-8"><style>html,body{margin:0;padding:0;overflow:hidden;background:transparent}</style></head><body>`
+    +`<script>atOptions={"key":"${u.key}","format":"iframe","height":${u.h},"width":${u.w},"params":{}};</script>`
+    +`<script src="https://demolishwrestconclusions.com/${u.key}/invoke.js"></script>`
+    +`</body></html>`;
+}
+
+function mountAds(root=document){
+  $$('[data-ad-unit],[data-ad-responsive]',root).forEach(el=>{
+    if(el.dataset.mounted)return;
+    let unit=el.dataset.adUnit;
+    if(!unit&&el.dataset.adResponsive){
+      const [desktop,mobile]=el.dataset.adResponsive.split(',');
+      unit=window.matchMedia('(min-width:821px)').matches?desktop:mobile;
+    }
+    const u=AD_UNITS[unit];
+    if(!u)return;
+    // never fire a request into a hidden slot (mobile-collapsed skyscrapers etc.) —
+    // avoids wasted/invalid-traffic impressions and matches ad-network policy.
+    const style=getComputedStyle(el);
+    if(style.display==='none'||el.offsetParent===null)return;
+    el.dataset.mounted='1';
+    const mount=el.querySelector('.ad-mount')||el;
+    if(u.kind==='banner'){
+      const iframe=document.createElement('iframe');
+      iframe.title='Advertisement';
+      iframe.loading='lazy';
+      iframe.setAttribute('scrolling','no');
+      iframe.style.cssText=`width:${u.w}px;height:${u.h}px;border:0;display:block;max-width:100%`;
+      iframe.srcdoc=bannerSrcdoc(u);
+      mount.appendChild(iframe);
+    }else if(u.kind==='native'){
+      const s=document.createElement('script');
+      s.async=true;
+      s.setAttribute('data-cfasync','false');
+      s.src=u.src;
+      mount.after(s);
+    }
+  });
+}
+function mountSocialBar(){
+  if(window.__mmaSocialMounted)return;
+  window.__mmaSocialMounted=true;
+  const s=document.createElement('script');
+  s.src=AD_UNITS.social.src;
+  document.body.appendChild(s);
+}
 
 function gameCard(g){
   let img = g.image || `/assets/images/games/${g.slug}.jpg`;
@@ -1006,7 +1085,17 @@ function rewardBenefit(g) {
   return '+1 life, a 12-second shield and double score';
 }
 
-function rewardCard(){return ''}
+function rewardCard(g) {
+  return `<section class="reward-card" data-reward-panel data-slug="${g.slug}">
+    <div class="reward-card-icon" aria-hidden="true">🎁</div>
+    <div class="reward-card-copy">
+      <span class="reward-kicker">Optional rewarded boost</span>
+      <strong>${rewardBenefit(g)}</strong>
+      <span class="reward-status" aria-live="polite">Visit our sponsor, then return to unlock your boost.</span>
+    </div>
+    <button class="btn reward-ad-button" type="button" data-reward-ad data-slug="${g.slug}">Visit sponsor & unlock</button>
+  </section>`;
+}
 
 function playPage(sl){
   let g=S.games.find(x=>x.slug==sl)||S.games[0];
@@ -1563,6 +1652,7 @@ function render(){
   applyI18n();
   bindArcadeEvents();
   bindRewardButtons();
+  mountAds();
   if(p=='play'&&sl&&!IFRAME_GAMES.includes(sl))mountEngine(sl);
   if(location.hash)setTimeout(()=>$(location.hash)?.scrollIntoView({behavior:'smooth'}),120);
 }
@@ -1575,5 +1665,6 @@ async function boot(){
     J('/assets/data/i18n.json')
   ]);
   render();
+  mountSocialBar();
 }
 boot();

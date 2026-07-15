@@ -63,7 +63,7 @@
   function patchDom() {
     patchQueued = false;
 
-    document.querySelectorAll('.ad-slot,.reward-card,.product-rating-row,.rating,.stars,.spark').forEach(element => element.remove());
+    document.querySelectorAll('.product-rating-row,.rating,.stars,.spark').forEach(element => element.remove());
     document.querySelectorAll('.add-cart,#cartOpen,.header-cart-btn,.cart-drawer,.shop-limited-drop-banner,.merch-promo-banner').forEach(element => element.remove());
     document.querySelectorAll('.social-icons,.newsletter').forEach(element => element.remove());
 
@@ -76,7 +76,7 @@
     });
 
     document.querySelectorAll('button').forEach(button => {
-      if (/checkout|shop all bundles|add to cart|visit sponsor/i.test(button.textContent || '')) button.remove();
+      if (/checkout|shop all bundles|add to cart/i.test(button.textContent || '')) button.remove();
     });
 
     document.querySelectorAll('a[href="/shop/"]').forEach(link => {

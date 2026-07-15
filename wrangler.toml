@@ -4,9 +4,11 @@ main = "src/worker.js"
 assets = { directory = "./public", binding = "ASSETS", not_found_handling = "404-page", html_handling = "force-trailing-slash", run_worker_first = true }
 workers_dev = true
 
+# www first: wrangler dev simulates the first route's hostname, and the worker
+# 301s the apex to www — apex-first makes every local request redirect forever.
 routes = [
-  { pattern = "mochimangoarcade.com", custom_domain = true },
-  { pattern = "www.mochimangoarcade.com", custom_domain = true }
+  { pattern = "www.mochimangoarcade.com", custom_domain = true },
+  { pattern = "mochimangoarcade.com", custom_domain = true }
 ]
 
 [observability]

@@ -6,7 +6,6 @@ const root=process.cwd();
 const publicDir=path.join(root,'public');
 const games=JSON.parse(fs.readFileSync(path.join(publicDir,'assets/data/games.json'),'utf8'));
 const errors=[];
-const badHosts=['demolishwrestconclusions.com','n6wxm.com','5gvci.com'];
 const seen=new Set();
 for(const game of games){
   if(seen.has(game.slug))errors.push(`Duplicate slug: ${game.slug}`);seen.add(game.slug);
@@ -20,9 +19,19 @@ for(const target of ['public/assets/js/app.js','public/assets/js/mmengine.js','p
   const result=spawnSync(process.execPath,['--check',path.join(root,target)],{encoding:'utf8'});
   if(result.status!==0)errors.push(`${target}: ${result.stderr||result.stdout}`);
 }
-for(const target of ['public/assets/js/app.js','public/assets/js/mmengine.js','public/js/monetag-loader.js']){
+// Monetization is a product requirement: fail fast if the ad integration is
+// ever stripped again (this exact regression shipped once via an automated
+// remediation pass — see repo history around commits 0c16688/7e8ea6f).
+const adRequirements=[
+  ['public/assets/js/app.js','demolishwrestconclusions.com','Adsterra AD_UNITS catalog'],
+  ['public/assets/js/app.js','function mountAds','Adsterra mountAds()'],
+  ['public/js/monetag-loader.js',"VIGNETTE_ZONE = '11269408'",'Monetag vignette zone'],
+  ['public/js/monetag-loader.js','MochiMangoRewards','Monetag rewarded bridge'],
+  ['src/worker.js','monetag-loader.js','edge injection of Monetag loader']
+];
+for(const [target,needle,label] of adRequirements){
   const text=fs.readFileSync(path.join(root,target),'utf8');
-  for(const host of badHosts)if(text.includes(host))errors.push(`${target}: residual blocked host ${host}`);
+  if(!text.includes(needle))errors.push(`${target}: missing ${label} (ad integration must stay live)`);
 }
 const sitemap=fs.readFileSync(path.join(publicDir,'sitemap.xml'),'utf8');
 for(const game of games){
