@@ -166,6 +166,9 @@ function bannerSrcdoc(u){
 }
 
 function mountAds(root=document){
+  // Adsterra policy: each unit's script may run at most once per page. Templates
+  // are audited for this, and this Set enforces it at runtime as a hard stop.
+  const mountedUnits=new Set($$('[data-mounted]').map(el=>el.dataset.mounted));
   $$('[data-ad-unit],[data-ad-responsive]',root).forEach(el=>{
     if(el.dataset.mounted)return;
     let unit=el.dataset.adUnit;
@@ -175,11 +178,13 @@ function mountAds(root=document){
     }
     const u=AD_UNITS[unit];
     if(!u)return;
+    if(mountedUnits.has(unit))return;
     // never fire a request into a hidden slot (mobile-collapsed skyscrapers etc.) —
     // avoids wasted/invalid-traffic impressions and matches ad-network policy.
     const style=getComputedStyle(el);
     if(style.display==='none'||el.offsetParent===null)return;
-    el.dataset.mounted='1';
+    mountedUnits.add(unit);
+    el.dataset.mounted=unit;
     const mount=el.querySelector('.ad-mount')||el;
     if(u.kind==='banner'){
       const iframe=document.createElement('iframe');
@@ -605,6 +610,7 @@ function charsPage(){
         ${sortedChars.map(([c,n])=>charCard(c,n)).join('')}
       </div>
     </section>
+    ${adSlot('b468x60')}
   </main>`;
 }
 
@@ -654,9 +660,10 @@ function home(){
         <div class="promo-card why-play-card">
           <img src="/assets/images/home_why_play_card.jpg" alt="Why Play" class="why-play-img">
         </div>
+        ${adSkyscraper('b160x600')}
       </aside>
     </div>
-    
+
     ${section('featuredGames',f)}
 
     ${adNative()}
@@ -672,7 +679,9 @@ function home(){
     </section>
     
     ${section('newThisWeek',n,'✨','/new-releases/')}
-    
+
+    ${adSlot('b468x60')}
+
     <section class="section">
       <div class="section-head">
         <h2><span class="emoji">🔥</span> <span data-i18n="trendingCharacters">${t('trendingCharacters')}</span></h2>
@@ -715,6 +724,7 @@ function gamesPage(){
         </div>
         <button class="btn secondary small clear-filters" id="clearGames" data-i18n="clearFilters">${t('clearFilters')}</button>
         ${adSkyscraper('b160x600')}
+        ${adSkyscraper('b160x300')}
       </aside>
       <section>
         <div class="toolbar">
@@ -728,6 +738,7 @@ function gamesPage(){
         </div>
         ${adNative()}
         <div id="gamesGrid" class="grid game-grid"></div>
+        ${adSlot('b468x60')}
       </section>
     </div>
   </main>`;
@@ -742,14 +753,14 @@ function universesPage(){
     </section>
     <div class="grid universe-grid">${Object.entries(S.universes).map(([k,u])=>universeCard(k,u)).join('')}</div>
     ${adNative()}
-    ${Object.entries(S.universes).map(([k,u])=>`<section id="${k}" class="section">
+    ${Object.entries(S.universes).map(([k,u],i)=>`<section id="${k}" class="section">
       <div class="section-head">
         <h2>${u.name}</h2>
         <span class="chip" style="pointer-events:none">${S.games.filter(g=>g.universe==k).length} games</span>
       </div>
       <p style="color:var(--muted); font-weight:700; margin-bottom:16px;">${u.description}</p>
       <div class="grid game-grid">${S.games.filter(g=>g.universe==k).slice(0,4).map(gameCard).join('')}</div>
-    </section>`).join('')}
+    </section>${i===1?adSlot('b468x60'):''}${i===3?adSlot('b300x250'):''}`).join('')}
   </main>`;
 }
 
@@ -846,6 +857,7 @@ function shopPage(){
 
         <button class="btn secondary small clear-filters" id="clearProducts" data-i18n="clearFilters">${t('clearFilters')}</button>
         ${adSkyscraper('b160x300')}
+        ${adSkyscraper('b160x600')}
       </aside>
 
       <section>
@@ -862,6 +874,7 @@ function shopPage(){
         </div>
         ${adNative()}
         <div id="productsGrid" class="grid product-grid"></div>
+        ${adSlot('b468x60')}
       </section>
     </div>
 
@@ -888,6 +901,7 @@ function newPage(){
     </section>
     ${adNative()}
     <div class="grid game-grid">${S.games.filter(g=>g.new).map(gameCard).join('')}</div>
+    ${adSlot('b300x250')}
   </main>`;
 }
 
@@ -914,6 +928,7 @@ function aboutPage(){
         </div>
       </div>
     </section>
+    ${adNative()}
     ${adSlot('b468x60')}
   </main>`;
 }
@@ -925,7 +940,15 @@ function leaderboardPage(){
     return {game,best:Number(mastery.best)||0,medals:Number(campaign.medals)||0};
   }).filter(item=>item.best>0||item.medals>0).sort((a,b)=>b.best-a.best||b.medals-a.medals).slice(0,50);
   const rows=saved.map((item,index)=>`<a class="leader-row" href="${item.game.playUrl}"><div class="rank">#${index+1}</div><div><strong>${item.game.title}</strong><div class="meta"><span>${item.game.genre}</span><span>${item.medals} medals</span></div></div><div class="hide-sm" style="font-weight:900;color:var(--purple)">${item.best.toLocaleString()}</div><div class="hide-sm" style="font-weight:800;color:var(--muted)">personal best</div></a>`);
-  return `<main id="main" class="container"><section class="page-hero"><h1 data-i18n="leaderboards">${t('leaderboards')}</h1><p>Your private on-device high scores and campaign medals. Nothing is invented and no account is required.</p></section>${rows.length?rows.join(''):'<div class="empty">Play a game to create your personal leaderboard.</div>'}</main>`;
+  const topRows=rows.slice(0,10).join(''),restRows=rows.slice(10).join('');
+  return `<main id="main" class="container">
+    ${adTop()}
+    <section class="page-hero"><h1 data-i18n="leaderboards">${t('leaderboards')}</h1><p>Your private on-device high scores and campaign medals. Nothing is invented and no account is required.</p></section>
+    ${rows.length?topRows:'<div class="empty">Play a game to create your personal leaderboard.</div>'}
+    ${adSlot('b468x60','leader-ad')}
+    ${restRows}
+    ${adNative()}
+  </main>`;
 }
 
 function adMapPage(){
@@ -933,13 +956,13 @@ function adMapPage(){
   // this page intentionally does NOT call adTop()/adSide()/adNative(), since
   // those reuse the same keys shown explicitly below (no unit repeats here).
   const showcase=[
-    ['native','Native Banner','In-feed card that blends with site content. Live on: Home, Games, Universes, Characters, Shop, New Releases, Play, Leaderboards.'],
-    ['b728x90','Leaderboard 728×90','Top-of-page banner on desktop screens ≥820px.'],
+    ['native','Native Banner','In-feed card that blends with site content. Live on every major page: Home, Games, Universes, Characters, Shop, New Releases, About, Leaderboards, Game Detail, Play and Product.'],
+    ['b728x90','Leaderboard 728×90','Top-of-page banner on desktop screens ≥820px — one per page, site-wide.'],
     ['b320x50','Mobile Banner 320×50','Top-of-page banner on mobile — swaps in automatically for the 728×90 below 820px.'],
-    ['b300x250','Medium Rectangle 300×250','Sidebar placement on Home, Game Detail, Play and Product pages.'],
-    ['b160x600','Wide Skyscraper 160×600','Sidebar slot next to the filters on the Games page (desktop only).'],
-    ['b160x300','Half Banner 160×300','Sidebar slot next to the filters on the Shop page (desktop only).'],
-    ['b468x60','Banner 468×60','Slim inline banner on the About page and mid-way down the Leaderboard.']
+    ['b300x250','Medium Rectangle 300×250','Sidebar on Home, Game Detail, Play and Product; inline on Universes and New Releases.'],
+    ['b160x600','Wide Skyscraper 160×600','Desktop-only rail slot on Home, Games & Shop filters, Game Detail, Play and Product sidebars.'],
+    ['b160x300','Half Banner 160×300','Desktop-only rail slot next to the filters on the Games and Shop pages.'],
+    ['b468x60','Banner 468×60','Slim inline banner on Home, Games, Characters, Shop, About, Universes, Leaderboard, Game Detail, Play and Product.']
   ];
   return `<main id="main" class="container">
     <section class="page-hero">
@@ -961,16 +984,46 @@ function adMapPage(){
   </main>`;
 }
 
+const LEGAL_COPY={
+  privacy:{
+    intro:'This policy explains what information Mochi Mango Arcade handles, why it is used, and the choices available to you.',
+    sections:[
+      ['Information we handle',`You can play the core arcade without an account. If you create a player profile, we process the display name, username, email address and password you provide. Passwords are stored as one-way hashes rather than readable text. We also associate profile choices, achievements, game scores and reward events with your account.`],
+      ['Device data and local storage',`The site stores selected language, cart contents and some game preferences or progress in your browser's local storage. You can clear this data through your browser settings. Essential session cookies are used to keep signed-in players authenticated.`],
+      ['Public profiles',`A profile's display name, username, avatar, achievements and selected game scores may be visible when its public profile link is shared. Email addresses, password data and session credentials are not shown on public profiles.`],
+      ['Advertising and external services',`Mochi Mango Arcade is ad-supported. Advertising providers and linked external services may receive technical information such as IP address, browser details, device identifiers, referral page and interaction data, and may use cookies or similar technologies under their own privacy policies. Browser privacy controls and content blockers may limit this processing, though some features may then work differently.`],
+      ['How information is used',`Information is used to operate and secure the arcade, maintain player sessions, save profile progress, award achievements, prevent abuse, diagnose errors and improve the service. We do not sell profile account details as a contact list.`],
+      ['Children and families',`The games use family-friendly themes, but the site includes advertising and links to external services. Parents or guardians should supervise younger players. A child who cannot consent to account processing under local law should not create a profile without permission from a parent or guardian.`],
+      ['Your choices',`You may play without a profile, sign out at any time, clear local browser data, and use browser controls for cookies and site storage. To ask about access, correction or deletion of profile information, contact Fire Dragon Interactive through its official website.`],
+      ['Security and changes',`We use reasonable technical and organisational safeguards, but no online service can guarantee absolute security. This policy may be updated as the arcade changes; the revision date below will be updated when material changes are made.`]
+    ]
+  },
+  terms:{
+    intro:'These terms govern access to Mochi Mango Arcade, its games, player profiles and related site features.',
+    sections:[
+      ['Using the arcade',`Mochi Mango Arcade grants you a personal, limited, non-exclusive and revocable right to use the site and play its games for lawful, non-commercial entertainment. You are responsible for your device, connection and compliance with local law.`],
+      ['Profiles and account security',`Profile information must be accurate and your username must not impersonate another person, infringe rights or contain abusive material. Keep your password private and notify Fire Dragon Interactive if you believe your account has been compromised. Public profile details, achievements and selected scores may be visible to anyone with the profile link.`],
+      ['Fair play and acceptable conduct',`Do not disrupt the service, bypass security, automate fraudulent ad or reward interactions, manipulate scores, upload malicious code, scrape at a harmful rate, harass other users or use the site to violate another person's rights. We may remove scores, restrict features or suspend profiles used for abuse.`],
+      ['Games, characters and site content',`The games, characters, artwork, branding, text, audio and software are owned by Fire Dragon Interactive or its licensors and are protected by intellectual-property laws. These terms do not transfer ownership or permit resale, redistribution, reverse engineering or creation of misleading unofficial products.`],
+      ['Advertising, rewards and external links',`The site may show pre-roll, display and rewarded advertising. Reward availability is not guaranteed, and rewards have no cash value. External sites and advertising providers operate under their own terms; visiting them is optional and at your own risk.`],
+      ['Merch and purchases',`Product pages and cart features may be offered for convenience. A purchase is not complete until a supported checkout confirms the order and presents its price, delivery, return and payment terms. Cart contents stored on your device do not create an order or reservation.`],
+      ['Availability and disclaimers',`We aim to keep the arcade reliable, but games and features may change, pause or be removed. The service is provided on an "as available" basis to the extent permitted by law, without a promise that every device, browser, score or saved state will always remain compatible or available.`],
+      ['Responsibility and updates',`To the extent permitted by law, Fire Dragon Interactive is not responsible for indirect or consequential loss caused by use of the site or an external service. Nothing in these terms excludes rights that cannot legally be excluded. We may update these terms as features change; continued use after an update means the revised terms apply.`]
+    ]
+  }
+};
+
 function legal(kind){
-  return `<main id="main" class="container">
-    <section class="page-hero">
+  const copy=LEGAL_COPY[kind]||LEGAL_COPY.terms;
+  return `<main id="main" class="container legal-page">
+    <nav class="crumbs" aria-label="Breadcrumb"><a href="/">Home</a> › <span>${t(kind)}</span></nav>
+    <article class="detail-card legal-copy">
       <h1 data-i18n="${kind}">${t(kind)}</h1>
-      <p>Placeholder legal page. Replace with reviewed legal copy before launch.</p>
-    </section>
-    <div class="detail-card">
-      <h2>Draft placeholder</h2>
-      <p>Add final privacy, cookie, advertising, ecommerce and child-safety terms before production.</p>
-    </div>
+      <p class="lead">${copy.intro}</p>
+      <p class="legal-updated"><strong>Last updated:</strong> 15 July 2026</p>
+      ${copy.sections.map(([title,text])=>`<section><h2>${title}</h2><p>${text}</p></section>`).join('')}
+      <section><h2>Contact</h2><p>Questions about these terms can be sent to <a href="https://www.firedragoninteractive.com" target="_blank" rel="noopener noreferrer">Fire Dragon Interactive</a>.</p></section>
+    </article>
   </main>`;
 }
 
@@ -1005,6 +1058,7 @@ function gameDetail(sl){
           <h2>Related Games</h2>
           <div class="grid game-grid">${rel.map(gameCard).join('')}</div>
         </section>
+        ${adSlot('b468x60')}
       </section>
       <aside class="side-stack">
         ${adSide()}
@@ -1012,10 +1066,7 @@ function gameDetail(sl){
           <h3>Merch Hook</h3>
           <p>${g.merchHook}</p>
         </div>
-        <div class="promo-card">
-          <h3>Build Notes</h3>
-          <p>Engine template: ${g.engine}. Replace play shell with actual HTML5 bundle later.</p>
-        </div>
+        ${adSkyscraper('b160x600')}
       </aside>
     </div>
   </main>`;
@@ -1124,6 +1175,7 @@ function playPage(sl){
           </div>
           ${rewardCard(g)}
           ${adNative('post-game-ad')}
+          ${adSlot('b468x60')}
         </section>
         <aside class="side-stack">
           ${adSide()}
@@ -1151,6 +1203,7 @@ function playPage(sl){
           </div>
           ${rewardCard(g)}
           ${adNative('post-game-ad')}
+          ${adSlot('b468x60')}
         </section>
         <aside class="side-stack">
           ${adSide()}
@@ -1217,6 +1270,7 @@ function playPage(sl){
           <a class="btn secondary small" href="/games/">🎮 More games</a>
           <a class="btn secondary small" href="/shop/">🛍️ ${g.mascot} merch</a>
         </div>
+        ${adSlot('b468x60')}
       </section>
       <aside class="side-stack">
         ${adSide()}
@@ -1229,6 +1283,7 @@ function playPage(sl){
           <h3>Merch Hook</h3>
           <p>${g.merchHook}</p>
         </div>
+        ${adSkyscraper('b160x600')}
       </aside>
     </div>
   </main>`;
@@ -1393,13 +1448,15 @@ function productPage(id){
           <h2>More Merch</h2>
           <div class="grid product-grid">${rel.map(productCard).join('')}</div>
         </section>
+        ${adSlot('b468x60')}
       </section>
       <aside class="side-stack">
         ${adSide()}
         <div class="promo-card">
-          <h3>Checkout placeholder</h3>
-          <p>Connect Shopify, WooCommerce, Snipcart, Medusa, Stripe or a Cloudflare backend later.</p>
+          <h3>Concept preview</h3>
+          <p>Merch is shown as a preview of planned products — purchasing opens once the official store launches.</p>
         </div>
+        ${adSkyscraper('b160x600')}
       </aside>
     </div>
   </main>`;

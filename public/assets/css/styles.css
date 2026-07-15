@@ -777,6 +777,45 @@ img {
 /* -------- Build-time (pre-hydration / no-JS) SEO content -------- */
 .crumbs { font-size: 13px; color: var(--muted); margin: 16px 0; }
 .crumbs a { color: var(--purple); text-decoration: none; }
+
+.legal-page {
+  max-width: 980px;
+  padding-top: 10px;
+  padding-bottom: 48px;
+}
+
+.legal-copy {
+  padding: clamp(24px, 5vw, 52px);
+}
+
+.legal-copy h1 {
+  font-size: clamp(34px, 5vw, 52px);
+  margin-bottom: 12px;
+}
+
+.legal-copy .lead {
+  color: var(--muted);
+  font-size: 18px;
+  line-height: 1.65;
+}
+
+.legal-updated {
+  margin: 16px 0 28px;
+  color: var(--muted);
+}
+
+.legal-copy section + section {
+  margin-top: 26px;
+}
+
+.legal-copy h2 {
+  font-size: 22px;
+  margin-bottom: 8px;
+}
+
+.legal-copy p {
+  line-height: 1.75;
+}
 .seo-article, .seo-hero { max-width: 820px; margin: 12px auto 40px; }
 .seo-article h1, .seo-hero h1 { color: var(--ink); margin: 12px 0; }
 .seo-article h2 { color: var(--ink); margin: 24px 0 8px; font-size: 20px; }

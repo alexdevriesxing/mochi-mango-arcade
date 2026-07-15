@@ -67,6 +67,9 @@ jobs:
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add .github/deployment-status.json
           git commit -m "Record Cloudflare deployment result" || exit 0
+          # wrangler-action leaves lockfile noise in the working tree; a dirty
+          # tree makes `git pull --rebase` abort, so drop it before syncing.
+          git checkout -- .
           git pull --rebase origin master
           git push origin HEAD:master
 
