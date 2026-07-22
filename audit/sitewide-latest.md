@@ -1,14 +1,14 @@
 # Mochi Mango Arcade — Sitewide & Game Quality Audit
 
-Generated: 2026-07-22T21:07:55.434Z  
-Source: `0c6a7fdbfd7463802fca4b0cf7f4d80a5b83d84b`  
+Generated: 2026-07-22T21:14:06.259Z  
+Source: `243f56556c17973dfaaacc429acb430554410d85`  
 Live target: https://www.mochimangoarcade.com
 
 ## Executive summary
 
 - **395 games**, **34 shared engines**, **15 universes**.
 - **5 bespoke bundles** versus **390 shared-runtime games**.
-- **803 live URLs checked**; **0 failures**. Median **57 ms**, p95 **101 ms**.
+- **803 live URLs checked**; **0 failures**. Median **96 ms**, p95 **151 ms**.
 - **46 browser play tests**; **0 runtime failures**, **0 tests with errors**.
 - Health endpoint: **200**. Unknown route: **404** (expected 404).
 - Exact duplicate descriptions: **0**.
@@ -21,19 +21,19 @@ The largest opportunity is depth, not catalogue size. Shared engines are useful 
 
 | Path | Status | ms | Result |
 |---|---:|---:|---|
-| / | 200 | 166 | OK |
-| /api/health | 200 | 87 | OK |
-| /games/ | 200 | 104 | OK |
-| /universes/ | 200 | 100 | OK |
-| /characters/ | 200 | 99 | OK |
-| /new-releases/ | 200 | 99 | OK |
-| /about/ | 200 | 87 | OK |
-| /robots.txt | 200 | 93 | OK |
-| /sitemap.xml | 200 | 50 | OK |
-| /llms.txt | 200 | 30 | OK |
-| /manifest.webmanifest | 200 | 35 | OK |
-| /sw.js | 200 | 29 | OK |
-| /audit-not-found-1784754386087/ | 404 | 32 | Failed |
+| / | 200 | 226 | OK |
+| /api/health | 200 | 174 | OK |
+| /games/ | 200 | 253 | OK |
+| /universes/ | 200 | 222 | OK |
+| /characters/ | 200 | 256 | OK |
+| /new-releases/ | 200 | 234 | OK |
+| /about/ | 200 | 230 | OK |
+| /robots.txt | 200 | 173 | OK |
+| /sitemap.xml | 200 | 55 | OK |
+| /llms.txt | 200 | 71 | OK |
+| /manifest.webmanifest | 200 | 77 | OK |
+| /sw.js | 200 | 91 | OK |
+| /audit-not-found-1784754750274/ | 404 | 59 | Failed |
 
 ## Engine improvement roadmap
 
@@ -91,43 +91,43 @@ The largest opportunity is depth, not catalogue size. Shared engines are useful 
 | 11 | AstroMochi: Planet Hop | runner | 34 | Shared runner runtime used by 55 games |
 | 12 | The Donut Dragon Derby | runner | 34 | Shared runner runtime used by 55 games |
 | 13 | Tika Tiger: Traffic Tango | runner | 34 | Shared runner runtime used by 55 games |
-| 14 | Finnick Firefly’s Night Garden | puzzle | 33 | Shared puzzle runtime used by 66 games |
-| 15 | Hector Hotdog’s Stadium Sprint | puzzle | 33 | Shared puzzle runtime used by 66 games |
-| 16 | Madame Fortuna's Crystal Cascade | puzzle | 33 | Shared puzzle runtime used by 66 games |
-| 17 | Morpheus's Dreamlight Memory | puzzle | 33 | Shared puzzle runtime used by 66 games |
-| 18 | Morpheus's Pillow Tower | puzzle | 33 | Shared puzzle runtime used by 66 games |
-| 19 | Puddle & Pip: Memory Meadow | puzzle | 33 | Shared puzzle runtime used by 66 games |
-| 20 | Puddle & Pip: Pillow Fort Frenzy | puzzle | 33 | Shared puzzle runtime used by 66 games |
-| 21 | Skyrail Stunt Squad | runner | 33 | Shared runner runtime used by 55 games |
-| 22 | The Clockwork Cupcake Factory | puzzle | 33 | Shared puzzle runtime used by 66 games |
-| 23 | The Spaghetti Yeti | puzzle | 33 | Shared puzzle runtime used by 66 games |
-| 24 | Umbra's Midnight Dash | runner | 33 | Shared runner runtime used by 55 games |
-| 25 | Umbra’s Shadow Paw Heist | puzzle | 33 | Shared puzzle runtime used by 66 games |
-| 26 | Bramble Bear's Beehive Defense | arcade | 32 | Shared arcade runtime used by 64 games |
-| 27 | Bubblesaurus Bath Time | arcade | 32 | Shared arcade runtime used by 64 games |
-| 28 | Captain Cornflake’s Cereal Sea | arcade | 32 | Shared arcade runtime used by 64 games |
-| 29 | Nine Gates: Palace of Winds | puzzle | 32 | Shared puzzle runtime used by 66 games |
-| 30 | Pearl Pegasus Cloud Rescue | arcade | 32 | Shared arcade runtime used by 64 games |
-| 31 | Pip's Firefly Flight | arcade | 32 | Shared arcade runtime used by 64 games |
-| 32 | Puddle & Pip: Acorn Airlift | arcade | 32 | Shared arcade runtime used by 64 games |
-| 33 | The Sock Goblin Grand Hotel | arcade | 32 | Shared arcade runtime used by 64 games |
-| 34 | Umbra's Moonlit Labyrinth | arcade | 32 | Shared arcade runtime used by 64 games |
-| 35 | Umbra's Shadow Blast | arcade | 32 | Shared arcade runtime used by 64 games |
-| 36 | Bloop’s Alien Aquarium | arcade | 31 | Shared arcade runtime used by 64 games |
-| 37 | Lady Lemon’s Sour Castle | arcade | 31 | Shared arcade runtime used by 64 games |
-| 38 | Nine Gates Dragon Boat Dash | arcade | 31 | Shared arcade runtime used by 64 games |
-| 39 | Pip & The Cloud Kites | arcade | 31 | Shared arcade runtime used by 64 games |
-| 40 | Pip’s Sky Parcel Service | arcade | 31 | Shared arcade runtime used by 64 games |
-| 41 | Puddle’s Pajama Parade | arcade | 31 | Shared arcade runtime used by 64 games |
-| 42 | Umbra’s Moonlight Maze | arcade | 31 | Shared arcade runtime used by 64 games |
-| 43 | Bamboo Sprint | runner | 30 | Shared runner runtime used by 55 games |
-| 44 | Baxter Bean & The Coffee Comets | runner | 30 | Shared runner runtime used by 55 games |
-| 45 | Cassette Courier | runner | 30 | Shared runner runtime used by 55 games |
-| 46 | Chef BaoBao’s Midnight Noodle Run | runner | 30 | Shared runner runtime used by 55 games |
-| 47 | Circuit Courier Rush | runner | 30 | Shared runner runtime used by 55 games |
-| 48 | Frida Foxglove’s Potion Park | runner | 30 | Shared runner runtime used by 55 games |
-| 49 | Glitch Garden | match3 | 30 | Template depth and differentiation |
-| 50 | Gummy Galaxy Dash | runner | 30 | Shared runner runtime used by 55 games |
+| 14 | Chester Cheese: Maze of Mice | arcade | 33 | Shared arcade runtime used by 64 games; Slow play response (3064 ms) |
+| 15 | Finnick Firefly’s Night Garden | puzzle | 33 | Shared puzzle runtime used by 66 games |
+| 16 | Hector Hotdog’s Stadium Sprint | puzzle | 33 | Shared puzzle runtime used by 66 games |
+| 17 | Madame Fortuna's Crystal Cascade | puzzle | 33 | Shared puzzle runtime used by 66 games |
+| 18 | Morpheus's Dreamlight Memory | puzzle | 33 | Shared puzzle runtime used by 66 games |
+| 19 | Morpheus's Pillow Tower | puzzle | 33 | Shared puzzle runtime used by 66 games |
+| 20 | Puddle & Pip: Memory Meadow | puzzle | 33 | Shared puzzle runtime used by 66 games |
+| 21 | Puddle & Pip: Pillow Fort Frenzy | puzzle | 33 | Shared puzzle runtime used by 66 games |
+| 22 | Rumi Rabbit’s Moon Bakery | arcade | 33 | Shared arcade runtime used by 64 games; Slow play response (3200 ms) |
+| 23 | Skyrail Stunt Squad | runner | 33 | Shared runner runtime used by 55 games |
+| 24 | The Clockwork Cupcake Factory | puzzle | 33 | Shared puzzle runtime used by 66 games |
+| 25 | The Spaghetti Yeti | puzzle | 33 | Shared puzzle runtime used by 66 games |
+| 26 | Umbra's Midnight Dash | runner | 33 | Shared runner runtime used by 55 games |
+| 27 | Umbra’s Shadow Paw Heist | puzzle | 33 | Shared puzzle runtime used by 66 games |
+| 28 | Bramble Bear's Beehive Defense | arcade | 32 | Shared arcade runtime used by 64 games |
+| 29 | Bubblesaurus Bath Time | arcade | 32 | Shared arcade runtime used by 64 games |
+| 30 | Captain Cornflake’s Cereal Sea | arcade | 32 | Shared arcade runtime used by 64 games |
+| 31 | Nine Gates: Palace of Winds | puzzle | 32 | Shared puzzle runtime used by 66 games |
+| 32 | Pearl Pegasus Cloud Rescue | arcade | 32 | Shared arcade runtime used by 64 games |
+| 33 | Pip's Firefly Flight | arcade | 32 | Shared arcade runtime used by 64 games |
+| 34 | Puddle & Pip: Acorn Airlift | arcade | 32 | Shared arcade runtime used by 64 games |
+| 35 | The Sock Goblin Grand Hotel | arcade | 32 | Shared arcade runtime used by 64 games |
+| 36 | Umbra's Moonlit Labyrinth | arcade | 32 | Shared arcade runtime used by 64 games |
+| 37 | Umbra's Shadow Blast | arcade | 32 | Shared arcade runtime used by 64 games |
+| 38 | Bloop’s Alien Aquarium | arcade | 31 | Shared arcade runtime used by 64 games |
+| 39 | Lady Lemon’s Sour Castle | arcade | 31 | Shared arcade runtime used by 64 games |
+| 40 | Nine Gates Dragon Boat Dash | arcade | 31 | Shared arcade runtime used by 64 games |
+| 41 | Pip & The Cloud Kites | arcade | 31 | Shared arcade runtime used by 64 games |
+| 42 | Pip’s Sky Parcel Service | arcade | 31 | Shared arcade runtime used by 64 games |
+| 43 | Puddle’s Pajama Parade | arcade | 31 | Shared arcade runtime used by 64 games |
+| 44 | Umbra’s Moonlight Maze | arcade | 31 | Shared arcade runtime used by 64 games |
+| 45 | Bamboo Sprint | runner | 30 | Shared runner runtime used by 55 games |
+| 46 | Baxter Bean & The Coffee Comets | runner | 30 | Shared runner runtime used by 55 games |
+| 47 | Cassette Courier | runner | 30 | Shared runner runtime used by 55 games |
+| 48 | Chef BaoBao’s Midnight Noodle Run | runner | 30 | Shared runner runtime used by 55 games |
+| 49 | Circuit Courier Rush | runner | 30 | Shared runner runtime used by 55 games |
+| 50 | Frida Foxglove’s Potion Park | runner | 30 | Shared runner runtime used by 55 games |
 
 ## Browser play tests
 
