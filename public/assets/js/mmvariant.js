@@ -51,6 +51,12 @@ const TWISTS = {
     { id: 'colourdrain', name: 'Colour Drain', blurb: 'Starts on the full palette and loses a colour every 25 seconds. Late boards cascade, but options vanish.' },
     { id: 'bombrush', name: 'Bomb Rush', blurb: 'Every fifth match drops a live bomb onto the board. Clear around it or set it off deliberately.' },
   ],
+  runner: [
+    { id: 'classic', name: 'Open Road', blurb: 'A straight sprint, with hazard spacing and gravity tuned to this game.' },
+    { id: 'onejump', name: 'Single Jump', blurb: 'No second jump to save you — but you leap higher, so every commitment counts.' },
+    { id: 'lowceiling', name: 'Low Ceilings', blurb: 'Overhead bars dominate the route. Stay low and duck rather than jumping everything.' },
+    { id: 'coinrush', name: 'Treasure Run', blurb: 'Coin arcs everywhere — the line you take matters as much as surviving.' },
+  ],
   rhythm: [
     { id: 'classic', name: 'Free Beat', blurb: 'Notes anywhere on stage, at this track’s own tempo and length.' },
     { id: 'lanes', name: 'Lane Beat', blurb: 'Notes land on fixed columns, so you read a groove instead of hunting the screen.' },

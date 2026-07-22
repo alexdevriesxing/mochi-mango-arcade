@@ -1100,10 +1100,21 @@ class Runner extends Base {
     this.gy = this.H - Math.max(78, this.H * 0.17);
     this.r = Math.max(26, this.W * 0.075);
     this.p = { x: this.W * 0.24, y: this.gy, vy: 0, onGround: true, jumps: 0, duck: false };
+    const v = this.variant;
+    this.twist = v?.twist?.id || 'classic';
+    // Single Jump removes the safety net of a mid-air second jump, so the arc
+    // is raised to keep every hazard clearable on one commitment.
+    this.maxJumps = this.twist === 'onejump' ? 1 : 2;
+    this.jumpPower = this.twist === 'onejump' ? 1.18 : 1;
+    // Gravity and hazard spacing set the rhythm of a run more than raw speed.
+    // Gravity needs a real spread to be felt at all; at a 0.9+pace*0.1 blend it
+    // moved by only ~3% across the whole catalogue, which reads as identical.
+    this.grav = 2100 * (0.62 + (v?.pace ?? 1) * 0.38);
+    this.obsGap = 1 / Math.max(0.75, v?.density ?? 1);
     this.obs = []; this.coins = []; this.pu = []; this.spawnT = 0.7; this.coinT = 0.5; this.puT = 8;
     this.speed = Math.max(280, this.W * 0.6); this.rush = 0; this.rushT = 15; this.distMilestone = 0; this.nextMilestone = 500;
   }
-  jump() { if (this.p.onGround || this.p.jumps < 2) { this.p.vy = -Math.max(620, this.H * 0.95); this.p.onGround = false; this.p.jumps++; this.sound.jump(); this.burst(this.p.x, this.p.y + this.r * 0.6, this.theme.belly, 5); } }
+  jump() { if (this.p.onGround || this.p.jumps < this.maxJumps) { this.p.vy = -Math.max(620, this.H * 0.95) * this.jumpPower; this.p.onGround = false; this.p.jumps++; this.sound.jump(); this.burst(this.p.x, this.p.y + this.r * 0.6, this.theme.belly, 5); } }
   _coinArc(x0, n, peak) { for (let i = 0; i < n; i++) { const t = i / (n - 1), y = this.gy - peak * (1 - (2 * t - 1) * (2 * t - 1)); this.coins.push({ x: x0 + i * this.r * 1.5, y: y - this.r * 0.6, s: Math.max(22, this.W * 0.055), ch: this.theme.items[0] }); } }
   update(dt) {
     const D = this.difficulty();
@@ -1112,7 +1123,7 @@ class Runner extends Base {
     this.speed = Math.max(280, this.W * 0.6) * D * (rushing ? 1.28 : 1); this.scroll += this.speed * dt;
     if ((this.keys[' '] || this.keys['arrowup'] || this.keys['w'] || this.pointer.tapped)) this.jump();
     this.p.duck = this.keys['arrowdown'] || this.keys['s'];
-    this.p.vy += 2100 * dt; this.p.y += this.p.vy * dt;
+    this.p.vy += this.grav * dt; this.p.y += this.p.vy * dt;
     if (this.p.y >= this.gy) { this.p.y = this.gy; this.p.vy = 0; this.p.onGround = true; this.p.jumps = 0; }
     // Distance milestone
     if (this.scroll >= this.nextMilestone) {
@@ -1126,8 +1137,13 @@ class Runner extends Base {
     else if (this.rushT <= 0) { this.rush = 4; this.rushT = 17 + Math.random() * 7; this.powers.x2 = Math.max(this.powers.x2 || 0, 4); this.powers.magnet = Math.max(this.powers.magnet || 0, 4); this.sound.power(); this.float(this.W / 2, this.H * 0.28, 'Sugar Rush!', this.theme.accent); this.ring(this.W / 2, this.H * 0.28, this.theme.accent); }
     this.spawnT -= dt;
     if (this.spawnT <= 0 && !rushing) {
-      this.spawnT = Math.max(0.55, 0.95 - this.time * 0.008) + Math.random() * 0.25;
-      const roll = Math.random(), kind = roll < 0.4 ? 'low' : roll < 0.7 ? 'high' : 'tall';
+      this.spawnT = (Math.max(0.55, 0.95 - this.time * 0.008) + Math.random() * 0.25) * this.obsGap;
+      // Low Ceilings leans on overhead bars, so the run is about ducking and
+      // staying grounded rather than jumping everything.
+      const roll = Math.random();
+      const kind = this.twist === 'lowceiling'
+        ? (roll < 0.62 ? 'high' : roll < 0.82 ? 'low' : 'tall')
+        : (roll < 0.4 ? 'low' : roll < 0.7 ? 'high' : 'tall');
       if (this.scroll > 2000 && this.distMilestone > 2) {
         this.obs.push({ x: this.W + 50, kind: 'moving', s: Math.max(30, this.W * 0.08), band: [this.gy - this.r * 2.3, this.gy], moving: true, mx: this.W * 0.3, ph: Math.random() * 7, ch: this.theme.hazards[2 % 3] });
       } else {
@@ -1138,8 +1154,10 @@ class Runner extends Base {
       }
     }
     this.coinT -= dt;
-    if (this.coinT <= 0) { this.coinT = rushing ? 0.18 : (0.4 + Math.random() * 0.5);
-      if (!rushing && Math.random() < 0.4) this._coinArc(this.W + 40, 5, this.H * 0.26);
+    if (this.coinT <= 0) { this.coinT = rushing ? 0.18 : (0.4 + Math.random() * 0.5) * (this.twist === 'coinrush' ? 0.55 : 1);
+      // Treasure Run: far more coin arcs, so the line you take matters as much
+      // as surviving. Arcs sit above hazards, rewarding committed jumps.
+      if (!rushing && Math.random() < (this.twist === 'coinrush' ? 0.75 : 0.4)) this._coinArc(this.W + 40, 5, this.H * 0.26);
       else this.coins.push({ x: this.W + 30, y: this.gy - (rushing ? 30 + Math.random() * this.H * 0.35 : 36 + Math.random() * this.H * 0.28), s: Math.max(22, this.W * 0.058), ch: this.theme.items[Math.floor(Math.random() * this.theme.items.length)] }); }
     this.puT -= dt;
     if (this.puT <= 0) { this.puT = 11 + Math.random() * 6; const t = Object.keys(POWERS)[Math.floor(Math.random() * 4)];
