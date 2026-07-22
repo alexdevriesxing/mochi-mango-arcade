@@ -51,6 +51,11 @@ const TWISTS = {
     { id: 'colourdrain', name: 'Colour Drain', blurb: 'Starts on the full palette and loses a colour every 25 seconds. Late boards cascade, but options vanish.' },
     { id: 'bombrush', name: 'Bomb Rush', blurb: 'Every fifth match drops a live bomb onto the board. Clear around it or set it off deliberately.' },
   ],
+  serve: [
+    { id: 'classic', name: 'Rush Service', blurb: 'Clear every ticket before patience runs out, on a counter sized for this game.' },
+    { id: 'vip', name: 'VIP Guests', blurb: 'Starred customers pay double but lose patience far faster. Serve them first or lose them.' },
+    { id: 'combo', name: 'Order Combos', blurb: 'Serving the same ticket twice in a row pays double — spot the repeat before you start.' },
+  ],
   memory: [
     { id: 'classic', name: 'Pair Hunt', blurb: 'Straight pair matching, with the board size and clock tuned to this game.' },
     { id: 'peek', name: 'Fading Peek', blurb: 'Every deal shows you the whole board for a moment, then hides it. Memorise fast.' },

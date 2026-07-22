@@ -1648,13 +1648,22 @@ class Match3 extends Base {
 
 class Serve extends Base {
   instructions() { return 'Tap menu buttons to serve customers before patience runs out. Fast = big tips! Rush Hour = double customers. Chain serves = combo bonus!'; }
-  reset() { this.menu = this.theme.items.slice(0, 4); this.queue = []; this.spawnT = 0; this.maxQ = 4; this.rush = 0; this.rushT = 16; this.serveStreak = 0; this._btns(); }
+  reset() { this.twist = this.variant?.twist?.id || 'classic';
+    // A three-button counter with a long queue plays nothing like a five-button
+    // counter with a short one, so both vary per game.
+    this.menu = this.theme.items.slice(0, [3, 4, 4, 5][this.variant?.layout ?? 1]);
+    this.lastOrderSig = null;
+    this.queue = []; this.spawnT = 0; this.maxQ = Math.max(3, Math.min(6, Math.round(4 * (this.variant?.density ?? 1)))); this.rush = 0; this.rushT = 16; this.serveStreak = 0; this._btns(); }
   onResize() { this._btns(); }
   _btns() { if (!this.menu) return; const n = this.menu.length, bw = Math.min(this.W / n - 10, 96); this.btns = this.menu.map((ch, i) => ({ ch, x: (this.W / n) * i + (this.W / n) / 2, y: this.H - Math.max(50, this.H * 0.1), r: Math.max(30, bw * 0.5), press: 0 })); }
   _spawn() {
     const nItems = Math.min(4, 1 + Math.floor(Math.random() * (1 + Math.min(3, this.time / 30))));
     const items = []; for (let i = 0; i < nItems; i++) items.push(Math.floor(Math.random() * this.menu.length));
-    this.queue.push({ items, served: items.map(() => false), patience: 1, decay: (0.05 + this.time * 0.001 + Math.random() * 0.02) * (this.rush > 0 ? 1.15 : 1) + nItems * 0.006, face: Math.floor(Math.random() * 6) });
+    // VIP Guests: pays double, but runs out of patience far faster.
+    const vip = this.twist === 'vip' && Math.random() < 0.3;
+    const order = { items, served: items.map(() => false), patience: 1, decay: (0.05 + this.time * 0.001 + Math.random() * 0.02) * (this.rush > 0 ? 1.15 : 1) + nItems * 0.006, face: Math.floor(Math.random() * 6), vip };
+    if (vip) { order.decay *= 1.7; order.face = 5; }
+    this.queue.push(order);
   }
   update(dt) {
     this.rushT -= dt;
@@ -1669,7 +1678,16 @@ class Serve extends Base {
       const idx = this.menu.indexOf(b.ch);
       let target = null; for (const q of this.queue) { const k = q.items.findIndex((it, j) => it === idx && !q.served[j]); if (k >= 0) { target = { q, k }; break; } }
       if (target) { target.q.served[target.k] = true; this.sound.coin(); this.burst(b.x, b.y - 40, this.theme.accent, 6);
-        if (target.q.served.every(Boolean)) { target.q.done = true; this.serveStreak++; const tip = Math.round(target.q.patience * 10); this.hitCombo(b.x, b.y - 60, 6 + target.q.items.length * 2 + tip + this.serveStreak * 2); if (tip >= 6) this.float(b.x, b.y - 90, 'Big Tip!', '#ffd166'); }
+        if (target.q.served.every(Boolean)) { target.q.done = true; this.serveStreak++;
+          const tip = Math.round(target.q.patience * 10);
+          let payout = 6 + target.q.items.length * 2 + tip + this.serveStreak * 2;
+          // Order Combos: repeating the previous ticket exactly pays double.
+          const sig = [...target.q.items].sort().join(',');
+          if (this.twist === 'combo' && sig === this.lastOrderSig) { payout *= 2; this.float(b.x, b.y - 110, 'Combo order! x2', '#7fd6ff'); }
+          this.lastOrderSig = sig;
+          if (target.q.vip) { payout *= 2; this.float(b.x, b.y - 110, 'VIP! x2', '#ffd166'); }
+          this.hitCombo(b.x, b.y - 60, payout);
+          if (tip >= 6) this.float(b.x, b.y - 90, 'Big Tip!', '#ffd166'); }
       } else { this.sound.blip(200, 0.12, 'sine', 0.1); this.serveStreak = 0; this.combo = 0; this.mult = 1; this.comboEl.textContent = ''; }
       b.press = 1; this.queue = this.queue.filter(q => !q.done); }
   }
@@ -1680,6 +1698,8 @@ class Serve extends Base {
     const faces = ['🧒', '👧', '🧑', '👵', '👴', '🧙'];
     this.queue.forEach((q, i) => { const x = (this.W / this.maxQ) * i + (this.W / this.maxQ) / 2, y = this.H * 0.36;
       this.glyph(faces[q.face], x, y, Math.max(40, this.W * 0.11));
+      // A VIP has to be identifiable at a glance, or the mechanic is invisible.
+      if (q.vip) { c.save(); c.shadowColor = '#ffd166'; c.shadowBlur = 14; this.glyph('⭐', x + this.W * 0.045, y - this.W * 0.05, Math.max(18, this.W * 0.05)); c.restore(); }
       const n = q.items.length, iw = 30, tw = n * iw + 12;
       c.fillStyle = this.theme.dark ? 'rgba(255,255,255,.16)' : '#fff'; rr2(c, x - tw / 2, y - 88, tw, 46, 12); c.fill();
       q.items.forEach((it, j) => { c.save(); if (q.served[j]) c.globalAlpha = 0.28; this.glyph(this.menu[it], x - tw / 2 + 12 + j * iw + iw / 2 - 6, y - 64, 26); if (q.served[j]) { c.strokeStyle = '#3ad07a'; c.lineWidth = 3; c.beginPath(); c.moveTo(x - tw / 2 + 6 + j * iw + 4, y - 64); c.lineTo(x - tw / 2 + 6 + j * iw + 12, y - 58); c.lineTo(x - tw / 2 + 6 + j * iw + 24, y - 74); c.stroke(); } c.restore(); });
