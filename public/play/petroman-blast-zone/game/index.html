@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,user-scalable=no">
+  <meta name="theme-color" content="#081028"><meta name="application-name" content="Mochi Mango Arcade"><meta name="color-scheme" content="light"><meta name="referrer" content="strict-origin-when-cross-origin">
+  <meta name="description" content="Petroman: Blast Zone â€” an original hand-drawn HTML5 bomber-maze arcade adventure for Mochi Mango Arcade.">
+  <title>Petroman: Blast Zone</title>
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <main class="shell" aria-label="Petroman Blast Zone game">
+    <section class="game-wrap">
+      <canvas id="gameCanvas" width="1280" height="720" aria-label="Petroman Blast Zone gameplay canvas"></canvas>
+      <div id="loading" class="loading" aria-live="polite">
+        <div class="loading-card">
+          <strong>Preparing Petro City...</strong>
+          <div class="bar"><span id="loadBar"></span></div>
+          <small id="loadText">Loading hand-drawn production assets</small>
+        </div>
+      </div>
+      <div class="top-actions">
+        <button id="muteButton" type="button" aria-pressed="false">Sound on</button>
+        <button id="pauseButton" type="button">Pause</button>
+      </div>
+      <div id="touchControls" class="touch-controls" aria-label="Mobile controls">
+        <div class="dpad">
+          <button type="button" data-key="up" aria-label="Move up">â–²</button>
+          <button type="button" data-key="left" aria-label="Move left">â—€</button>
+          <button type="button" data-key="down" aria-label="Move down">â–¼</button>
+          <button type="button" data-key="right" aria-label="Move right">â–¶</button>
+        </div>
+        <div class="actions">
+          <button class="remote" type="button" data-key="remote" aria-label="Remote detonate">R</button>
+          <button class="bomb" type="button" data-key="bomb" aria-label="Place purifier charge">P</button>
+        </div>
+      </div>
+    </section>
+  </main>
+  <script src="/play/_shared/mma-reward-bridge.js"></script><script src="game.js"></script>
+</body>
+</html>

@@ -5,8 +5,8 @@
 ## Verified facts
 - Canonical URL: https://www.mochimangoarcade.com/
 - Publisher: Fire Dragon Interactive
-- Games: 395
-- Playable now: 395
+- Games: 396
+- Playable now: 396
 - Original universes: 15
 - Price: Free to play
 - Account: Optional; not required to play

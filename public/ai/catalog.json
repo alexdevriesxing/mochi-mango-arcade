@@ -6,7 +6,7 @@
     "url": "https://www.firedragoninteractive.com"
   },
   "lastVerified": "2026-07-13",
-  "gameCount": 395,
+  "gameCount": 396,
   "pricing": "Free to play",
   "accountRequired": false,
   "games": [
@@ -5539,6 +5539,20 @@
       "version": "1.0",
       "releaseDate": "2026-07-22",
       "image": "https://www.mochimangoarcade.com/assets/images/games/petroman-core-digger.jpg"
+    },
+    {
+      "id": "petroman-blast-zone",
+      "title": "Petroman: Blast Zone",
+      "url": "https://www.mochimangoarcade.com/games/petroman-blast-zone/",
+      "playUrl": "https://www.mochimangoarcade.com/play/petroman-blast-zone/",
+      "genre": "Arcade Maze",
+      "character": "Petroman",
+      "universe": "Petroman Petro City",
+      "description": "Petroman clears Petro City with Purifier Charges. Blow through soft cover, set off chain reactions, uncover hidden upgrades and reactor cores across six hand-painted worlds.",
+      "objective": "Clear every smog enemy on a stage, then reach the reactor core exit.",
+      "version": "1.0",
+      "releaseDate": "2026-07-22",
+      "image": "https://www.mochimangoarcade.com/assets/images/games/petroman-blast-zone.jpg"
     }
   ]
 }

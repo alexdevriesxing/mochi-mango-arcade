@@ -23,7 +23,7 @@
       "@id": "https://www.mochimangoarcade.com/games/#collection",
       "name": "Mochi Mango Arcade Games",
       "url": "https://www.mochimangoarcade.com/games/",
-      "numberOfItems": 395,
+      "numberOfItems": 396,
       "about": [
         {
           "@type": "CreativeWorkSeries",
@@ -1807,7 +1807,7 @@
       "@type": "FictionalCharacter",
       "name": "Petroman",
       "url": "https://www.mochimangoarcade.com/characters/#petroman",
-      "description": "Original Mochi Mango Arcade character appearing in 3 games."
+      "description": "Original Mochi Mango Arcade character appearing in 4 games."
     }
   ]
 }

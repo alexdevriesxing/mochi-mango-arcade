@@ -1,0 +1,15 @@
+{
+  "id": "petroman-blast-zone",
+  "title": "Petroman: Blast Zone",
+  "slug": "petroman-blast-zone",
+  "genre": ["Arcade", "Action", "Maze"],
+  "description": "Petroman clears Petro City with Purifier Charges, chain reactions, hidden upgrades, reactor cores and six hand-painted worlds.",
+  "entry": "index.html",
+  "heroImage": "assets/key-art/hero-petroman-blast-zone-1600x900.png",
+  "thumbnail": "assets/key-art/thumbnail-800x450.png",
+  "icon": "assets/key-art/icon-512.png",
+  "orientation": "landscape",
+  "controls": ["keyboard", "touch"],
+  "resolution": "1280x720",
+  "offlineReady": true
+}

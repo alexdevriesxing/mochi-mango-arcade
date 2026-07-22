@@ -1156,7 +1156,7 @@ function engineMode(g) {
 // sponsor visit failed. Leaving this empty silently breaks that feedback.
 const IFRAME_GAMES = [
   'puddle-pip-meadow-dash', 'puddles-pancake-panic',
-  'petroman-reactor-rush', 'petroman-bubble-blitz', 'petroman-core-digger',
+  'petroman-reactor-rush', 'petroman-bubble-blitz', 'petroman-core-digger', 'petroman-blast-zone',
 ];
 
 // Standalone bundles share one play-page layout; only the copy differs.
@@ -1169,11 +1169,68 @@ const IFRAME_GAME_INFO = {
     controls: [['Move', '← → or A / D'], ['Jump', 'Space / W'], ['Bubble', 'X / K / J'], ['Pause', 'P / Esc']],
     tip: 'Trap a smog creature, then pop the bubble fast — chain pops to multiply your score.',
   },
+  'petroman-blast-zone': {
+    controls: [['Move', 'Arrow keys or WASD'], ['Purifier Charge', 'Space / X / K / C'], ['Pause', 'P / Esc']],
+    tip: 'Charges only blast along the grid. Blow through soft cover to open an escape route before you light the next one.',
+  },
   'petroman-core-digger': {
     controls: [['Dig / Move', 'Arrow keys or WASD'], ['Purifier Orb', 'Space'], ['Pause', 'P / Esc']],
     tip: 'Lure pursuers under a reactor drum and drop it, or purify them with an orb — both clear the stage.',
   },
 };
+
+/**
+ * Sponsored slate shown over a standalone game before it loads.
+ *
+ * Engine games get their pre-roll from mmengine's showPreroll(), but the iframe
+ * bundles never touch the engine, so without this they would be the only games
+ * on the site with no pre-roll. The frame holds its URL in data-src until the
+ * slate clears, so the game is not already playing behind it.
+ */
+function prerollOverlay(g) {
+  return `<div class="mma-iframe-preroll" data-preroll-overlay data-slug="${g.slug}">
+    <div class="mma-preroll-kicker">Sponsored break</div>
+    <strong>${g.title}</strong>
+    <p>Your game starts in <b data-preroll-count>3</b>s — ads keep every game free to play.</p>
+    <button class="btn" type="button" data-preroll-skip>Skip &amp; play now</button>
+  </div>`;
+}
+
+// Which slug's pre-roll this page view has already decided to show. render()
+// can run more than once and rebuilds #appMain each time, destroying the slate;
+// without this the second pass reads the sessionStorage flag its own first pass
+// just set, concludes "already shown", and skips straight into the game.
+let prerollStartedFor = null;
+
+/** Run the pre-roll, then hand the iframe its real source. */
+function mountIframePreroll() {
+  const frame = $('.play-shell iframe[data-src]');
+  if (!frame) return;
+  const overlay = $('[data-preroll-overlay]');
+  const slug = frame.dataset.slug || document.body.dataset.slug;
+  const start = () => {
+    if (frame.src) return;                       // already started
+    frame.src = frame.getAttribute('data-src');
+    overlay?.remove();
+  };
+  const rewards = window.MochiMangoRewards;
+  if (!overlay || !rewards?.preroll) { start(); return; }
+  // Consult the session flag only on the first pass for this slug. On a
+  // re-render we already committed to showing the slate, so re-attach to the
+  // fresh overlay instead of aborting on a flag we set ourselves.
+  if (prerollStartedFor !== slug && rewards.prerollShown?.(slug)) { start(); return; }
+  prerollStartedFor = slug;
+
+  overlay.querySelector('[data-preroll-skip]')?.addEventListener('click', start);
+  let left = 3;
+  const counter = overlay.querySelector('[data-preroll-count]');
+  const tick = setInterval(() => {
+    left -= 1;
+    if (counter) counter.textContent = String(Math.max(0, left));
+    if (left <= 0) { clearInterval(tick); start(); }
+  }, 1000);
+  Promise.resolve(rewards.preroll({ slug })).catch(() => {}).finally(() => { clearInterval(tick); start(); });
+}
 
 function rewardBenefit(g) {
   if (g.slug === 'puddle-pip-meadow-dash') return 'Revive with a guardian shield and keep your score';
@@ -1226,7 +1283,8 @@ function playPage(sl){
       <div class="detail-layout">
         <section>
           <div class="play-shell" data-universe="${g.universe}" style="padding:0;overflow:hidden;aspect-ratio:16/9;background:#000;border-radius:28px;box-shadow:0 12px 40px rgba(0,0,0,0.6);border:1.5px solid var(--border-color);">
-            <iframe src="game/index.html" style="width:100%;height:100%;border:none;display:block;border-radius:26px;" allow="autoplay"></iframe>
+            <iframe data-src="game/index.html" data-slug="${g.slug}" style="width:100%;height:100%;border:none;display:block;border-radius:26px;" allow="autoplay"></iframe>
+            ${prerollOverlay(g)}
           </div>
           ${rewardCard(g)}
           ${adNative('post-game-ad')}
@@ -1254,7 +1312,8 @@ function playPage(sl){
       <div class="detail-layout">
         <section>
           <div class="play-shell" data-universe="${g.universe}" style="padding:0;overflow:hidden;aspect-ratio:16/9;background:#000;border-radius:28px;box-shadow:0 12px 40px rgba(0,0,0,0.6);border:1.5px solid var(--border-color);">
-            <iframe src="game/index.html" style="width:100%;height:100%;border:none;display:block;border-radius:26px;" allow="autoplay"></iframe>
+            <iframe data-src="game/index.html" data-slug="${g.slug}" style="width:100%;height:100%;border:none;display:block;border-radius:26px;" allow="autoplay"></iframe>
+            ${prerollOverlay(g)}
           </div>
           ${rewardCard(g)}
           ${adNative('post-game-ad')}
@@ -1285,7 +1344,8 @@ function playPage(sl){
         <section>
           <h1 class="play-heading">${g.title}</h1>
           <div class="play-shell" data-universe="${g.universe}" style="padding:0;overflow:hidden;aspect-ratio:16/9;background:#000;border-radius:28px;box-shadow:0 12px 40px rgba(0,0,0,0.6);border:1.5px solid var(--border-color);">
-            <iframe src="game/index.html" data-slug="${g.slug}" title="${g.title}" style="width:100%;height:100%;border:none;display:block;border-radius:26px;" allow="autoplay; fullscreen"></iframe>
+            <iframe data-src="game/index.html" data-slug="${g.slug}" title="${g.title}" style="width:100%;height:100%;border:none;display:block;border-radius:26px;" allow="autoplay; fullscreen"></iframe>
+            ${prerollOverlay(g)}
           </div>
           ${rewardCard(g)}
           ${adNative('post-game-ad')}
@@ -1804,6 +1864,7 @@ function render(){
   bindArcadeEvents();
   bindRewardButtons();
   mountAds();
+  if(p=='play'&&sl&&IFRAME_GAMES.includes(sl))mountIframePreroll();
   if(p=='play'&&sl&&!IFRAME_GAMES.includes(sl))mountEngine(sl);
   if(location.hash)setTimeout(()=>$(location.hash)?.scrollIntoView({behavior:'smooth'}),120);
 }

@@ -9494,5 +9494,29 @@
     "lastUpdated": "2026-07-22",
     "objective": "Clear each cavern by purifying every pursuer or collecting the full core payload.",
     "signatureAbility": "Purifier Orb"
+  },
+  {
+    "id": 7148,
+    "title": "Petroman: Blast Zone",
+    "slug": "petroman-blast-zone",
+    "universe": "petroman",
+    "universeName": "Petroman Petro City",
+    "genre": "Arcade Maze",
+    "mascot": "Petroman",
+    "description": "Petroman clears Petro City with Purifier Charges. Blow through soft cover, set off chain reactions, uncover hidden upgrades and reactor cores across six hand-painted worlds.",
+    "image": "/assets/images/games/petroman-blast-zone.jpg",
+    "detailUrl": "/games/petroman-blast-zone/",
+    "playUrl": "/play/petroman-blast-zone/",
+    "featured": true,
+    "new": true,
+    "status": "Playable",
+    "engine": "maze",
+    "built": true,
+    "author": "Fire Dragon Interactive",
+    "version": "1.0",
+    "releaseDate": "2026-07-22",
+    "lastUpdated": "2026-07-22",
+    "objective": "Clear every smog enemy on a stage, then reach the reactor core exit.",
+    "signatureAbility": "Purifier Charge"
   }
 ]

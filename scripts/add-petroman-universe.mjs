@@ -46,6 +46,16 @@ const GAMES = [
     signatureAbility: 'Clean-Air Bubble',
   },
   {
+    slug: 'petroman-blast-zone',
+    title: 'Petroman: Blast Zone',
+    genre: 'Arcade Maze',
+    mascot: 'Petroman',
+    engine: 'maze',
+    description: 'Petroman clears Petro City with Purifier Charges. Blow through soft cover, set off chain reactions, uncover hidden upgrades and reactor cores across six hand-painted worlds.',
+    objective: 'Clear every smog enemy on a stage, then reach the reactor core exit.',
+    signatureAbility: 'Purifier Charge',
+  },
+  {
     slug: 'petroman-core-digger',
     title: 'Petroman: Core Digger Deluxe',
     genre: 'Arcade',
