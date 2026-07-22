@@ -1,0 +1,390 @@
+{
+  "generated": "2026-07-22",
+  "casting": [
+    {
+      "sheet": "124_Brock_Blocks.png",
+      "character": "Brock Blocks",
+      "spriteSlug": "brock-blocks",
+      "mascot": "Pixel Prawn",
+      "mascotSlug": "pixel-prawn",
+      "mode": "breakout",
+      "games": [
+        {
+          "slug": "pixel-prawn-deep-sea-debugger-standalone",
+          "title": "Pixel Prawn: Deep Sea Debugger",
+          "engine": "puzzle"
+        },
+        {
+          "slug": "pixel-prawn-deep-sea-debugger",
+          "title": "Pixel Prawn: Deep Sea Debugger",
+          "engine": "match3"
+        },
+        {
+          "slug": "pixel-prawn-brick-bash",
+          "title": "Pixel Prawn Brick Bash",
+          "engine": "breakout"
+        }
+      ]
+    },
+    {
+      "sheet": "012_Astro_Zuzu.png",
+      "character": "Astro Zuzu",
+      "spriteSlug": "astro-zuzu",
+      "mascot": "Orbit Otter",
+      "mascotSlug": "orbit-otter",
+      "mode": "asteroids",
+      "games": [
+        {
+          "slug": "comet-quarry-crew",
+          "title": "Comet Quarry Crew",
+          "engine": "asteroids"
+        }
+      ]
+    },
+    {
+      "sheet": "053_Bloopette.png",
+      "character": "Bloopette",
+      "spriteSlug": "bloopette",
+      "mascot": "Bloop Axolotl",
+      "mascotSlug": "bloop-axolotl",
+      "mode": "bubbleshooter",
+      "games": [
+        {
+          "slug": "bubble-byte-brigade",
+          "title": "Bubble Byte Brigade",
+          "engine": "bubbleshooter"
+        }
+      ]
+    },
+    {
+      "sheet": "048_Candy_Comet.png",
+      "character": "Candy Comet",
+      "spriteSlug": "candy-comet",
+      "mascot": "Vertex Viper",
+      "mascotSlug": "vertex-viper",
+      "mode": "asteroids",
+      "games": [
+        {
+          "slug": "vector-vortex",
+          "title": "Vector Vortex",
+          "engine": "asteroids"
+        }
+      ]
+    },
+    {
+      "sheet": "146_Clover.png",
+      "character": "Clover",
+      "spriteSlug": "clover",
+      "mascot": "Kingpin Pawnie",
+      "mascotSlug": "kingpin-pawnie",
+      "mode": "board",
+      "games": [
+        {
+          "slug": "crownlight-chess",
+          "title": "Crownlight Chess",
+          "engine": "board"
+        }
+      ]
+    },
+    {
+      "sheet": "033_Coralia.png",
+      "character": "Coralia",
+      "spriteSlug": "coralia",
+      "mascot": "Trawl Turtle",
+      "mascotSlug": "trawl-turtle",
+      "mode": "fishing",
+      "games": [
+        {
+          "slug": "trawlers-catch",
+          "title": "Trawler's Catch",
+          "engine": "fishing"
+        }
+      ]
+    },
+    {
+      "sheet": "126_Dashley.png",
+      "character": "Dashley",
+      "spriteSlug": "dashley",
+      "mascot": "Tavi Turbo Toad",
+      "mascotSlug": "tavi-turbo-toad",
+      "mode": "racing",
+      "games": [
+        {
+          "slug": "turbo-toad-trackline",
+          "title": "Turbo Toad Trackline",
+          "engine": "racing"
+        }
+      ]
+    },
+    {
+      "sheet": "140_Delphie_Dolphin.png",
+      "character": "Delphie Dolphin",
+      "spriteSlug": "delphie-dolphin",
+      "mascot": "Coral Cast",
+      "mascotSlug": "coral-cast",
+      "mode": "fishing",
+      "games": [
+        {
+          "slug": "coral-rod-reel",
+          "title": "Coral Rod & Reel",
+          "engine": "fishing"
+        }
+      ]
+    },
+    {
+      "sheet": "032_DJ_Waddle.png",
+      "character": "DJ Waddle",
+      "spriteSlug": "dj-waddle",
+      "mascot": "Cassie Cassowary",
+      "mascotSlug": "cassie-cassowary",
+      "mode": "rhythm",
+      "games": [
+        {
+          "slug": "synth-snack-soundcheck",
+          "title": "Synth Snack Soundcheck",
+          "engine": "rhythm"
+        }
+      ]
+    },
+    {
+      "sheet": "144_Egbert.png",
+      "character": "Egbert",
+      "spriteSlug": "egbert",
+      "mascot": "Captain Checker",
+      "mascotSlug": "captain-checker",
+      "mode": "board",
+      "games": [
+        {
+          "slug": "biscuit-brigade-checkers",
+          "title": "Biscuit Brigade Checkers",
+          "engine": "board"
+        }
+      ]
+    },
+    {
+      "sheet": "143_Fern_Farmer.png",
+      "character": "Fern Farmer",
+      "spriteSlug": "fern-farmer",
+      "mascot": "Klick Katydid",
+      "mascotSlug": "klick-katydid",
+      "mode": "idleclicker",
+      "games": [
+        {
+          "slug": "clickety-coins",
+          "title": "Clickety Coins",
+          "engine": "idleclicker"
+        }
+      ]
+    },
+    {
+      "sheet": "034_Gearson.png",
+      "character": "Gearson",
+      "spriteSlug": "gearson",
+      "mascot": "Bitzi Beetle",
+      "mascotSlug": "bitzi-beetle",
+      "mode": "pipeline",
+      "games": [
+        {
+          "slug": "byte-beetle-pipeworks",
+          "title": "Byte Beetle Pipeworks",
+          "engine": "pipeline"
+        }
+      ]
+    },
+    {
+      "sheet": "131_Hattie_Harvest.png",
+      "character": "Hattie Harvest",
+      "spriteSlug": "hattie-harvest",
+      "mascot": "Mochi Chef",
+      "mascotSlug": "mochi-chef",
+      "mode": "idleclicker",
+      "games": [
+        {
+          "slug": "mochi-maker",
+          "title": "Mochi Maker",
+          "engine": "idleclicker"
+        }
+      ]
+    },
+    {
+      "sheet": "141_Hooper.png",
+      "character": "Hooper",
+      "spriteSlug": "hooper",
+      "mascot": "Sierra Pixel",
+      "mascotSlug": "sierra-pixel",
+      "mode": "helix",
+      "games": [
+        {
+          "slug": "spiral-sierra",
+          "title": "Spiral Sierra",
+          "engine": "helix"
+        }
+      ]
+    },
+    {
+      "sheet": "056_Jade_Dragon_Spirit.png",
+      "character": "Jade Dragon Spirit",
+      "spriteSlug": "jade-dragon-spirit",
+      "mascot": "Nico Nacho",
+      "mascotSlug": "nico-nacho",
+      "mode": "match3",
+      "games": [
+        {
+          "slug": "nico-nachos-cheese-quest",
+          "title": "Nico Nacho’s Cheese Quest",
+          "engine": "match3"
+        }
+      ]
+    },
+    {
+      "sheet": "134_Jemma_Jewel.png",
+      "character": "Jemma Jewel",
+      "spriteSlug": "jemma-jewel",
+      "mascot": "Gemma Gerbil",
+      "mascotSlug": "gemma-gerbil",
+      "mode": "match3",
+      "games": [
+        {
+          "slug": "crystal-critter-cascade",
+          "title": "Crystal Critter Cascade",
+          "engine": "match3"
+        }
+      ]
+    },
+    {
+      "sheet": "117_Juno_Jump.png",
+      "character": "Juno Jump",
+      "spriteSlug": "juno-jump",
+      "mascot": "Pogo Puffin",
+      "mascotSlug": "pogo-puffin",
+      "mode": "doodlejump",
+      "games": [
+        {
+          "slug": "pixel-pogo-peak",
+          "title": "Pixel Pogo Peak",
+          "engine": "doodlejump"
+        }
+      ]
+    },
+    {
+      "sheet": "119_Kiki_Yarn.png",
+      "character": "Kiki Yarn",
+      "spriteSlug": "kiki-yarn",
+      "mascot": "Mika Marmoset",
+      "mascotSlug": "mika-marmoset",
+      "mode": "rhythm",
+      "games": [
+        {
+          "slug": "beat-bento-breakers",
+          "title": "Beat Bento Breakers",
+          "engine": "rhythm"
+        }
+      ]
+    },
+    {
+      "sheet": "042_Merge_Molly.png",
+      "character": "Merge Molly",
+      "spriteSlug": "merge-molly",
+      "mascot": "Cy Moth",
+      "mascotSlug": "cy-moth",
+      "mode": "merge",
+      "games": [
+        {
+          "slug": "cyclops-merge",
+          "title": "Cyclops Merge",
+          "engine": "merge"
+        }
+      ]
+    },
+    {
+      "sheet": "145_Panya.png",
+      "character": "Panya",
+      "spriteSlug": "panya",
+      "mascot": "Trixie Bloom",
+      "mascotSlug": "trixie-bloom",
+      "mode": "board",
+      "games": [
+        {
+          "slug": "trio-bloom",
+          "title": "Trio Bloom",
+          "engine": "board"
+        }
+      ]
+    },
+    {
+      "sheet": "115_Pogo_Pup.png",
+      "character": "Pogo Pup",
+      "spriteSlug": "pogo-pup",
+      "mascot": "Spiral Sprite",
+      "mascotSlug": "spiral-sprite",
+      "mode": "helix",
+      "games": [
+        {
+          "slug": "spiral-spire",
+          "title": "Spiral Spire",
+          "engine": "helix"
+        }
+      ]
+    },
+    {
+      "sheet": "138_Poppi_Sweetpops.png",
+      "character": "Poppi Sweetpops",
+      "spriteSlug": "poppi-sweetpops",
+      "mascot": "Pippa Pika",
+      "mascotSlug": "pippa-pika",
+      "mode": "bubbleshooter",
+      "games": [
+        {
+          "slug": "pocket-planet-poppers",
+          "title": "Pocket Planet Poppers",
+          "engine": "bubbleshooter"
+        }
+      ]
+    },
+    {
+      "sheet": "136_Skyler_Patrol.png",
+      "character": "Skyler Patrol",
+      "spriteSlug": "skyler-patrol",
+      "mascot": "Tiny Titans",
+      "mascotSlug": "tiny-titans",
+      "mode": "shooter",
+      "games": [
+        {
+          "slug": "the-tiny-titan-toy-war",
+          "title": "The Tiny Titan Toy War",
+          "engine": "shooter"
+        }
+      ]
+    },
+    {
+      "sheet": "057_Tile_Spirit_Lin.png",
+      "character": "Tile Spirit Lin",
+      "spriteSlug": "tile-spirit-lin",
+      "mascot": "Gilda Glitch",
+      "mascotSlug": "gilda-glitch",
+      "mode": "match3",
+      "games": [
+        {
+          "slug": "glitch-garden",
+          "title": "Glitch Garden",
+          "engine": "match3"
+        }
+      ]
+    },
+    {
+      "sheet": "112_Titan_Trix.png",
+      "character": "Titan Trix",
+      "spriteSlug": "titan-trix",
+      "mascot": "Boom Bat",
+      "mascotSlug": "boom-bat",
+      "mode": "cannon",
+      "games": [
+        {
+          "slug": "boom-bap-cannon",
+          "title": "Boom Bap Cannon",
+          "engine": "cannon"
+        }
+      ]
+    }
+  ]
+}

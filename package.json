@@ -12,7 +12,8 @@
     "smoke": "node scripts/remediation-smoke.mjs"
   },
   "devDependencies": {
-    "wrangler": "4.30.0",
-    "http-server": "14.1.1"
+    "adm-zip": "^0.6.0",
+    "http-server": "14.1.1",
+    "wrangler": "4.30.0"
   }
 }

@@ -1,0 +1,9 @@
+{
+  "name":"Petroman: Bubble Blitz",
+  "short_name":"Bubble Blitz",
+  "start_url":"./index.html",
+  "display":"fullscreen",
+  "background_color":"#070a1c",
+  "theme_color":"#10163d",
+  "icons":[{"src":"assets/key-art/icon-512.png","sizes":"512x512","type":"image/png"}]
+}

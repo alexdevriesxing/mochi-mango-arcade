@@ -1,0 +1,11 @@
+{
+  "slug": "petroman-core-digger",
+  "title": "Petroman: Core Digger Deluxe",
+  "description": "A polished hand-drawn dig-and-chase arcade adventure with large handcrafted caverns, returning purifier-orb combat, reactor-drum traps and multiple ways to clear every stage.",
+  "category": "Arcade",
+  "controls": "Keyboard and touch",
+  "orientation": "landscape",
+  "thumbnail": "assets/key-art/thumbnail-800x450.png",
+  "hero": "assets/key-art/hero-petroman-core-digger-1600x900.png",
+  "entry": "index.html"
+}

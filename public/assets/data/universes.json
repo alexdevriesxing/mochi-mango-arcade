@@ -82,5 +82,11 @@
     "color": "#e94560",
     "accent": "#e94560",
     "description": "A neon-drenched digital dimension where pixel creatures code, compete, and crash through glitchy arcade worlds."
+  },
+  "petroman": {
+    "name": "Petroman Petro City",
+    "color": "#2f8fff",
+    "accent": "#ffd23f",
+    "description": "A hand-drawn industrial skyline where Petroman purifies the smog of Petro City."
   }
 }

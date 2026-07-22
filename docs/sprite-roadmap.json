@@ -1,0 +1,2564 @@
+{
+  "generated": "2026-07-22",
+  "batchSize": 15,
+  "entries": [
+    {
+      "file": "001_Mochi.png",
+      "num": 1,
+      "name": "Mochi",
+      "slug": "mochi",
+      "mascot": "mochi-9",
+      "match": "fuzzy",
+      "games": 6,
+      "gameSlugs": [
+        "astromochi-planet-hop",
+        "mochi-moon-miner",
+        "astromochi-space-fair",
+        "mochi-9-jelly-star-bounce",
+        "astromochi-star-jelly-factory",
+        "mochi-9s-cosmic-costume-party"
+      ],
+      "universes": [
+        "astromochi"
+      ],
+      "modes": [
+        "runner",
+        "arcade",
+        "management",
+        "puzzle"
+      ]
+    },
+    {
+      "file": "002_Mango.png",
+      "num": 2,
+      "name": "Mango",
+      "slug": "mango",
+      "mascot": "mango-merchant",
+      "match": "fuzzy",
+      "games": 1,
+      "gameSlugs": [
+        "mango-mancala-market"
+      ],
+      "universes": [
+        "tabletop-kingdom"
+      ],
+      "modes": [
+        "board"
+      ]
+    },
+    {
+      "file": "003_Pandy.png",
+      "num": 3,
+      "name": "Pandy",
+      "slug": "pandy",
+      "mascot": null,
+      "match": "orphan",
+      "games": 0,
+      "gameSlugs": [],
+      "universes": [],
+      "modes": []
+    },
+    {
+      "file": "004_Neko.png",
+      "num": 4,
+      "name": "Neko",
+      "slug": "neko",
+      "mascot": null,
+      "match": "orphan",
+      "games": 0,
+      "gameSlugs": [],
+      "universes": [],
+      "modes": []
+    },
+    {
+      "file": "005_Zuzu.png",
+      "num": 5,
+      "name": "Zuzu",
+      "slug": "zuzu",
+      "mascot": null,
+      "match": "orphan",
+      "games": 0,
+      "gameSlugs": [],
+      "universes": [],
+      "modes": []
+    },
+    {
+      "file": "006_Batty.png",
+      "num": 6,
+      "name": "Batty",
+      "slug": "batty",
+      "mascot": null,
+      "match": "orphan",
+      "games": 0,
+      "gameSlugs": [],
+      "universes": [],
+      "modes": []
+    },
+    {
+      "file": "007_Captain_Corgi.png",
+      "num": 7,
+      "name": "Captain Corgi",
+      "slug": "captain-corgi",
+      "mascot": null,
+      "match": "orphan",
+      "games": 0,
+      "gameSlugs": [],
+      "universes": [],
+      "modes": []
+    },
+    {
+      "file": "008_Raccoon_Rex.png",
+      "num": 8,
+      "name": "Raccoon Rex",
+      "slug": "raccoon-rex",
+      "mascot": null,
+      "match": "orphan",
+      "games": 0,
+      "gameSlugs": [],
+      "universes": [],
+      "modes": []
+    },
+    {
+      "file": "009_Dragon_Dribble.png",
+      "num": 9,
+      "name": "Dragon Dribble",
+      "slug": "dragon-dribble",
+      "mascot": null,
+      "match": "orphan",
+      "games": 0,
+      "gameSlugs": [],
+      "universes": [],
+      "modes": []
+    },
+    {
+      "file": "010_Bunny_Blossom.png",
+      "num": 10,
+      "name": "Bunny Blossom",
+      "slug": "bunny-blossom",
+      "mascot": null,
+      "match": "orphan",
+      "games": 0,
+      "gameSlugs": [],
+      "universes": [],
+      "modes": []
+    },
+    {
+      "file": "011_Ninja_Neko.png",
+      "num": 11,
+      "name": "Ninja Neko",
+      "slug": "ninja-neko",
+      "mascot": null,
+      "match": "orphan",
+      "games": 0,
+      "gameSlugs": [],
+      "universes": [],
+      "modes": []
+    },
+    {
+      "file": "012_Astro_Zuzu.png",
+      "num": 12,
+      "name": "Astro Zuzu",
+      "slug": "astro-zuzu",
+      "mascot": null,
+      "match": "orphan",
+      "games": 0,
+      "gameSlugs": [],
+      "universes": [],
+      "modes": []
+    },
+    {
+      "file": "013_Puddle.png",
+      "num": 13,
+      "name": "Puddle",
+      "slug": "puddle",
+      "mascot": "puddle",
+      "match": "exact",
+      "games": 5,
+      "gameSlugs": [
+        "puddles-pancake-panic",
+        "puddles-cozy-carnival",
+        "puddles-pajama-parade",
+        "puddles-splash-dash",
+        "puddles-raindrop-catch"
+      ],
+      "universes": [
+        "cozyverse"
+      ],
+      "modes": [
+        "management",
+        "arcade",
+        "runner",
+        "dodger"
+      ]
+    },
+    {
+      "file": "014_Pip.png",
+      "num": 14,
+      "name": "Pip",
+      "slug": "pip",
+      "mascot": "pip",
+      "match": "exact",
+      "games": 4,
+      "gameSlugs": [
+        "pips-sky-parcel-service",
+        "pip-the-cloud-kites",
+        "pips-firefly-flight",
+        "pips-lily-pad-hop"
+      ],
+      "universes": [
+        "cozyverse"
+      ],
+      "modes": [
+        "arcade"
+      ]
+    },
+    {
+      "file": "015_Bramble_Bear.png",
+      "num": 15,
+      "name": "Bramble Bear",
+      "slug": "bramble-bear",
+      "mascot": "bramble-bear",
+      "match": "exact",
+      "games": 6,
+      "gameSlugs": [
+        "bramble-bears-berry-defense",
+        "bramble-bears-honey-rescue",
+        "bramble-bears-campfire-tales",
+        "bramble-bears-honeycomb-match",
+        "bramble-bears-beehive-defense",
+        "bramble-bears-berry-basket-catch"
+      ],
+      "universes": [
+        "cozyverse"
+      ],
+      "modes": [
+        "arcade",
+        "puzzle",
+        "dodger"
+      ]
+    },
+    {
+      "file": "016_Lulu_Lantern.png",
+      "num": 16,
+      "name": "Lulu Lantern",
+      "slug": "lulu-lantern",
+      "mascot": "lulu-lantern",
+      "match": "exact",
+      "games": 2,
+      "gameSlugs": [
+        "lulu-lanterns-lost-woods",
+        "lulu-lanterns-glow-garden"
+      ],
+      "universes": [
+        "cozyverse"
+      ],
+      "modes": [
+        "puzzle"
+      ]
+    },
+    {
+      "file": "017_Mei_Mei.png",
+      "num": 17,
+      "name": "Mei Mei",
+      "slug": "mei-mei",
+      "mascot": "mei-mei",
+      "match": "exact",
+      "games": 2,
+      "gameSlugs": [
+        "mei-meis-mahjong-academy",
+        "mei-mei-the-hidden-tile-spirits"
+      ],
+      "universes": [
+        "ninegates"
+      ],
+      "modes": [
+        "puzzle"
+      ]
+    },
+    {
+      "file": "018_Bao.png",
+      "num": 18,
+      "name": "Bao",
+      "slug": "bao",
+      "mascot": "bao",
+      "match": "exact",
+      "games": 7,
+      "gameSlugs": [
+        "nine-gates-mahjong-trails",
+        "baos-tile-tumble",
+        "bao-dragon-dash",
+        "nine-gates-festival-games",
+        "baos-jade-dragon-rescue",
+        "nine-gates-dragon-boat-dash",
+        "nine-gates-palace-of-winds"
+      ],
+      "universes": [
+        "ninegates"
+      ],
+      "modes": [
+        "puzzle",
+        "runner",
+        "match3",
+        "arcade"
+      ]
+    },
+    {
+      "file": "019_Madame_Fortuna.png",
+      "num": 19,
+      "name": "Madame Fortuna",
+      "slug": "madame-fortuna",
+      "mascot": "madame-fortuna",
+      "match": "exact",
+      "games": 6,
+      "gameSlugs": [
+        "madame-fortunas-mirror-match",
+        "fortunas-tarot-tower",
+        "oracle-mirror-carnival",
+        "madame-fortunas-oddity-shop",
+        "madame-fortunas-crystal-cascade",
+        "madame-fortunas-tarot-memory"
+      ],
+      "universes": [
+        "oracle"
+      ],
+      "modes": [
+        "puzzle",
+        "arcade",
+        "management"
+      ]
+    },
+    {
+      "file": "020_Morpheus.png",
+      "num": 20,
+      "name": "Morpheus",
+      "slug": "morpheus",
+      "mascot": "morpheus",
+      "match": "exact",
+      "games": 5,
+      "gameSlugs": [
+        "morpheus-dream-hopper",
+        "morpheus-the-pillow-pirates",
+        "morpheus-dream-detective",
+        "morpheuss-pillow-tower",
+        "morpheuss-dreamlight-memory"
+      ],
+      "universes": [
+        "oracle"
+      ],
+      "modes": [
+        "runner",
+        "puzzle",
+        "arcade"
+      ]
+    },
+    {
+      "file": "021_Umbra.png",
+      "num": 21,
+      "name": "Umbra",
+      "slug": "umbra",
+      "mascot": "umbra",
+      "match": "exact",
+      "games": 6,
+      "gameSlugs": [
+        "umbras-moonlight-maze",
+        "umbras-shadow-paw-heist",
+        "oracle-mirror-mooncat-solitaire",
+        "umbras-moonlit-labyrinth",
+        "umbras-midnight-dash",
+        "umbras-shadow-blast"
+      ],
+      "universes": [
+        "oracle"
+      ],
+      "modes": [
+        "arcade",
+        "puzzle",
+        "runner"
+      ]
+    },
+    {
+      "file": "022_Sol_Frog.png",
+      "num": 22,
+      "name": "Sol Frog",
+      "slug": "sol-frog",
+      "mascot": "sol-frog",
+      "match": "exact",
+      "games": 2,
+      "gameSlugs": [
+        "sol-frogs-fortune-leap",
+        "sol-frogs-sunbeam-sprint"
+      ],
+      "universes": [
+        "oracle"
+      ],
+      "modes": [
+        "arcade",
+        "runner"
+      ]
+    },
+    {
+      "file": "023_Tika_Tiger.png",
+      "num": 23,
+      "name": "Tika Tiger",
+      "slug": "tika-tiger",
+      "mascot": "tika-tiger",
+      "match": "exact",
+      "games": 2,
+      "gameSlugs": [
+        "tika-tiger-delivery-dash",
+        "tika-tiger-traffic-tango"
+      ],
+      "universes": [
+        "snackstreet"
+      ],
+      "modes": [
+        "runner"
+      ]
+    },
+    {
+      "file": "024_Nori_Ninja.png",
+      "num": 24,
+      "name": "Nori Ninja",
+      "slug": "nori-ninja",
+      "mascot": "nori-ninja",
+      "match": "exact",
+      "games": 2,
+      "gameSlugs": [
+        "nori-ninja-slice",
+        "nori-ninja-bento-breakout"
+      ],
+      "universes": [
+        "snackstreet"
+      ],
+      "modes": [
+        "whack",
+        "arcade"
+      ]
+    },
+    {
+      "file": "025_Uncle_Lee.png",
+      "num": 25,
+      "name": "Uncle Lee",
+      "slug": "uncle-lee",
+      "mascot": "uncle-lee",
+      "match": "exact",
+      "games": 3,
+      "gameSlugs": [
+        "uncle-lees-lucky-draw",
+        "uncle-lees-festival-fortune",
+        "uncle-lees-mahjong-market"
+      ],
+      "universes": [
+        "ninegates"
+      ],
+      "modes": [
+        "puzzle",
+        "arcade",
+        "management"
+      ]
+    },
+    {
+      "file": "026_Auntie_Li-Wen.png",
+      "num": 26,
+      "name": "Auntie Li-Wen",
+      "slug": "auntie-li-wen",
+      "mascot": "auntie-li-wen",
+      "match": "exact",
+      "games": 2,
+      "gameSlugs": [
+        "auntie-li-wens-tea-house",
+        "auntie-li-wens-tea-tile-trials"
+      ],
+      "universes": [
+        "ninegates"
+      ],
+      "modes": [
+        "management",
+        "puzzle"
+      ]
+    },
+    {
+      "file": "027_Red_Crane.png",
+      "num": 27,
+      "name": "Red Crane",
+      "slug": "red-crane",
+      "mascot": "the-red-crane",
+      "match": "fuzzy",
+      "games": 2,
+      "gameSlugs": [
+        "red-crane-rivalry",
+        "red-crane-shadow-tiles"
+      ],
+      "universes": [
+        "ninegates"
+      ],
+      "modes": [
+        "puzzle"
+      ]
+    },
+    {
+      "file": "028_Clockwork_Crow.png",
+      "num": 28,
+      "name": "Clockwork Crow",
+      "slug": "clockwork-crow",
+      "mascot": "clockwork-crow",
+      "match": "exact",
+      "games": 2,
+      "gameSlugs": [
+        "clockwork-crow-courier",
+        "clockwork-crow-time-tower"
+      ],
+      "universes": [
+        "oracle"
+      ],
+      "modes": [
+        "runner",
+        "puzzle"
+      ]
+    },
+    {
+      "file": "029_Coco_Cannon.png",
+      "num": 29,
+      "name": "Coco Cannon",
+      "slug": "coco-cannon",
+      "mascot": "coco-cannon",
+      "match": "exact",
+      "games": 1,
+      "gameSlugs": [
+        "coco-cannon-the-coconut-kingdom"
+      ],
+      "universes": [
+        "standalone"
+      ],
+      "modes": [
+        "puzzle"
+      ]
+    },
+    {
+      "file": "030_Professor_Pogo.png",
+      "num": 30,
+      "name": "Professor Pogo",
+      "slug": "professor-pogo",
+      "mascot": "professor-pogo",
+      "match": "exact",
+      "games": 1,
+      "gameSlugs": [
+        "professor-pogos-impossible-island"
+      ],
+      "universes": [
+        "standalone"
+      ],
+      "modes": [
+        "runner"
+      ]
+    },
+    {
+      "file": "031_Sherlock_Lamb.png",
+      "num": 31,
+      "name": "Sherlock Lamb",
+      "slug": "sherlock-lamb",
+      "mascot": null,
+      "match": "orphan",
+      "games": 0,
+      "gameSlugs": [],
+      "universes": [],
+      "modes": []
+    },
+    {
+      "file": "032_DJ_Waddle.png",
+      "num": 32,
+      "name": "DJ Waddle",
+      "slug": "dj-waddle",
+      "mascot": null,
+      "match": "orphan",
+      "games": 0,
+      "gameSlugs": [],
+      "universes": [],
+      "modes": []
+    },
+    {
+      "file": "033_Coralia.png",
+      "num": 33,
+      "name": "Coralia",
+      "slug": "coralia",
+      "mascot": null,
+      "match": "orphan",
+      "games": 0,
+      "gameSlugs": [],
+      "universes": [],
+      "modes": []
+    },
+    {
+      "file": "034_Gearson.png",
+      "num": 34,
+      "name": "Gearson",
+      "slug": "gearson",
+      "mascot": null,
+      "match": "orphan",
+      "games": 0,
+      "gameSlugs": [],
+      "universes": [],
+      "modes": []
+    },
+    {
+      "file": "035_Chef_Bao.png",
+      "num": 35,
+      "name": "Chef Bao",
+      "slug": "chef-bao",
+      "mascot": "bao",
+      "match": "fuzzy",
+      "games": 7,
+      "gameSlugs": [
+        "nine-gates-mahjong-trails",
+        "baos-tile-tumble",
+        "bao-dragon-dash",
+        "nine-gates-festival-games",
+        "baos-jade-dragon-rescue",
+        "nine-gates-dragon-boat-dash",
+        "nine-gates-palace-of-winds"
+      ],
+      "universes": [
+        "ninegates"
+      ],
+      "modes": [
+        "puzzle",
+        "runner",
+        "match3",
+        "arcade"
+      ]
+    },
+    {
+      "file": "036_Riptide.png",
+      "num": 36,
+      "name": "Riptide",
+      "slug": "riptide",
+      "mascot": null,
+      "match": "orphan",
+      "games": 0,
+      "gameSlugs": [],
+      "universes": [],
+      "modes": []
+    },
+    {
+      "file": "037_Super_Sean.png",
+      "num": 37,
+      "name": "Super Sean",
+      "slug": "super-sean",
+      "mascot": "super-sean",
+      "match": "exact",
+      "games": 32,
+      "gameSlugs": [
+        "super-seans-soccer-showdown",
+        "super-seans-racing-rally",
+        "super-seans-archery-adventure",
+        "super-seans-basketball-brawl",
+        "super-seans-track-and-field-fury",
+        "super-seans-fishing-quest",
+        "super-seans-pinball-party",
+        "super-seans-brick-buster",
+        "super-seans-super-sprint",
+        "super-seans-sky-glide",
+        "super-seans-hero-climb",
+        "super-seans-pizza-pizzazz",
+        "super-seans-tile-match",
+        "super-seans-memory-match",
+        "super-seans-stack-challenge",
+        "super-seans-serpent-dash",
+        "super-seans-beat-drop",
+        "super-seans-fortress-defense",
+        "super-seans-ping-pong",
+        "super-seans-bubble-pop",
+        "super-seans-cannon-blast",
+        "super-seans-merge-madness",
+        "super-seans-spiral-drop",
+        "super-seans-bounce-high",
+        "super-seans-space-blitz",
+        "super-seans-pipe-puzzle",
+        "super-seans-target-rush",
+        "super-seans-coin-empire",
+        "super-seans-mystic-maze",
+        "super-seans-treasure-catch",
+        "super-seans-whack-a-squid",
+        "super-seans-galaxy-blast"
+      ],
+      "universes": [
+        "standalone"
+      ],
+      "modes": [
+        "sports",
+        "racing",
+        "archery",
+        "fishing",
+        "pinball",
+        "breakout",
+        "runner",
+        "flappy",
+        "platformer",
+        "serve",
+        "match3",
+        "memory",
+        "stacker",
+        "snake",
+        "rhythm",
+        "tower",
+        "pong",
+        "bubbleshooter",
+        "cannon",
+        "merge",
+        "helix",
+        "doodlejump",
+        "asteroids",
+        "pipeline",
+        "gallery",
+        "idleclicker",
+        "maze",
+        "dodger",
+        "whack",
+        "shooter"
+      ]
+    },
+    {
+      "file": "038_Starfall.png",
+      "num": 38,
+      "name": "Starfall",
+      "slug": "starfall",
+      "mascot": null,
+      "match": "orphan",
+      "games": 0,
+      "gameSlugs": [],
+      "universes": [],
+      "modes": []
+    },
+    {
+      "file": "039_Jelly_Bean.png",
+      "num": 39,
+      "name": "Jelly Bean",
+      "slug": "jelly-bean",
+      "mascot": null,
+      "match": "orphan",
+      "games": 0,
+      "gameSlugs": [],
+      "universes": [],
+      "modes": []
+    },
+    {
+      "file": "040_Tiny_Chef_Timo.png",
+      "num": 40,
+      "name": "Tiny Chef Timo",
+      "slug": "tiny-chef-timo",
+      "mascot": null,
+      "match": "orphan",
+      "games": 0,
+      "gameSlugs": [],
+      "universes": [],
+      "modes": []
+    },
+    {
+      "file": "041_Dex_Dino.png",
+      "num": 41,
+      "name": "Dex Dino",
+      "slug": "dex-dino",
+      "mascot": null,
+      "match": "orphan",
+      "games": 0,
+      "gameSlugs": [],
+      "universes": [],
+      "modes": []
+    },
+    {
+      "file": "042_Merge_Molly.png",
+      "num": 42,
+      "name": "Merge Molly",
+      "slug": "merge-molly",
+      "mascot": null,
+      "match": "orphan",
+      "games": 0,
+      "gameSlugs": [],
+      "universes": [],
+      "modes": []
+    },
+    {
+      "file": "043_Miko_Islander.png",
+      "num": 43,
+      "name": "Miko Islander",
+      "slug": "miko-islander",
+      "mascot": null,
+      "match": "orphan",
+      "games": 0,
+      "gameSlugs": [],
+      "universes": [],
+      "modes": []
+    },
+    {
+      "file": "044_Sky_Panda.png",
+      "num": 44,
+      "name": "Sky Panda",
+      "slug": "sky-panda",
+      "mascot": null,
+      "match": "orphan",
+      "games": 0,
+      "gameSlugs": [],
+      "universes": [],
+      "modes": []
+    },
+    {
+      "file": "045_Bloop.png",
+      "num": 45,
+      "name": "Bloop",
+      "slug": "bloop",
+      "mascot": "bloop",
+      "match": "exact",
+      "games": 2,
+      "gameSlugs": [
+        "bloop-bubble-rescue",
+        "bloops-alien-aquarium"
+      ],
+      "universes": [
+        "astromochi"
+      ],
+      "modes": [
+        "arcade"
+      ]
+    },
+    {
+      "file": "046_Ninja_Mango.png",
+      "num": 46,
+      "name": "Ninja Mango",
+      "slug": "ninja-mango",
+      "mascot": null,
+      "match": "orphan",
+      "games": 0,
+      "gameSlugs": [],
+      "universes": [],
+      "modes": []
+    },
+    {
+      "file": "047_Pixel_Pixie.png",
+      "num": 47,
+      "name": "Pixel Pixie",
+      "slug": "pixel-pixie",
+      "mascot": null,
+      "match": "orphan",
+      "games": 0,
+      "gameSlugs": [],
+      "universes": [],
+      "modes": []
+    },
+    {
+      "file": "048_Candy_Comet.png",
+      "num": 48,
+      "name": "Candy Comet",
+      "slug": "candy-comet",
+      "mascot": null,
+      "match": "orphan",
+      "games": 0,
+      "gameSlugs": [],
+      "universes": [],
+      "modes": []
+    },
+    {
+      "file": "049_Pirate_Pudding.png",
+      "num": 49,
+      "name": "Pirate Pudding",
+      "slug": "pirate-pudding",
+      "mascot": null,
+      "match": "orphan",
+      "games": 0,
+      "gameSlugs": [],
+      "universes": [],
+      "modes": []
+    },
+    {
+      "file": "050_Mochi-9.png",
+      "num": 50,
+      "name": "Mochi-9",
+      "slug": "mochi-9",
+      "mascot": "mochi-9",
+      "match": "exact",
+      "games": 6,
+      "gameSlugs": [
+        "astromochi-planet-hop",
+        "mochi-moon-miner",
+        "astromochi-space-fair",
+        "mochi-9-jelly-star-bounce",
+        "astromochi-star-jelly-factory",
+        "mochi-9s-cosmic-costume-party"
+      ],
+      "universes": [
+        "astromochi"
+      ],
+      "modes": [
+        "runner",
+        "arcade",
+        "management",
+        "puzzle"
+      ]
+    },
+    {
+      "file": "051_Captain_Nova.png",
+      "num": 51,
+      "name": "Captain Nova",
+      "slug": "captain-nova",
+      "mascot": "captain-nova",
+      "match": "exact",
+      "games": 3,
+      "gameSlugs": [
+        "captain-novas-starship-tactics",
+        "captain-novas-meteor-patrol",
+        "nova-the-nebula-knights"
+      ],
+      "universes": [
+        "astromochi"
+      ],
+      "modes": [
+        "arcade",
+        "shooter"
+      ]
+    },
+    {
+      "file": "052_Gearbit.png",
+      "num": 52,
+      "name": "Gearbit",
+      "slug": "gearbit",
+      "mascot": "gearbit",
+      "match": "exact",
+      "games": 3,
+      "gameSlugs": [
+        "gearbits-rocket-garage",
+        "astromochi-cargo-chaos",
+        "gearbits-robot-ranch"
+      ],
+      "universes": [
+        "astromochi"
+      ],
+      "modes": [
+        "puzzle",
+        "arcade",
+        "management"
+      ]
+    },
+    {
+      "file": "053_Bloopette.png",
+      "num": 53,
+      "name": "Bloopette",
+      "slug": "bloopette",
+      "mascot": null,
+      "match": "orphan",
+      "games": 0,
+      "gameSlugs": [],
+      "universes": [],
+      "modes": []
+    },
+    {
+      "file": "054_Grumble_Comet.png",
+      "num": 54,
+      "name": "Grumble Comet",
+      "slug": "grumble-comet",
+      "mascot": "grumble-comet",
+      "match": "exact",
+      "games": 2,
+      "gameSlugs": [
+        "grumble-comets-revenge",
+        "grumble-comets-lonely-orbit"
+      ],
+      "universes": [
+        "astromochi"
+      ],
+      "modes": [
+        "arcade",
+        "puzzle"
+      ]
+    },
+    {
+      "file": "055_Nebula_Knight_Nova.png",
+      "num": 55,
+      "name": "Nebula Knight Nova",
+      "slug": "nebula-knight-nova",
+      "mascot": null,
+      "match": "orphan",
+      "games": 0,
+      "gameSlugs": [],
+      "universes": [],
+      "modes": []
+    },
+    {
+      "file": "056_Jade_Dragon_Spirit.png",
+      "num": 56,
+      "name": "Jade Dragon Spirit",
+      "slug": "jade-dragon-spirit",
+      "mascot": null,
+      "match": "orphan",
+      "games": 0,
+      "gameSlugs": [],
+      "universes": [],
+      "modes": []
+    },
+    {
+      "file": "057_Tile_Spirit_Lin.png",
+      "num": 57,
+      "name": "Tile Spirit Lin",
+      "slug": "tile-spirit-lin",
+      "mascot": null,
+      "match": "orphan",
+      "games": 0,
+      "gameSlugs": [],
+      "universes": [],
+      "modes": []
+    },
+    {
+      "file": "058_Buttonbeard.png",
+      "num": 58,
+      "name": "Buttonbeard",
+      "slug": "buttonbeard",
+      "mascot": "buttonbeard",
+      "match": "exact",
+      "games": 1,
+      "gameSlugs": [
+        "buttonbeards-toybox-armada"
+      ],
+      "universes": [
+        "standalone"
+      ],
+      "modes": [
+        "cannon"
+      ]
+    },
+    {
+      "file": "059_Princess_Pickle.png",
+      "num": 59,
+      "name": "Princess Pickle",
+      "slug": "princess-pickle",
+      "mascot": "princess-pickle",
+      "match": "exact",
+      "games": 1,
+      "gameSlugs": [
+        "princess-pickles-panic-palace"
+      ],
+      "universes": [
+        "standalone"
+      ],
+      "modes": [
+        "management"
+      ]
+    },
+    {
+      "file": "060_Sir_Wafflesworth.png",
+      "num": 60,
+      "name": "Sir Wafflesworth",
+      "slug": "sir-wafflesworth",
+      "mascot": "sir-wafflesworth",
+      "match": "exact",
+      "games": 1,
+      "gameSlugs": [
+        "sir-wafflesworths-breakfast-quest"
+      ],
+      "universes": [
+        "standalone"
+      ],
+      "modes": [
+        "runner"
+      ]
+    },
+    {
+      "file": "061_Gobbo_Cart.png",
+      "num": 61,
+      "name": "Gobbo Cart",
+      "slug": "gobbo-cart",
+      "mascot": "gobbo",
+      "match": "fuzzy",
+      "games": 1,
+      "gameSlugs": [
+        "gobbo-the-golden-shopping-cart"
+      ],
+      "universes": [
+        "standalone"
+      ],
+      "modes": [
+        "runner"
+      ]
+    },
+    {
+      "file": "062_Milo_Mole.png",
+      "num": 62,
+      "name": "Milo Mole",
+      "slug": "milo-mole",
+      "mascot": "milo-mole",
+      "match": "exact",
+      "games": 1,
+      "gameSlugs": [
+        "milo-moles-crystal-dig"
+      ],
+      "universes": [
+        "standalone"
+      ],
+      "modes": [
+        "puzzle"
+      ]
+    },
+    {
+      "file": "063_Captain_Bubblebeard.png",
+      "num": 63,
+      "name": "Captain Bubblebeard",
+      "slug": "captain-bubblebeard",
+      "mascot": "captain-bubblebeard",
+      "match": "exact",
+      "games": 1,
+      "gameSlugs": [
+        "captain-bubblebeards-submarine-school"
+      ],
+      "universes": [
+        "standalone"
+      ],
+      "modes": [
+        "runner"
+      ]
+    },
+    {
+      "file": "064_Socktopus.png",
+      "num": 64,
+      "name": "Socktopus",
+      "slug": "socktopus",
+      "mascot": "socktopus",
+      "match": "exact",
+      "games": 1,
+      "gameSlugs": [
+        "the-great-socktopus-escape"
+      ],
+      "universes": [
+        "standalone"
+      ],
+      "modes": [
+        "runner"
+      ]
+    },
+    {
+      "file": "065_Muffin_Mage.png",
+      "num": 65,
+      "name": "Muffin Mage",
+      "slug": "muffin-mage",
+      "mascot": "muffin-mage",
+      "match": "exact",
+      "games": 1,
+      "gameSlugs": [
+        "muffin-mage-academy"
+      ],
+      "universes": [
+        "standalone"
+      ],
+      "modes": [
+        "puzzle"
+      ]
+    },
+    {
+      "file": "066_Turbo_Tofu.png",
+      "num": 66,
+      "name": "Turbo Tofu",
+      "slug": "turbo-tofu",
+      "mascot": "turbo-tofu",
+      "match": "exact",
+      "games": 1,
+      "gameSlugs": [
+        "turbo-tofu-drift-club"
+      ],
+      "universes": [
+        "standalone"
+      ],
+      "modes": [
+        "runner"
+      ]
+    },
+    {
+      "file": "067_Benny_Banana.png",
+      "num": 67,
+      "name": "Benny Banana",
+      "slug": "benny-banana",
+      "mascot": "benny-banana",
+      "match": "exact",
+      "games": 1,
+      "gameSlugs": [
+        "benny-bananas-jungle-jukebox"
+      ],
+      "universes": [
+        "standalone"
+      ],
+      "modes": [
+        "arcade"
+      ]
+    },
+    {
+      "file": "068_Vera_Volcano.png",
+      "num": 68,
+      "name": "Vera Volcano",
+      "slug": "vera-volcano",
+      "mascot": "vera-volcano",
+      "match": "exact",
+      "games": 1,
+      "gameSlugs": [
+        "vera-volcanos-lava-lab"
+      ],
+      "universes": [
+        "standalone"
+      ],
+      "modes": [
+        "puzzle"
+      ]
+    },
+    {
+      "file": "069_Detective_Donut.png",
+      "num": 69,
+      "name": "Detective Donut",
+      "slug": "detective-donut",
+      "mascot": "detective-donut",
+      "match": "exact",
+      "games": 1,
+      "gameSlugs": [
+        "detective-donut-crumbs-of-mystery"
+      ],
+      "universes": [
+        "standalone"
+      ],
+      "modes": [
+        "arcade"
+      ]
+    },
+    {
+      "file": "070_Nimbus.png",
+      "num": 70,
+      "name": "Nimbus",
+      "slug": "nimbus",
+      "mascot": null,
+      "match": "orphan",
+      "games": 0,
+      "gameSlugs": [],
+      "universes": [],
+      "modes": []
+    },
+    {
+      "file": "071_Fidget_Fox.png",
+      "num": 71,
+      "name": "Fidget Fox",
+      "slug": "fidget-fox",
+      "mascot": "fidget-fox",
+      "match": "exact",
+      "games": 1,
+      "gameSlugs": [
+        "fidget-foxs-puzzle-den"
+      ],
+      "universes": [
+        "standalone"
+      ],
+      "modes": [
+        "puzzle"
+      ]
+    },
+    {
+      "file": "072_Crash_Koala.png",
+      "num": 72,
+      "name": "Crash Koala",
+      "slug": "crash-koala",
+      "mascot": "crash-koala",
+      "match": "exact",
+      "games": 1,
+      "gameSlugs": [
+        "crash-koala-construction-co"
+      ],
+      "universes": [
+        "standalone"
+      ],
+      "modes": [
+        "stacker"
+      ]
+    },
+    {
+      "file": "073_Marshmallow_Mecha.png",
+      "num": 73,
+      "name": "Marshmallow Mecha",
+      "slug": "marshmallow-mecha",
+      "mascot": null,
+      "match": "orphan",
+      "games": 0,
+      "gameSlugs": [],
+      "universes": [],
+      "modes": []
+    },
+    {
+      "file": "074_Queen_Quokka.png",
+      "num": 74,
+      "name": "Queen Quokka",
+      "slug": "queen-quokka",
+      "mascot": "queen-quokka",
+      "match": "exact",
+      "games": 1,
+      "gameSlugs": [
+        "queen-quokkas-royal-picnic"
+      ],
+      "universes": [
+        "standalone"
+      ],
+      "modes": [
+        "management"
+      ]
+    },
+    {
+      "file": "075_Granny_Gearbox.png",
+      "num": 75,
+      "name": "Granny Gearbox",
+      "slug": "granny-gearbox",
+      "mascot": "granny-gearbox",
+      "match": "exact",
+      "games": 1,
+      "gameSlugs": [
+        "granny-gearboxs-clock-shop"
+      ],
+      "universes": [
+        "standalone"
+      ],
+      "modes": [
+        "puzzle"
+      ]
+    },
+    {
+      "file": "076_Sproutzilla.png",
+      "num": 76,
+      "name": "Sproutzilla",
+      "slug": "sproutzilla",
+      "mascot": "sproutzilla",
+      "match": "exact",
+      "games": 1,
+      "gameSlugs": [
+        "sproutzilla-vs-the-city-gardeners"
+      ],
+      "universes": [
+        "standalone"
+      ],
+      "modes": [
+        "arcade"
+      ]
+    },
+    {
+      "file": "077_Biscotti_Bandit.png",
+      "num": 77,
+      "name": "Biscotti Bandit",
+      "slug": "biscotti-bandit",
+      "mascot": null,
+      "match": "orphan",
+      "games": 0,
+      "gameSlugs": [],
+      "universes": [],
+      "modes": []
+    },
+    {
+      "file": "078_Rumi_Rabbit.png",
+      "num": 78,
+      "name": "Rumi Rabbit",
+      "slug": "rumi-rabbit",
+      "mascot": "rumi-rabbit",
+      "match": "exact",
+      "games": 1,
+      "gameSlugs": [
+        "rumi-rabbits-moon-bakery"
+      ],
+      "universes": [
+        "standalone"
+      ],
+      "modes": [
+        "arcade"
+      ]
+    },
+    {
+      "file": "079_Tavi_Tankard.png",
+      "num": 79,
+      "name": "Tavi Tankard",
+      "slug": "tavi-tankard",
+      "mascot": null,
+      "match": "orphan",
+      "games": 0,
+      "gameSlugs": [],
+      "universes": [],
+      "modes": []
+    },
+    {
+      "file": "080_Pixel_Panda.png",
+      "num": 80,
+      "name": "Pixel Panda",
+      "slug": "pixel-panda",
+      "mascot": "pixel-panda",
+      "match": "exact",
+      "games": 4,
+      "gameSlugs": [
+        "pixel-panda-parkour-standalone",
+        "pixel-panda-parkour",
+        "pixel-panda-tower",
+        "pixel-panda-idle"
+      ],
+      "universes": [
+        "standalone",
+        "pixel-playground"
+      ],
+      "modes": [
+        "runner",
+        "platformer",
+        "tower",
+        "idleclicker"
+      ]
+    },
+    {
+      "file": "081_Chester_Cheese.png",
+      "num": 81,
+      "name": "Chester Cheese",
+      "slug": "chester-cheese",
+      "mascot": "chester-cheese",
+      "match": "exact",
+      "games": 1,
+      "gameSlugs": [
+        "chester-cheese-maze-of-mice"
+      ],
+      "universes": [
+        "standalone"
+      ],
+      "modes": [
+        "arcade"
+      ]
+    },
+    {
+      "file": "082_Luna_Llama.png",
+      "num": 82,
+      "name": "Luna Llama",
+      "slug": "luna-llama",
+      "mascot": "luna-llama",
+      "match": "exact",
+      "games": 1,
+      "gameSlugs": [
+        "luna-llamas-stargazing-ranch"
+      ],
+      "universes": [
+        "standalone"
+      ],
+      "modes": [
+        "arcade"
+      ]
+    },
+    {
+      "file": "083_Postmaster_Pigeon.png",
+      "num": 83,
+      "name": "Postmaster Pigeon",
+      "slug": "postmaster-pigeon",
+      "mascot": "pigeon-postmaster",
+      "match": "fuzzy",
+      "games": 1,
+      "gameSlugs": [
+        "the-pigeon-postmaster"
+      ],
+      "universes": [
+        "standalone"
+      ],
+      "modes": [
+        "puzzle"
+      ]
+    },
+    {
+      "file": "084_Kiko_Kraken.png",
+      "num": 84,
+      "name": "Kiko Kraken",
+      "slug": "kiko-kraken",
+      "mascot": "kiko-kraken",
+      "match": "exact",
+      "games": 1,
+      "gameSlugs": [
+        "kiko-krakens-bubble-bath"
+      ],
+      "universes": [
+        "standalone"
+      ],
+      "modes": [
+        "arcade"
+      ]
+    },
+    {
+      "file": "085_Toasty_Dragon.png",
+      "num": 85,
+      "name": "Toasty Dragon",
+      "slug": "toasty-dragon",
+      "mascot": "toasty-dragon",
+      "match": "exact",
+      "games": 1,
+      "gameSlugs": [
+        "toasty-dragons-fireplace-dash"
+      ],
+      "universes": [
+        "standalone"
+      ],
+      "modes": [
+        "runner"
+      ]
+    },
+    {
+      "file": "086_Huxley_Hamster.png",
+      "num": 86,
+      "name": "Huxley Hamster",
+      "slug": "huxley-hamster",
+      "mascot": null,
+      "match": "orphan",
+      "games": 0,
+      "gameSlugs": [],
+      "universes": [],
+      "modes": []
+    },
+    {
+      "file": "087_Bongo_Beetle.png",
+      "num": 87,
+      "name": "Bongo Beetle",
+      "slug": "bongo-beetle",
+      "mascot": "bongo-beetle",
+      "match": "exact",
+      "games": 1,
+      "gameSlugs": [
+        "bongo-beetles-drumline-dash"
+      ],
+      "universes": [
+        "standalone"
+      ],
+      "modes": [
+        "runner"
+      ]
+    },
+    {
+      "file": "088_Cupcake_Cyclone.png",
+      "num": 88,
+      "name": "Cupcake Cyclone",
+      "slug": "cupcake-cyclone",
+      "mascot": "cupcake-cyclone",
+      "match": "exact",
+      "games": 1,
+      "gameSlugs": [
+        "cupcake-cyclone"
+      ],
+      "universes": [
+        "standalone"
+      ],
+      "modes": [
+        "bubbleshooter"
+      ]
+    },
+    {
+      "file": "089_Rex_Rocket.png",
+      "num": 89,
+      "name": "Rex Rocket",
+      "slug": "rex-rocket",
+      "mascot": "rex-rocket",
+      "match": "exact",
+      "games": 1,
+      "gameSlugs": [
+        "rex-rocket-the-dino-stars"
+      ],
+      "universes": [
+        "standalone"
+      ],
+      "modes": [
+        "arcade"
+      ]
+    },
+    {
+      "file": "090_Hammy_Hammer.png",
+      "num": 90,
+      "name": "Hammy Hammer",
+      "slug": "hammy-hammer",
+      "mascot": "hammy-hammer",
+      "match": "exact",
+      "games": 1,
+      "gameSlugs": [
+        "hammy-hammer-tiny-blacksmith"
+      ],
+      "universes": [
+        "standalone"
+      ],
+      "modes": [
+        "idleclicker"
+      ]
+    },
+    {
+      "file": "091_Suki_Sloth.png",
+      "num": 91,
+      "name": "Suki Sloth",
+      "slug": "suki-sloth",
+      "mascot": null,
+      "match": "orphan",
+      "games": 0,
+      "gameSlugs": [],
+      "universes": [],
+      "modes": []
+    },
+    {
+      "file": "092_Pepper_Pup.png",
+      "num": 92,
+      "name": "Pepper Pup",
+      "slug": "pepper-pup",
+      "mascot": "pepper-pup",
+      "match": "exact",
+      "games": 1,
+      "gameSlugs": [
+        "pepper-pups-firehouse-frenzy"
+      ],
+      "universes": [
+        "standalone"
+      ],
+      "modes": [
+        "arcade"
+      ]
+    },
+    {
+      "file": "093_Giga_Gecko.png",
+      "num": 93,
+      "name": "Giga Gecko",
+      "slug": "giga-gecko",
+      "mascot": "giga-gecko",
+      "match": "exact",
+      "games": 1,
+      "gameSlugs": [
+        "giga-gecko-wall-runner"
+      ],
+      "universes": [
+        "standalone"
+      ],
+      "modes": [
+        "runner"
+      ]
+    },
+    {
+      "file": "094_Ollie_Onion.png",
+      "num": 94,
+      "name": "Ollie Onion",
+      "slug": "ollie-onion",
+      "mascot": "ollie-onion",
+      "match": "exact",
+      "games": 1,
+      "gameSlugs": [
+        "ollie-onions-tearful-tower"
+      ],
+      "universes": [
+        "standalone"
+      ],
+      "modes": [
+        "runner"
+      ]
+    },
+    {
+      "file": "095_Banana_Bot.png",
+      "num": 95,
+      "name": "Banana Bot",
+      "slug": "banana-bot",
+      "mascot": "banana-bot",
+      "match": "exact",
+      "games": 1,
+      "gameSlugs": [
+        "banana-bot-factory"
+      ],
+      "universes": [
+        "standalone"
+      ],
+      "modes": [
+        "puzzle"
+      ]
+    },
+    {
+      "file": "096_Hugo_Hippo.png",
+      "num": 96,
+      "name": "Hugo Hippo",
+      "slug": "hugo-hippo",
+      "mascot": "hugo-hippo",
+      "match": "exact",
+      "games": 1,
+      "gameSlugs": [
+        "hugo-hippos-hotel-splash"
+      ],
+      "universes": [
+        "standalone"
+      ],
+      "modes": [
+        "management"
+      ]
+    },
+    {
+      "file": "097_Mimi_Meteor.png",
+      "num": 97,
+      "name": "Mimi Meteor",
+      "slug": "mimi-meteor",
+      "mascot": "mimi-meteor",
+      "match": "exact",
+      "games": 1,
+      "gameSlugs": [
+        "mimi-meteors-mini-golf-mayhem"
+      ],
+      "universes": [
+        "standalone"
+      ],
+      "modes": [
+        "arcade"
+      ]
+    },
+    {
+      "file": "098_Shelly_Snailmail.png",
+      "num": 98,
+      "name": "Shelly Snailmail",
+      "slug": "shelly-snailmail",
+      "mascot": null,
+      "match": "orphan",
+      "games": 0,
+      "gameSlugs": [],
+      "universes": [],
+      "modes": []
+    },
+    {
+      "file": "099_Captain_Cactus.png",
+      "num": 99,
+      "name": "Captain Cactus",
+      "slug": "captain-cactus",
+      "mascot": "captain-cactus",
+      "match": "exact",
+      "games": 1,
+      "gameSlugs": [
+        "captain-cactus-the-desert-bloom"
+      ],
+      "universes": [
+        "standalone"
+      ],
+      "modes": [
+        "puzzle"
+      ]
+    },
+    {
+      "file": "100_Noodle_Knight.png",
+      "num": 100,
+      "name": "Noodle Knight",
+      "slug": "noodle-knight",
+      "mascot": "noodle-knight",
+      "match": "exact",
+      "games": 1,
+      "gameSlugs": [
+        "noodle-knight-soup-dungeon"
+      ],
+      "universes": [
+        "standalone"
+      ],
+      "modes": [
+        "arcade"
+      ]
+    },
+    {
+      "file": "101_Tilly_Teacup.png",
+      "num": 101,
+      "name": "Tilly Teacup",
+      "slug": "tilly-teacup",
+      "mascot": "tilly-teacup",
+      "match": "exact",
+      "games": 1,
+      "gameSlugs": [
+        "tilly-teacups-haunted-tea-party"
+      ],
+      "universes": [
+        "standalone"
+      ],
+      "modes": [
+        "arcade"
+      ]
+    },
+    {
+      "file": "102_Radar_Raccoon.png",
+      "num": 102,
+      "name": "Radar Raccoon",
+      "slug": "radar-raccoon",
+      "mascot": "radar-raccoon",
+      "match": "exact",
+      "games": 1,
+      "gameSlugs": [
+        "radar-raccoon"
+      ],
+      "universes": [
+        "standalone"
+      ],
+      "modes": [
+        "puzzle"
+      ]
+    },
+    {
+      "file": "103_Pipkin_Pumpkin.png",
+      "num": 103,
+      "name": "Pipkin Pumpkin",
+      "slug": "pipkin-pumpkin",
+      "mascot": "pipkin-pumpkin",
+      "match": "exact",
+      "games": 1,
+      "gameSlugs": [
+        "pipkin-pumpkins-midnight-farm"
+      ],
+      "universes": [
+        "standalone"
+      ],
+      "modes": [
+        "puzzle"
+      ]
+    },
+    {
+      "file": "104_Sir_Sprinkle.png",
+      "num": 104,
+      "name": "Sir Sprinkle",
+      "slug": "sir-sprinkle",
+      "mascot": "sir-sprinkle",
+      "match": "exact",
+      "games": 1,
+      "gameSlugs": [
+        "sir-sprinkles-cake-castle"
+      ],
+      "universes": [
+        "standalone"
+      ],
+      "modes": [
+        "arcade"
+      ]
+    },
+    {
+      "file": "105_Gummy_Golem.png",
+      "num": 105,
+      "name": "Gummy Golem",
+      "slug": "gummy-golem",
+      "mascot": "gummy-golem",
+      "match": "exact",
+      "games": 1,
+      "gameSlugs": [
+        "gummy-golem-arena"
+      ],
+      "universes": [
+        "standalone"
+      ],
+      "modes": [
+        "arcade"
+      ]
+    },
+    {
+      "file": "106_Boba_Bear.png",
+      "num": 106,
+      "name": "Boba Bear",
+      "slug": "boba-bear",
+      "mascot": null,
+      "match": "orphan",
+      "games": 0,
+      "gameSlugs": [],
+      "universes": [],
+      "modes": []
+    },
+    {
+      "file": "107_Clara_Compass.png",
+      "num": 107,
+      "name": "Clara Compass",
+      "slug": "clara-compass",
+      "mascot": "clara-compass",
+      "match": "exact",
+      "games": 1,
+      "gameSlugs": [
+        "clara-compass-the-map-moths"
+      ],
+      "universes": [
+        "standalone"
+      ],
+      "modes": [
+        "puzzle"
+      ]
+    },
+    {
+      "file": "108_Donnie_Duck.png",
+      "num": 108,
+      "name": "Donnie Duck",
+      "slug": "donnie-duck",
+      "mascot": "donnie-duck",
+      "match": "exact",
+      "games": 1,
+      "gameSlugs": [
+        "donnie-ducks-disaster-dock"
+      ],
+      "universes": [
+        "standalone"
+      ],
+      "modes": [
+        "management"
+      ]
+    },
+    {
+      "file": "109_Molar_Monster.png",
+      "num": 109,
+      "name": "Molar Monster",
+      "slug": "molar-monster",
+      "mascot": null,
+      "match": "orphan",
+      "games": 0,
+      "gameSlugs": [],
+      "universes": [],
+      "modes": []
+    },
+    {
+      "file": "110_Wobble_Wizard.png",
+      "num": 110,
+      "name": "Wobble Wizard",
+      "slug": "wobble-wizard",
+      "mascot": "wobble-wizard",
+      "match": "exact",
+      "games": 1,
+      "gameSlugs": [
+        "wobble-wizards-gravity-school"
+      ],
+      "universes": [
+        "standalone"
+      ],
+      "modes": [
+        "puzzle"
+      ]
+    },
+    {
+      "file": "111_Skippy_Shrimp.png",
+      "num": 111,
+      "name": "Skippy Shrimp",
+      "slug": "skippy-shrimp",
+      "mascot": "skippy-shrimp",
+      "match": "exact",
+      "games": 1,
+      "gameSlugs": [
+        "skippy-shrimps-sushi-sprint"
+      ],
+      "universes": [
+        "standalone"
+      ],
+      "modes": [
+        "runner"
+      ]
+    },
+    {
+      "file": "112_Titan_Trix.png",
+      "num": 112,
+      "name": "Titan Trix",
+      "slug": "titan-trix",
+      "mascot": null,
+      "match": "orphan",
+      "games": 0,
+      "gameSlugs": [],
+      "universes": [],
+      "modes": []
+    },
+    {
+      "file": "113_Mabel_Mooncow.png",
+      "num": 113,
+      "name": "Mabel Mooncow",
+      "slug": "mabel-mooncow",
+      "mascot": "mabel-mooncow",
+      "match": "exact",
+      "games": 1,
+      "gameSlugs": [
+        "mabel-mooncows-cosmic-dairy"
+      ],
+      "universes": [
+        "standalone"
+      ],
+      "modes": [
+        "management"
+      ]
+    },
+    {
+      "file": "114_Finn_Finnegan.png",
+      "num": 114,
+      "name": "Finn Finnegan",
+      "slug": "finn-finnegan",
+      "mascot": "finn-finnegan",
+      "match": "exact",
+      "games": 1,
+      "gameSlugs": [
+        "finn-finnegans-fishy-fortune"
+      ],
+      "universes": [
+        "standalone"
+      ],
+      "modes": [
+        "arcade"
+      ]
+    },
+    {
+      "file": "115_Pogo_Pup.png",
+      "num": 115,
+      "name": "Pogo Pup",
+      "slug": "pogo-pup",
+      "mascot": null,
+      "match": "orphan",
+      "games": 0,
+      "gameSlugs": [],
+      "universes": [],
+      "modes": []
+    },
+    {
+      "file": "116_Fifi_Fiesta.png",
+      "num": 116,
+      "name": "Fifi Fiesta",
+      "slug": "fifi-fiesta",
+      "mascot": null,
+      "match": "orphan",
+      "games": 0,
+      "gameSlugs": [],
+      "universes": [],
+      "modes": []
+    },
+    {
+      "file": "117_Juno_Jump.png",
+      "num": 117,
+      "name": "Juno Jump",
+      "slug": "juno-jump",
+      "mascot": null,
+      "match": "orphan",
+      "games": 0,
+      "gameSlugs": [],
+      "universes": [],
+      "modes": []
+    },
+    {
+      "file": "118_Sora_Snowy.png",
+      "num": 118,
+      "name": "Sora Snowy",
+      "slug": "sora-snowy",
+      "mascot": null,
+      "match": "orphan",
+      "games": 0,
+      "gameSlugs": [],
+      "universes": [],
+      "modes": []
+    },
+    {
+      "file": "119_Kiki_Yarn.png",
+      "num": 119,
+      "name": "Kiki Yarn",
+      "slug": "kiki-yarn",
+      "mascot": null,
+      "match": "orphan",
+      "games": 0,
+      "gameSlugs": [],
+      "universes": [],
+      "modes": []
+    },
+    {
+      "file": "120_Pirate_Pearl.png",
+      "num": 120,
+      "name": "Pirate Pearl",
+      "slug": "pirate-pearl",
+      "mascot": null,
+      "match": "orphan",
+      "games": 0,
+      "gameSlugs": [],
+      "universes": [],
+      "modes": []
+    },
+    {
+      "file": "121_Bolt_Bot.png",
+      "num": 121,
+      "name": "Bolt Bot",
+      "slug": "bolt-bot",
+      "mascot": null,
+      "match": "orphan",
+      "games": 0,
+      "gameSlugs": [],
+      "universes": [],
+      "modes": []
+    },
+    {
+      "file": "122_Penny_Piggyfly.png",
+      "num": 122,
+      "name": "Penny Piggyfly",
+      "slug": "penny-piggyfly",
+      "mascot": null,
+      "match": "orphan",
+      "games": 0,
+      "gameSlugs": [],
+      "universes": [],
+      "modes": []
+    },
+    {
+      "file": "123_Frond_Frogpond.png",
+      "num": 123,
+      "name": "Frond Frogpond",
+      "slug": "frond-frogpond",
+      "mascot": null,
+      "match": "orphan",
+      "games": 0,
+      "gameSlugs": [],
+      "universes": [],
+      "modes": []
+    },
+    {
+      "file": "124_Brock_Blocks.png",
+      "num": 124,
+      "name": "Brock Blocks",
+      "slug": "brock-blocks",
+      "mascot": null,
+      "match": "orphan",
+      "games": 0,
+      "gameSlugs": [],
+      "universes": [],
+      "modes": []
+    },
+    {
+      "file": "125_Daisy_Dino.png",
+      "num": 125,
+      "name": "Daisy Dino",
+      "slug": "daisy-dino",
+      "mascot": null,
+      "match": "orphan",
+      "games": 0,
+      "gameSlugs": [],
+      "universes": [],
+      "modes": []
+    },
+    {
+      "file": "126_Dashley.png",
+      "num": 126,
+      "name": "Dashley",
+      "slug": "dashley",
+      "mascot": null,
+      "match": "orphan",
+      "games": 0,
+      "gameSlugs": [],
+      "universes": [],
+      "modes": []
+    },
+    {
+      "file": "127_Stella_Starry.png",
+      "num": 127,
+      "name": "Stella Starry",
+      "slug": "stella-starry",
+      "mascot": null,
+      "match": "orphan",
+      "games": 0,
+      "gameSlugs": [],
+      "universes": [],
+      "modes": []
+    },
+    {
+      "file": "128_Crumble_Cake.png",
+      "num": 128,
+      "name": "Crumble Cake",
+      "slug": "crumble-cake",
+      "mascot": null,
+      "match": "orphan",
+      "games": 0,
+      "gameSlugs": [],
+      "universes": [],
+      "modes": []
+    },
+    {
+      "file": "129_Hazel_Hedgehog.png",
+      "num": 129,
+      "name": "Hazel Hedgehog",
+      "slug": "hazel-hedgehog",
+      "mascot": null,
+      "match": "orphan",
+      "games": 0,
+      "gameSlugs": [],
+      "universes": [],
+      "modes": []
+    },
+    {
+      "file": "130_Orbit_Defender.png",
+      "num": 130,
+      "name": "Orbit Defender",
+      "slug": "orbit-defender",
+      "mascot": null,
+      "match": "orphan",
+      "games": 0,
+      "gameSlugs": [],
+      "universes": [],
+      "modes": []
+    },
+    {
+      "file": "131_Hattie_Harvest.png",
+      "num": 131,
+      "name": "Hattie Harvest",
+      "slug": "hattie-harvest",
+      "mascot": null,
+      "match": "orphan",
+      "games": 0,
+      "gameSlugs": [],
+      "universes": [],
+      "modes": []
+    },
+    {
+      "file": "132_Taro_Treasure.png",
+      "num": 132,
+      "name": "Taro Treasure",
+      "slug": "taro-treasure",
+      "mascot": null,
+      "match": "orphan",
+      "games": 0,
+      "gameSlugs": [],
+      "universes": [],
+      "modes": []
+    },
+    {
+      "file": "133_Fenn_Fetch.png",
+      "num": 133,
+      "name": "Fenn Fetch",
+      "slug": "fenn-fetch",
+      "mascot": null,
+      "match": "orphan",
+      "games": 0,
+      "gameSlugs": [],
+      "universes": [],
+      "modes": []
+    },
+    {
+      "file": "134_Jemma_Jewel.png",
+      "num": 134,
+      "name": "Jemma Jewel",
+      "slug": "jemma-jewel",
+      "mascot": null,
+      "match": "orphan",
+      "games": 0,
+      "gameSlugs": [],
+      "universes": [],
+      "modes": []
+    },
+    {
+      "file": "135_Tully_Turtle.png",
+      "num": 135,
+      "name": "Tully Turtle",
+      "slug": "tully-turtle",
+      "mascot": null,
+      "match": "orphan",
+      "games": 0,
+      "gameSlugs": [],
+      "universes": [],
+      "modes": []
+    },
+    {
+      "file": "136_Skyler_Patrol.png",
+      "num": 136,
+      "name": "Skyler Patrol",
+      "slug": "skyler-patrol",
+      "mascot": null,
+      "match": "orphan",
+      "games": 0,
+      "gameSlugs": [],
+      "universes": [],
+      "modes": []
+    },
+    {
+      "file": "137_Gigi_Galaxy.png",
+      "num": 137,
+      "name": "Gigi Galaxy",
+      "slug": "gigi-galaxy",
+      "mascot": null,
+      "match": "orphan",
+      "games": 0,
+      "gameSlugs": [],
+      "universes": [],
+      "modes": []
+    },
+    {
+      "file": "138_Poppi_Sweetpops.png",
+      "num": 138,
+      "name": "Poppi Sweetpops",
+      "slug": "poppi-sweetpops",
+      "mascot": null,
+      "match": "orphan",
+      "games": 0,
+      "gameSlugs": [],
+      "universes": [],
+      "modes": []
+    },
+    {
+      "file": "139_Mica_Miner.png",
+      "num": 139,
+      "name": "Mica Miner",
+      "slug": "mica-miner",
+      "mascot": null,
+      "match": "orphan",
+      "games": 0,
+      "gameSlugs": [],
+      "universes": [],
+      "modes": []
+    },
+    {
+      "file": "140_Delphie_Dolphin.png",
+      "num": 140,
+      "name": "Delphie Dolphin",
+      "slug": "delphie-dolphin",
+      "mascot": null,
+      "match": "orphan",
+      "games": 0,
+      "gameSlugs": [],
+      "universes": [],
+      "modes": []
+    },
+    {
+      "file": "141_Hooper.png",
+      "num": 141,
+      "name": "Hooper",
+      "slug": "hooper",
+      "mascot": null,
+      "match": "orphan",
+      "games": 0,
+      "gameSlugs": [],
+      "universes": [],
+      "modes": []
+    },
+    {
+      "file": "142_Momo_Monster.png",
+      "num": 142,
+      "name": "Momo Monster",
+      "slug": "momo-monster",
+      "mascot": null,
+      "match": "orphan",
+      "games": 0,
+      "gameSlugs": [],
+      "universes": [],
+      "modes": []
+    },
+    {
+      "file": "143_Fern_Farmer.png",
+      "num": 143,
+      "name": "Fern Farmer",
+      "slug": "fern-farmer",
+      "mascot": null,
+      "match": "orphan",
+      "games": 0,
+      "gameSlugs": [],
+      "universes": [],
+      "modes": []
+    },
+    {
+      "file": "144_Egbert.png",
+      "num": 144,
+      "name": "Egbert",
+      "slug": "egbert",
+      "mascot": null,
+      "match": "orphan",
+      "games": 0,
+      "gameSlugs": [],
+      "universes": [],
+      "modes": []
+    },
+    {
+      "file": "145_Panya.png",
+      "num": 145,
+      "name": "Panya",
+      "slug": "panya",
+      "mascot": null,
+      "match": "orphan",
+      "games": 0,
+      "gameSlugs": [],
+      "universes": [],
+      "modes": []
+    },
+    {
+      "file": "146_Clover.png",
+      "num": 146,
+      "name": "Clover",
+      "slug": "clover",
+      "mascot": null,
+      "match": "orphan",
+      "games": 0,
+      "gameSlugs": [],
+      "universes": [],
+      "modes": []
+    }
+  ],
+  "batches": [
+    {
+      "n": 1,
+      "files": [
+        "037_Super_Sean.png",
+        "018_Bao.png",
+        "035_Chef_Bao.png",
+        "001_Mochi.png",
+        "015_Bramble_Bear.png",
+        "019_Madame_Fortuna.png",
+        "021_Umbra.png",
+        "050_Mochi-9.png",
+        "013_Puddle.png",
+        "020_Morpheus.png",
+        "014_Pip.png",
+        "080_Pixel_Panda.png",
+        "025_Uncle_Lee.png",
+        "051_Captain_Nova.png",
+        "052_Gearbit.png"
+      ]
+    },
+    {
+      "n": 2,
+      "files": [
+        "016_Lulu_Lantern.png",
+        "017_Mei_Mei.png",
+        "022_Sol_Frog.png",
+        "023_Tika_Tiger.png",
+        "024_Nori_Ninja.png",
+        "026_Auntie_Li-Wen.png",
+        "027_Red_Crane.png",
+        "028_Clockwork_Crow.png",
+        "045_Bloop.png",
+        "054_Grumble_Comet.png",
+        "002_Mango.png",
+        "029_Coco_Cannon.png",
+        "030_Professor_Pogo.png",
+        "058_Buttonbeard.png",
+        "059_Princess_Pickle.png"
+      ]
+    },
+    {
+      "n": 3,
+      "files": [
+        "060_Sir_Wafflesworth.png",
+        "061_Gobbo_Cart.png",
+        "062_Milo_Mole.png",
+        "063_Captain_Bubblebeard.png",
+        "064_Socktopus.png",
+        "065_Muffin_Mage.png",
+        "066_Turbo_Tofu.png",
+        "067_Benny_Banana.png",
+        "068_Vera_Volcano.png",
+        "069_Detective_Donut.png",
+        "071_Fidget_Fox.png",
+        "072_Crash_Koala.png",
+        "074_Queen_Quokka.png",
+        "075_Granny_Gearbox.png",
+        "076_Sproutzilla.png"
+      ]
+    },
+    {
+      "n": 4,
+      "files": [
+        "078_Rumi_Rabbit.png",
+        "081_Chester_Cheese.png",
+        "082_Luna_Llama.png",
+        "083_Postmaster_Pigeon.png",
+        "084_Kiko_Kraken.png",
+        "085_Toasty_Dragon.png",
+        "087_Bongo_Beetle.png",
+        "088_Cupcake_Cyclone.png",
+        "089_Rex_Rocket.png",
+        "090_Hammy_Hammer.png",
+        "092_Pepper_Pup.png",
+        "093_Giga_Gecko.png",
+        "094_Ollie_Onion.png",
+        "095_Banana_Bot.png",
+        "096_Hugo_Hippo.png"
+      ]
+    },
+    {
+      "n": 5,
+      "files": [
+        "097_Mimi_Meteor.png",
+        "099_Captain_Cactus.png",
+        "100_Noodle_Knight.png",
+        "101_Tilly_Teacup.png",
+        "102_Radar_Raccoon.png",
+        "103_Pipkin_Pumpkin.png",
+        "104_Sir_Sprinkle.png",
+        "105_Gummy_Golem.png",
+        "107_Clara_Compass.png",
+        "108_Donnie_Duck.png",
+        "110_Wobble_Wizard.png",
+        "111_Skippy_Shrimp.png",
+        "113_Mabel_Mooncow.png",
+        "114_Finn_Finnegan.png",
+        "003_Pandy.png"
+      ]
+    },
+    {
+      "n": 6,
+      "files": [
+        "004_Neko.png",
+        "005_Zuzu.png",
+        "006_Batty.png",
+        "007_Captain_Corgi.png",
+        "008_Raccoon_Rex.png",
+        "009_Dragon_Dribble.png",
+        "010_Bunny_Blossom.png",
+        "011_Ninja_Neko.png",
+        "012_Astro_Zuzu.png",
+        "031_Sherlock_Lamb.png",
+        "032_DJ_Waddle.png",
+        "033_Coralia.png",
+        "034_Gearson.png",
+        "036_Riptide.png",
+        "038_Starfall.png"
+      ]
+    },
+    {
+      "n": 7,
+      "files": [
+        "039_Jelly_Bean.png",
+        "040_Tiny_Chef_Timo.png",
+        "041_Dex_Dino.png",
+        "042_Merge_Molly.png",
+        "043_Miko_Islander.png",
+        "044_Sky_Panda.png",
+        "046_Ninja_Mango.png",
+        "047_Pixel_Pixie.png",
+        "048_Candy_Comet.png",
+        "049_Pirate_Pudding.png",
+        "053_Bloopette.png",
+        "055_Nebula_Knight_Nova.png",
+        "056_Jade_Dragon_Spirit.png",
+        "057_Tile_Spirit_Lin.png",
+        "070_Nimbus.png"
+      ]
+    },
+    {
+      "n": 8,
+      "files": [
+        "073_Marshmallow_Mecha.png",
+        "077_Biscotti_Bandit.png",
+        "079_Tavi_Tankard.png",
+        "086_Huxley_Hamster.png",
+        "091_Suki_Sloth.png",
+        "098_Shelly_Snailmail.png",
+        "106_Boba_Bear.png",
+        "109_Molar_Monster.png",
+        "112_Titan_Trix.png",
+        "115_Pogo_Pup.png",
+        "116_Fifi_Fiesta.png",
+        "117_Juno_Jump.png",
+        "118_Sora_Snowy.png",
+        "119_Kiki_Yarn.png",
+        "120_Pirate_Pearl.png"
+      ]
+    },
+    {
+      "n": 9,
+      "files": [
+        "121_Bolt_Bot.png",
+        "122_Penny_Piggyfly.png",
+        "123_Frond_Frogpond.png",
+        "124_Brock_Blocks.png",
+        "125_Daisy_Dino.png",
+        "126_Dashley.png",
+        "127_Stella_Starry.png",
+        "128_Crumble_Cake.png",
+        "129_Hazel_Hedgehog.png",
+        "130_Orbit_Defender.png",
+        "131_Hattie_Harvest.png",
+        "132_Taro_Treasure.png",
+        "133_Fenn_Fetch.png",
+        "134_Jemma_Jewel.png",
+        "135_Tully_Turtle.png"
+      ]
+    },
+    {
+      "n": 10,
+      "files": [
+        "136_Skyler_Patrol.png",
+        "137_Gigi_Galaxy.png",
+        "138_Poppi_Sweetpops.png",
+        "139_Mica_Miner.png",
+        "140_Delphie_Dolphin.png",
+        "141_Hooper.png",
+        "142_Momo_Monster.png",
+        "143_Fern_Farmer.png",
+        "144_Egbert.png",
+        "145_Panya.png",
+        "146_Clover.png"
+      ]
+    }
+  ]
+}

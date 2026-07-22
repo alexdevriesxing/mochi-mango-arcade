@@ -37,6 +37,97 @@ class SpriteBank {
 }
 export const sprites = new SpriteBank();
 
+/* ------------------------------------------------------------------ *
+ * Animated atlases
+ *
+ * Richer than the single-pose PNGs above: one WebP per character holding
+ * every pose from the source spritesheet on a uniform grid, plus a manifest
+ * naming the animation rows (idle / walk / run / jump / action / emote / face).
+ * Built by scripts/build-sprite-atlas.mjs.
+ * ------------------------------------------------------------------ */
+
+const ATLAS_BASE = '/assets/images/sprites/atlas/';
+
+class AtlasBank {
+  constructor() {
+    this.cache = new Map();
+    this.available = null; // null until the index resolves
+    // Games whose mascot has no art of its own can borrow a character of the
+    // same species; see scripts/apply-mascot-aliases.mjs.
+    this.aliases = {};
+    this.indexLoaded = false;
+    Promise.all([
+      fetch(ATLAS_BASE + 'index.json').then((r) => (r.ok ? r.json() : [])).catch(() => []),
+      fetch(ATLAS_BASE + 'aliases.json').then((r) => (r.ok ? r.json() : {})).catch(() => ({})),
+    ]).then(([list, aliases]) => {
+      this.available = new Set(list);
+      this.aliases = aliases || {};
+    }).finally(() => { this.indexLoaded = true; });
+  }
+
+  /**
+   * Returns a record synchronously so the render loop never blocks; callers
+   * check `.ready` and fall back to the vector character until it flips.
+   */
+  get(slug) {
+    if (this.cache.has(slug)) return this.cache.get(slug);
+    // Until the index lands we cannot know whether an atlas exists, so stay
+    // uncached and let the caller fall back for the first few frames.
+    if (!this.available) return { ready: false, failed: false };
+
+    const art = this.aliases[slug] || slug;
+    if (!this.available.has(art)) {
+      const miss = { ready: false, failed: true };
+      this.cache.set(slug, miss);
+      return miss;
+    }
+    // An alias and its target share one record, so the art is fetched once.
+    if (art !== slug && this.cache.has(art)) {
+      const shared = this.cache.get(art);
+      this.cache.set(slug, shared);
+      return shared;
+    }
+
+    const rec = { img: null, manifest: null, ready: false, failed: false };
+    this.cache.set(slug, rec);
+    if (art !== slug) this.cache.set(art, rec);
+
+    const img = new Image();
+    img.onerror = () => { rec.failed = true; };
+    img.onload = () => { rec.img = img; if (rec.manifest) rec.ready = true; };
+    img.src = `${ATLAS_BASE}${art}.webp`;
+
+    fetch(`${ATLAS_BASE}${art}.json`)
+      .then((r) => (r.ok ? r.json() : Promise.reject(new Error('no manifest'))))
+      .then((m) => { rec.manifest = m; if (rec.img) rec.ready = true; })
+      .catch(() => { rec.failed = true; });
+
+    return rec;
+  }
+}
+
+export const atlases = new AtlasBank();
+
+/**
+ * Pick the source rectangle for an animation at time `t`.
+ * Falls back to the idle row, then to the first row, so a sheet missing a
+ * given animation still draws something sensible rather than nothing.
+ *
+ * Pass `frame` to hold one specific pose instead of cycling. The emote and face
+ * rows collect unrelated expressions -- cheering next to crying -- so playing
+ * them as a loop flickers through moods; a reaction wants a single held pose.
+ */
+export function atlasFrame(manifest, name, t, frame = null) {
+  const anims = manifest.anims;
+  const anim = anims[name] || anims.idle || anims[Object.keys(anims)[0]];
+  if (!anim) return null;
+  const i = frame == null
+    ? Math.floor(t * anim.fps) % anim.count
+    : Math.max(0, Math.min(anim.count - 1, frame < 0 ? anim.count + frame : frame));
+  const { w, h } = manifest.cell;
+  return { sx: i * w, sy: anim.row * h, sw: w, sh: h };
+}
+
 // species -> feature set for the vector fallback
 const SPECIES = [
   ['dragon', 'dragon'], ['dino', 'dragon'], ['gecko', 'dragon'], ['lizard', 'dragon'],

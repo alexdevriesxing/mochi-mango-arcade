@@ -11,3 +11,16 @@ dist
 # Dev/standalone test files
 *-standalone/
 analyze_games.py
+
+# Source spritesheet delivery (788MB) - sliced output is committed, the raw zip is not
+mochi_mango_146_spritesheets.zip
+sprites-raw/
+
+# Standalone game deliveries - the extracted bundles under public/play are
+# committed, the source archives are not.
+petroman-*.zip
+
+# Local build/scratch output
+output/
+.wrangler-dry-final/
+.sprite-tmp/

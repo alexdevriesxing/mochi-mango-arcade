@@ -1,0 +1,12 @@
+{
+  "name": "Petroman: Reactor Rush",
+  "short_name": "Petroman",
+  "start_url": "./",
+  "display": "fullscreen",
+  "orientation": "landscape",
+  "background_color": "#07142f",
+  "theme_color": "#ef433f",
+  "icons": [
+    {"src":"assets/key-art/icon-512.png","sizes":"512x512","type":"image/png","purpose":"any maskable"}
+  ]
+}

@@ -1118,7 +1118,31 @@ function engineMode(g) {
   return 'dodger';
 }
 
-const IFRAME_GAMES = [];
+// Games that run as their own bundle inside an iframe rather than on the shared
+// engine. Both implement the 'mma-reward-v1' channel, and monetag-loader.js
+// posts the grant straight into the frame -- but the page still needs to know,
+// or the reward panel sits on "pending" forever and the player assumes the
+// sponsor visit failed. Leaving this empty silently breaks that feedback.
+const IFRAME_GAMES = [
+  'puddle-pip-meadow-dash', 'puddles-pancake-panic',
+  'petroman-reactor-rush', 'petroman-bubble-blitz', 'petroman-core-digger',
+];
+
+// Standalone bundles share one play-page layout; only the copy differs.
+const IFRAME_GAME_INFO = {
+  'petroman-reactor-rush': {
+    controls: [['Move', '← → or A / D'], ['Boost', 'Space / W / ↑ (again in air for a second burst)'], ['Pause', 'P / Esc']],
+    tip: 'Collect the core marked NEXT to keep your Spark Chain alive. Grab the P capsule for Purifier Mode.',
+  },
+  'petroman-bubble-blitz': {
+    controls: [['Move', '← → or A / D'], ['Jump', 'Space / W'], ['Bubble', 'X / K / J'], ['Pause', 'P / Esc']],
+    tip: 'Trap a smog creature, then pop the bubble fast — chain pops to multiply your score.',
+  },
+  'petroman-core-digger': {
+    controls: [['Dig / Move', 'Arrow keys or WASD'], ['Purifier Orb', 'Space'], ['Pause', 'P / Esc']],
+    tip: 'Lure pursuers under a reactor drum and drop it, or purify them with an orb — both clear the stage.',
+  },
+};
 
 function rewardBenefit(g) {
   if (g.slug === 'puddle-pip-meadow-dash') return 'Revive with a guardian shield and keep your score';
@@ -1217,6 +1241,40 @@ function playPage(sl){
           <div class="promo-card">
             <h3>Tip</h3>
             <p>Serve order combinations quickly to keep your multiplier combo meter high!</p>
+          </div>
+        </aside>
+      </div>
+    </main>`;
+  }
+  if(IFRAME_GAME_INFO[sl]){
+    const info=IFRAME_GAME_INFO[sl];
+    return `<main id="main" class="container">
+      ${adTop()}
+      <div class="detail-layout">
+        <section>
+          <h1 class="play-heading">${g.title}</h1>
+          <div class="play-shell" data-universe="${g.universe}" style="padding:0;overflow:hidden;aspect-ratio:16/9;background:#000;border-radius:28px;box-shadow:0 12px 40px rgba(0,0,0,0.6);border:1.5px solid var(--border-color);">
+            <iframe src="game/index.html" data-slug="${g.slug}" title="${g.title}" style="width:100%;height:100%;border:none;display:block;border-radius:26px;" allow="autoplay; fullscreen"></iframe>
+          </div>
+          ${rewardCard(g)}
+          ${adNative('post-game-ad')}
+          <div class="play-links">
+            <a class="btn secondary small" href="${g.detailUrl}">ℹ️ Game details</a>
+            <a class="btn secondary small" href="/games/">🎮 More games</a>
+            <a class="btn secondary small" href="/shop/">🛍️ ${g.mascot} merch</a>
+          </div>
+          ${adSlot('b468x60')}
+        </section>
+        <aside class="side-stack">
+          ${adSide()}
+          ${adSkyscraper('b160x600')}
+          <div class="promo-card">
+            <h3>Controls</h3>
+            ${info.controls.map(([k,v])=>`<p><strong>${k}:</strong> ${v}</p>`).join('')}
+          </div>
+          <div class="promo-card">
+            <h3>Tip</h3>
+            <p>${info.tip}</p>
           </div>
         </aside>
       </div>
@@ -1404,6 +1462,11 @@ function bindArcadeEvents(){
     setRewardPanel('applied',`Unlocked: ${event.detail?.label||'reward boost'}.`);
     toast(`🎁 ${event.detail?.label||'Reward boost unlocked!'}`);
     recordProfileReward(event.detail?.slug||document.body.dataset.slug,event.detail);
+  });
+  addEventListener('mma:reward-armed',event=>{
+    // Armed but not yet spent: the boost applies when the next run starts, so
+    // the page panel should stop inviting another sponsor visit.
+    setRewardPanel('applied',`Boost armed: ${event.detail?.label||'ready for your next run'}.`);
   });
   addEventListener('mma:run-started',event=>{
     setRewardPanel('ready','Visit our sponsor, then return to unlock your boost.');

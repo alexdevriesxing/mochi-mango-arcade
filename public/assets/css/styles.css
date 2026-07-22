@@ -2798,6 +2798,11 @@ img[src*=".png"] {
 .mma-start-panel .mma-play-normal { margin-top: 7px; }
 .mma-start-panel .mma-best { margin-top: 7px; font-size: 10px; }
 .mma-overlay[data-reward-state="ready"] .mma-boost-picker { box-shadow: 0 0 0 2px rgba(87,244,186,.38), 0 0 26px rgba(87,244,186,.16); }
+.mma-preroll-kicker { font-size: 10px; font-weight: 1000; letter-spacing: .1em; text-transform: uppercase; color: #ffe391; opacity: .9; }
+.mma-preroll-panel h2 { margin: 6px 0 4px; }
+.mma-preroll-note { margin: 0 0 10px; font-size: 11px; line-height: 1.4; color: rgba(255,255,255,.8); }
+.mma-preroll-note b { color: #ffd166; font-variant-numeric: tabular-nums; }
+.mma-preroll-panel .mma-btn { width: 100%; }
 
 @media (max-width: 700px) {
   .reward-card { grid-template-columns: auto 1fr; padding: 13px; }

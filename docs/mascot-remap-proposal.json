@@ -1,0 +1,494 @@
+{
+  "generated": "2026-07-22",
+  "minConfidence": 0.4,
+  "proposals": [
+    {
+      "sheet": "010_Bunny_Blossom.png",
+      "character": "Bunny Blossom",
+      "spriteSlug": "bunny-blossom",
+      "currentMascot": "Pixel Bunny",
+      "currentSlug": "pixel-bunny",
+      "confidence": 0.7,
+      "games": [
+        {
+          "slug": "pixel-bunny-hover",
+          "title": "Pixel Bunny Hover",
+          "engine": "flappy",
+          "universe": "pixel-playground"
+        },
+        {
+          "slug": "pixel-bunny-stack",
+          "title": "Pixel Bunny Stack",
+          "engine": "stacker",
+          "universe": "pixel-playground"
+        },
+        {
+          "slug": "pixel-bunny-blast",
+          "title": "Pixel Bunny Blast",
+          "engine": "shooter",
+          "universe": "pixel-playground"
+        }
+      ]
+    },
+    {
+      "sheet": "106_Boba_Bear.png",
+      "character": "Boba Bear",
+      "spriteSlug": "boba-bear",
+      "currentMascot": "Pixel Bear",
+      "currentSlug": "pixel-bear",
+      "confidence": 0.7,
+      "games": [
+        {
+          "slug": "pixel-bear-merge",
+          "title": "Pixel Bear Merge",
+          "engine": "merge",
+          "universe": "pixel-playground"
+        },
+        {
+          "slug": "pixel-bear-bounce",
+          "title": "Pixel Bear Bounce",
+          "engine": "doodlejump",
+          "universe": "pixel-playground"
+        },
+        {
+          "slug": "pixel-bear-serpent",
+          "title": "Pixel Bear Serpent",
+          "engine": "snake",
+          "universe": "pixel-playground"
+        }
+      ]
+    },
+    {
+      "sheet": "008_Raccoon_Rex.png",
+      "character": "Raccoon Rex",
+      "spriteSlug": "raccoon-rex",
+      "currentMascot": "Pixel Raccoon",
+      "currentSlug": "pixel-raccoon",
+      "confidence": 0.7,
+      "games": [
+        {
+          "slug": "pixel-raccoon-dig",
+          "title": "Pixel Raccoon Dig",
+          "engine": "whack",
+          "universe": "pixel-playground"
+        },
+        {
+          "slug": "pixel-raccoon-maze",
+          "title": "Pixel Raccoon Maze",
+          "engine": "maze",
+          "universe": "pixel-playground"
+        }
+      ]
+    },
+    {
+      "sheet": "073_Marshmallow_Mecha.png",
+      "character": "Marshmallow Mecha",
+      "spriteSlug": "marshmallow-mecha",
+      "currentMascot": "Marshmallow Mechas",
+      "currentSlug": "marshmallow-mechas",
+      "confidence": 1,
+      "games": [
+        {
+          "slug": "marshmallow-mecha-league",
+          "title": "Marshmallow Mecha League",
+          "engine": "arcade",
+          "universe": "standalone"
+        }
+      ]
+    },
+    {
+      "sheet": "044_Sky_Panda.png",
+      "character": "Sky Panda",
+      "spriteSlug": "sky-panda",
+      "currentMascot": "Pogo Panda",
+      "currentSlug": "pogo-panda",
+      "confidence": 0.7,
+      "games": [
+        {
+          "slug": "pogo-pandas-bamboo-blitz",
+          "title": "Pogo Panda’s Bamboo Blitz",
+          "engine": "runner",
+          "universe": "standalone"
+        }
+      ]
+    },
+    {
+      "sheet": "086_Huxley_Hamster.png",
+      "character": "Huxley Hamster",
+      "spriteSlug": "huxley-hamster",
+      "currentMascot": "Library Hamster",
+      "currentSlug": "library-hamster",
+      "confidence": 0.7,
+      "games": [
+        {
+          "slug": "the-last-library-hamster",
+          "title": "The Last Library Hamster",
+          "engine": "puzzle",
+          "universe": "standalone"
+        }
+      ]
+    },
+    {
+      "sheet": "091_Suki_Sloth.png",
+      "character": "Suki Sloth",
+      "spriteSlug": "suki-sloth",
+      "currentMascot": "Sleepy Sloth",
+      "currentSlug": "sleepy-sloth",
+      "confidence": 0.7,
+      "games": [
+        {
+          "slug": "the-sleepy-sloth-ski-resort",
+          "title": "The Sleepy Sloth Ski Resort",
+          "engine": "management",
+          "universe": "standalone"
+        }
+      ]
+    },
+    {
+      "sheet": "109_Molar_Monster.png",
+      "character": "Molar Monster",
+      "spriteSlug": "molar-monster",
+      "currentMascot": "Mini Monsters",
+      "currentSlug": "mini-monsters",
+      "confidence": 0.7,
+      "games": [
+        {
+          "slug": "the-mini-monster-dentist",
+          "title": "The Mini Monster Dentist",
+          "engine": "whack",
+          "universe": "standalone"
+        }
+      ]
+    },
+    {
+      "sheet": "129_Hazel_Hedgehog.png",
+      "character": "Hazel Hedgehog",
+      "spriteSlug": "hazel-hedgehog",
+      "currentMascot": "Harriet Hedgehog",
+      "currentSlug": "harriet-hedgehog",
+      "confidence": 0.7,
+      "games": [
+        {
+          "slug": "harriet-hedgehogs-harvest-hustle",
+          "title": "Harriet Hedgehog’s Harvest Hustle",
+          "engine": "arcade",
+          "universe": "standalone"
+        }
+      ]
+    },
+    {
+      "sheet": "135_Tully_Turtle.png",
+      "character": "Tully Turtle",
+      "spriteSlug": "tully-turtle",
+      "currentMascot": "Tango Turtle",
+      "currentSlug": "tango-turtle",
+      "confidence": 0.7,
+      "games": [
+        {
+          "slug": "tango-turtles-island-tango",
+          "title": "Tango Turtle’s Island Tango",
+          "engine": "rhythm",
+          "universe": "standalone"
+        }
+      ]
+    },
+    {
+      "sheet": "007_Captain_Corgi.png",
+      "character": "Captain Corgi",
+      "spriteSlug": "captain-corgi",
+      "currentMascot": "Caramel Corgi Carnival",
+      "currentSlug": "caramel-corgi-carnival",
+      "confidence": 0.68,
+      "games": [
+        {
+          "slug": "the-caramel-corgi-carnival",
+          "title": "The Caramel Corgi Carnival",
+          "engine": "puzzle",
+          "universe": "standalone"
+        }
+      ]
+    },
+    {
+      "sheet": "009_Dragon_Dribble.png",
+      "character": "Dragon Dribble",
+      "spriteSlug": "dragon-dribble",
+      "currentMascot": "Donut Dragon Derby",
+      "currentSlug": "donut-dragon-derby",
+      "confidence": 0.68,
+      "games": [
+        {
+          "slug": "the-donut-dragon-derby",
+          "title": "The Donut Dragon Derby",
+          "engine": "runner",
+          "universe": "standalone"
+        }
+      ]
+    },
+    {
+      "sheet": "055_Nebula_Knight_Nova.png",
+      "character": "Nebula Knight Nova",
+      "spriteSlug": "nebula-knight-nova",
+      "currentMascot": "Jellybean Knights",
+      "currentSlug": "jellybean-knights",
+      "confidence": 0.68,
+      "games": [
+        {
+          "slug": "the-jellybean-knights",
+          "title": "The Jellybean Knights",
+          "engine": "arcade",
+          "universe": "standalone"
+        }
+      ]
+    },
+    {
+      "sheet": "049_Pirate_Pudding.png",
+      "character": "Pirate Pudding",
+      "spriteSlug": "pirate-pudding",
+      "currentMascot": "Pickle Pirates of Brine Bay",
+      "currentSlug": "pickle-pirates-of-brine-bay",
+      "confidence": 0.66,
+      "games": [
+        {
+          "slug": "the-pickle-pirates-of-brine-bay",
+          "title": "The Pickle Pirates of Brine Bay",
+          "engine": "arcade",
+          "universe": "standalone"
+        }
+      ]
+    }
+  ],
+  "unmatchedOrphans": [
+    {
+      "sheet": "003_Pandy.png",
+      "character": "Pandy"
+    },
+    {
+      "sheet": "004_Neko.png",
+      "character": "Neko"
+    },
+    {
+      "sheet": "005_Zuzu.png",
+      "character": "Zuzu"
+    },
+    {
+      "sheet": "006_Batty.png",
+      "character": "Batty"
+    },
+    {
+      "sheet": "011_Ninja_Neko.png",
+      "character": "Ninja Neko"
+    },
+    {
+      "sheet": "012_Astro_Zuzu.png",
+      "character": "Astro Zuzu"
+    },
+    {
+      "sheet": "031_Sherlock_Lamb.png",
+      "character": "Sherlock Lamb"
+    },
+    {
+      "sheet": "032_DJ_Waddle.png",
+      "character": "DJ Waddle"
+    },
+    {
+      "sheet": "033_Coralia.png",
+      "character": "Coralia"
+    },
+    {
+      "sheet": "034_Gearson.png",
+      "character": "Gearson"
+    },
+    {
+      "sheet": "036_Riptide.png",
+      "character": "Riptide"
+    },
+    {
+      "sheet": "038_Starfall.png",
+      "character": "Starfall"
+    },
+    {
+      "sheet": "039_Jelly_Bean.png",
+      "character": "Jelly Bean"
+    },
+    {
+      "sheet": "040_Tiny_Chef_Timo.png",
+      "character": "Tiny Chef Timo"
+    },
+    {
+      "sheet": "041_Dex_Dino.png",
+      "character": "Dex Dino"
+    },
+    {
+      "sheet": "042_Merge_Molly.png",
+      "character": "Merge Molly"
+    },
+    {
+      "sheet": "043_Miko_Islander.png",
+      "character": "Miko Islander"
+    },
+    {
+      "sheet": "046_Ninja_Mango.png",
+      "character": "Ninja Mango"
+    },
+    {
+      "sheet": "047_Pixel_Pixie.png",
+      "character": "Pixel Pixie"
+    },
+    {
+      "sheet": "048_Candy_Comet.png",
+      "character": "Candy Comet"
+    },
+    {
+      "sheet": "053_Bloopette.png",
+      "character": "Bloopette"
+    },
+    {
+      "sheet": "056_Jade_Dragon_Spirit.png",
+      "character": "Jade Dragon Spirit"
+    },
+    {
+      "sheet": "057_Tile_Spirit_Lin.png",
+      "character": "Tile Spirit Lin"
+    },
+    {
+      "sheet": "070_Nimbus.png",
+      "character": "Nimbus"
+    },
+    {
+      "sheet": "077_Biscotti_Bandit.png",
+      "character": "Biscotti Bandit"
+    },
+    {
+      "sheet": "079_Tavi_Tankard.png",
+      "character": "Tavi Tankard"
+    },
+    {
+      "sheet": "098_Shelly_Snailmail.png",
+      "character": "Shelly Snailmail"
+    },
+    {
+      "sheet": "112_Titan_Trix.png",
+      "character": "Titan Trix"
+    },
+    {
+      "sheet": "115_Pogo_Pup.png",
+      "character": "Pogo Pup"
+    },
+    {
+      "sheet": "116_Fifi_Fiesta.png",
+      "character": "Fifi Fiesta"
+    },
+    {
+      "sheet": "117_Juno_Jump.png",
+      "character": "Juno Jump"
+    },
+    {
+      "sheet": "118_Sora_Snowy.png",
+      "character": "Sora Snowy"
+    },
+    {
+      "sheet": "119_Kiki_Yarn.png",
+      "character": "Kiki Yarn"
+    },
+    {
+      "sheet": "120_Pirate_Pearl.png",
+      "character": "Pirate Pearl"
+    },
+    {
+      "sheet": "121_Bolt_Bot.png",
+      "character": "Bolt Bot"
+    },
+    {
+      "sheet": "122_Penny_Piggyfly.png",
+      "character": "Penny Piggyfly"
+    },
+    {
+      "sheet": "123_Frond_Frogpond.png",
+      "character": "Frond Frogpond"
+    },
+    {
+      "sheet": "124_Brock_Blocks.png",
+      "character": "Brock Blocks"
+    },
+    {
+      "sheet": "125_Daisy_Dino.png",
+      "character": "Daisy Dino"
+    },
+    {
+      "sheet": "126_Dashley.png",
+      "character": "Dashley"
+    },
+    {
+      "sheet": "127_Stella_Starry.png",
+      "character": "Stella Starry"
+    },
+    {
+      "sheet": "128_Crumble_Cake.png",
+      "character": "Crumble Cake"
+    },
+    {
+      "sheet": "130_Orbit_Defender.png",
+      "character": "Orbit Defender"
+    },
+    {
+      "sheet": "131_Hattie_Harvest.png",
+      "character": "Hattie Harvest"
+    },
+    {
+      "sheet": "132_Taro_Treasure.png",
+      "character": "Taro Treasure"
+    },
+    {
+      "sheet": "133_Fenn_Fetch.png",
+      "character": "Fenn Fetch"
+    },
+    {
+      "sheet": "134_Jemma_Jewel.png",
+      "character": "Jemma Jewel"
+    },
+    {
+      "sheet": "136_Skyler_Patrol.png",
+      "character": "Skyler Patrol"
+    },
+    {
+      "sheet": "137_Gigi_Galaxy.png",
+      "character": "Gigi Galaxy"
+    },
+    {
+      "sheet": "138_Poppi_Sweetpops.png",
+      "character": "Poppi Sweetpops"
+    },
+    {
+      "sheet": "139_Mica_Miner.png",
+      "character": "Mica Miner"
+    },
+    {
+      "sheet": "140_Delphie_Dolphin.png",
+      "character": "Delphie Dolphin"
+    },
+    {
+      "sheet": "141_Hooper.png",
+      "character": "Hooper"
+    },
+    {
+      "sheet": "142_Momo_Monster.png",
+      "character": "Momo Monster"
+    },
+    {
+      "sheet": "143_Fern_Farmer.png",
+      "character": "Fern Farmer"
+    },
+    {
+      "sheet": "144_Egbert.png",
+      "character": "Egbert"
+    },
+    {
+      "sheet": "145_Panya.png",
+      "character": "Panya"
+    },
+    {
+      "sheet": "146_Clover.png",
+      "character": "Clover"
+    }
+  ]
+}

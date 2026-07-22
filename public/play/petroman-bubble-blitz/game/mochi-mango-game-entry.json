@@ -1,0 +1,14 @@
+{
+  "slug":"petroman-bubble-blitz",
+  "title":"Petroman: Bubble Blitz",
+  "tagline":"Trap. Pop. Purify.",
+  "description":"Petroman cleans up Mango Metro one bubble at a time in this original single-screen arcade platformer. Trap smog creatures in clean-air bubbles, pop them before they escape, chain score multipliers, collect upgrades and defeat the Smog King across twelve handcrafted stages.",
+  "genre":["Arcade","Platformer","Action"],
+  "controls":{"desktop":"Arrow keys/A-D move, Space/W jump, X/K/J bubbles, P/Escape pause","mobile":"On-screen movement, jump and bubble buttons"},
+  "players":1,
+  "orientation":"landscape",
+  "thumbnail":"assets/key-art/thumbnail-800x450.png",
+  "hero":"assets/key-art/hero-petroman-bubble-blitz-1600x900.png",
+  "entry":"index.html",
+  "features":["12 stages","4 enemy families","final boss","bubble trapping","combo scoring","persistent high score","touch controls","original soundtrack","victory and defeat scenes"]
+}

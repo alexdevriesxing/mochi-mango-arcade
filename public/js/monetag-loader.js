@@ -142,10 +142,56 @@
     return attempt.adWindow;
   };
 
+  // One pre-roll per game per browser session. Showing an interstitial on every
+  // retry would punish exactly the players who play the most.
+  const prerollKey = (slug) => `mma_preroll_${slug || 'global'}`;
+
+  const prerollAlreadyShown = (slug) => {
+    try { return sessionStorage.getItem(prerollKey(slug)) === '1'; } catch { return false; }
+  };
+  const markPrerollShown = (slug) => {
+    try { sessionStorage.setItem(prerollKey(slug), '1'); } catch { /* private mode */ }
+  };
+
   window.MochiMangoRewards = {
     get pending() { return Boolean(activeAttempt); },
     peekReady: readReady,
     consumeReady,
+
+    prerollShown: prerollAlreadyShown,
+
+    /**
+     * Ask Monetag for a pre-roll interstitial before a run begins.
+     *
+     * The vignette bundle is injected site-wide and decides for itself when to
+     * surface; it exposes no documented "show now" call, so this nudges any
+     * global it did publish and otherwise just holds the sponsored slate for a
+     * moment. Resolves with whether a Monetag entry point was actually invoked,
+     * so callers can tell a real interstitial from a plain dwell.
+     */
+    preroll(options = {}) {
+      const { slug = '', dwellMs = 2600, force = false } = options;
+      if (!force && prerollAlreadyShown(slug)) return Promise.resolve({ shown: false, reason: 'already-shown' });
+      markPrerollShown(slug);
+
+      let invoked = false;
+      try {
+        // Monetag publishes its zone entry point under a handful of names
+        // depending on the bundle it serves; call whichever exists.
+        const candidates = [`show_${VIGNETTE_ZONE}`, `vignette_${VIGNETTE_ZONE}`, 'show_vignette'];
+        for (const name of candidates) {
+          if (typeof window[name] === 'function') {
+            window[name]();
+            invoked = true;
+            break;
+          }
+        }
+      } catch { /* an ad must never block the game from starting */ }
+
+      return new Promise((resolve) => {
+        setTimeout(() => resolve({ shown: invoked, reason: invoked ? 'invoked' : 'no-entry-point' }), dwellMs);
+      });
+    },
     clearReady(slug) {
       try { sessionStorage.removeItem(readyKey(slug)); } catch { /* noop */ }
     },

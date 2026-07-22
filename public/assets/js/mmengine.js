@@ -10,7 +10,7 @@
  *   • screen shake, squash & stretch, particles and popups (juice);
  *   • eight modes for genre variety.
  */
-import { sprites, drawVectorChar, speciesOf, shade, tint } from './mmchar.js';
+import { sprites, atlases, atlasFrame, drawVectorChar, speciesOf, shade, tint } from './mmchar.js';
 import { createBoardArena } from './boardgames.js';
 
 /* ============================================================ Theme */
@@ -311,7 +311,44 @@ class Base {
       { id: 'score-spark', icon: '✨', name: 'Score spark', description: '20 seconds of double score + 250 points' },
     ];
   }
-  showPreroll() { this.showStart(); }
+  /**
+   * Sponsored slate shown once per game per session, before the start panel.
+   *
+   * Deliberately not a hard gate: the countdown can be skipped immediately, and
+   * anything that goes wrong (no loader, ad blocked, promise never settles)
+   * falls through to the normal start panel. A player must never be stuck
+   * staring at a broken pre-roll.
+   */
+  showPreroll() {
+    const rewards = window.MochiMangoRewards;
+    if (!rewards?.preroll || rewards.prerollShown?.(this.game.slug)) { this.showStart(); return; }
+
+    let done = false;
+    const proceed = () => { if (done) return; done = true; this.showStart(); };
+
+    let left = 3;
+    this.overlay.innerHTML = `<div class="mma-panel mma-preroll-panel">
+      <div class="mma-preroll-kicker">Sponsored break</div>
+      <h2>${this.game.title}</h2>
+      <p class="mma-preroll-note">Your game starts in <b data-preroll-count>${left}</b>s — ads keep every game free to play.</p>
+      <button class="mma-btn mma-btn-secondary" type="button" data-preroll-skip>Skip &amp; play now</button>
+    </div>`;
+    this.overlay.classList.add('show');
+    this.overlay.querySelector('[data-preroll-skip]').onclick = proceed;
+
+    const counter = this.overlay.querySelector('[data-preroll-count]');
+    const tick = setInterval(() => {
+      left -= 1;
+      if (counter) counter.textContent = String(Math.max(0, left));
+      if (left <= 0) { clearInterval(tick); proceed(); }
+    }, 1000);
+
+    // Belt and braces: if the ad call hangs, the countdown above still starts
+    // the game, and this clears the timer either way.
+    Promise.resolve(rewards.preroll({ slug: this.game.slug }))
+      .catch(() => {})
+      .finally(() => { clearInterval(tick); proceed(); });
+  }
   showStart() {
     const card=this.game.image||'';
     this.overlay.innerHTML=`<div class="mma-panel mma-start-panel">
@@ -319,19 +356,70 @@ class Base {
       <h2>${this.game.title}</h2><p class="mma-instructions">${this.instructions()}</p>
       <div class="mma-difficulty" aria-label="Challenge level"><span>Challenge</span>
       ${[['cozy','Cozy'],['arcade','Arcade'],['legend','Legend']].map(([id,label])=>`<button type="button" data-challenge="${id}" aria-pressed="${this.challenge===id}" class="${this.challenge===id?'is-selected':''}">${label}</button>`).join('')}</div>
+      ${this.rewardMenuMarkup()}
       <button class="mma-btn mma-play-normal" type="button">▶ Play</button>
       <div class="mma-best">Best: ${this.best} · Press F for fullscreen</div></div>`;
     this.overlay.classList.add('show');
     this.overlay.querySelectorAll('[data-challenge]').forEach(button=>button.addEventListener('click',()=>{this.challenge=button.dataset.challenge;localStorage.setItem(`mma_challenge_${this.game.slug}`,this.challenge);this.showStart()}));
-    this.overlay.querySelector('.mma-play-normal').onclick=()=>this.start(false);
+    this.bindRewardMenu();
+    this.overlay.querySelector('.mma-play-normal').onclick=()=>this.start(Boolean(this._armedBoost));
+  }
+
+  /**
+   * The pre-game boost offer: pick a boost, watch a sponsor, start armed.
+   *
+   * Returns nothing when rewards are unavailable (loader blocked, already used
+   * this run) so the panel simply falls back to a plain Play button rather than
+   * advertising something that cannot be delivered.
+   */
+  rewardMenuMarkup() {
+    if (!window.MochiMangoRewards?.request) return '';
+    const armed = this._armedBoost;
+    const selected = armed?.boosterId || this._selectedBoostId || 'mode-special';
+    const options = this.boostOptions().map((option) => `
+      <button type="button" class="mma-boost-choice ${option.id === selected ? 'is-selected' : ''}"
+        data-boost="${option.id}" aria-pressed="${option.id === selected}">
+        <span class="mma-boost-icon" aria-hidden="true">${option.icon}</span>
+        <b>${option.name}</b><small>${option.description}</small>
+      </button>`).join('');
+    return `<div class="mma-boost-picker">
+      <div class="mma-boost-heading"><span>Free boost</span><small>Optional · sponsored</small></div>
+      <div class="mma-boost-options">${options}</div>
+      <div class="mma-reward-status" data-reward-status>${armed
+        ? 'Boost armed. Start whenever you are ready.'
+        : 'Pick a boost, visit our sponsor, then return to start armed.'}</div>
+      <button class="mma-btn mma-reward-btn" type="button" ${armed ? 'disabled' : ''}>${armed ? 'Boost ready ✓' : 'Unlock selected boost'}</button>
+    </div>`;
+  }
+
+  /** Wire the boost picker inside whichever overlay is currently shown. */
+  bindRewardMenu() {
+    this.overlay.querySelectorAll('[data-boost]').forEach((button) => {
+      button.addEventListener('click', () => {
+        if (this._armedBoost) return;         // already paid for; do not switch under them
+        this._selectedBoostId = button.dataset.boost;
+        this.overlay.querySelectorAll('[data-boost]').forEach((other) => {
+          const on = other === button;
+          other.classList.toggle('is-selected', on);
+          other.setAttribute('aria-pressed', String(on));
+        });
+      });
+    });
+    const unlock = this.overlay.querySelector('.mma-reward-btn');
+    if (unlock) unlock.addEventListener('click', () => this.requestReward(unlock, 'start-panel', this._selectedBoostId));
   }
   showOver() {
     if(this.over)return;this.over=true;this.running=false;this.sound.over();
     const outcome=this.outcome||this.raceResult||(this.completed||this.won?'win':'loss');
     const nb=this.score>this.best;if(nb){this.best=Math.floor(this.score);localStorage[this.bestKey]=this.best}
     window.dispatchEvent(new CustomEvent('mma:game-over',{detail:{slug:this.game.slug,score:Math.floor(this.score),combo:this.combo,outcome,challenge:this.challenge,level:this.level,wave:this.wave}}));
-    this.overlay.innerHTML=`<div class="mma-panel"><div class="mma-medal">${nb?'🏆':'⭐'}</div><h2>${nb?'New Best!':outcome==='win'?'Victory!':'Run Complete'}</h2><p class="mma-final">Score <b>${Math.floor(this.score)}</b></p><div class="mma-best">Best: ${this.best}</div><div class="mma-over-actions"><button class="mma-btn mma-btn-secondary">↻ Play again</button></div></div>`;
-    this.overlay.classList.add('show');this.overlay.querySelector('.mma-btn-secondary').onclick=()=>this.start(false);
+    // A fresh run may be armed with a boost, so the reward menu is offered here
+    // too -- game over is the moment a player most wants the next run helped.
+    this.rewardUsed=false;
+    this.overlay.innerHTML=`<div class="mma-panel mma-start-panel"><div class="mma-medal">${nb?'🏆':'⭐'}</div><h2>${nb?'New Best!':outcome==='win'?'Victory!':'Run Complete'}</h2><p class="mma-final">Score <b>${Math.floor(this.score)}</b></p><div class="mma-best">Best: ${this.best}</div>${this.rewardMenuMarkup()}<div class="mma-over-actions"><button class="mma-btn mma-btn-secondary">↻ Play again</button></div></div>`;
+    this.overlay.classList.add('show');
+    this.bindRewardMenu();
+    this.overlay.querySelector('.mma-btn-secondary').onclick=()=>this.start(Boolean(this._armedBoost));
   }
 
   start(useArmedBoost = false) {
@@ -364,7 +452,14 @@ class Base {
     if (this.powers.freeze) dt *= 0.15;
     if (this.powers.rush) dt *= 1.4;
     if (this.running) { this.time += dt; this.stepMeta(dt); this._updateWeather(dt); this.update(dt); }
-    this.render(); this._drawFlash(); this._drawLevelBanner(); this.pointer.tapped = false;
+    this.render();
+    // Board-style modes never draw a hero, so the mascot would be absent
+    // entirely. Give those a reacting sidekick instead. The flag is sticky
+    // rather than per-frame because some modes (whack) draw their hero only on
+    // certain frames, and a per-frame test would flicker the sidekick in and
+    // out; the short grace period lets those modes register first.
+    if (!this._heroEver && this.time > 0.5) this.sidekick();
+    this._drawFlash(); this._drawLevelBanner(); this.pointer.tapped = false;
   }
 
   stepMeta(dt) {
@@ -413,6 +508,9 @@ class Base {
     this.addScore(g);
     if (this.mult > 1) { this.comboEl.textContent = `${this.mult}× combo`; this.sound.combo(this.combo); }
     this.float(x, y, '+' + g, this.theme.accent);
+    // Cheer on a multiplier, otherwise a smaller acknowledgement. Frame 0 of the
+    // emote row is reliably an upbeat pose across the delivered sheets.
+    this.react(this.mult > 1 ? 'emote' : 'action', 0, this.mult > 1 ? 1.1 : 0.6);
     return g;
   }
 
@@ -423,6 +521,8 @@ class Base {
   loseLife() {
     if (this.powers.shield) { delete this.powers.shield; this.ring(this.W / 2, this.H / 2, POWERS.shield.color); this.sound.blip(300, 0.2, 'sine', 0.2); this.shake = 0.5; return; }
     this.lives--; this.drawLives(); this.sound.hit(); this.shake = 1; this.combo = 0; this.mult = 1; this.comboEl.textContent = '';
+    // The downcast poses sit at the end of the emote row on these sheets.
+    this.react('emote', -1, 1.2);
     if (this.lives <= 0) this.showOver();
   }
 
@@ -449,8 +549,117 @@ class Base {
 
   glyph(ch, x, y, size) { const c = this.ctx; c.font = `${size}px system-ui,"Segoe UI Emoji","Apple Color Emoji",sans-serif`; c.textAlign = 'center'; c.textBaseline = 'middle'; c.fillText(ch, x, y); }
 
-  // draw mascot: real sprite if loaded else vector fallback
+  /* -------- Sidekick mascot --------
+   * Board-style modes (match3, merge, board, idleclicker and friends) have no
+   * player avatar, so the mascot has nowhere to live inside the play area.
+   * Instead it stands beside the board and reacts to what happens: idle by
+   * default, celebrating on a scoring combo, dismayed on a lost life.
+   * Reactions fire from hitCombo()/loseLife(), which every mode already routes
+   * through, so a mode gets this by calling sidekick() in its draw() and
+   * nothing else.
+   */
+
+  /** Hold a one-off reaction pose for `hold` seconds. */
+  react(anim, frame, hold = 0.9) {
+    this._reactAnim = anim; this._reactFrame = frame; this._reactUntil = this.time + hold;
+  }
+
+  /**
+   * How much fine detail sits in a box, in device pixels. Used to tell a busy
+   * play area apart from flat background.
+   */
+  _detailAt(cx, cy, size) {
+    const d = this.dpr, cw = this.canvas.width, ch = this.canvas.height;
+    const half = (size * d) / 2;
+    const x0 = Math.max(0, Math.round(cx * d - half)), y0 = Math.max(0, Math.round(cy * d - half));
+    const x1 = Math.min(cw - 1, Math.round(cx * d + half)), y1 = Math.min(ch - 1, Math.round(cy * d + half));
+    if (x1 <= x0 || y1 <= y0) return Infinity;
+    let px;
+    try { px = this.ctx.getImageData(x0, y0, x1 - x0, y1 - y0).data; } catch (e) { return Infinity; }
+    const w = x1 - x0;
+    let edges = 0, n = 0;
+    for (let y = 0; y < y1 - y0; y++) {
+      for (let x = 0; x < w - 1; x++) {
+        const i = (y * w + x) * 4, j = i + 4; n++;
+        if (Math.abs(px[i] - px[j]) + Math.abs(px[i + 1] - px[j + 1]) + Math.abs(px[i + 2] - px[j + 2]) > 60) edges++;
+      }
+    }
+    return edges / Math.max(1, n);
+  }
+
+  /**
+   * Pick the quietest corner, once per layout.
+   *
+   * The lower-left is free in most board-style modes, but not all -- an idle
+   * clicker stacks its upgrade buttons exactly there, and the mascot would sit
+   * on top of them. Rather than special-casing modes, sample the corners of a
+   * already-rendered frame and take the emptiest.
+   */
+  _sidekickSpot(size) {
+    const key = `${this.W}x${this.H}`;
+    if (this._skSpot && this._skSpotKey === key) return this._skSpot;
+    const m = Math.max(10, size * 0.12), half = size / 2;
+    const candidates = [
+      { x: m + half, y: this.H - m - half },
+      { x: this.W - m - half, y: this.H - m - half },
+      { x: m + half, y: m + half },
+      { x: this.W - m - half, y: m + half },
+    ];
+    let best = candidates[0], bestScore = Infinity;
+    for (const c of candidates) {
+      const score = this._detailAt(c.x, c.y, size);
+      if (score < bestScore) { bestScore = score; best = c; }
+    }
+    this._skSpot = best; this._skSpotKey = key;
+    return best;
+  }
+
+  /** Draw the mascot as a bystander, in the quietest corner of the stage. */
+  sidekick(x = null, y = null, size = Math.max(56, this.W * 0.13)) {
+    if (x == null || y == null) { const s = this._sidekickSpot(size); x = s.x; y = s.y; }
+    const reacting = this.time < (this._reactUntil || 0);
+    this.hero(x, y, size, {
+      t: this.time,
+      sidekick: true,
+      anim: reacting ? this._reactAnim : 'idle',
+      frame: reacting ? this._reactFrame : null,
+      expr: reacting && this._reactAnim === 'emote' ? 'wow' : 'smile',
+    });
+  }
+
+  // True while the player is actively steering. Several modes move the mascot
+  // straight from input without keeping a velocity around, so this is what they
+  // use to decide between a walk cycle and standing still.
+  steering() { const k = this.keys; return !!(k['arrowleft'] || k['arrowright'] || k['a'] || k['d'] || this.pointer.down); }
+
+  // draw mascot: animated atlas > single-pose sprite > vector fallback
   hero(x, y, size, o = {}) {
+    // Marks this mode as one that shows the mascot itself; see loop().
+    if (!o.sidekick) this._heroEver = true;
+    const atlas = atlases.get(this.theme.slug);
+    if (atlas.ready) {
+      // Callers may name a pose outright; otherwise infer one from the motion
+      // flags the modes already pass, so existing call sites animate for free.
+      const anim = o.anim || (o.jump ? 'jump' : o.run ? 'run' : o.walk ? 'walk' : 'idle');
+      const cell = atlas.manifest.cell;
+      const src = atlasFrame(atlas.manifest, anim, o.t ?? this.time, o.frame ?? null);
+      if (src) {
+        const h = size, w = size * (cell.w / cell.h);
+        const c = this.ctx;
+        c.save();
+        c.translate(x, y);
+        if (o.face) c.scale(o.face, 1);
+        const sq = o.squash || 0;
+        c.scale(1 + sq * 0.15, 1 - sq * 0.2);
+        c.globalAlpha = 0.18; c.fillStyle = '#000';
+        c.beginPath(); c.ellipse(0, h * 0.46, w * 0.3, h * 0.07, 0, 0, 7); c.fill();
+        c.globalAlpha = 1;
+        c.drawImage(atlas.img, src.sx, src.sy, src.sw, src.sh, -w / 2, -h / 2, w, h);
+        c.restore();
+        return;
+      }
+    }
+
     const rec = sprites.get(this.theme.slug);
     if (rec.ready) {
       const img = rec.img, ar = img.naturalWidth / img.naturalHeight;
@@ -836,7 +1045,12 @@ class Base {
         this.update(dt);
       }
     }
-    this.render(); this._drawFlash(); this._drawLevelBanner();
+    // Mirror loop(): the sidekick is part of a rendered frame, so the
+    // deterministic stepping path has to draw it too or automated captures
+    // disagree with what a player actually sees.
+    this.render();
+    if (!this._heroEver && this.time > 0.5) this.sidekick();
+    this._drawFlash(); this._drawLevelBanner();
     this.pointer.tapped = false;
     return this.renderText();
   }
@@ -943,7 +1157,8 @@ class Runner extends Base {
     for (const q of this.pu) { c.save(); c.shadowColor = POWERS[q.type].color; c.shadowBlur = 16; this.glyph(POWERS[q.type].icon, q.x, q.y + Math.sin(this.time * 4) * 6, q.s); c.restore(); }
     for (const cn of this.coins) this.glyph(cn.ch, cn.x, cn.y, cn.s);
     for (const o of this.obs) if (!o.hit) { if (o.moving) { c.fillStyle = shade(this.theme.primary, -30); rr2(c, o.x - o.s * 0.5, o.band[0], o.s, o.band[1] - o.band[0], 6); c.fill(); c.fillStyle = this.theme.accent; c.globalAlpha = 0.6; c.fillRect(o.x - o.s * 0.5, o.band[0], o.s, 4); c.globalAlpha = 1; } else if (o.kind === 'high') { c.fillStyle = shade(this.theme.primary, -20); rr2(c, o.x - o.s * 0.5, o.band[0], o.s, o.band[1] - o.band[0], 6); c.fill(); this.glyph(o.ch, o.x, o.band[0] + (o.band[1] - o.band[0]) / 2, o.s * 0.7); } else this.glyph(o.ch, o.x, o.band[1] - o.s * 0.5, o.s); }
-    this.hero(this.p.x, this.p.y - this.r * (this.p.duck ? 0.5 : 0.95), this.r * 2.2, { run: this.p.onGround, squash: this.p.duck ? 0.5 : (this.p.onGround ? 0 : -0.3), expr: this.p.onGround ? 'smile' : 'wow' });
+    this.hero(this.p.x, this.p.y - this.r * (this.p.duck ? 0.5 : 0.95), this.r * 2.2, { run: this.p.onGround, squash: this.p.duck ? 0.5 : (this.p.onGround ? 0 : -0.3), expr: this.p.onGround ? 'smile' : 'wow',
+      anim: !this.p.onGround ? 'jump' : this.p.duck ? 'action' : 'run' });
     this.drawFx(); c.restore();
   }
 }
@@ -1007,7 +1222,8 @@ class Flappy extends Base {
     }
     if (this.ringStreak > 0) { c.fillStyle = '#ffd166'; c.font = 'bold 12px Outfit'; c.textAlign = 'center'; c.textBaseline = 'top'; c.fillText(this.ringStreak + 'x ring streak!', this.W / 2, 60); }
     const tilt = Math.max(-0.5, Math.min(0.6, this.p.vy / 600));
-    c.save(); c.translate(this.p.x, this.p.y); c.rotate(tilt); this.hero(0, 0, this.r * 2.2, { t: this.time, run: true }); c.restore();
+    // Flapping is airborne by definition, so the jump row reads far better here than a run cycle.
+    c.save(); c.translate(this.p.x, this.p.y); c.rotate(tilt); this.hero(0, 0, this.r * 2.2, { t: this.time, run: true, anim: 'jump' }); c.restore();
     this.drawFx(); c.restore();
   }
 }
@@ -1078,7 +1294,8 @@ class Platformer extends Base {
       if (pl.type === 'crumble') { c.strokeStyle = 'rgba(0,0,0,.2)'; c.lineWidth = 2; c.beginPath(); c.moveTo(pl.x, py); c.lineTo(pl.x, py + 16); c.stroke(); }
       c.restore();
       if (pl.coin && !pl.got) this.glyph(this.theme.items[0], pl.x, py - 20, Math.max(20, this.W * 0.05)); }
-    this.hero(this.p.x, this.p.y - this.camY, this.r * 2.2, { t: this.time, squash: this.p.vy < 0 ? -0.2 : 0.1, face: this.p.vx < 0 ? -1 : 1 });
+    this.hero(this.p.x, this.p.y - this.camY, this.r * 2.2, { t: this.time, squash: this.p.vy < 0 ? -0.2 : 0.1, face: this.p.vx < 0 ? -1 : 1,
+      anim: !this.p.onGround ? 'jump' : Math.abs(this.p.vx) > 40 ? 'run' : 'idle' });
     this.drawFx(); c.restore();
   }
 }
@@ -1148,7 +1365,8 @@ class Dodger extends Base {
       else if (it.jackpot) { c.save(); c.shadowColor = '#ffd166'; c.shadowBlur = 22; this.glyph(it.ch, it.x, it.y, it.s * (1 + Math.sin(this.time * 6) * 0.08)); c.restore(); }
       else this.glyph(it.ch, it.x, it.y, it.s);
     }
-    this.hero(this.p.x, this.p.y, this.r * 2.2, { t: this.time, face: this.p.face, expr: 'smile', squash: -this.p.squash * 0.5 });
+    this.hero(this.p.x, this.p.y, this.r * 2.2, { t: this.time, face: this.p.face, expr: 'smile', squash: -this.p.squash * 0.5,
+      anim: this.p.squash > 0.1 ? 'action' : this.steering() ? 'walk' : 'idle' });
     this.drawFx(); c.restore();
   }
 }
@@ -1218,7 +1436,7 @@ class Shooter extends Base {
       c.fillStyle = 'rgba(0,0,0,.25)'; c.fillRect(this.W * 0.15, 12, this.W * 0.7, 8); c.fillStyle = '#ff4f6d'; c.fillRect(this.W * 0.15, 12, this.W * 0.7 * (b.hp / b.maxhp), 8); }
     if (this.powers.shield) { c.strokeStyle = POWERS.shield.color; c.globalAlpha = 0.6; c.lineWidth = 3; c.beginPath(); c.arc(this.p.x, this.p.y, this.r * 1.5, 0, 7); c.stroke(); c.globalAlpha = 1; }
     c.fillStyle = 'rgba(255,255,255,.2)'; c.font = 'bold 12px Outfit'; c.textAlign = 'right'; c.textBaseline = 'top'; c.fillText('Lv.' + this.weaponLvl, this.W - 16, 50);
-    this.hero(this.p.x, this.p.y, this.r * 2.2, { t: this.time, expr: 'smile' });
+    this.hero(this.p.x, this.p.y, this.r * 2.2, { t: this.time, expr: 'smile', anim: this.steering() ? 'walk' : 'idle' });
     this.drawFx(); c.restore();
   }
 }
@@ -1549,7 +1767,8 @@ class Maze extends Base {
       else { c.fillStyle = this.theme.accent; c.beginPath(); c.arc(px, py, Math.max(2, this.cell * 0.11), 0, 7); c.fill(); } }
     if (this.fruit) { c.save(); c.globalAlpha = this.fruit.life < 1.5 ? (0.4 + 0.6 * Math.abs(Math.sin(this.time * 8))) : 1; c.shadowColor = '#ffd166'; c.shadowBlur = 14; this.glyph('🍒', this._px(this.fruit.x), this._py(this.fruit.y), this.cell * 0.8 * (1 + Math.sin(this.time * 4) * 0.06)); c.restore(); }
     for (const gd of this.guards) { c.save(); if (this.fear > 0) c.globalAlpha = 0.85; this.glyph(this.fear > 0 ? '😱' : gd.ch, gd.px, gd.py, this.cell * 0.95); c.restore(); }
-    this.hero(this.pl.px, this.pl.py, this.cell * 1.55, { t: this.time, face: this.pl.dir[0] < 0 ? -1 : 1, expr: this.fear > 0 ? 'wow' : 'smile' });
+    this.hero(this.pl.px, this.pl.py, this.cell * 1.55, { t: this.time, face: this.pl.dir[0] < 0 ? -1 : 1, expr: this.fear > 0 ? 'wow' : 'smile',
+      anim: (this.pl.dir[0] || this.pl.dir[1]) ? 'walk' : 'idle' });
     this.drawFx(); c.restore();
   }
 }
@@ -1844,7 +2063,7 @@ class Sports extends Base {
     }
 
     // Hero behind ball
-    this.hero(this.ball.x, this.H * 0.85, Math.max(48, this.W * 0.12), { t: this.time, expr: this.ball.active ? 'wow' : 'smile' });
+    this.hero(this.ball.x, this.H * 0.85, Math.max(48, this.W * 0.12), { t: this.time, expr: this.ball.active ? 'wow' : 'smile', anim: this.ball.active ? 'action' : 'idle' });
 
     // Score display
     c.fillStyle = '#fff'; c.font = 'bold 18px Outfit'; c.textAlign = 'left'; c.textBaseline = 'top';
@@ -2055,7 +2274,7 @@ class Racing extends Base {
     c.restore();
 
     // Hero in car
-    this.hero(p.x, p.y, Math.max(30, this.W * 0.06), { t: this.time, run: p.speed > 50, expr: 'smile' });
+    this.hero(p.x, p.y, Math.max(30, this.W * 0.06), { t: this.time, run: p.speed > 50, expr: 'smile', anim: p.speed > 50 ? 'run' : p.speed > 5 ? 'walk' : 'idle' });
 
     // HUD: lap + time
     c.fillStyle = '#fff'; c.font = 'bold 16px Outfit'; c.textAlign = 'left'; c.textBaseline = 'top';
@@ -2204,7 +2423,7 @@ class Breakout extends Base {
     rr2(c, this.paddle.x - this.paddle.w / 2, this.paddle.y - this.paddle.h / 2, this.paddle.w, this.paddle.h, 6); c.fill(); c.stroke();
     c.fillStyle = 'rgba(255,255,255,.2)'; c.fillRect(this.paddle.x - this.paddle.w / 2 + 2, this.paddle.y - this.paddle.h / 2 + 2, this.paddle.w - 4, 3);
     // Hero on paddle
-    this.hero(this.paddle.x, this.paddle.y - 24, Math.max(28, this.W * 0.07), { t: this.time, run: !this.ball.stuck, expr: 'smile' });
+    this.hero(this.paddle.x, this.paddle.y - 24, Math.max(28, this.W * 0.07), { t: this.time, run: !this.ball.stuck, expr: 'smile', anim: this.ball.stuck ? 'idle' : this.steering() ? 'walk' : 'idle' });
     // Level
     c.fillStyle = '#fff'; c.font = 'bold 14px Outfit'; c.textAlign = 'left'; c.textBaseline = 'top'; c.fillText(`Level: ${this.level}`, 16, 50);
     this.drawFx(); c.restore();
@@ -2342,7 +2561,7 @@ class Snake extends Base {
       rr2(c, s.x * cs + 1, s.y * cs + 1, cs - 2, cs - 2, 4); c.fill();
     }
     // Hero head
-    this.hero(this.snake[0].x * cs + cs / 2, this.snake[0].y * cs + cs / 2, Math.max(24, cs * 0.8), { t: this.time, expr: 'smile', face: this.dir.x });
+    this.hero(this.snake[0].x * cs + cs / 2, this.snake[0].y * cs + cs / 2, Math.max(24, cs * 0.8), { t: this.time, expr: 'smile', face: this.dir.x, anim: 'walk' });
     // Length
     c.fillStyle = '#fff'; c.font = 'bold 14px Outfit'; c.textAlign = 'left'; c.textBaseline = 'top'; c.fillText(`Length: ${this.snake.length}`, 16, 50);
     this.drawFx(); c.restore();
@@ -2462,7 +2681,7 @@ class Rhythm extends Base {
     c.globalAlpha = 1;
 
     // Hero
-    this.hero(this.W / 2, this.H * 0.9, Math.max(40, this.W * 0.1), { t: this.time, expr: this.beatPulse > 0.5 ? 'wow' : 'smile' });
+    this.hero(this.W / 2, this.H * 0.9, Math.max(40, this.W * 0.1), { t: this.time, expr: this.beatPulse > 0.5 ? 'wow' : 'smile', anim: this.beatPulse > 0.5 ? 'action' : 'idle' });
 
     // Song progress bar
     c.fillStyle = 'rgba(255,255,255,.1)'; c.fillRect(0, this.H - 4, this.W, 4);
@@ -2970,7 +3189,7 @@ class Fishing extends Base {
       c.fillStyle = '#fff'; c.font = 'bold 12px Outfit'; c.textAlign = 'center'; c.textBaseline = 'middle'; c.fillText('TAP TO REEL!', this.W / 2, this.H - 22);
     }
     // Hero on dock
-    this.hero(this.W * 0.5, wl - 20, Math.max(36, this.W * 0.1), { t: this.time, expr: this.hook.state === 'bite' ? 'wow' : 'smile' });
+    this.hero(this.W * 0.5, wl - 20, Math.max(36, this.W * 0.1), { t: this.time, expr: this.hook.state === 'bite' ? 'wow' : 'smile', anim: this.hook.state === 'bite' ? 'action' : 'idle' });
     // Stats
     c.fillStyle = '#fff'; c.font = 'bold 14px Outfit'; c.textAlign = 'left'; c.textBaseline = 'top'; c.fillText(`Caught: ${this.totalCatch}  Streak: ${this.catchStreak}  Rare: ${this.rareCount}`, 16, 50);
     this.drawFx(); c.restore();
@@ -3104,7 +3323,7 @@ class Archery extends Base {
     }
 
     // Hero (archer)
-    this.hero(bx, by, Math.max(36, this.W * 0.1), { t: this.time, expr: this.charging ? 'wow' : 'smile', face: 1 });
+    this.hero(bx, by, Math.max(36, this.W * 0.1), { t: this.time, expr: this.charging ? 'wow' : 'smile', face: 1, anim: this.charging ? 'action' : 'idle' });
 
     // Stats
     c.fillStyle = '#fff'; c.font = 'bold 14px Outfit'; c.textAlign = 'left'; c.textBaseline = 'top'; c.fillText(`Arrows: ${this.shotsLeft}`, 16, 50);
@@ -3320,7 +3539,7 @@ class Pong extends Base {
       this.glyph(p.icon, f.x, f.y, 13);
     }
     // Hero
-    this.hero(this.p1.x, this.p1.y - 28, Math.max(30, this.W * 0.08), { t: this.time, expr: this.comboCount > 3 ? 'wow' : 'smile' });
+    this.hero(this.p1.x, this.p1.y - 28, Math.max(30, this.W * 0.08), { t: this.time, expr: this.comboCount > 3 ? 'wow' : 'smile', anim: this.steering() ? 'walk' : 'idle' });
     this.drawFx(); c.restore();
   }
 }
@@ -3583,11 +3802,14 @@ class Cannon extends Base {
     this.shots = 0; this.maxShots = 20; this.stars = 3;
     this.wind = 0;
     this.level = 1;
-    this._build();
+    this._buildLevel();
     this.aiming = false; this.aimStart = { x: 0, y: 0 };
     this.shakeTimer = 0;
   }
-  _build() {
+  // Named _buildLevel, not _build: Base._build() creates the canvas, HUD and
+  // overlay, and the constructor calls it. Shadowing that name meant no stage
+  // was ever created and the mode could not start at all.
+  _buildLevel() {
     this.targets = []; this.barriers = [];
     const n = 3 + Math.floor(this.level * 0.7);
     for (let i = 0; i < n; i++) {
@@ -3695,14 +3917,14 @@ class Cannon extends Base {
       this.addScore(this.stars * 50);
       this.level++;
       this.shots = 0;
-      this._build();
+      this._buildLevel();
       this.sound.power();
       this.showLevel(this.level, 'Level ' + this.level + ' - ' + '☆'.repeat(this.stars) + '★'.repeat(3 - this.stars));
     }
     // Lose condition
     if (this.ball === null && this.shots >= this.maxShots && remainingTargets > 0) {
       this.loseLife();
-      if (this.lives > 0) { this.shots = 0; this._build(); }
+      if (this.lives > 0) { this.shots = 0; this._buildLevel(); }
     }
   }
   _barrelBlast(b) {
@@ -4313,7 +4535,8 @@ class DoodleJump extends Base {
     }
     // Hero
     const squash = this.p.vy > 150 ? 0.15 : this.p.vy < -250 ? -0.12 : 0;
-    this.hero(this.p.x, this.p.y, Math.max(36, this.W * 0.09), { t: this.time, run: true, squash, expr: this.p.vy > 50 ? 'wow' : 'smile' });
+    // Doodle-jump style: the mascot is permanently mid-hop, so the jump row fits throughout.
+    this.hero(this.p.x, this.p.y, Math.max(36, this.W * 0.09), { t: this.time, run: true, squash, expr: this.p.vy > 50 ? 'wow' : 'smile', anim: 'jump' });
     // Power-up indicators
     if (this.jetpack > 0) { c.fillStyle = '#ff6b35'; c.font = 'bold 14px Outfit'; c.textAlign = 'center'; c.textBaseline = 'bottom'; c.fillText('🚀 ' + this.jetpack.toFixed(1) + 's', this.W / 2, 50); }
     if (this.shield > 0) { c.fillStyle = '#3ad0ff'; c.font = 'bold 14px Outfit'; c.textAlign = 'center'; c.textBaseline = 'bottom'; c.fillText('🛡️ ' + this.shield.toFixed(1) + 's', this.W / 2, 34); }
@@ -5132,6 +5355,7 @@ export function startGame(mount, game) {
   if (current) { try { current.destroy(); } catch (e) {} current = null; }
   const theme = themeFor(game);
   sprites.get(theme.slug);                       // warm sprite cache
+  atlases.get(theme.slug);                       // warm animated atlas
   const Cls = MODES[modeFor(game)] || Dodger;
   current = new Cls(mount, game, theme, sound);
   window.render_game_to_text = () => current ? current.renderText() : JSON.stringify({ phase: 'unmounted' });

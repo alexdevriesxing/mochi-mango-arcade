@@ -1,0 +1,15 @@
+{
+  "name": "Petroman: Core Digger",
+  "short_name": "Core Digger",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#05091d",
+  "theme_color": "#07102d",
+  "icons": [
+    {
+      "src": "assets/key-art/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}

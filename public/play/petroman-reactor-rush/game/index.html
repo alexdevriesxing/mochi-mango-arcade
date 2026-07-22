@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,user-scalable=no" />
+  <meta name="theme-color" content="#101b45" />
+  <meta name="description" content="Petroman: Reactor Rush â€” an original single-screen arcade platform game for Mochi Mango Arcade." />
+  <link rel="manifest" href="manifest.webmanifest" />
+  <link rel="icon" type="image/png" href="assets/key-art/icon-512.png" />
+  <link rel="preload" as="image" href="assets/key-art/hero-petroman-reactor-rush-1600x900.png" />
+  <link rel="stylesheet" href="styles.css" />
+  <title>Petroman: Reactor Rush</title>
+</head>
+<body>
+  <main class="game-shell" aria-label="Petroman: Reactor Rush HTML5 game">
+    <div class="frame-glow" aria-hidden="true"></div>
+    <section class="game-stage" id="gameStage">
+      <canvas id="game" width="960" height="540" aria-label="Petroman game canvas"></canvas>
+      <div id="loading" class="loading-panel">
+        <img src="assets/ui/logo.png" alt="Petroman: Reactor Rush" />
+        <div class="loader"><span id="loadBar"></span></div>
+        <p id="loadText">Charging Petromanâ€™s reactorâ€¦</p>
+      </div>
+      <button id="muteButton" class="icon-button mute" aria-label="Toggle sound" aria-pressed="false">SOUND ON</button>
+      <button id="pauseButton" class="icon-button pause" aria-label="Pause game">PAUSE</button>
+      <div class="touch-controls" id="touchControls" aria-label="Touch controls">
+        <div class="touch-left">
+          <button data-key="left" aria-label="Move left">â—€</button>
+          <button data-key="right" aria-label="Move right">â–¶</button>
+          <button data-key="down" aria-label="Fast drop">â–¼</button>
+        </div>
+        <button data-key="jump" class="jump-button" aria-label="Jump or jet boost"><span>BOOST</span><b>â–²</b></button>
+      </div>
+    </section>
+    <p class="legal-note">Original character, artwork, code and game design. Built for Mochi Mango Arcade.</p>
+  </main>
+  <script src="/play/_shared/mma-reward-bridge.js"></script><script src="game.js"></script>
+</body>
+</html>

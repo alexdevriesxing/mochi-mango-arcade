@@ -1,0 +1,63 @@
+:root {
+  color-scheme: dark;
+  --ink: #07142f;
+  --cyan: #38f1da;
+  --gold: #ffb62e;
+  --orange: #f45b32;
+}
+* { box-sizing: border-box; }
+html, body { margin: 0; min-height: 100%; background: radial-gradient(circle at 50% 15%, #243875 0, #101938 40%, #060b1c 100%); }
+body { font-family: Inter, ui-rounded, "Segoe UI", system-ui, sans-serif; display: grid; place-items: center; overflow-x: hidden; }
+body::before {
+  content: ""; position: fixed; inset: 0; pointer-events: none; opacity: .28;
+  background-image: linear-gradient(rgba(255,255,255,.025) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,.025) 1px, transparent 1px);
+  background-size: 36px 36px;
+}
+.game-shell { width: min(100vw, 1120px); padding: clamp(8px, 2vw, 24px); }
+.game-stage {
+  position: relative; width: 100%; aspect-ratio: 16/9; overflow: hidden; border-radius: 26px;
+  border: 3px solid rgba(70, 255, 229, .62); background: #081229;
+  box-shadow: 0 35px 90px rgba(0,0,0,.58), inset 0 0 0 2px rgba(255,255,255,.06), 0 0 46px rgba(56,241,218,.18);
+  isolation: isolate;
+}
+.frame-glow { position: fixed; width: 65vw; height: 20vh; left: 17.5vw; bottom: 2vh; background: rgba(62,245,225,.18); filter: blur(80px); pointer-events: none; }
+canvas { display: block; width: 100%; height: 100%; touch-action: none; image-rendering: auto; }
+.loading-panel {
+  position: absolute; inset: 0; z-index: 20; display: grid; place-content: center; justify-items: center; gap: 22px;
+  padding: 40px; background: radial-gradient(circle at 50% 34%, rgba(47,105,169,.72), rgba(7,15,39,.98) 62%);
+  transition: opacity .45s ease, visibility .45s ease;
+}
+.loading-panel.hidden { opacity: 0; visibility: hidden; }
+.loading-panel img { width: min(70%, 640px); filter: drop-shadow(0 16px 26px rgba(0,0,0,.45)); }
+.loading-panel p { margin: 0; font-weight: 800; letter-spacing: .06em; color: #dffff8; text-transform: uppercase; font-size: clamp(12px,1.8vw,18px); }
+.loader { width: min(72vw, 520px); height: 18px; padding: 3px; border: 2px solid rgba(146,255,239,.7); border-radius: 99px; background: rgba(1,8,27,.75); }
+.loader span { display: block; height: 100%; width: 0; border-radius: inherit; background: linear-gradient(90deg, var(--cyan), var(--gold), var(--orange)); box-shadow: 0 0 16px var(--cyan); transition: width .2s ease; }
+.icon-button {
+  position: absolute; top: 16px; z-index: 8; min-width: 74px; height: 42px; padding: 0 12px; border: 2px solid rgba(120,255,235,.5); border-radius: 14px;
+  color: white; background: rgba(3,14,42,.68); backdrop-filter: blur(8px); font: 900 11px/1 inherit; letter-spacing: .06em; cursor: pointer; box-shadow: 0 8px 22px rgba(0,0,0,.25);
+}
+.icon-button:hover { transform: translateY(-1px); border-color: var(--gold); }
+.mute { right: 16px; }
+.pause { right: 100px; }
+.touch-controls { position: absolute; inset: auto 0 14px; z-index: 9; display: none; justify-content: space-between; align-items: end; padding: 0 18px; pointer-events: none; }
+.touch-controls button { pointer-events: auto; touch-action: none; user-select: none; -webkit-user-select: none; }
+.touch-left { display: flex; gap: 10px; }
+.touch-left button, .jump-button {
+  width: 66px; height: 66px; border-radius: 22px; border: 2px solid rgba(185,255,245,.62); background: rgba(4,20,51,.62); color: #effffc;
+  font: 900 25px/1 inherit; box-shadow: inset 0 0 16px rgba(48,234,216,.12), 0 12px 24px rgba(0,0,0,.25); backdrop-filter: blur(6px);
+}
+.jump-button { width: 82px; height: 82px; border-color: rgba(255,198,72,.8); background: rgba(203,67,40,.56); display: grid; place-content: center; gap: 2px; }
+.jump-button span { font-size: 10px; letter-spacing: .08em; }
+.jump-button b { font-size: 27px; }
+.touch-controls button.active { transform: scale(.94); background: rgba(54,232,215,.56); }
+.legal-note { margin: 12px 0 0; text-align: center; color: rgba(221,247,247,.58); font-size: 12px; letter-spacing: .025em; }
+@media (hover: none), (max-width: 850px) {
+  .touch-controls { display: flex; }
+  .game-shell { padding: 0; width: 100vw; }
+  .game-stage { border-radius: 0; border-width: 0; width: 100vw; height: 100dvh; aspect-ratio: auto; }
+  .legal-note { display: none; }
+  .icon-button { top: max(10px, env(safe-area-inset-top)); min-width: 68px; height: 38px; }
+}
+@media (orientation: portrait) and (hover: none) {
+  .game-stage::after { content: "Rotate for the best arcade view"; position: absolute; top: 72px; left: 50%; transform: translateX(-50%); z-index: 7; padding: 8px 14px; border-radius: 99px; background: rgba(4,14,39,.74); color: #dffff8; font-size: 12px; white-space: nowrap; pointer-events: none; }
+}
