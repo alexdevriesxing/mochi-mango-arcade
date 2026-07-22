@@ -619,6 +619,16 @@ function charsPage(){
  * a hand-picked list. Nearly the whole catalogue shares one release date, so id
  * breaks the tie — ids only ever increase as games are added.
  */
+/** Fisher-Yates on a copy, so the caller's array is left alone. */
+function shuffle(items){
+  const out=[...items];
+  for(let i=out.length-1;i>0;i--){
+    const j=Math.floor(Math.random()*(i+1));
+    [out[i],out[j]]=[out[j],out[i]];
+  }
+  return out;
+}
+
 function newestFirst(games){
   return [...games].sort((a,b)=>
     String(b.releaseDate||'').localeCompare(String(a.releaseDate||''))
@@ -637,13 +647,15 @@ function section(key,arr,icon='🎮',link='/games/'){
 
 function home(){
   let built=S.games.filter(g=>g.built);
-  // Newest first, claimed before anything else: a game added today has to show
-  // up here on its own. Featured then fills in around it so the two rows never
-  // display the same card twice.
+  // New releases row: always the genuine newest, so a game added today surfaces
+  // on its own with no hand-picked list to maintain.
   let n=newestFirst(built).slice(0,8);
-  let nset=new Set(n.map(g=>g.slug));
-  let f=[...built].filter(g=>!nset.has(g.slug))
-    .sort((a,b)=>(b.featured?1:0)-(a.featured?1:0)).slice(0,4);
+  // Featured row: two of the newest, plus two featured picks drawn at random so
+  // the shelf rotates between visits instead of showing the same four forever.
+  let newestTwo=n.slice(0,2);
+  let newestTwoSlugs=new Set(newestTwo.map(g=>g.slug));
+  let pool=built.filter(g=>g.featured&&!newestTwoSlugs.has(g.slug));
+  let f=[...shuffle(pool).slice(0,2),...newestTwo];
   let cc={};
   S.games.forEach(g=>cc[g.mascot]=(cc[g.mascot]||0)+1);
   let chars=Object.entries(cc).sort((a,b)=>b[1]-a[1]).slice(0,4);

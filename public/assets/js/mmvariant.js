@@ -51,6 +51,12 @@ const TWISTS = {
     { id: 'colourdrain', name: 'Colour Drain', blurb: 'Starts on the full palette and loses a colour every 25 seconds. Late boards cascade, but options vanish.' },
     { id: 'bombrush', name: 'Bomb Rush', blurb: 'Every fifth match drops a live bomb onto the board. Clear around it or set it off deliberately.' },
   ],
+  memory: [
+    { id: 'classic', name: 'Pair Hunt', blurb: 'Straight pair matching, with the board size and clock tuned to this game.' },
+    { id: 'peek', name: 'Fading Peek', blurb: 'Every deal shows you the whole board for a moment, then hides it. Memorise fast.' },
+    { id: 'shuffle', name: 'Shuffle Shock', blurb: 'Two face-down cards quietly trade places every few seconds.' },
+    { id: 'decoy', name: 'Odd One Out', blurb: 'An extra unpaired card hides in the deck and can steal the partner you were saving.' },
+  ],
 };
 
 const CLASSIC = { id: 'classic', name: 'Arcade Classic', blurb: 'Straight-up arcade scoring and escalating pressure.' };

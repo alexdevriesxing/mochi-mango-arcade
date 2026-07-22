@@ -1813,13 +1813,23 @@ class Maze extends Base {
 
 class Memory extends Base {
   instructions() { return 'Flip cards to find matching pairs! Clear the board before time runs out. Consecutive matches build combo multiplier. Golden card = bonus power!'; }
-  reset() { this.level = 1; this.timeLeft = 70; this.lives = 999; this.livesEl.innerHTML = '⏱️'; this._clearing = false; this.reveal = 0; this.matchStreak = 0; this._deal(); }
+  reset() { this.level = 1; this.timeLeft = Math.round(70 / (this.variant?.pace ?? 1)); this.lives = 999; this.livesEl.innerHTML = '⏱️'; this._clearing = false; this.reveal = 0; this.matchStreak = 0; this._deal(); }
   onResize() { if (this.cards) this._layout(); }
   _deal() {
-    const pairs = Math.min(12, 4 + this.level), syms = this.theme.items, bonusIdx = Math.floor(Math.random() * pairs), deck = [];
+    const twist = this.variant?.twist?.id || 'classic';
+    // Board size varies per game, so two memory games are not the same deal.
+    const spread = Math.round((this.variant?.density ?? 1) * 2) - 2;
+    const pairs = Math.max(3, Math.min(12, 4 + this.level + spread));
+    const syms = this.theme.items, bonusIdx = Math.floor(Math.random() * pairs), deck = [];
     for (let i = 0; i < pairs; i++) { const s = syms[i % syms.length], bonus = i === bonusIdx; deck.push({ s, bonus }, { s, bonus }); }
+    // Odd One Out: one extra card with a symbol already in play. It can steal a
+    // partner, orphaning the card you were counting on.
+    if (twist === 'decoy') deck.push({ s: syms[Math.floor(Math.random() * Math.min(pairs, syms.length))], bonus: false });
     for (let i = deck.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [deck[i], deck[j]] = [deck[j], deck[i]]; }
     this.cards = deck.map(d => ({ s: d.s, bonus: d.bonus, flip: 0, face: false, done: false })); this.pairs = pairs; this.matched = 0; this.first = null; this.lock = 0; this._pending = null; this._layout();
+    // Fading Peek: show the whole board briefly at the start of every deal.
+    if (twist === 'peek') { this.reveal = 1.7; for (const c of this.cards) c.face = true; }
+    this.shuffleT = 6;
   }
   _layout() {
     const n = this.cards.length; this.cols = Math.min(6, Math.max(2, Math.round(Math.sqrt(n * this.W / (this.H * 0.8))))); this.rows = Math.ceil(n / this.cols);
@@ -1843,6 +1853,26 @@ class Memory extends Base {
     this.timeLeft -= dt; if (this.timeLeft <= 0) { this.timeLeft = 0; return this.showOver(); }
     this.comboEl.textContent = Math.ceil(this.timeLeft) + 's';
     this.lock = Math.max(0, this.lock - dt);
+    // Shuffle Shock: two face-down cards trade places every few seconds.
+    if (this.variant?.twist?.id === 'shuffle' && this.reveal <= 0 && this.lock <= 0) {
+      this.shuffleT -= dt;
+      if (this.shuffleT <= 0) {
+        this.shuffleT = 6;
+        const loose = this.cards.filter(c => !c.done && !c.face);
+        if (loose.length >= 2) {
+          const a = loose[Math.floor(Math.random() * loose.length)];
+          let b = loose[Math.floor(Math.random() * loose.length)];
+          if (a !== b) {
+            [a.px, b.px] = [b.px, a.px];
+            [a.py, b.py] = [b.py, a.py];
+            this.ring(a.px, a.py, this.theme.accent);
+            this.ring(b.px, b.py, this.theme.accent);
+            this.float(this.W / 2, this.H * 0.2, 'Shuffle!', this.theme.accent);
+            this.sound.blip(360, 0.09, 'triangle', 0.13);
+          }
+        }
+      }
+    }
     if (this.lock <= 0 && this._pending) { this._pending.forEach(cd => cd.face = false); this._pending = null; }
     if (this.pointer.tapped && this.lock <= 0 && this.reveal <= 0) {
       const cd = this._hit(this.pointer.x, this.pointer.y);
