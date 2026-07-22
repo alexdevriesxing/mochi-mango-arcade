@@ -1,14 +1,14 @@
 # Mochi Mango Arcade — Sitewide & Game Quality Audit
 
-Generated: 2026-07-22T16:02:56.528Z  
-Source: `ec8eef1395d1cfd07c4d3856e58e4e29bffaf0bc`  
+Generated: 2026-07-22T20:53:55.538Z  
+Source: `cfafc1e0aa257db03ce6366b38303d37773fb834`  
 Live target: https://www.mochimangoarcade.com
 
 ## Executive summary
 
 - **395 games**, **34 shared engines**, **15 universes**.
 - **5 bespoke bundles** versus **390 shared-runtime games**.
-- **803 live URLs checked**; **0 failures**. Median **58 ms**, p95 **96 ms**.
+- **803 live URLs checked**; **0 failures**. Median **76 ms**, p95 **120 ms**.
 - **46 browser play tests**; **0 runtime failures**, **0 tests with errors**.
 - Health endpoint: **200**. Unknown route: **404** (expected 404).
 - Exact duplicate descriptions: **0**.
@@ -21,19 +21,19 @@ The largest opportunity is depth, not catalogue size. Shared engines are useful 
 
 | Path | Status | ms | Result |
 |---|---:|---:|---|
-| / | 200 | 202 | OK |
-| /api/health | 200 | 168 | OK |
-| /games/ | 200 | 170 | OK |
-| /universes/ | 200 | 168 | OK |
-| /characters/ | 200 | 165 | OK |
-| /new-releases/ | 200 | 161 | OK |
-| /about/ | 200 | 191 | OK |
-| /robots.txt | 200 | 160 | OK |
-| /sitemap.xml | 200 | 41 | OK |
-| /llms.txt | 200 | 37 | OK |
-| /manifest.webmanifest | 200 | 28 | OK |
-| /sw.js | 200 | 19 | OK |
-| /audit-not-found-1784736088282/ | 404 | 27 | Failed |
+| / | 200 | 224 | OK |
+| /api/health | 200 | 171 | OK |
+| /games/ | 200 | 219 | OK |
+| /universes/ | 200 | 206 | OK |
+| /characters/ | 200 | 222 | OK |
+| /new-releases/ | 200 | 209 | OK |
+| /about/ | 200 | 214 | OK |
+| /robots.txt | 200 | 168 | OK |
+| /sitemap.xml | 200 | 85 | OK |
+| /llms.txt | 200 | 42 | OK |
+| /manifest.webmanifest | 200 | 34 | OK |
+| /sw.js | 200 | 42 | OK |
+| /audit-not-found-1784753543120/ | 404 | 45 | Failed |
 
 ## Engine improvement roadmap
 
