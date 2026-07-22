@@ -6,7 +6,7 @@
     "url": "https://www.firedragoninteractive.com"
   },
   "lastVerified": "2026-07-13",
-  "gameCount": 392,
+  "gameCount": 395,
   "pricing": "Free to play",
   "accountRequired": false,
   "games": [
@@ -5497,6 +5497,48 @@
       "version": "1.1",
       "releaseDate": "2026-07-13",
       "image": "https://www.mochimangoarcade.com/assets/images/retro-cards/scanline-sprint.svg"
+    },
+    {
+      "id": "petroman-reactor-rush",
+      "title": "Petroman: Reactor Rush",
+      "url": "https://www.mochimangoarcade.com/games/petroman-reactor-rush/",
+      "playUrl": "https://www.mochimangoarcade.com/play/petroman-reactor-rush/",
+      "genre": "Arcade Platformer",
+      "character": "Petroman",
+      "universe": "Petroman Petro City",
+      "description": "Blast across the Petro City skyline with a twin-boost reactor belt. Secure unstable energy cores in sequence, build huge Spark Chains, dodge Smoglets and Volt Hawks, then trigger Purifier Mode to clean the sky.",
+      "objective": "Collect every energy core in order and clear all eight stages without losing your Spark Chain.",
+      "version": "1.0",
+      "releaseDate": "2026-07-22",
+      "image": "https://www.mochimangoarcade.com/assets/images/games/petroman-reactor-rush.jpg"
+    },
+    {
+      "id": "petroman-bubble-blitz",
+      "title": "Petroman: Bubble Blitz",
+      "url": "https://www.mochimangoarcade.com/games/petroman-bubble-blitz/",
+      "playUrl": "https://www.mochimangoarcade.com/play/petroman-bubble-blitz/",
+      "genre": "Arcade Platformer",
+      "character": "Petroman",
+      "universe": "Petroman Petro City",
+      "description": "Petroman cleans up Mango Metro one bubble at a time. Trap smog creatures in clean-air bubbles, pop them before they escape, chain score multipliers and defeat the Smog King across twelve handcrafted stages.",
+      "objective": "Trap and pop every smog creature on each stage, then bring down the Smog King.",
+      "version": "1.0",
+      "releaseDate": "2026-07-22",
+      "image": "https://www.mochimangoarcade.com/assets/images/games/petroman-bubble-blitz.jpg"
+    },
+    {
+      "id": "petroman-core-digger",
+      "title": "Petroman: Core Digger Deluxe",
+      "url": "https://www.mochimangoarcade.com/games/petroman-core-digger/",
+      "playUrl": "https://www.mochimangoarcade.com/play/petroman-core-digger/",
+      "genre": "Arcade",
+      "character": "Petroman",
+      "universe": "Petroman Petro City",
+      "description": "A hand-drawn dig-and-chase arcade adventure through Petro City’s core network. Tunnel out huge caverns, fire purifier orbs, drop reactor drums on pursuers and clear every stage your own way.",
+      "objective": "Clear each cavern by purifying every pursuer or collecting the full core payload.",
+      "version": "1.0",
+      "releaseDate": "2026-07-22",
+      "image": "https://www.mochimangoarcade.com/assets/images/games/petroman-core-digger.jpg"
     }
   ]
 }

@@ -23,7 +23,7 @@
       "@id": "https://www.mochimangoarcade.com/games/#collection",
       "name": "Mochi Mango Arcade Games",
       "url": "https://www.mochimangoarcade.com/games/",
-      "numberOfItems": 392,
+      "numberOfItems": 395,
       "about": [
         {
           "@type": "CreativeWorkSeries",
@@ -108,6 +108,12 @@
           "@id": "https://www.mochimangoarcade.com/universes/#pixel-playground",
           "name": "Pixel Playground",
           "description": "A neon-drenched digital dimension where pixel creatures code, compete, and crash through glitchy arcade worlds."
+        },
+        {
+          "@type": "CreativeWorkSeries",
+          "@id": "https://www.mochimangoarcade.com/universes/#petroman",
+          "name": "Petroman Petro City",
+          "description": "A hand-drawn industrial skyline where Petroman purifies the smog of Petro City."
         }
       ]
     },
@@ -1796,6 +1802,12 @@
       "name": "Scan Sam",
       "url": "https://www.mochimangoarcade.com/characters/#scan-sam",
       "description": "Original Mochi Mango Arcade character appearing in 1 games."
+    },
+    {
+      "@type": "FictionalCharacter",
+      "name": "Petroman",
+      "url": "https://www.mochimangoarcade.com/characters/#petroman",
+      "description": "Original Mochi Mango Arcade character appearing in 3 games."
     }
   ]
 }

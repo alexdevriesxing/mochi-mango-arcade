@@ -450,7 +450,11 @@ const FAQ = [
   ['Can I play the games on mobile?', `Yes. ${SITE} games are mobile-friendly and work on iOS, Android, tablets and desktop browsers with touch or keyboard controls.`],
   ['Are the games kid-friendly?', `Yes. ${SITE} games feature original, family-friendly mascot characters and are safe and suitable for players of all ages.`],
   ['How many games does Mochi Mango Arcade have?', `${SITE} has ${games.length} games across ${uniList.length} original universes, with ${builtGames.length} playable right now and more added regularly.`],
-  ['Can I buy plushies and merch of the characters?', `Yes. Official ${SITE} merch — plushies, apparel, mugs, pins and stickers featuring the mascots — is available in the on-site merch shop.`],
+  // The shop is a concept preview, not a working storefront. Generating a "yes,
+  // it's on sale" answer here put a false claim into the homepage FAQ and its
+  // schema; final-trust-polish.mjs used to rewrite it, but its regex no longer
+  // matched this wording, so the claim shipped. State the truth at the source.
+  ['Can I buy plushies and merch of the characters?', 'The merchandise area is a concept preview for future character collectibles. Purchasing, stock and pre-orders are not currently available.'],
   ['Who makes Mochi Mango Arcade?', `${SITE} is created by Fire Dragon Interactive, an original games and character studio.`]
 ];
 const faqLd = { '@type': 'FAQPage', mainEntity: FAQ.map(([q, a]) => ({ '@type': 'Question', name: q, acceptedAnswer: { '@type': 'Answer', text: a } })) };

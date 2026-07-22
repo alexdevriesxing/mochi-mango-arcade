@@ -7,7 +7,11 @@
     "dev": "wrangler dev",
     "deploy": "wrangler deploy",
     "serve": "npx http-server public -p 8787 -c-1",
-    "validate": "node scripts/validate-site.mjs",
+    "build": "npm run build:seo && npm run build:polish && npm run build:protect",
+    "build:seo": "node scripts/seo-build.mjs",
+    "build:polish": "node scripts/apply-ui-seo-gaio-polish.mjs && node scripts/add-polish-fixes.mjs && node scripts/final-trust-polish.mjs",
+    "build:protect": "node scripts/protect-embedded-bundles.mjs",
+    "validate": "node scripts/validate-site.mjs && node scripts/validate-polish.mjs",
     "audit": "node scripts/sitewide-audit.mjs",
     "smoke": "node scripts/remediation-smoke.mjs"
   },
