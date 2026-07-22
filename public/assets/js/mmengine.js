@@ -1240,24 +1240,58 @@ class Flappy extends Base {
 class Platformer extends Base {
   instructions() { return 'Auto-bounce up! Steer left/right with arrows or drag. Springs launch high, crumbling tiles vanish, moving platforms drift, avoid spikes! Height milestones reward big jumps!'; }
   reset() {
+    const v = this.variant;
+    this.twist = v?.twist?.id || 'classic';
+    // Low Gravity trades a fast fall for long, committed arcs; everything else
+    // still shifts a little per game so no two climbs feel identical.
+    this.grav = this.twist === 'lowgrav' ? 1150 : 1900 * (0.92 + (v?.pace ?? 1) * 0.08);
+    this.bounceScale = this.twist === 'lowgrav' ? 0.82 : 1;
+    // Rung spacing and platform width are what actually make a climb tight or
+    // forgiving, so both come from the game's own layout/density.
+    // Spread the spacing enough to feel different between games, but no wider:
+    // at a larger range the loosest games stopped being climbable at all without
+    // constant steering, because a passive bounce kept landing back on the same
+    // rung. A normal bounce clears ~135px, so this stays comfortably jumpable.
+    this.platGap = this.H / (9.2 - (v?.density ?? 1) * 2.4);
+    this.platW = 0.19 + (v?.layout ?? 1) * 0.015;
+    this.wind = 0; this.windT = 0;
     this.r = Math.max(22, this.W * 0.06); this.p = { x: this.W / 2, y: this.H - 120, vy: 0, vx: 0 };
     this.plats = []; this.height = 0; this.camY = 0;
-    for (let i = 0; i < 8; i++) this.plats.push(this._mkPlat(this.H - i * (this.H / 7), i === 0));
+    for (let i = 0; i < 8; i++) this.plats.push(this._mkPlat(this.H - i * this.platGap, i === 0));
     this.heightMilestone = 0; this.nextHm = 500;
   }
   _mkPlat(y, safe) {
     const roll = Math.random(); let type = 'normal';
-    if (!safe) { const spikeChance = 0.12 + this.time * 0.0015; if (roll < spikeChance) type = 'spike'; else if (roll < spikeChance + 0.12) type = 'spring'; else if (roll < spikeChance + 0.24) type = 'crumble'; else if (roll < spikeChance + 0.42) type = 'moving'; }
-    return { x: Math.random() * (this.W - 80) + 40, y, w: Math.max(60, this.W * (type === 'moving' ? 0.19 : 0.22)), coin: Math.random() < 0.45, got: false, type, vx: (Math.random() < 0.5 ? -1 : 1) * this.W * 0.28, gone: false, fall: 0 };
+    if (!safe) {
+      const spikeChance = 0.12 + this.time * 0.0015;
+      // Crumbling Path: most of the route falls away the moment you land.
+      const crumbleBand = this.twist === 'crumble' ? 0.46 : 0.12;
+      if (roll < spikeChance) type = 'spike';
+      else if (roll < spikeChance + 0.12) type = 'spring';
+      else if (roll < spikeChance + 0.12 + crumbleBand) type = 'crumble';
+      else if (roll < spikeChance + 0.30 + crumbleBand) type = 'moving';
+    }
+    return { x: Math.random() * (this.W - 80) + 40, y, w: Math.max(60, this.W * (type === 'moving' ? this.platW * 0.86 : this.platW)), coin: Math.random() < 0.45, got: false, type, vx: (Math.random() < 0.5 ? -1 : 1) * this.W * 0.28, gone: false, fall: 0 };
   }
   update(dt) {
     const accel = this.W * 3;
     if (this.keys['arrowleft'] || this.keys['a']) this.p.vx -= accel * dt;
     if (this.keys['arrowright'] || this.keys['d']) this.p.vx += accel * dt;
     if (this.pointer.down) this.p.vx += ((this.pointer.x - this.p.x) > 0 ? 1 : -1) * accel * 0.8 * dt;
+    // Side Wind: a crosswind that reverses every few seconds, so every jump has
+    // to be aimed slightly upwind.
+    if (this.twist === 'wind') {
+      this.windT -= dt;
+      if (this.windT <= 0) {
+        this.windT = 4 + Math.random() * 3;
+        this.wind = (Math.random() < 0.5 ? -1 : 1) * this.W * (0.5 + Math.random() * 0.4);
+        this.float(this.W / 2, this.H * 0.16, this.wind < 0 ? '← Gust' : 'Gust →', '#7fd6ff');
+      }
+      this.p.vx += this.wind * dt;
+    }
     this.p.vx *= 0.9; this.p.x += this.p.vx * dt;
     if (this.p.x < 0) this.p.x = this.W; if (this.p.x > this.W) this.p.x = 0;
-    this.p.vy += 1900 * dt; this.p.y += this.p.vy * dt;
+    this.p.vy += this.grav * dt; this.p.y += this.p.vy * dt;
     for (const pl of this.plats) {
       if (pl.type === 'moving' && !pl.gone) { pl.x += pl.vx * dt; if (pl.x < pl.w / 2) { pl.x = pl.w / 2; pl.vx *= -1; } if (pl.x > this.W - pl.w / 2) { pl.x = this.W - pl.w / 2; pl.vx *= -1; } }
       if (pl.crumbling) { pl.fall += dt; pl.y += 600 * pl.fall * dt; if (pl.fall > 0.25) pl.gone = true; }
@@ -1265,7 +1299,7 @@ class Platformer extends Base {
       if (!pl.gone && this.p.vy > 0 && Math.abs(this.p.x - pl.x) < pl.w / 2 + this.r * 0.4 && Math.abs(this.p.y + this.r - py) < 18) {
         if (pl.type === 'spike') { this.burst(this.p.x, py, '#ff4f6d', 12); this.loseLife(); this.p.vy = -Math.max(700, this.H); }
         else {
-          this.p.vy = -(pl.type === 'spring' ? Math.max(1080, this.H * 1.55) : Math.max(720, this.H * 1.02));
+          this.p.vy = -(pl.type === 'spring' ? Math.max(1080, this.H * 1.55) : Math.max(720, this.H * 1.02)) * this.bounceScale;
           this.sound.jump(); if (pl.type === 'spring') { this.sound.power(); this.burst(pl.x, py, this.theme.accent, 10); }
           if (pl.type === 'crumble') pl.crumbling = true;
           if (pl.coin && !pl.got) { pl.got = true; this.sound.coin(); this.hitCombo(pl.x, py, 5); this.burst(pl.x, py, this.theme.accent, 8); }
@@ -1285,7 +1319,9 @@ class Platformer extends Base {
     }
     for (const pl of this.plats) if (pl.gone || pl.y - this.camY > this.H + 60) {
       let topY = Infinity; for (const p of this.plats) if (p !== pl && !p.gone) topY = Math.min(topY, p.y);
-      Object.assign(pl, this._mkPlat((isFinite(topY) ? topY : this.camY) - this.H / 7, false));
+      // platGap, not a fixed H/7 -- otherwise only the opening 8 rungs use the
+      // game's own spacing and the rest of the climb reverts to the default.
+      Object.assign(pl, this._mkPlat((isFinite(topY) ? topY : this.camY) - this.platGap, false));
     }
     if (this.p.y - this.camY > this.H + 60) { this.loseLife(); if (this.lives > 0) { this.p.y = this.camY + this.H * 0.3; this.p.vy = -400; } }
   }

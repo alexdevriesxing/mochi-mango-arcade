@@ -27,16 +27,20 @@ const HELPERS = {
 // appearing in any page template.
 const SITEWIDE = ['social'];
 
-/** Slice out a function body by brace matching from its declaration. */
+/**
+ * Slice a function body: from its declaration to the next top-level one.
+ *
+ * Brace matching is wrong here. These builders are almost entirely template
+ * literals full of `${...}` and inline `style="..."` braces, so counting braces
+ * ran past the end of a function and credited it with ad units that belong to
+ * the next one -- which is how leaderboardPage was reported as carrying four
+ * units when it actually had none.
+ */
 function bodyOf(name) {
-  const start = src.indexOf(`function ${name}(`);
+  const start = src.indexOf(`\nfunction ${name}(`);
   if (start < 0) return '';
-  let i = src.indexOf('{', start), depth = 0;
-  for (let j = i; j < src.length; j++) {
-    if (src[j] === '{') depth++;
-    else if (src[j] === '}') { depth--; if (!depth) return src.slice(i, j + 1); }
-  }
-  return src.slice(i);
+  const next = src.indexOf('\nfunction ', start + 1);
+  return src.slice(start, next < 0 ? src.length : next);
 }
 
 const PAGES = ['charsPage', 'gamesPage', 'universesPage', 'shopPage', 'newPage',

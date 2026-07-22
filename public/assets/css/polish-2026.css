@@ -146,7 +146,7 @@ body::selection { background: #e7dcff; color: var(--ink); }
 .continue-card strong { display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; font-size: 14px; }
 .continue-card small { color: var(--muted); font-weight: 650; }
 
-.section { padding-top: 38px; }
+.section { padding-top: 26px; }
 .section-head { align-items: center; }
 .section-head h2 { font-size: clamp(23px, 2vw, 29px); }
 .game-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); }

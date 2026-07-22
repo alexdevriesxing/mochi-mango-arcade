@@ -413,6 +413,24 @@ img {
   align-items: start;
 }
 
+/* Homepage: one grid for the whole page, so sections run alongside the tall ad
+   rail instead of starting below it. */
+.home-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 340px;
+  gap: 24px;
+  margin-top: 16px;
+  align-items: start;
+}
+.home-main { min-width: 0; }
+/* The rail is shorter than the content column, so pin it while the page scrolls
+   rather than leaving a gap under it. */
+.home-rail { position: sticky; top: 88px; }
+@media (max-width: 1180px) {
+  .home-layout { grid-template-columns: 1fr; }
+  .home-rail { position: static; }
+}
+
 .hero-card {
   position: relative;
   border-radius: 32px;

@@ -51,6 +51,12 @@ const TWISTS = {
     { id: 'colourdrain', name: 'Colour Drain', blurb: 'Starts on the full palette and loses a colour every 25 seconds. Late boards cascade, but options vanish.' },
     { id: 'bombrush', name: 'Bomb Rush', blurb: 'Every fifth match drops a live bomb onto the board. Clear around it or set it off deliberately.' },
   ],
+  platformer: [
+    { id: 'classic', name: 'Sure Footing', blurb: 'A straight climb, with rung spacing and platform width tuned to this game.' },
+    { id: 'lowgrav', name: 'Low Gravity', blurb: 'Floaty, committed arcs — you fall slower, but you steer for much longer.' },
+    { id: 'crumble', name: 'Crumbling Path', blurb: 'Most of the route falls away the moment you land on it. Keep moving.' },
+    { id: 'wind', name: 'Side Wind', blurb: 'A crosswind reverses every few seconds, so every jump has to be aimed upwind.' },
+  ],
   serve: [
     { id: 'classic', name: 'Rush Service', blurb: 'Clear every ticket before patience runs out, on a counter sized for this game.' },
     { id: 'vip', name: 'VIP Guests', blurb: 'Starred customers pay double but lose patience far faster. Serve them first or lose them.' },

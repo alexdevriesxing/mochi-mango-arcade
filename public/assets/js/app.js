@@ -660,9 +660,14 @@ function home(){
   S.games.forEach(g=>cc[g.mascot]=(cc[g.mascot]||0)+1);
   let chars=Object.entries(cc).sort((a,b)=>b[1]-a[1]).slice(0,4);
   
+  // One two-column grid for the whole page rather than a hero-only one. The
+  // sidebar stacks a 300x250, two promo cards and a 160x600 skyscraper, so it
+  // runs far taller than the hero; scoping the grid to the hero alone left the
+  // rest of that column as dead space and pushed every section below it.
   return `<main id="main" class="container">
     ${adTop()}
-    <div class="hero-wrap">
+    <div class="home-layout">
+      <div class="home-main">
       <section class="hero-card">
         <img src="/assets/images/home_hero_main_characters.jpg" alt="Mochi Mango Arcade" class="hero-banner-img">
         <div class="hero-content">
@@ -679,17 +684,6 @@ function home(){
           </div>
         </div>
       </section>
-      <aside class="side-stack">
-        ${adSide()}
-        <div class="promo-card merch-promo-card">
-          <img src="/assets/images/home_homepage_merch_promo_card.jpg" alt="Merch Shop" class="merch-promo-img">
-        </div>
-        <div class="promo-card why-play-card">
-          <img src="/assets/images/home_why_play_card.jpg" alt="Why Play" class="why-play-img">
-        </div>
-        ${adSkyscraper('b160x600')}
-      </aside>
-    </div>
 
     ${section('featuredGames',f)}
 
@@ -718,6 +712,18 @@ function home(){
         ${chars.map(([c,n])=>charCard(c,n)).join('')}
       </div>
     </section>
+      </div>
+      <aside class="side-stack home-rail">
+        ${adSide()}
+        <div class="promo-card merch-promo-card">
+          <img src="/assets/images/home_homepage_merch_promo_card.jpg" alt="Merch Shop" class="merch-promo-img">
+        </div>
+        <div class="promo-card why-play-card">
+          <img src="/assets/images/home_why_play_card.jpg" alt="Why Play" class="why-play-img">
+        </div>
+        ${adSkyscraper('b160x600')}
+      </aside>
+    </div>
   </main>`;
 }
 
@@ -967,7 +973,13 @@ function leaderboardPage(){
     return {game,best:Number(mastery.best)||0,medals:Number(campaign.medals)||0};
   }).filter(item=>item.best>0||item.medals>0).sort((a,b)=>b.best-a.best||b.medals-a.medals).slice(0,50);
   const rows=saved.map((item,index)=>`<a class="leader-row" href="${item.game.playUrl}"><div class="rank">#${index+1}</div><div><strong>${item.game.title}</strong><div class="meta"><span>${item.game.genre}</span><span>${item.medals} medals</span></div></div><div class="hide-sm" style="font-weight:900;color:var(--purple)">${item.best.toLocaleString()}</div><div class="hide-sm" style="font-weight:800;color:var(--muted)">personal best</div></a>`);
-  return `<main id="main" class="container"><section class="page-hero"><h1 data-i18n="leaderboards">${t('leaderboards')}</h1><p>Your private on-device high scores and campaign medals. Nothing is invented and no account is required.</p></section>${rows.length?rows.join(''):'<div class="empty">Play a game to create your personal leaderboard.</div>'}</main>`;
+  return `<main id="main" class="container">
+    ${adTop()}
+    <section class="page-hero"><h1 data-i18n="leaderboards">${t('leaderboards')}</h1><p>Your private on-device high scores and campaign medals. Nothing is invented and no account is required.</p></section>
+    ${adNative()}
+    ${rows.length?rows.join(''):'<div class="empty">Play a game to create your personal leaderboard.</div>'}
+    ${adSlot('b468x60')}
+  </main>`;
 }
 
 function adMapPage(){

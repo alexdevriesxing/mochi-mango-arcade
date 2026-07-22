@@ -34,7 +34,13 @@ const leaderboard=`function leaderboardPage(){
     return {game,best:Number(mastery.best)||0,medals:Number(campaign.medals)||0};
   }).filter(item=>item.best>0||item.medals>0).sort((a,b)=>b.best-a.best||b.medals-a.medals).slice(0,50);
   const rows=saved.map((item,index)=>\`<a class="leader-row" href="\${item.game.playUrl}"><div class="rank">#\${index+1}</div><div><strong>\${item.game.title}</strong><div class="meta"><span>\${item.game.genre}</span><span>\${item.medals} medals</span></div></div><div class="hide-sm" style="font-weight:900;color:var(--purple)">\${item.best.toLocaleString()}</div><div class="hide-sm" style="font-weight:800;color:var(--muted)">personal best</div></a>\`);
-  return \`<main id="main" class="container"><section class="page-hero"><h1 data-i18n="leaderboards">\${t('leaderboards')}</h1><p>Your private on-device high scores and campaign medals. Nothing is invented and no account is required.</p></section>\${rows.length?rows.join(''):'<div class="empty">Play a game to create your personal leaderboard.</div>'}</main>\`;
+  return \`<main id="main" class="container">
+    \${adTop()}
+    <section class="page-hero"><h1 data-i18n="leaderboards">\${t('leaderboards')}</h1><p>Your private on-device high scores and campaign medals. Nothing is invented and no account is required.</p></section>
+    \${adNative()}
+    \${rows.length?rows.join(''):'<div class="empty">Play a game to create your personal leaderboard.</div>'}
+    \${adSlot('b468x60')}
+  </main>\`;
 }
 
 `;
