@@ -2731,10 +2731,23 @@ class Snake extends Base {
 class Rhythm extends Base {
   instructions() { return 'Tap shrinking circles when they match the target ring! Perfect = combo multiplier. Miss = streak lost. Chain perfects for bonus points!'; }
   reset() {
+    const v = this.variant;
+    this.twist = v?.twist?.id || 'classic';
+    // Every track gets its own tempo and length, so two rhythm games do not
+    // pulse at the same 120bpm for the same 45 seconds.
+    this.bpm = Math.round(96 + ((v?.seed ?? 0) >> 5 & 7) * 9);
+    this.beatLen = 60 / this.bpm;
+    this.songDuration = Math.round(38 + ((v?.seed ?? 0) >> 11 & 3) * 7);
+    // Lane Beat quantises notes into fixed columns instead of scattering them.
+    this.lanes = this.twist === 'lanes' ? 4 + (((v?.seed ?? 0) >> 3) & 1) : 0;
+    this.rushT = 6; this.rush = 0;
+    // Precision Play narrows the perfect window and pays for the accuracy.
+    this.perfectWindow = this.twist === 'precision' ? 5 : 8;
+    this.perfectPay = this.twist === 'precision' ? 34 : 20;
     this.notes = []; this.hitRings = []; this.spawnT = 0; this.spawnInterval = 1.2;
     this.perfectStreak = 0; this.totalHits = 0; this.misses = 0; this.maxStreak = 0;
     this.beatT = 0; this.beatPulse = 0;
-    this.songProgress = 0; this.songDuration = 45; this.songEnded = false;
+    this.songProgress = 0; this.songEnded = false;
     this.lives = 5; this.drawLives();
   }
   onResize() { this.reset(); }
@@ -2743,13 +2756,30 @@ class Rhythm extends Base {
     this.spawnInterval = Math.max(0.48, 1.22 - this.time * 0.009) / Math.max(0.9, D * 0.78);
     this.beatT += dt;
     this.songProgress = Math.min(1, this.time / this.songDuration);
-    if (this.beatT > 60 / 120) { this.beatT = 0; this.beatPulse = 1; this.sound.blip(200, 0.03, 'sine', 0.05); }
+    if (this.beatT > this.beatLen) { this.beatT = 0; this.beatPulse = 1; this.sound.blip(200, 0.03, 'sine', 0.05); }
+    // Double Time: telegraphed bursts where notes arrive twice as fast.
+    if (this.twist === 'doubletime') {
+      if (this.rush > 0) this.rush -= dt;
+      else {
+        this.rushT -= dt;
+        if (this.rushT <= 0) {
+          this.rush = 4; this.rushT = 11 + Math.random() * 5;
+          this.float(this.W / 2, this.H * 0.16, 'DOUBLE TIME!', '#ff8ec7');
+          this.sound.power(); this.flash('#ff8ec7', 0.16);
+        }
+      }
+      if (this.rush > 0) this.spawnInterval *= 0.5;
+    }
     if (this.beatPulse > 0) this.beatPulse -= dt * 3;
 
     this.spawnT += dt;
     if (this.time < this.songDuration && this.spawnT >= this.spawnInterval) {
       this.spawnT = 0;
-      const x = this.W * (0.2 + Math.random() * 0.6);
+      // Lane Beat: notes land on fixed columns, so the eye tracks a groove
+      // instead of hunting the whole screen.
+      const x = this.lanes
+        ? this.W * (0.16 + (Math.floor(Math.random() * this.lanes) / (this.lanes - 1)) * 0.68)
+        : this.W * (0.2 + Math.random() * 0.6);
       const y = this.H * (0.25 + Math.random() * 0.45);
       const type = Math.random() < 0.15 ? 'special' : 'normal';
       this.notes.push({ x, y, r: 0, maxR: Math.max(50, this.W * 0.1), life: 1.4, type, hit: false });
@@ -2772,11 +2802,11 @@ class Rhythm extends Base {
         if (d < Math.max(ringR, innerR) + 30) {
           const acc = Math.abs(ringR - innerR);
           n.hit = true;
-          if (acc < 8) {
+          if (acc < this.perfectWindow) {
             this.perfectStreak++; this.totalHits++;
             if (this.perfectStreak > this.maxStreak) this.maxStreak = this.perfectStreak;
             const streakBonus = Math.floor(this.perfectStreak / 5) * 15;
-            this.hitCombo(n.x, n.y, 20 + streakBonus);
+            this.hitCombo(n.x, n.y, this.perfectPay + streakBonus);
             this.confetti(n.x, n.y); this.sound.power();
             this.hitRings.push({ x: n.x, y: n.y, r: 0, life: 0.5, color: '#ffd166' });
             this.float(n.x, n.y - 20, 'PERFECT!', '#ffd166');

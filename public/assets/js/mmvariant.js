@@ -51,6 +51,12 @@ const TWISTS = {
     { id: 'colourdrain', name: 'Colour Drain', blurb: 'Starts on the full palette and loses a colour every 25 seconds. Late boards cascade, but options vanish.' },
     { id: 'bombrush', name: 'Bomb Rush', blurb: 'Every fifth match drops a live bomb onto the board. Clear around it or set it off deliberately.' },
   ],
+  rhythm: [
+    { id: 'classic', name: 'Free Beat', blurb: 'Notes anywhere on stage, at this track’s own tempo and length.' },
+    { id: 'lanes', name: 'Lane Beat', blurb: 'Notes land on fixed columns, so you read a groove instead of hunting the screen.' },
+    { id: 'doubletime', name: 'Double Time', blurb: 'Telegraphed bursts where the notes arrive twice as fast.' },
+    { id: 'precision', name: 'Precision Play', blurb: 'A tighter perfect window that pays substantially more for the accuracy.' },
+  ],
   racing: [
     { id: 'classic', name: 'Open Circuit', blurb: 'Clean racing lines and boost pads, on a track width and race length set for this game.' },
     { id: 'traffic', name: 'Rush Hour', blurb: 'The circuit is packed with cones — patience and a tidy line beat raw speed.' },
