@@ -51,6 +51,11 @@ const TWISTS = {
     { id: 'colourdrain', name: 'Colour Drain', blurb: 'Starts on the full palette and loses a colour every 25 seconds. Late boards cascade, but options vanish.' },
     { id: 'bombrush', name: 'Bomb Rush', blurb: 'Every fifth match drops a live bomb onto the board. Clear around it or set it off deliberately.' },
   ],
+  racing: [
+    { id: 'classic', name: 'Open Circuit', blurb: 'Clean racing lines and boost pads, on a track width and race length set for this game.' },
+    { id: 'traffic', name: 'Rush Hour', blurb: 'The circuit is packed with cones — patience and a tidy line beat raw speed.' },
+    { id: 'fuel', name: 'Fuel Run', blurb: 'Speed drains the tank and boost pads are the only refill. Route through them or limp home.' },
+  ],
   platformer: [
     { id: 'classic', name: 'Sure Footing', blurb: 'A straight climb, with rung spacing and platform width tuned to this game.' },
     { id: 'lowgrav', name: 'Low Gravity', blurb: 'Floaty, committed arcs — you fall slower, but you steer for much longer.' },

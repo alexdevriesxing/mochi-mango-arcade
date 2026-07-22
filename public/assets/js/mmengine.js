@@ -2222,24 +2222,38 @@ class Sports extends Base {
 class Racing extends Base {
   instructions() { return 'Steer with arrows or drag! Collect boosts, dodge cones, beat the AI rival! Fastest lap gets bonus points. Upgrade speed each lap!'; }
   reset() {
+    const v = this.variant;
+    this.twist = v?.twist?.id || 'classic';
     this.trackR = Math.min(this.W, this.H) * 0.32;
     this.cx = this.W / 2; this.cy = this.H / 2;
-    this.trackW = Math.max(60, this.W * 0.12);
+    // A narrow circuit punishes every wobble; a wide one lets you carry speed.
+    this.trackW = Math.max(52, this.W * (0.095 + (v?.layout ?? 1) * 0.012));
+    // Fuel Run: speed drains the tank, and boost pads are the only refill.
+    this.fuel = 1; this.fuelWarned = false;
     this.player = { x: this.cx, y: this.cy + this.trackR, angle: Math.PI, speed: 0, lap: 0 };
     this.ai = { x: this.cx, y: this.cy + this.trackR, angle: Math.PI, speed: 0, lap: 0, progress: Math.PI / 2 + 0.28 };
     this.cones = []; this.boosts = []; this.sparks = [];
-    this.lapT = 0; this.lastQuad = 3; this.targetLaps = 3; this.raceResult = '';
+    this.lapT = 0; this.lastQuad = 3;
+    // Short sprints and longer endurance races read very differently. Derived
+    // from a different slice of the seed than trackW, or every wide track would
+    // also be a long race. Seed-derived rather than rng(), because onResize()
+    // re-runs reset() and the circuit must not change under the player.
+    this.targetLaps = [2, 3, 3, 4][((v?.seed ?? 0) >> 8) & 3];
+    this.raceResult = '';
     this._spawnCones();
     this._spawnBoosts();
-    this.maxSpeed = Math.max(200, this.W * 0.5);
-    this.accel = 180;
+    this.maxSpeed = Math.max(200, this.W * 0.5) * (v?.pace ?? 1);
+    this.accel = 180 * (v?.pace ?? 1);
     this.lapTime = 0;
     this.fastestLap = 0;
   }
   onResize() { this.reset(); }
   _spawnCones() {
     this.cones = [];
-    for (let i = 0; i < 8 + this.player.lap * 2; i++) {
+    // Rush Hour packs the circuit; other games still vary with their density.
+    const crowd = this.twist === 'traffic' ? 2.1 : (this.variant?.density ?? 1);
+    const n = Math.round((8 + this.player.lap * 2) * crowd);
+    for (let i = 0; i < n; i++) {
       const a = Math.random() * Math.PI * 2;
       const r = this.trackR + (Math.random() - 0.5) * this.trackW * 0.7;
       this.cones.push({ x: this.cx + Math.cos(a) * r, y: this.cy + Math.sin(a) * r, hit: false });
@@ -2257,6 +2271,22 @@ class Racing extends Base {
     const p = this.player;
     // Auto-accelerate
     p.speed = Math.min(this.maxSpeed, p.speed + this.accel * dt);
+    // Fuel Run: the tank drains with speed and only boost pads refill it. On
+    // empty the car limps, which is recoverable rather than an instant loss.
+    if (this.twist === 'fuel') {
+      // Tuned against a ~3s lap: a full tank lasts roughly three laps, so
+      // skipping pads is felt without ever becoming a dead end (pads respawn
+      // every lap, and an empty tank only limps rather than ending the race).
+      this.fuel = Math.max(0, this.fuel - dt * 0.09 * (0.4 + p.speed / this.maxSpeed));
+      if (this.fuel <= 0) p.speed = Math.min(p.speed, this.maxSpeed * 0.42);
+      if (this.fuel < 0.25 && !this.fuelWarned) {
+        this.fuelWarned = true;
+        this.float(this.cx, this.cy - this.trackR * 0.6, 'Low fuel!', '#ff8e6d');
+        this.sound.blip(240, 0.16, 'sine', 0.16);
+      }
+      if (this.fuel > 0.35) this.fuelWarned = false;
+      this.comboEl.textContent = `Fuel ${Math.round(this.fuel * 100)}%`;
+    }
     // Steering
     const steer = (this.keys['arrowleft'] || this.keys['a'] ? -1 : 0) + (this.keys['arrowright'] || this.keys['d'] ? 1 : 0);
     if (this.pointer.down) {
@@ -2310,7 +2340,13 @@ class Racing extends Base {
       if (!b.used && Math.hypot(b.x - p.x, b.y - p.y) < 25) {
         b.used = true; p.speed = Math.min(this.maxSpeed * 1.5, p.speed + 150);
         this.sound.combo(3); this.burst(b.x, b.y, '#ffd166', 10);
-        this.float(b.x, b.y - 20, 'BOOST!', '#ffd166');
+        // In Fuel Run these pads are the only refill, so they read as fuel.
+        if (this.twist === 'fuel') {
+          this.fuel = Math.min(1, this.fuel + 0.35);
+          this.float(b.x, b.y - 20, 'REFUEL!', '#7fd6ff');
+        } else {
+          this.float(b.x, b.y - 20, 'BOOST!', '#ffd166');
+        }
       }
     }
 
