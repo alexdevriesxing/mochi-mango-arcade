@@ -11,6 +11,7 @@
  *   • eight modes for genre variety.
  */
 import { sprites, atlases, atlasFrame, drawVectorChar, speciesOf, shade, tint } from './mmchar.js';
+import { variantFor } from './mmvariant.js';
 import { createBoardArena } from './boardgames.js';
 
 /* ============================================================ Theme */
@@ -135,6 +136,9 @@ class Base {
     this.particles = []; this.floats = []; this.rings = [];
     this.keys = {}; this.pointer = { x: 0, y: 0, down: false, tapped: false };
     this.bestKey = 'mma_best_' + game.slug; this.best = +(localStorage[this.bestKey] || 0);
+    // Per-game pacing, layout and signature mechanic, derived from the slug so
+    // two games sharing a mode do not play identically. See mmvariant.js.
+    this.variant = variantFor(game, modeFor(game));
     this.time = 0; this.last = 0; this.shake = 0;
     this.combo = 0; this.comboT = 0; this.mult = 1;
     this.powers = {};                       // type -> remaining seconds
@@ -354,6 +358,7 @@ class Base {
     this.overlay.innerHTML=`<div class="mma-panel mma-start-panel">
       ${card?`<img class="mma-keyart" src="${card}" alt="${this.game.title} key art" decoding="async" onerror="this.remove()">`:''}
       <h2>${this.game.title}</h2><p class="mma-instructions">${this.instructions()}</p>
+      ${this.variant?.twist ? `<p class="mma-signature"><span>${this.variant.twist.name}</span> ${this.variant.twist.blurb}</p>` : ''}
       <div class="mma-difficulty" aria-label="Challenge level"><span>Challenge</span>
       ${[['cozy','Cozy'],['arcade','Arcade'],['legend','Legend']].map(([id,label])=>`<button type="button" data-challenge="${id}" aria-pressed="${this.challenge===id}" class="${this.challenge===id?'is-selected':''}">${label}</button>`).join('')}</div>
       ${this.rewardMenuMarkup()}
@@ -490,7 +495,9 @@ class Base {
     const smoothRamp = Math.min(1.05, this.time / 75);
     const tierRamp = Math.min(0.35, Math.floor(this.time / 35) * 0.07);
     const challengeFactor = this.challenge === 'cozy' ? 0.82 : this.challenge === 'legend' ? 1.18 : 1;
-    return Math.max(0.72, Math.min(2.65, (1 + smoothRamp + tierRamp) * challengeFactor));
+    // Per-game pace: some games in a mode ramp up gently, others bite early.
+    const pace = this.variant?.pace ?? 1;
+    return Math.max(0.72, Math.min(2.65, (1 + smoothRamp + tierRamp) * challengeFactor * pace));
   }
 
   difficultyTier() { return Math.min(5, 1 + Math.floor(this.time / 35)); }
@@ -1499,8 +1506,17 @@ class Whack extends Base {
 class Match3 extends Base {
   instructions() { return 'Swap two touching tiles to line up 3+. Line up 4 for a Rocket, 5 for a Bomb — chain combos and beat the clock!'; }
   reset() {
-    this.N = 8; this.symbols = this.theme.items.slice(0, 5); this.grid = []; this.sp = []; this.sel = null; this.busy = false;
-    this.timeLeft = 60; this.lives = 999; this.livesEl.innerHTML = '⏱️'; this.beams = []; this._layout();
+    // Board size, colour count and clock all vary per game: a tight 7x7 with
+    // four colours cascades constantly, a 9x9 with six is a slower puzzle.
+    const v = this.variant, twist = v?.twist?.id || 'classic';
+    this.twist = twist;
+    this.N = [7, 8, 8, 9][v?.layout ?? 1];
+    this.baseColours = twist === 'colourdrain' ? 6 : twist === 'cascade' ? 4 : 5;
+    this.symbols = this.theme.items.slice(0, this.baseColours);
+    this.matchesSinceBomb = 0;
+    this.grid = []; this.sp = []; this.sel = null; this.busy = false;
+    this.timeLeft = Math.round(60 / (v?.pace ?? 1));
+    this.lives = 999; this.livesEl.innerHTML = '⏱️'; this.beams = []; this._layout();
     do { this._fill(); } while (this._runs().length || !this._anyMove());
   }
   onResize() { if (this.grid && this.grid.length) this._layout(); }
@@ -1548,7 +1564,17 @@ class Match3 extends Base {
       let cleared = 0;
       for (const key of toClear) { const [r, c] = key.split(',').map(Number); if (this.grid[r][c] != null) { this.grid[r][c] = null; this.sp[r][c] = null; cleared++; if (Math.random() < 0.6) this.burst(this._cx(c), this._cy(r), this.theme.accent, 5); } }
       for (const sp of specials) { this.sp[sp.r][sp.col] = sp.type; this.grid[sp.r][sp.col] = sp.color; this.ring(this._cx(sp.col), this._cy(sp.r), '#ffd166'); }
-      const base = cleared * 10, mul = combo * (1 + Math.floor(cleared / 8)), g = base * mul; this.addScore(g); this.sound.combo(combo);
+      // Cascade Cores rewards chains far more steeply, so a lucky board can run away.
+      const cascadeBonus = this.twist === 'cascade' ? combo : 0;
+      const base = cleared * 10, mul = (combo + cascadeBonus) * (1 + Math.floor(cleared / 8)), g = base * mul; this.addScore(g); this.sound.combo(combo);
+      // Bomb Rush: every few matches leaves a live bomb on the board.
+      if (this.twist === 'bombrush' && ++this.matchesSinceBomb >= 5) {
+        this.matchesSinceBomb = 0;
+        const r = Math.floor(Math.random() * this.N), c = Math.floor(Math.random() * this.N);
+        this.sp[r][c] = 'bomb';
+        this.ring(this._cx(c), this._cy(r), '#ff6b6b');
+        this.float(this._cx(c), this._cy(r), 'Bomb!', '#ff6b6b');
+      }
       if (combo > 1) this.comboEl.textContent = combo + '× cascade ' + g + 'pts';
       if (combo >= 3) this.float(this.W / 2, this.H * 0.5, 'Cascade ' + combo + '×!', '#ffd166');
       this.timeLeft = Math.min(80, this.timeLeft + cleared * 0.3);
@@ -1572,6 +1598,16 @@ class Match3 extends Base {
   update(dt) {
     this.timeLeft -= dt; if (this.timeLeft <= 0) { this.timeLeft = 0; return this.showOver(); }
     this.scoreEl.textContent = Math.floor(this.score); this.comboEl.textContent = Math.ceil(this.timeLeft) + 's';
+    // Colour Drain: the palette narrows as the run goes on, so late boards
+    // cascade harder but leave fewer distinct options.
+    if (this.twist === 'colourdrain') {
+      const target = Math.max(3, this.baseColours - Math.floor(this.time / 25));
+      if (target < this.symbols.length) {
+        this.symbols = this.theme.items.slice(0, target);
+        this.float(this.W / 2, this.H * 0.42, 'Colour drained!', '#7fd6ff');
+        this.sound.power();
+      }
+    }
     for (const b of this.beams) b.life -= dt; this.beams = this.beams.filter(b => b.life > 0);
     if (this.pointer.tapped && !this.busy) { const cc = this._cell(this.pointer.x, this.pointer.y); if (cc) {
       if (!this.sel) this.sel = cc; else { const d = Math.abs(this.sel.r - cc.r) + Math.abs(this.sel.col - cc.col);

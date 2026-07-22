@@ -614,6 +614,17 @@ function charsPage(){
   </main>`;
 }
 
+/**
+ * Newest games first, so a freshly added game surfaces without anyone editing
+ * a hand-picked list. Nearly the whole catalogue shares one release date, so id
+ * breaks the tie — ids only ever increase as games are added.
+ */
+function newestFirst(games){
+  return [...games].sort((a,b)=>
+    String(b.releaseDate||'').localeCompare(String(a.releaseDate||''))
+    || (Number(b.id)||0)-(Number(a.id)||0));
+}
+
 function section(key,arr,icon='🎮',link='/games/'){
   return `<section class="section">
     <div class="section-head">
@@ -626,9 +637,13 @@ function section(key,arr,icon='🎮',link='/games/'){
 
 function home(){
   let built=S.games.filter(g=>g.built);
-  let f=[...built].sort((a,b)=>(b.featured?1:0)-(a.featured?1:0)).slice(0,4);
-  let fset=new Set(f.map(g=>g.slug));
-  let n=built.filter(g=>!fset.has(g.slug)).slice(0,4);
+  // Newest first, claimed before anything else: a game added today has to show
+  // up here on its own. Featured then fills in around it so the two rows never
+  // display the same card twice.
+  let n=newestFirst(built).slice(0,8);
+  let nset=new Set(n.map(g=>g.slug));
+  let f=[...built].filter(g=>!nset.has(g.slug))
+    .sort((a,b)=>(b.featured?1:0)-(a.featured?1:0)).slice(0,4);
   let cc={};
   S.games.forEach(g=>cc[g.mascot]=(cc[g.mascot]||0)+1);
   let chars=Object.entries(cc).sort((a,b)=>b[1]-a[1]).slice(0,4);
@@ -678,7 +693,7 @@ function home(){
       </div>
     </section>
     
-    ${section('newThisWeek',n,'✨','/new-releases/')}
+    ${section('newReleases',n,'🆕','/new-releases/')}
 
     ${adSlot('b468x60')}
 
@@ -900,7 +915,7 @@ function newPage(){
       <p>Fresh concepts, mascot drops and upcoming prototypes.</p>
     </section>
     ${adNative()}
-    <div class="grid game-grid">${S.games.filter(g=>g.new).map(gameCard).join('')}</div>
+    <div class="grid game-grid">${newestFirst(S.games.filter(g=>g.built)).map(gameCard).join('')}</div>
     ${adSlot('b300x250')}
   </main>`;
 }
