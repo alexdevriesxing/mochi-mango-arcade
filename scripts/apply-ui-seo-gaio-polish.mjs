@@ -7,7 +7,12 @@ const appPath=path.join(publicDir,'assets/js/app.js');
 const gamesPath=path.join(publicDir,'assets/data/games.json');
 const games=JSON.parse(fs.readFileSync(gamesPath,'utf8'));
 const universes=JSON.parse(fs.readFileSync(path.join(publicDir,'assets/data/universes.json'),'utf8'));
-const today='2026-07-13';
+// Build date, matching seo-build.mjs's sitemap lastmod. These verified-facts
+// files are regenerated from the live catalogue on every build, so the honest
+// "last verified" date is the build date -- a hardcoded date left lastVerified
+// frozen at 2026-07-13 while the catalogue grew from 200 to 396 games. Every
+// game carries its own releaseDate, so this only drives the lastVerified fields.
+const today=new Date().toISOString().slice(0,10);
 
 const replaceOnce=(text,needle,value,label)=>{
   if(text.includes(value))return text;
