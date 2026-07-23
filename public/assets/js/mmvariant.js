@@ -51,6 +51,12 @@ const TWISTS = {
     { id: 'colourdrain', name: 'Colour Drain', blurb: 'Starts on the full palette and loses a colour every 25 seconds. Late boards cascade, but options vanish.' },
     { id: 'bombrush', name: 'Bomb Rush', blurb: 'Every fifth match drops a live bomb onto the board. Clear around it or set it off deliberately.' },
   ],
+  shooter: [
+    { id: 'classic', name: 'Sky Patrol', blurb: 'Auto-fire, dodge and boss runs, with fire rate and swarm pressure set for this game.' },
+    { id: 'spread', name: 'Spread Cannon', blurb: 'Your ship fires a three-way spread from the very first shot instead of earning it.' },
+    { id: 'bullethell', name: 'Bullet Storm', blurb: 'Bosses throw much wider, faster fans — this one is about the dodge.' },
+    { id: 'armored', name: 'Armored Assault', blurb: 'Tanks and shielded foes dominate the swarm. Hold your line and keep firing.' },
+  ],
   runner: [
     { id: 'classic', name: 'Open Road', blurb: 'A straight sprint, with hazard spacing and gravity tuned to this game.' },
     { id: 'onejump', name: 'Single Jump', blurb: 'No second jump to save you — but you leap higher, so every commitment counts.' },

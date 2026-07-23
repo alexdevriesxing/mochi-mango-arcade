@@ -1436,7 +1436,23 @@ class Dodger extends Base {
 
 class Shooter extends Base {
   instructions() { return 'Move ← → or drag, auto-fire! Blast swarms, dodge enemy fire, defeat bosses. Chain kills for combo multiplier. Watch for shield enemies!'; }
-  reset() { this.r = Math.max(24, this.W * 0.07); this.p = { x: this.W / 2, y: this.H - Math.max(58, this.H * 0.13) }; this.foes = []; this.shots = []; this.ebul = []; this.pu = []; this.spawnT = 0.6; this.fireT = 0; this.puT = 10; this.boss = null; this.bossT = 22; this.swarmT = 11; this.killStreak = 0; this.weaponLvl = 1; }
+  reset() {
+    const v = this.variant;
+    this.twist = v?.twist?.id || 'classic';
+    this.r = Math.max(24, this.W * 0.07);
+    this.p = { x: this.W / 2, y: this.H - Math.max(58, this.H * 0.13) };
+    this.foes = []; this.shots = []; this.ebul = []; this.pu = [];
+    // Fire cadence, enemy pressure and boss timing all shift per game, so two
+    // shooters do not fire at the same rate against the same swarm.
+    this.rateScale = this.twist === 'spread' ? 1.18 : (1.12 - (v?.pace ?? 1) * 0.24);
+    this.spawnScale = 1 / Math.max(0.72, v?.density ?? 1);
+    this.bossInterval = [26, 22, 18][(v?.layout ?? 1) % 3];
+    // Bullet Storm: the boss throws a much wider fan and enemy fire is quicker.
+    this.fanWidth = this.twist === 'bullethell' ? 3 : 1;
+    this.spawnT = 0.6; this.fireT = 0; this.puT = 10;
+    this.boss = null; this.bossT = this.bossInterval; this.swarmT = 11;
+    this.killStreak = 0; this.weaponLvl = 1;
+  }
   _spawnFoe(D, kind, x) {
     const base = Math.max(28, this.W * 0.075);
     if (kind === 'tank') this.foes.push({ x, y: -30, s: base * 1.4, vy: this.H * 0.06 * D, hp: 3, kind, dx: 0, ch: this.theme.hazards[2 % 3], ph: 0 });
@@ -1453,8 +1469,11 @@ class Shooter extends Base {
     if (this.pointer.down) this.p.x += (this.pointer.x - this.p.x) * Math.min(1, dt * 14);
     this.p.x = Math.max(this.r, Math.min(this.W - this.r, this.p.x));
     this.fireT -= dt;
-    const rate = this.powers.x2 ? 0.12 : Math.max(0.12, 0.26 - this.weaponLvl * 0.02);
-    if (this.fireT <= 0) { this.fireT = rate; this.shots.push({ x: this.p.x, y: this.p.y - this.r }); if (this.powers.x2 || this.weaponLvl >= 3) { this.shots.push({ x: this.p.x - 16, y: this.p.y - this.r, vx: -60 }); this.shots.push({ x: this.p.x + 16, y: this.p.y - this.r, vx: 60 }); } this.sound.blip(760, 0.04, 'square', 0.06); }
+    const rate = (this.powers.x2 ? 0.12 : Math.max(0.12, 0.26 - this.weaponLvl * 0.02)) * this.rateScale;
+    // Spread Cannon fires a 3-way pattern from the start; other games earn it
+    // through weapon upgrades or a double-score power.
+    const spread = this.twist === 'spread' || this.powers.x2 || this.weaponLvl >= 3;
+    if (this.fireT <= 0) { this.fireT = rate; this.shots.push({ x: this.p.x, y: this.p.y - this.r }); if (spread) { this.shots.push({ x: this.p.x - 16, y: this.p.y - this.r, vx: -60 }); this.shots.push({ x: this.p.x + 16, y: this.p.y - this.r, vx: 60 }); } this.sound.blip(760, 0.04, 'square', 0.06); }
     for (const s of this.shots) { s.y -= Math.max(560, this.H) * dt; if (s.vx) s.x += s.vx * dt; } this.shots = this.shots.filter(s => s.y > -20);
     this.bossT -= dt;
     if (!this.boss && this.bossT <= 0) { const hp = Math.round(14 + this.time * 0.5); this.boss = { x: this.W / 2, y: this.H * 0.14, s: Math.max(60, this.W * 0.2), hp, maxhp: hp, dir: Math.random() < 0.5 ? -1 : 1, fireT: 1.2, ch: this.theme.hazards[0] }; this.float(this.W / 2, this.H * 0.3, 'Boss!', '#ff4f6d'); this.sound.power(); }
@@ -1462,13 +1481,22 @@ class Shooter extends Base {
       const b = this.boss; b.x += b.dir * this.W * 0.25 * dt; if (b.x < b.s * 0.5) { b.x = b.s * 0.5; b.dir = 1; } if (b.x > this.W - b.s * 0.5) { b.x = this.W - b.s * 0.5; b.dir = -1; }
       const rage = b.hp <= b.maxhp * 0.5;
       if (rage && !b.raging) { b.raging = true; b.fireT = 0.3; this.flash('#ff4f6d', 0.3); this.float(b.x, b.y - b.s * 0.6, 'Rage!', '#ff4f6d'); }
-      b.fireT -= dt; if (b.fireT <= 0) { b.fireT = rage ? 0.5 : Math.max(0.7, 1.6 - this.time * 0.01); const spd = this.H * 0.4; for (let a = (rage ? -2 : -1); a <= (rage ? 2 : 1); a++) this.ebul.push({ x: b.x, y: b.y + b.s * 0.4, vx: a * this.W * 0.13, vy: spd }); this.sound.blip(rage ? 150 : 200, 0.1, 'sawtooth', 0.12); }
-      for (const s of this.shots) if (!s.dead && Math.abs(s.x - b.x) < b.s * 0.5 && Math.abs(s.y - b.y) < b.s * 0.5) { s.dead = true; b.hp--; this.burst(s.x, s.y, this.theme.accent, 6); if (b.hp <= 0) { this.confetti(b.x, b.y); this.burst(b.x, b.y, this.theme.accent, 30, 1.8); this.shake = 1.2; this.flash('#fff', 0.4); this.hitCombo(b.x, b.y, 60); this.weaponLvl = Math.min(5, this.weaponLvl + 1); this.float(this.W / 2, this.H * 0.25, 'Weapon Lv.' + this.weaponLvl + '!', '#ffd166'); this.pu.push({ x: b.x, y: b.y, s: Math.max(26, this.W * 0.07), vy: this.H * 0.15, type: Object.keys(POWERS)[Math.floor(Math.random() * 4)] }); this.boss = null; this.bossT = 20 + Math.random() * 8; } }
+      b.fireT -= dt; if (b.fireT <= 0) { b.fireT = (rage ? 0.5 : Math.max(0.7, 1.6 - this.time * 0.01)) * (this.twist === 'bullethell' ? 0.72 : 1); const spd = this.H * 0.4; const w = rage ? this.fanWidth + 1 : this.fanWidth; for (let a = -w; a <= w; a++) this.ebul.push({ x: b.x, y: b.y + b.s * 0.4, vx: a * this.W * 0.13, vy: spd }); this.sound.blip(rage ? 150 : 200, 0.1, 'sawtooth', 0.12); }
+      for (const s of this.shots) if (!s.dead && Math.abs(s.x - b.x) < b.s * 0.5 && Math.abs(s.y - b.y) < b.s * 0.5) { s.dead = true; b.hp--; this.burst(s.x, s.y, this.theme.accent, 6); if (b.hp <= 0) { this.confetti(b.x, b.y); this.burst(b.x, b.y, this.theme.accent, 30, 1.8); this.shake = 1.2; this.flash('#fff', 0.4); this.hitCombo(b.x, b.y, 60); this.weaponLvl = Math.min(5, this.weaponLvl + 1); this.float(this.W / 2, this.H * 0.25, 'Weapon Lv.' + this.weaponLvl + '!', '#ffd166'); this.pu.push({ x: b.x, y: b.y, s: Math.max(26, this.W * 0.07), vy: this.H * 0.15, type: Object.keys(POWERS)[Math.floor(Math.random() * 4)] }); this.boss = null; this.bossT = this.bossInterval + Math.random() * 8; } }
     }
     this.swarmT -= dt;
     if (this.swarmT <= 0) { this.swarmT = 13 + Math.random() * 8; const n = 4 + Math.floor(Math.random() * 3); for (let i = 0; i < n; i++) this._spawnFoe(D, 'grunt', (i + 0.5) * this.W / n); this.float(this.W / 2, this.H * 0.28, 'Incoming!', this.theme.accent); }
     this.spawnT -= dt;
-    if (this.spawnT <= 0) { this.spawnT = Math.max(0.4, 1.05 - this.time * 0.011); const roll = Math.random(); this._spawnFoe(D, roll < 0.12 ? 'tank' : roll < 0.35 ? 'weaver' : roll < 0.5 ? 'shield' : 'grunt', 30 + Math.random() * (this.W - 60)); }
+    if (this.spawnT <= 0) {
+      this.spawnT = Math.max(0.4, 1.05 - this.time * 0.011) * this.spawnScale;
+      const roll = Math.random();
+      // Armored Assault leans on tanks and shielded foes, so the fight is about
+      // sustained fire and positioning rather than clearing a light swarm.
+      const kind = this.twist === 'armored'
+        ? (roll < 0.32 ? 'tank' : roll < 0.48 ? 'weaver' : roll < 0.74 ? 'shield' : 'grunt')
+        : (roll < 0.12 ? 'tank' : roll < 0.35 ? 'weaver' : roll < 0.5 ? 'shield' : 'grunt');
+      this._spawnFoe(D, kind, 30 + Math.random() * (this.W - 60));
+    }
     this.puT -= dt; if (this.puT <= 0) { this.puT = 12 + Math.random() * 6; this.pu.push({ x: 30 + Math.random() * (this.W - 60), y: -20, s: Math.max(26, this.W * 0.07), vy: this.H * 0.15, type: Object.keys(POWERS)[Math.floor(Math.random() * 4)] }); }
     for (const f of this.foes) { f.y += f.vy * dt; if (f.kind === 'weaver') f.x = f.x0 + Math.sin(this.time * 3 + f.ph) * f.amp; else { f.x += (f.dx || 0) * dt; if (f.x < f.s / 2 || f.x > this.W - f.s / 2) f.dx *= -1; } }
     for (const q of this.pu) q.y += q.vy * dt;
