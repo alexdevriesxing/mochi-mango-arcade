@@ -1193,20 +1193,36 @@ class Runner extends Base {
 class Flappy extends Base {
   instructions() { return 'Tap/Space to flap! Thread gaps, grab coins, hit rings for bonus. Consecutive ring combos multiply score. Watch for moving pipes!'; }
   reset() {
+    const v = this.variant;
+    this.twist = v?.twist?.id || 'classic';
     this.r = Math.max(22, this.W * 0.06); this.p = { x: this.W * 0.28, y: this.H / 2, vy: 0 };
-    this.pipes = []; this.gap = this.H * 0.34; this.spawnX = 0; this.gapMin = this.H * 0.24; this.n = 0;
+    // Needle Gaps tightens the openings; everything else still shifts per game.
+    const gapScale = this.twist === 'narrow' ? 0.82 : (0.94 + (v?.layout ?? 1) * 0.03);
+    this.pipes = []; this.gap = this.H * 0.34 * gapScale; this.spawnX = 0; this.gapMin = this.H * 0.24 * gapScale; this.n = 0;
     this.ringStreak = 0; this.flapPowers = [];
+    // Scroll speed and pipe spacing set the rhythm; tighter gaps get more room.
+    this.scrollScale = 0.88 + (v?.pace ?? 1) * 0.12;
+    this.pipeGapX = this.twist === 'narrow' ? 0.72 : 0.62;
+    this.gustT = 3; this.gust = 0;            // Windy Skies
+    this.allMove = this.twist === 'movers';   // Shifting Pillars
   }
   flap() { this.p.vy = -Math.max(360, this.H * 0.55); this.sound.jump(); this.burst(this.p.x - this.r, this.p.y + this.r * 0.4, this.theme.belly, 4); }
   update(dt) {
     if (this.pointer.tapped || this.keys[' '] || this.keys['arrowup'] || this.keys['w']) { this.flap(); this.keys[' '] = this.keys['w'] = false; }
-    this.p.vy += 1500 * dt; this.p.y += this.p.vy * dt; this.scroll += (this.W * 0.42) * dt;
+    // Windy Skies: a vertical gust that reverses every few seconds and decays,
+    // so altitude has to be fought for on top of the flapping.
+    if (this.twist === 'gusts') {
+      this.gustT -= dt;
+      if (this.gustT <= 0) { this.gustT = 2.6 + Math.random() * 2; this.gust = (Math.random() < 0.5 ? -1 : 1) * this.H * 1.4; this.float(this.p.x, this.H * 0.13, this.gust < 0 ? '↑ Updraft' : '↓ Downdraft', '#7fd6ff'); }
+      this.p.vy += this.gust * dt; this.gust *= 0.9;
+    }
+    this.p.vy += 1500 * dt; this.p.y += this.p.vy * dt; this.scroll += (this.W * 0.42 * this.scrollScale) * dt;
     if (this.p.y > this.H - this.r) { this.p.y = this.H - this.r; this.loseLife(); this.p.vy = -300; }
     if (this.p.y < this.r) { this.p.y = this.r; this.p.vy = 0; }
-    const speed = this.W * 0.42 * this.difficulty();
+    const speed = this.W * 0.42 * this.scrollScale * this.difficulty();
     this.spawnX -= speed * dt;
-    if (this.spawnX <= 0) { this.spawnX = this.W * 0.62; const g = Math.max(this.gapMin, this.gap - this.time * 1.2);
-      this.n++; const moving = this.time > 12 && this.n % 3 === 0, ring = this.n % 4 === 0;
+    if (this.spawnX <= 0) { this.spawnX = this.W * this.pipeGapX; const g = Math.max(this.gapMin, this.gap - this.time * 1.2);
+      this.n++; const moving = this.allMove || (this.time > 12 && this.n % 3 === 0), ring = this.n % 4 === 0;
       const cy0 = this.H * 0.25 + Math.random() * this.H * 0.45;
       this.pipes.push({ x: this.W + 40, cy0, cy: cy0, g, w: Math.max(46, this.W * 0.13), scored: false, coin: !ring && Math.random() < 0.6, moving, amp: this.H * 0.14, ph: Math.random() * 7, ring, rgot: false }); }
     for (const p of this.pipes) { p.x -= speed * dt; if (p.moving) p.cy = p.cy0 + Math.sin(this.time * 1.6 + p.ph) * p.amp; }

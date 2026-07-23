@@ -51,6 +51,12 @@ const TWISTS = {
     { id: 'colourdrain', name: 'Colour Drain', blurb: 'Starts on the full palette and loses a colour every 25 seconds. Late boards cascade, but options vanish.' },
     { id: 'bombrush', name: 'Bomb Rush', blurb: 'Every fifth match drops a live bomb onto the board. Clear around it or set it off deliberately.' },
   ],
+  flappy: [
+    { id: 'classic', name: 'Open Skies', blurb: 'Flap, thread the gaps and chain rings, at a pace set for this game.' },
+    { id: 'narrow', name: 'Needle Gaps', blurb: 'Tighter openings that demand precise flaps — with a little more room to read them.' },
+    { id: 'gusts', name: 'Windy Skies', blurb: 'Updrafts and downdrafts shove you off your line every few seconds.' },
+    { id: 'movers', name: 'Shifting Pillars', blurb: 'Every pillar drifts up and down from the start. Read the rhythm.' },
+  ],
   tower: [
     { id: 'classic', name: 'Hold the Line', blurb: 'Build, upgrade and defend, on a path and budget set for this game.' },
     { id: 'rush', name: 'Swarm Rush', blurb: 'Many weak, fast enemies — coverage and rate of fire beat raw damage.' },
