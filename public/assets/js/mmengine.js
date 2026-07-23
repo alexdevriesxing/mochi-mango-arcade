@@ -2932,22 +2932,35 @@ class Rhythm extends Base {
 class TowerDefense extends Base {
   instructions() { return 'Tap empty spots to build towers! Towers auto-fire at enemies. Survive the waves and earn coins for more towers!'; }
   reset() {
+    const v = this.variant;
+    this.twist = v?.twist?.id || 'classic';
+    // Path shape, starting funds and the make-up of each wave all shift per
+    // game, so two tower games are not the same map against the same swarm.
+    this.pathSegs = this.twist === 'serpentine' ? 8 : [4, 5, 5, 6][v?.layout ?? 1];
+    this.pathAmp = this.twist === 'serpentine' ? 0.24 : 0.15;
+    // Swarm Rush: many weak, fast enemies. Armored Column: fewer, tougher, slow.
+    this.waveScale = this.twist === 'rush' ? 1.6 : 1;
+    this.spawnGap = this.twist === 'rush' ? 0.45 : 0.8;
+    this.hpScale = this.twist === 'armored' ? 1.7 : this.twist === 'rush' ? 0.6 : 1;
+    this.spScale = this.twist === 'rush' ? 1.35 : this.twist === 'armored' ? 0.78 : 1;
+    this.tankChance = this.twist === 'armored' ? 0.4 : this.twist === 'rush' ? 0.05 : 0.15;
     this.path = this._buildPath();
     this.towers = []; this.enemies = []; this.bullets = [];
-    this.coins = 80; this.wave = 0; this.waveT = 2; this.spawnIdx = 0; this.spawnT = 0;
+    this.coins = Math.round(80 * (0.85 + (v?.density ?? 1) * 0.15));
+    this.wave = 0; this.waveT = 2; this.spawnIdx = 0; this.spawnT = 0;
     this.waveSize = 8; this.lives = 5; this.drawLives();
     this._startWave();
   }
   _buildPath() {
     const pts = [];
-    const segs = 5;
+    const segs = this.pathSegs || 5;
     for (let i = 0; i <= segs; i++) {
-      pts.push({ x: this.W * (i / segs), y: this.H * (0.3 + Math.sin(i * 1.3) * 0.15) });
+      pts.push({ x: this.W * (i / segs), y: this.H * (0.3 + Math.sin(i * 1.3) * (this.pathAmp || 0.15)) });
     }
     return pts;
   }
   _startWave() {
-    this.wave++; this.waveSize = 6 + this.wave * 2; this.spawnIdx = 0; this.spawnT = 0;
+    this.wave++; this.waveSize = Math.round((6 + this.wave * 2) * (this.waveScale || 1)); this.spawnIdx = 0; this.spawnT = 0;
     this.float(this.W / 2, this.H * 0.15, `Wave ${this.wave}!`, this.theme.accent);
   }
   onResize() { this.reset(); }
@@ -2968,11 +2981,11 @@ class TowerDefense extends Base {
     // Spawn enemies
     if (this.spawnIdx < this.waveSize) {
       this.spawnT += dt;
-      if (this.spawnT > 0.8) {
+      if (this.spawnT > this.spawnGap) {
         this.spawnT = 0; this.spawnIdx++;
-        const hp = 3 + Math.floor(this.wave * 1.5);
-        const sp = (40 + this.wave * 5) * (0.85 + Math.random() * 0.3);
-        this.enemies.push({ t: 0, hp, maxhp: hp, sp, x: this.path[0].x, y: this.path[0].y, dead: false, type: Math.random() < 0.15 ? 'tank' : 'normal' });
+        const hp = Math.max(2, Math.round((3 + Math.floor(this.wave * 1.5)) * this.hpScale));
+        const sp = (40 + this.wave * 5) * (0.85 + Math.random() * 0.3) * this.spScale;
+        this.enemies.push({ t: 0, hp, maxhp: hp, sp, x: this.path[0].x, y: this.path[0].y, dead: false, type: Math.random() < this.tankChance ? 'tank' : 'normal' });
       }
     } else if (this.enemies.length === 0) {
       this._startWave(); this.coins += 30; this.addScore(50);

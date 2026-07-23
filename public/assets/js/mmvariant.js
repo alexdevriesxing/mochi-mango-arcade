@@ -51,6 +51,12 @@ const TWISTS = {
     { id: 'colourdrain', name: 'Colour Drain', blurb: 'Starts on the full palette and loses a colour every 25 seconds. Late boards cascade, but options vanish.' },
     { id: 'bombrush', name: 'Bomb Rush', blurb: 'Every fifth match drops a live bomb onto the board. Clear around it or set it off deliberately.' },
   ],
+  tower: [
+    { id: 'classic', name: 'Hold the Line', blurb: 'Build, upgrade and defend, on a path and budget set for this game.' },
+    { id: 'rush', name: 'Swarm Rush', blurb: 'Many weak, fast enemies — coverage and rate of fire beat raw damage.' },
+    { id: 'armored', name: 'Armored Column', blurb: 'Fewer, tougher, slower foes. Concentrate fire and upgrade your best towers.' },
+    { id: 'serpentine', name: 'Winding Road', blurb: 'A long, twisting path a well-placed tower can cover several times over.' },
+  ],
   shooter: [
     { id: 'classic', name: 'Sky Patrol', blurb: 'Auto-fire, dodge and boss runs, with fire rate and swarm pressure set for this game.' },
     { id: 'spread', name: 'Spread Cannon', blurb: 'Your ship fires a three-way spread from the very first shot instead of earning it.' },
