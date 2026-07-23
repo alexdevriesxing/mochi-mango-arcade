@@ -1813,10 +1813,21 @@ class Serve extends Base {
 
 class Maze extends Base {
   instructions() { return 'Collect every treat and clear the maze — dodge the guards! Arrow keys, WASD or swipe to steer. Grab a ✨ to turn the tables.'; }
-  reset() { this.level = 1; this.speedBoost = 0; this._gen(); }
+  reset() {
+    const v = this.variant;
+    this.twist = v?.twist?.id || 'classic';
+    // Maze size, guard count/speed, chase aggression and pellet mix all vary.
+    this.sizeBoost = this.twist === 'vast' ? 4 : Math.round((v?.layout ?? 1) - 1);
+    this.guardBase = this.twist === 'swarm' ? 2 : 1;
+    this.guardSpeedScale = this.twist === 'hunter' ? 1.28 : (0.9 + (v?.pace ?? 1) * 0.14);
+    this.chaseProb = this.twist === 'hunter' ? 0.92 : 0.75;
+    // More escape pellets when the pressure is higher, so it stays fair.
+    this.powerChance = (this.twist === 'hunter' || this.twist === 'swarm') ? 0.08 : 0.05;
+    this.level = 1; this.speedBoost = 0; this._gen();
+  }
   onResize() { if (this.wall) this._layout(); }
   _gen() {
-    let C = 7 + this.level * 2; if (C % 2 === 0) C++; C = Math.min(C, 15);
+    let C = 7 + this.level * 2 + (this.sizeBoost || 0); if (C % 2 === 0) C++; C = Math.min(C, this.twist === 'vast' ? 19 : 15);
     let R = Math.round(C * (this.H / this.W)); if (R % 2 === 0) R++; R = Math.max(9, Math.min(R, 21));
     this.cols = C; this.rows = R;
     const g = []; for (let y = 0; y < R; y++) { g[y] = []; for (let x = 0; x < C; x++) g[y][x] = 1; }
@@ -1833,10 +1844,10 @@ class Maze extends Base {
       if (ws.length >= 3 && Math.random() < 0.35) { const w = ws[Math.floor(Math.random() * ws.length)]; if (w[0] > 0 && w[1] > 0 && w[0] < C - 1 && w[1] < R - 1) g[w[1]][w[0]] = 0; }
     }
     this.wall = g; this.pellets = []; this.total = 0;
-    for (let y = 0; y < R; y++) for (let x = 0; x < C; x++) if (g[y][x] === 0 && !(x === 1 && y === 1)) { this.pellets.push({ x, y, got: false, power: Math.random() < 0.05 }); this.total++; }
+    for (let y = 0; y < R; y++) for (let x = 0; x < C; x++) if (g[y][x] === 0 && !(x === 1 && y === 1)) { this.pellets.push({ x, y, got: false, power: Math.random() < this.powerChance }); this.total++; }
     this.eaten = 0; this.fear = 0; this.fruit = null; this.fruitT = 6;
     this.pl = { cx: 1, cy: 1, tx: 1, ty: 1, dir: [0, 0], want: [0, 0], moving: false };
-    this.guards = []; const ng = Math.min(3, 1 + Math.floor(this.level / 2) + (this.level >= 2 ? 1 : 0));
+    this.guards = []; const ng = Math.min(this.twist === 'swarm' ? 5 : 3, this.guardBase + Math.floor(this.level / 2) + (this.level >= 2 ? 1 : 0));
     for (let i = 0; i < ng; i++) { const p = this._corner(i); this.guards.push({ cx: p[0], cy: p[1], tx: p[0], ty: p[1], dir: [0, 0], moving: false, ch: this.theme.hazards[i % 3] }); }
     this._layout();
   }
@@ -1873,7 +1884,7 @@ class Maze extends Base {
     });
     this.fear = Math.max(0, this.fear - dt);
     this.speedBoost = Math.max(0, this.speedBoost - dt);
-    const gsp = Math.max(70, this.cell * (3.5 + this.level * 0.14));
+    const gsp = Math.max(70, this.cell * (3.5 + this.level * 0.14)) * this.guardSpeedScale;
     for (const gd of this.guards) this._step(gd, dt, gsp, (o) => this._guardDir(o));
     for (const p of this.pellets) if (!p.got && p.x === this.pl.cx && p.y === this.pl.cy) {
       p.got = true; this.eaten++; this.burst(this.pl.px, this.pl.py, this.theme.accent, 5);
@@ -1899,7 +1910,7 @@ class Maze extends Base {
     for (const d of [[1, 0], [-1, 0], [0, 1], [0, -1]]) if (this._open(o.cx + d[0], o.cy + d[1])) { if ((o.dir[0] || o.dir[1]) && d[0] === -o.dir[0] && d[1] === -o.dir[1]) continue; opts.push(d); }
     if (!opts.length) { o.dir = [-o.dir[0], -o.dir[1]]; return; }
     let pick = opts[Math.floor(Math.random() * opts.length)];
-    if (Math.random() < 0.75) {
+    if (Math.random() < this.chaseProb) {
       let best = null, bv = this.fear > 0 ? -1 : 1e9;
       for (const d of opts) { const dist = Math.abs(o.cx + d[0] - this.pl.cx) + Math.abs(o.cy + d[1] - this.pl.cy); if (this.fear > 0 ? (best === null || dist > bv) : (dist < bv)) { bv = dist; best = d; } }
       if (best) pick = best;
@@ -2031,8 +2042,24 @@ class Memory extends Base {
 
 class Stacker extends Base {
   instructions() { return 'Tap/Space to drop blocks. Perfect drops = wider blocks! Stack high for height bonuses. Wind gusts above 8 blocks add challenge!'; }
-  reset() { this.bh = Math.max(22, this.H * 0.052); this.bw0 = this.W * 0.44; this.tower = [{ x: this.W / 2, w: this.bw0 }]; this.slices = []; this.camY = 0; this.perfectStreak = 0; this.heightM = 0; this.lives = 3; this.drawLives(); this._spawn(); }
-  _spawn() { const top = this.tower[this.tower.length - 1]; const from = Math.random() < 0.5 ? -1 : 1; this.cur = { w: top.w, x: from < 0 ? top.w / 2 : this.W - top.w / 2, dir: from < 0 ? 1 : -1 }; this.speed = Math.min(this.W * 1.15, Math.max(150, this.W * 0.55) + this.tower.length * 7); }
+  reset() {
+    const v = this.variant;
+    this.twist = v?.twist?.id || 'classic';
+    this.bh = Math.max(22, this.H * 0.052);
+    // Starting width and slide speed vary per game, so no two towers feel alike.
+    this.bw0 = this.W * (0.40 + (v?.layout ?? 1) * 0.03);
+    this.speedScale = this.twist === 'fast' ? 1.5 : (0.9 + (v?.pace ?? 1) * 0.2);
+    // Sway Tower oscillates from the first block, not only once you pass eight.
+    this.swayFrom = this.twist === 'sway' ? 1 : 8;
+    // Bullseye Stack: a tighter perfect window that grows the block from the
+    // very first perfect and pays double.
+    this.perfectTol = this.twist === 'precision' ? 0.018 : 0.03;
+    this.perfectGrowAt = this.twist === 'precision' ? 1 : 3;
+    this.perfectPay = this.twist === 'precision' ? 20 : 10;
+    this.tower = [{ x: this.W / 2, w: this.bw0 }]; this.slices = []; this.camY = 0;
+    this.perfectStreak = 0; this.heightM = 0; this.lives = 3; this.drawLives(); this._spawn();
+  }
+  _spawn() { const top = this.tower[this.tower.length - 1]; const from = Math.random() < 0.5 ? -1 : 1; this.cur = { w: top.w, x: from < 0 ? top.w / 2 : this.W - top.w / 2, dir: from < 0 ? 1 : -1 }; this.speed = Math.min(this.W * 1.15 * this.speedScale, (Math.max(150, this.W * 0.55) + this.tower.length * 7) * this.speedScale); }
   _screenY(level) { return this.groundY - level * this.bh + this.camY; }
   _col(i) { return `hsl(${(i * 16 + 200) % 360},68%,${this.theme.dark ? 60 : 66}%)`; }
   update(dt) {
@@ -2047,7 +2074,7 @@ class Stacker extends Base {
       this.float(this.W / 2, this.H * 0.2, this.heightM + ' blocks!', this.theme.accent);
     }
     const c = this.cur; c.x += c.dir * this.speed * dt;
-    if (this.tower.length >= 8) c.x += Math.sin(this.time * 1.7) * this.W * 0.06 * dt * (this.tower.length - 7);
+    if (this.tower.length >= this.swayFrom) c.x += Math.sin(this.time * 1.7) * this.W * 0.06 * dt * (this.tower.length - this.swayFrom + 1);
     if (c.x > this.W - c.w / 2) { c.x = this.W - c.w / 2; c.dir = -1; } if (c.x < c.w / 2) { c.x = c.w / 2; c.dir = 1; }
     if (this.pointer.tapped || this.keys[' ']) { this.keys[' '] = false; this._drop(); }
     for (const s of this.slices) { s.vy += 900 * dt; s.y += s.vy * dt; s.life -= dt; s.rot = (s.rot || 0) + (s.vr || 0) * dt; }
@@ -2057,11 +2084,11 @@ class Stacker extends Base {
     const top = this.tower[this.tower.length - 1], c = this.cur;
     const left = Math.max(c.x - c.w / 2, top.x - top.w / 2), right = Math.min(c.x + c.w / 2, top.x + top.w / 2), overlap = right - left, dropY = this._screenY(this.tower.length);
     if (overlap <= 0) { this.slices.push({ x: c.x, w: c.w, y: dropY, vy: -30, vr: (Math.random() - .5) * 6, rot: 0, life: 1.6, color: this._col(this.tower.length) }); this.shake = 1; this.perfectStreak = 0; this.combo = 0; this.mult = 1; this.comboEl.textContent = ''; this.loseLife(); if (this.lives > 0) this._spawn(); return; }
-    const perfect = Math.abs(c.x - top.x) < Math.max(5, this.bw0 * 0.03);
+    const perfect = Math.abs(c.x - top.x) < Math.max(4, this.bw0 * this.perfectTol);
     let nw, nx;
     if (perfect) {
-      this.perfectStreak++; nw = this.perfectStreak >= 3 ? Math.min(this.bw0, c.w + this.bh * 0.5) : c.w; nx = top.x;
-      this.sound.power(); this.float(top.x, dropY - this.bh, this.perfectStreak > 1 ? `PERFECT ×${this.perfectStreak}` : 'PERFECT', this.theme.accent); this.hitCombo(top.x, dropY, 10);
+      this.perfectStreak++; nw = this.perfectStreak >= this.perfectGrowAt ? Math.min(this.bw0, c.w + this.bh * 0.5) : c.w; nx = top.x;
+      this.sound.power(); this.float(top.x, dropY - this.bh, this.perfectStreak > 1 ? `PERFECT ×${this.perfectStreak}` : 'PERFECT', this.theme.accent); this.hitCombo(top.x, dropY, this.perfectPay);
     } else {
       this.perfectStreak = 0; this.combo = 0; this.mult = 1; this.comboEl.textContent = ''; nw = overlap; nx = (left + right) / 2;
       if (c.x < top.x) { const ow = (c.x + c.w / 2) - right; if (ow > 0) this.slices.push({ x: right + ow / 2, w: ow, y: dropY, vy: 0, vr: 6, rot: 0, life: 1.6, color: this._col(this.tower.length) }); }

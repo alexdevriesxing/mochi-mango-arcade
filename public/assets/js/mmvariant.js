@@ -51,6 +51,18 @@ const TWISTS = {
     { id: 'colourdrain', name: 'Colour Drain', blurb: 'Starts on the full palette and loses a colour every 25 seconds. Late boards cascade, but options vanish.' },
     { id: 'bombrush', name: 'Bomb Rush', blurb: 'Every fifth match drops a live bomb onto the board. Clear around it or set it off deliberately.' },
   ],
+  maze: [
+    { id: 'classic', name: 'Treat Hunt', blurb: 'Collect every treat and dodge the guards, on a maze sized for this game.' },
+    { id: 'vast', name: 'Sprawling Maze', blurb: 'A much larger maze to navigate — plan your route and watch the corners.' },
+    { id: 'swarm', name: 'Guard Swarm', blurb: 'More guards patrol from the start, with extra cloak pellets to even the odds.' },
+    { id: 'hunter', name: 'Relentless Chase', blurb: 'Faster guards that hunt you far more aggressively. Keep moving.' },
+  ],
+  stacker: [
+    { id: 'classic', name: 'Steady Stack', blurb: 'Time your drops, chain perfects and build high, at a pace set for this game.' },
+    { id: 'fast', name: 'Express Stack', blurb: 'The block races side to side from the first drop — react fast or lose the edges.' },
+    { id: 'sway', name: 'Sway Tower', blurb: 'The block sways from the very first floor, so you must lead the target, not chase it.' },
+    { id: 'precision', name: 'Bullseye Stack', blurb: 'A tighter perfect window that grows your block from the first bullseye and pays double.' },
+  ],
   flappy: [
     { id: 'classic', name: 'Open Skies', blurb: 'Flap, thread the gaps and chain rings, at a pace set for this game.' },
     { id: 'narrow', name: 'Needle Gaps', blurb: 'Tighter openings that demand precise flaps — with a little more room to read them.' },
